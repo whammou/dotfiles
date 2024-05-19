@@ -1,0 +1,89 @@
+[font]
+size = 9
+
+#[env]
+#TERM = "xterm-256color"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[shell]
+program ='/usr/bin/fish'
+
+[colors.primary]
+background = "#000000"
+foreground = "#FFFFFF"
+dim_foreground = "#232323"
+bright_foreground = "#232323"
+
+[colors.cursor]
+text = "#100C08"
+cursor = "#FFFFFF"
+
+[colors.vi_mode_cursor]
+text = "#000000"
+cursor = "#00FFFF"
+
+[colors.search.matches]
+foreground = "#000000"
+background = "#FF00FF"
+
+[colors.search.focused_match]
+foreground = "#000000"
+background = "#FF005C"
+
+[colors.footer_bar]
+foreground = "#000000"
+background = "#FFFFFF"
+
+[colors.hints.start]
+foreground = "#000000"
+background = "#00FFFF"
+
+[colors.hints.end]
+foreground = "#000000"
+background = "#00FFFF"
+
+[colors.selection]
+text = "#000000"
+background = "#00FF00"
+
+[colors.normal]
+black = "#001314"
+red = "#C30046"
+#red = "#27000e"
+green = "#00CD00"
+yellow = "#B35A00"
+blue = "#7400AB"
+magenta = "#CD00CD"
+cyan = "#00CDCD"
+white = "#FAEBD7"
+
+[colors.bright]
+black = "#232323"
+red = "#FF005C"
+green = "#00FF00"
+yellow = "#FFDB00"
+blue = "#AE00FF"
+magenta = "#FF00FF"
+cyan = "#00FFFF"
+white = "#FFFFFF"
+
+[colors.dim]
+black = "#0A0A0A"
+red = "#B30040"
+green = "#00B300"
+yellow = "#B39900"
+blue = "#7A00B3"
+magenta = "#B300B3"
+cyan = "#00B3B3"
+white = "#707070"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#CDCD00"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#CDCD00"
+

@@ -1,0 +1,3 @@
+[submodule "qutebrowser/.config/qutebrowser/qutebrowser-themes"]
+	path = qutebrowser/.config/qutebrowser/qutebrowser-themes
+	url = https://github.com/leandwo/qutebrowser-themes
