@@ -1,0 +1,159 @@
+# extends markdown
+
+# MARKDOWN --------------------------------------
+snippet [t "Markdown title link to file" w
+[$1]($1.md)$0
+endsnippet
+
+snippet __ "bold" w
+__$1__$0
+endsnippet
+
+snippet _ "italic" w
+_$1_$0 
+endsnippet
+
+snippet ` "quote" w
+\`$1\`$0 
+endsnippet
+
+snippet "block quote" w
+```
+$1
+```$0
+endsnippet
+
+snippet f$ "footnote inmath" w
+\$$1\$[^$2]
+[^$2]:$0
+endsnippet
+
+snippet f$$ "footnote mathblock" w
+[^$2]\$\$$1\$\$
+[^$2]:$0
+endsnippet
+
+# GITHUB ----------------------------------------
+
+snippet github-abs-link "Link to something"
+https://github.com/${1:whammou}/${2:repo}/blob/${3:main}/${4:dir}$0
+endsnippet
+
+snippet IMG "html image"
+<IMG src="${1:image}" alt="${2:alt-text}" width=${3:100}%/>$0
+endsnippet
+
+snippet NOTE "Github NOTE block"
+> [!NOTE]
+> ${1:}
+endsnippet
+
+snippet TIP "Github TIP block"
+> [!TIP]
+> ${1:}
+endsnippet
+
+snippet IMPORTANT "Github IMPORTANT block"
+> [!IMPORTANT]
+> ${1:}
+endsnippet
+
+snippet WARNING "Github WARNING block"
+> [!WARNING]
+> ${1:}
+endsnippet
+
+snippet CAUTION "Github CAUTION block"
+> [!CAUTION]
+> ${1:}
+endsnippet
+
+snippet $ "Inline Math" 
+\$$1\$$0
+endsnippet
+
+snippet $$ "Math Block"
+\$\$$1\$\$$0
+endsnippet
+
+snippet therefore "block arrow"
+\`=>\`$0
+endsnippet
+
+# LATEX ------------------------------------------
+
+snippet frac "Latex Fraction" w
+\frac{$1}{$2}$0
+endsnippet
+
+snippet lim "Latex limits" w
+\lim_{$1 \to $2}$0
+endsnippet
+
+snippet vec "Vector" w
+\vec{$1}$0
+endsnippet
+
+snippet integral "Integral" w
+\int_{$1}^{$2}$0
+endsnippet
+
+snippet derivative "Derivative d/dx" w
+\frac{d}{dx}$0
+endsnippet
+
+snippet differentiate "Differentiation of" w
+\frac{d$1}{d$2}$0
+endsnippet
+	
+snippet brackets "brackets to fractions" w
+\left$1 $0 \right$2
+endsnippet
+
+snippet degree "Celsius" w
+$1\textdegree$0
+endsnippet
+
+snippet sqrt "square-root" w
+\sqrt{$1}$0
+endsnippet
+
+snippet ff "fancy f" w
+\mathord{\mathit{f}}$0
+endsnippet
+
+snippet average "average symbol" w
+\overline{$1}$0
+endsnippet
+
+# HTML ------------------------------------------
+
+snippet center "<center align>" w
+<p align="center">
+  $1
+</p>$0
+endsnippet
+
+snippet summary "<summary>" w
+<summary>$1</summary>$0
+endsnippet
+
+snippet b "<b>" w
+<b>$1</b>$0
+endsnippet
+
+snippet details "<details>" w
+<details>
+  $1
+</details>$0
+endsnippet
+
+# EMBEDMD ------------------------------------------
+
+snippet embed "embed code to markdown" w
+
+[embedmd]:# ($1)
+
+$0
+endsnippet
+

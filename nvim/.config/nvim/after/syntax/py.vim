@@ -1,0 +1,11 @@
+:syntax match _Operator "[-+&|<>=!\/~.,;:*%&^?]"
+:syntax match Operator_ "[()\[\]{}]"
+:syntax match Title /[A-Z]/
+
+" highlight methods
+:syntax match _Paren "?=(" contains=cParen,cCppParen
+:syntax match _memberFunc "\.\s*\w\+\s*(\@=" contains=_Operator,_Paren
+
+" to resolve conflict with comment markers
+:syntax region _Comment start="\/\*" end="\*\/"
+:syntax match _Comment "\/\/.*$"

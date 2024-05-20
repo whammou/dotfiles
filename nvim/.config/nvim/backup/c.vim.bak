@@ -1,0 +1,68 @@
+"%% SiSU Vim color file
+" Slate Maintainer: Ralph Amissah <ralph@amissah.com>
+" (originally looked at desert Hans Fugal <hans@fugal.net> http://hans.fugal.net/vim/colors/desert.vim (2003/05/06)
+:set background=dark
+:highlight clear
+if version > 580
+ hi clear
+ if exists("syntax_on")
+ syntax reset
+ endif
+endif
+let colors_name = "slate"
+
+:hi link _Comment Comment
+
+" colors
+:hi _memberFunc guifg=magenta
+:hi _Operator guifg=cyan
+:hi Operator_ guifg=magenta
+":hi Title cterm=bold ctermfg=cyan
+:hi Normal guifg=white guibg=black
+":hi Cursor
+:hi CursorLine guibg=#001314 gui=NONE
+:hi CursorLineNR guibg=#001314 guifg=white gui=NONE
+:hi VertSplit gui=reverse
+:hi Folded guifg=black guibg=grey
+:hi FoldColumn guifg=4 guibg=7
+:hi IncSearch gui=none guifg=black guibg=#FFDB00
+:hi ModeMsg gui=none guifg=cyan guibg=#001314
+:hi MoreMsg guifg=#00FF00
+:hi NonText gui=bold guifg=#AE00FF
+:hi Question guifg=#00FF00
+:hi Search gui=none guifg=black guibg=#AE00FF
+:hi SpecialKey guifg=#00FF00
+:hi StatusLine gui=NONE guibg=#460067 guifg=#AE00FF
+:hi StatusLineNC gui=NONE guibg=#0A0A0A guifg=#232323
+:hi Title gui=bold guifg=cyan
+:hi Statement guifg=magenta
+:hi Visual gui=reverse
+:hi WarningMsg guifg=#FFDB00
+:hi String guifg=cyan
+:hi Comment guifg=#232323
+:hi Constant gui=bold guifg=cyan
+:hi Special guifg=#FFDB00
+:hi Identifier guifg=#FF005C
+:hi Include guifg=#00FF00
+:hi Number guifg=white
+:hi PreProc guifg=#00FF00
+:hi Operator guifg=#FF005C
+:hi Define guifg=#FFDB00
+:hi Type guifg=#FF005C
+:hi Function guifg=#FFDB00
+:hi Structure guifg=#FF005C
+:hi LineNr gui=bold guifg=#232323
+:hi Ignore gui=bold guifg=7
+:hi Todo gui=bold guifg=back guibg=#FFDB00
+:hi Directory guifg=cyan
+:hi ErrorMsg gui=NONE guifg=#FF005C
+:hi WildMenu guifg=0 guibg=3
+:hi DiffAdd guibg=4
+:hi DiffChange guibg=5
+:hi DiffDelete gui=bold guifg=4 guibg=6
+:hi DiffText gui=bold guibg=1
+:hi Underlgrayed gui=underline guifg=5
+:hi Error gui=bold guifg=#FF005C guibg=black
+:hi MatchParen gui=NONE guifg=black guibg=white
+:hi Underlined gui=underline guifg=#FF005C
+":hi SpellErrors fg=White bg=#FF005C gui=bold guifg=7 guibg=1"

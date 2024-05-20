@@ -1,0 +1,14 @@
+extends markdown
+
+snippet [[ "org-url" w
+[[$1][$2]]$0
+endsnippet
+
+snippet -[ "org-task" w
+- [${1: }] $0
+endsnippet
+
+snippet DE "org-DEADLINE" w
+DEADLINE: <$1>$0
+endsnippet
+
