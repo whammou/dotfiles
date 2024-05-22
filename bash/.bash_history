@@ -1,95 +1,3 @@
-yt --pages=5
-vi .bashrc
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 1 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 2 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 3 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 4 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 5 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 6 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 7 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 8 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 9 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 10 6 8 8
-neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 2 6 8 8
-vi .bashrc
-nn
-nnn
-tmux
-tmux
-yt --pages=5 
-yt --pages=5
-clear -x
-cd Documents/code/markdown/
-clear -x
-pandoc guide.md -o guide.html
-pandoc guide.md -o guide.html && open guide.html
-pandoc math.md -o math.html && open math.html
-pandoc math.md -o math.html && open math.html | less
-pandoc math.md -o math.html && open math.html
-pandoc math.md -o math.pdf
-open math.pdf &
-clear -x
-grip math.md
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-pandoc math.md -o math.pdf && open math.pd
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-ls
-ls assets/
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-pandoc math.md -o math.pdf && open math.pdf
-clear -x
-cd Documents/code/markdown/
-ls
-vi guide.md 
-vi math.d
-vi math.md
-clear -x
-cd Documents/code/markdown/
-pandoc math.md -o math.pdf && okular math.pdf 
-pandoc math.md -o math.pdf && okular math.pdf &
-clear -x
-
-pandoc math.md -o math.pdf && okular math.pdf &
-clear -x
-pandoc math.md -o math.pdf && okular math.pdf &
-clear'clear -x
-
-clear -x
-nnn
-tmux
-chagpt
-chatgpt
-sgpt "lightweight drawing app on Linux"
-okular --help
-cd Documents/code/markdown/
-okular --unique math.pdf 
-okular --unique math.pdf &
-pandoc math.md -o math.pdf && okular --unique math.pdf &
-pinta --help
-clear -x
-pandoc math.md -o math.pdf && okular --unique math.pdf &
-clear -x
-pandoc math.md -o math.pdf && okular --unique math.pdf &
-clear -x
-pandoc math.md -o math.pdf && okular --unique math.pdf &
-clear -x
-cd $MATH
-cd topic5-differential/
-pandoc note/note.md -o note/note.pdf
 pandoc note/note.md -o note/note.pdf && okular --unique note/note.pdf  &
 clear -x
 pandoc note/note.md -o note/note.pdf && okular --unique note/note.pdf  &
@@ -560,3 +468,46 @@ time vmux
 cd notes/physics/uni.OENG1209/
 vmux README.md 
 time vmux
+ls
+ls -a
+git clone https://github.com/whammou/dotfiles
+ls
+cd dotfiles/
+stow
+cd ~
+pacman -Sy stow
+sudo pacman -Sy stow
+cd dotfiles/
+stow *
+rm README.md 
+stow *
+rm ~/.bashrc 
+rm ~/.bash_history 
+stow bash
+cd ~
+ls -a
+ls .config/
+cd dotfiles/
+stow alacritty/
+pacman -Sy starship fish
+sudo pacman -sY starship fish
+sudo pacman -Sy starship fish
+cd dotfiles/
+stow */
+stow alacritty/
+stow fish/
+stow starship/
+pacman -Ss drawing
+xbacklight
+xbacklight -inc 5
+sudo pkexec xbacklight
+sudo 
+xbacklight -inc 5
+xbacklight
+sudo pkexec xbacklight -inc 5
+xbacklight -inc 5
+xbacklight -get
+xbacklight -set 70
+suo xbacklight -set 70
+sudo xbacklight -set 70
+echo $(pamixer --get-volume)%

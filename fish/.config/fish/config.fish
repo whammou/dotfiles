@@ -1,7 +1,7 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
     clear -x
-    echo; neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 10 6 8 8
+    echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8
     starship init fish | source
     set fish_greeting
 end
@@ -45,20 +45,22 @@ export PATH="$PATH:/opt/nvim"
 set PATH "$HOME/.local/bin:$PATH"
 set PATH "$HOME/.cargo/bin:$PATH"
 set PATH "/opt/nvim:$PATH"
+
 set PATH "$HOME/.myscript:$PATH"
+set PATH "/usr/lib/vktablet/:$PATH"
 
 # set Nano as default text editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 # vmux customization
 export VMUX_EDITOR=nvim
-export VMUX_REALEDITOR_NVIM=/usr/local/bin/nvim
+#export VMUX_REALEDITOR_NVIM=/usr/local/bin/nvim
 export VMUX_NVIM_SESSION_DIR=~/.cache/nvim_sessions
 export VMUX_GLOBAL=1
 export VMUX_NOT_SELECT_PANE=2
 
 # alias for commands:
-alias fetch="echo; neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 10 6 8 8"
+alias fetch="echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8"
 alias yt='ytfzf --detach -c youtube -stl'
 alias livetex='mkdir .aux/; latexmk --pvc --auxdir=.aux/ --emulate-aux-dir -recorder- --pdf'
 alias cat='ccat -G String="teal" -G Plaintext="darkgray" -G Keyword="turquoise" -G Decimal="red" -G Type="fuchsia" -G Punctuation="green"'

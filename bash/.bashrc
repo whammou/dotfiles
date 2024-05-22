@@ -6,6 +6,7 @@
 export PATH="$PATH:/usr/lib/python3/dist-packages/stubtest"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
+PATH="/usr/lib/vktablet:$PATH"
 
 # If not running interactively, don't do anything
 case $- in
@@ -152,7 +153,7 @@ export LANG=en_US.UTF-8
 
 # NEOFETCH on startup
 clear -x
-echo; neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 10 6 8 8
+echo; neofetch --ascii_distro arch_small --ascii_colors 5 --colors 5 8 10 6 8 8
 
 # init Starship Shell
 eval "$(starship init bash)"

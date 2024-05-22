@@ -25,9 +25,9 @@ config.bind('xt', 'config-cycle tabs.show never always')
 config.bind('xc', "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/blackbg.css ''")
 
 # Configs for file picker
-config.set("fileselect.handler", "external")
-config.set("fileselect.single_file.command", ['terminator','--title=ranger.ranger', '-e', 'ranger --choosefile {}'])
-config.set("fileselect.multiple_files.command", ['terminator', '--title=ranger.ranger', '-e', 'ranger --choosefiles {}'])
+#config.set("fileselect.handler", "external")
+#config.set("fileselect.single_file.command", ['alacritty','--title=ranger.ranger', '-e', 'ranger --choosefile {}'])
+#config.set("fileselect.multiple_files.command", ['alacritty', '--title=ranger.ranger', '-e', 'ranger --choosefiles {}'])
 
 # Set default search Engine and Startpage
 c.url.searchengines = { "DEFAULT" : "https://opnxng.com/search?q={}" , "g" : "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=", "y" : "https://www.youtube.com/results?search_query={}"}

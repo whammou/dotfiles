@@ -68,6 +68,9 @@ keys = [
 	# Keybinds for Script
 	Key([mod], "F2", lazy.spawn("./.myscript/touchpad_tg.sh")),
 	Key([mod], "F1", lazy.spawn("vktablet")),
+	Key([mod], "F5", lazy.spawn("xbacklight -dec 5")),
+	Key([mod], "F6", lazy.spawn("xbacklight -inc 5")),
+
 
 	# Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -114,6 +117,8 @@ for i in groups:
 
 groups.append(ScratchPad("scratchpad", [
     DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("network", "alacritty --class=nmcli -e nmcli d wifi list", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("calculator", "alacritty --class=calc -e python -i .myscript/calc.py", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("grip", "qutebrowser --override-restore --target window http://localhost:6419/", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
     DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
@@ -121,14 +126,15 @@ groups.append(ScratchPad("scratchpad", [
     DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("typing", "alacritty --class=racer -e tt -theme mine", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("okular", "okular", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("drawing", "drawing", on_focus_lost_hide= False, width=0.67, height=0.74, x=0.17, y =0.135, opacity=0.9),
-    #DropDown("mpv", "mpv /tmp/open &", width=0.67, height=0.74, x=0.17, y =0.135, opacity=0.9),
+    DropDown("drawing", "rnote", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("terminal", terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
 ]))
 
 keys.extend([
     Key([mod], "m", lazy.group['scratchpad'].dropdown_toggle('music')),
+    Key([mod], "n", lazy.group['scratchpad'].dropdown_toggle('network')),
+    Key([mod], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
     Key([mod, "control"], "b", lazy.group['scratchpad'].dropdown_toggle('grip')),
     Key([mod], "y", lazy.group['scratchpad'].dropdown_toggle('youtube')),
     Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
@@ -159,8 +165,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="monospace",
-    fontsize=12,
+    font="sans",
+    fontsize=16,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -180,7 +186,7 @@ screens = [
 				),
 
                 widget.GroupBox(
-					foreground ='100c08',
+					foreground ='000000',
 					center_aligned = True,
 					border = 'ff00ff',
                     inactive = '232323',
@@ -233,20 +239,52 @@ screens = [
                     length=1,
                     **powerline
                 ),
+
+                widget.Battery(
+                    foreground = '00FF00',
+                    background = '1C1C1C',
+                    battery = 1,
+                    discharge_char = '',
+                    not_charging_char = '',
+                    charge_char = '',
+                    ful_char = '',
+                    empty_char = '󱉝',
+                    format = '1: {char}  {percent:2.0%}',
+                    notify_below = 40,
+                    update_interval = 60,
+                    **powerline
+                ),
+
+                widget.Battery(
+                    foreground = '00FF00',
+                    background = '1C1C1C',
+                    battery = 0,
+                    discharge_char = '',
+                    not_charging_char = '',
+                    charge_char = '',
+                    ful_char = '',
+                    empty_char = '󱉝',
+                    format = '0: {char}  {percent:2.0%}',
+                    notify_below = 40,
+                    update_interval = 60,
+                    padding = 10,
+                    **powerline
+                ),
+
                 widget.CheckUpdates(
                     foreground = 'ffffff',
-                    background = 'C30046',
-                    colour_have_updates = '100C08',
-                    colour_no_updates = '100C08',
-                    distro='Debian',
-				  	fmt = " {}",
+                    background = 'FF005C',
+                    colour_have_updates = '000000',
+                    colour_no_updates = '000000',
+                    distro='Arch',
+				  	fmt = "  {}",
                     padding = 10,
                     no_update_string ="Up to date",
                     update_interval = 360,
                     **powerline
                 ),
                  # widget.CurrentLayout(
-				 # 	foreground = '100C08',
+				 # 	foreground = '000000',
 				 # 	background = 'C30046',
 				 # 	fmt = " {}",
 				 # 	padding = 10,
@@ -255,8 +293,9 @@ screens = [
 				 # ),
 
 				widget.Volume(
-					foreground = '100c08',
-					background = '7400AB',
+                    get_volume_command = 'echo $(pamixer --get-volume)%',
+					foreground = '000000',
+					background = 'AE00FF',
 					fmt = "♪  {}",
 					padding = 10,
 					scroll_fixed_width = True,
@@ -264,8 +303,8 @@ screens = [
 				),
 
 				widget.Clock(
-					foreground = '100c08',
-					background = '06AAAC',
+					foreground = '000000',
+					background = '00FFFF',
 					fmt = "♥  {}",
 					format="%I:%M %p",
 					padding = 10,
@@ -273,8 +312,8 @@ screens = [
 				),
 
 				widget.QuickExit(
-					foreground = '100c08',
-					background = 'AA06AC',
+					foreground = '000000',
+					background = 'FF00FF',
 					default_text = '[X]',
 					countdown_format = '[{}]',
 					padding = 0,
@@ -282,11 +321,11 @@ screens = [
 				),
 
 				widget.Spacer(
-                    background = 'AA06AC',
+                    background = 'FF00FF',
 					length = -1, 
 				),
             ],
-            20,
+            26,
             #border_width=[4, 0, 4, 0],  # Draw top and bottom borders
             #border_color=["000000", "000000", "000000", "000000"]  # Borders are magenta
         ),
