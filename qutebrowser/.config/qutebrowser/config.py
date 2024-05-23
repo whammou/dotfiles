@@ -13,7 +13,8 @@ config.set('content.javascript.enabled', True, 'chrome://*/*')
 config.set('content.javascript.enabled', True, 'qute://*/*')
 
 # Enable Theme
-config.source('qutebrowser-themes/themes/onedark.py')
+#config.source('qutebrowser-themes/themes/onedark.py')
+config.source('themes/qute-city-lights/city-lights-theme.py')
 
 # Enable Hardware Acceleration
 config.set('qt.args',['ignore-gpu-blacklist','enable-gpu-rasterization','enable-native-gpu-memory-buffers','num-raster-threads=4'])
