@@ -37,6 +37,7 @@ function get-mega-url
     echo $url
 end
 
+# Term settings
 export TERM=xterm-256color
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#d0d0d0,bg:#000000,hl:#5f87af --color=fg+:#d0d0d0,bg+:#262626,hl+:#00ffff --color=info:#d78700,prompt:#ff005c,pointer:#af5fff --color=marker:#00ff00,spinner:#ae00ff,header:#87afaf"
 

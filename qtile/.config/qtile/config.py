@@ -117,7 +117,7 @@ for i in groups:
 
 groups.append(ScratchPad("scratchpad", [
     DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("network", "alacritty --class=nmcli -e nmcli d wifi list", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash .myscript/nm-wifi.fzf.sh", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("calculator", "alacritty --class=calc -e python -i .myscript/calc.py", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("grip", "qutebrowser --override-restore --target window http://localhost:6419/", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
@@ -133,7 +133,7 @@ groups.append(ScratchPad("scratchpad", [
 
 keys.extend([
     Key([mod], "m", lazy.group['scratchpad'].dropdown_toggle('music')),
-    Key([mod], "n", lazy.group['scratchpad'].dropdown_toggle('network')),
+    Key([mod], "n", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
     Key([mod], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
     Key([mod, "control"], "b", lazy.group['scratchpad'].dropdown_toggle('grip')),
     Key([mod], "y", lazy.group['scratchpad'].dropdown_toggle('youtube')),
@@ -340,6 +340,7 @@ screens = [
 				),
             ],
             26,
+            margin = [0, 5, 0, 5],
             #border_width=[4, 0, 4, 0],  # Draw top and bottom borders
             #border_color=["000000", "000000", "000000", "000000"]  # Borders are magenta
         ),

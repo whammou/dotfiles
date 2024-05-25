@@ -3,7 +3,7 @@
 
 # Use custom format
 format = '[┌─](cyan) $all[└─](cyan) $character'
-right_format = '[ ](bright-green)$time'
+right_format = '$battery[ ](bright-green)$time'
 
 # Inserts a blank line between shell prompts
 add_newline = true

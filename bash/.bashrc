@@ -129,8 +129,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
-
 # set Nano as default text editor
 export VISUAL=neovim
 export EDITOR="$VISUAL"

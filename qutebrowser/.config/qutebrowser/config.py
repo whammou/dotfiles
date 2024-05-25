@@ -11,6 +11,7 @@ config.set('content.javascript.enabled', True, 'chrome-devtools://*')
 config.set('content.javascript.enabled', True, 'devtools://*')
 config.set('content.javascript.enabled', True, 'chrome://*/*')
 config.set('content.javascript.enabled', True, 'qute://*/*')
+config.set('zoom.default', 110)
 
 # Enable Theme
 #config.source('qutebrowser-themes/themes/onedark.py')

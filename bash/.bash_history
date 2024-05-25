@@ -503,3 +503,5 @@ fzf
 wl() q
 wl
 :q
+wl()
+wl
