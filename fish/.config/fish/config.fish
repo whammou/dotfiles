@@ -39,7 +39,10 @@ end
 
 # Term settings
 export TERM=xterm-256color
+
+# FZF settings
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#d0d0d0,bg:#000000,hl:#5f87af --color=fg+:#d0d0d0,bg+:#262626,hl+:#00ffff --color=info:#d78700,prompt:#ff005c,pointer:#af5fff --color=marker:#00ff00,spinner:#ae00ff,header:#87afaf"
+set fzf_fd_opts --hidden
 
 # PATH
 export PATH="$PATH:/usr/lib/python3/dist-packages/stubtest"
@@ -65,7 +68,7 @@ export VMUX_NOT_SELECT_PANE=2
 alias fetch="echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8"
 alias yt='ytfzf --detach -c youtube -stl'
 alias livetex='mkdir .aux/; latexmk --pvc --auxdir=.aux/ --emulate-aux-dir -recorder- --pdf'
-alias cat='ccat -G String="teal" -G Plaintext="darkgray" -G Keyword="turquoise" -G Decimal="red" -G Type="fuchsia" -G Punctuation="green"'
+#alias cat='ccat -G String="teal" -G Plaintext="darkgray" -G Keyword="turquoise" -G Decimal="red" -G Type="fuchsia" -G Punctuation="green"'
 alias shellgpt="bash && cd ~/shellgpt/; source shellgpt/bin/activate; clear"
 alias grip="grip --render-math --user-content --quiet"
 alias tt="tt -theme mine"

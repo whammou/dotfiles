@@ -308,22 +308,30 @@ screens = [
                     **powerline
 				),
 
+                widget.Wlan(
+                    background = '00FFFF',
+                    foreground = '000000',
+                    format = '     {percent:2.0%}  ',
+                    update_internal = 60,
+                    **powerline
+                ),
+
+                widget.Backlight(
+					background = 'FF00FF',
+                    foreground = '000000',
+                    format = '☀   {percent:2.0%}  ',
+                    backlight_name = 'intel_backlight',
+                    **powerline
+                ),
+
 				widget.Clock(
-					foreground = '000000',
-					background = '00FFFF',
+                    background = '262626',
+					foreground = 'FF760D',
 					fmt = "♥   {}",
 					format="%I:%M %p",
 					padding = 10,
                     **powerline
 				),
-
-                widget.Wlan(
-                    background = 'FF00FF',
-                    foreground = '000000',
-                    format = '   {percent:2.0%}',
-                    update_internal = 60,
-                    **powerline
-                ),
 
                 #widget.QuickExit(
 				#	foreground = '000000',
@@ -335,7 +343,7 @@ screens = [
 				#),
 
 				widget.Spacer(
-                    background = 'FF00FF',
+                    background = '262626',
 					length = -1, 
 				),
             ],
