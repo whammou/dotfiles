@@ -1,16 +1,3 @@
-pandoc note/note.md -o note/note.pdf && okular --unique note/note.pdf  &
-clear -x
-pandoc note/note.md -o note/note.pdf && okular --unique note/note.pdf  &
-yt --pages=5
-cd $MATH
-cd ~/Documents/code/markdown/
-ls
-vi math.md 
-cd $MATH
-cd topic5-differential/
-mkdir note
-touch note/note.md
-vi note/note.md 
 fish
 fish
 apt search fish
@@ -511,3 +498,8 @@ xbacklight -set 70
 suo xbacklight -set 70
 sudo xbacklight -set 70
 echo $(pamixer --get-volume)%
+fzf
+./.myscript/nm-wifi.fzf.sh 
+wl() q
+wl
+:q

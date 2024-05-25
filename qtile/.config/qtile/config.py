@@ -241,8 +241,10 @@ screens = [
                 ),
 
                 widget.Battery(
-                    foreground = '00FF00',
-                    background = '1C1C1C',
+                    foreground = '000000',
+                    background = '00FF00',
+                    low_foreground = '000000',
+                    low_background = 'D75700',
                     battery = 1,
                     discharge_char = '',
                     not_charging_char = '',
@@ -250,14 +252,17 @@ screens = [
                     ful_char = '',
                     empty_char = '󱉝',
                     format = '1: {char}  {percent:2.0%}',
+                    low_percent = 0.4,
                     notify_below = 40,
                     update_interval = 60,
                     **powerline
                 ),
 
                 widget.Battery(
-                    foreground = '00FF00',
-                    background = '1C1C1C',
+                    foreground = '000000',
+                    background = '00FF00',
+                    low_foreground = '000000',
+                    low_background = 'D75700',
                     battery = 0,
                     discharge_char = '',
                     not_charging_char = '',
@@ -265,6 +270,7 @@ screens = [
                     ful_char = '',
                     empty_char = '󱉝',
                     format = '0: {char}  {percent:2.0%}',
+                    low_percent = 0.4,
                     notify_below = 40,
                     update_interval = 60,
                     padding = 10,
@@ -296,7 +302,7 @@ screens = [
                     get_volume_command = 'echo $(pamixer --get-volume)%',
 					foreground = '000000',
 					background = 'AE00FF',
-					fmt = "♪  {}",
+					fmt = "♪   {}",
 					padding = 10,
 					scroll_fixed_width = True,
                     **powerline
@@ -305,20 +311,28 @@ screens = [
 				widget.Clock(
 					foreground = '000000',
 					background = '00FFFF',
-					fmt = "♥  {}",
+					fmt = "♥   {}",
 					format="%I:%M %p",
 					padding = 10,
                     **powerline
 				),
 
-				widget.QuickExit(
-					foreground = '000000',
-					background = 'FF00FF',
-					default_text = '[X]',
-					countdown_format = '[{}]',
-					padding = 0,
+                widget.Wlan(
+                    background = 'FF00FF',
+                    foreground = '000000',
+                    format = '   {percent:2.0%}',
+                    update_internal = 60,
                     **powerline
-				),
+                ),
+
+                #widget.QuickExit(
+				#	foreground = '000000',
+				#	background = 'FF00FF',
+				#	default_text = '[X]',
+				#	countdown_format = '[{}]',
+				#	padding = 0,
+                #    **powerline
+				#),
 
 				widget.Spacer(
                     background = 'FF00FF',

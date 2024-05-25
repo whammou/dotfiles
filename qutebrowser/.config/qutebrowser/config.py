@@ -31,7 +31,7 @@ config.bind('xc', "config-cycle content.user_stylesheets ~/.config/qutebrowser/c
 #config.set("fileselect.multiple_files.command", ['alacritty', '--title=ranger.ranger', '-e', 'ranger --choosefiles {}'])
 
 # Set default search Engine and Startpage
-c.url.searchengines = { "DEFAULT" : "https://opnxng.com/search?q={}" , "g" : "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=", "y" : "https://www.youtube.com/results?search_query={}"}
+c.url.searchengines = { "DEFAULT" : "https://opnxng.com/search?q={}" , "g" : "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=", "y" : "https://www.youtube.com/results?search_query={}", "wa" : "https://wiki.archlinux.org/?search={}"}
 c.url.start_pages = ['https://nimplex.github.io/Minimal-StartPage']
 config.set('url.default_page', 'https://nimplex.github.io/Minimal-StartPage')
 

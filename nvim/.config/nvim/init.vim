@@ -88,10 +88,11 @@ Plugin 'PratikBhusal/vim-grip'
 Plugin 'matze/vim-tex-fold'
 " Vim-papis
 Plugin 'junegunn/fzf'
-Plugin 'papis/papis-vim'
+Plugin 'junegunn/fzf.vim'
+"Plugin 'papis/papis-vim'
 " Vim-citation
-Plugin 'rafaqz/citation.vim'
-Plugin 'Shougo/unite.vim'
+"Plugin 'rafaqz/citation.vim'
+"Plugin 'Shougo/unite.vim'
 " vim-orgmode
 Plugin 'jceb/vim-orgmode'
 Plugin 'tpope/vim-speeddating'
@@ -151,4 +152,6 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 " ft MARKDOWN SETTINGS -----------------------------
 let g:markdown_folding = 1
 let g:markdown_recommended_style = 0
+
+let g:fzf_vim ={}
 
