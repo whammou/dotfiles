@@ -91,7 +91,7 @@ groups = []
 
 group_names = ["1", "2", "3", "4", "5", "6", "7"]
 #group_labels = ["", "☎","☰", "", "", "", "",]
-group_labels = ["intr", "call","note", "file", "code", "imge", "vide",]
+group_labels = ["NETS", "COMS","NOTE", "FILE", "CODE", "IMAG", "VIDS",]
 group_layouts = ["MonadTall", "MonadTall", "MonadThreeCol", "MonadThreeCol", "MonadTall", "MonadTall", "MonadThreeCol",]
 
 
@@ -149,7 +149,7 @@ keys.extend([
 
 layout_theme = {
 	"border_width" : 0,
-	"margin" : 5,
+	"margin" : 15,
 	"border_focus" : "FFFFFF",
 	"border_normal" : "CCCCCC"
 }
@@ -173,7 +173,7 @@ extension_defaults = widget_defaults.copy()
 
 powerline = {
     "decorations": [
-        PowerLineDecoration(path="rounded_right")
+        PowerLineDecoration(path="arrow_right")
     ]
 }
 
@@ -244,8 +244,7 @@ screens = [
                     foreground = '000000',
                     background = '00FF00',
                     low_foreground = '000000',
-                    low_background = 'D75700',
-                    battery = 1,
+                    battery = 0,
                     discharge_char = '',
                     not_charging_char = '',
                     charge_char = '',
@@ -262,7 +261,6 @@ screens = [
                     foreground = '000000',
                     background = '00FF00',
                     low_foreground = '000000',
-                    low_background = 'D75700',
                     battery = 0,
                     discharge_char = '',
                     not_charging_char = '',
@@ -279,7 +277,7 @@ screens = [
 
                 widget.CheckUpdates(
                     foreground = 'ffffff',
-                    background = 'FF005C',
+                    background = 'AE00FF',
                     colour_have_updates = '000000',
                     colour_no_updates = '000000',
                     distro='Arch',
@@ -301,7 +299,7 @@ screens = [
 				widget.Volume(
                     get_volume_command = 'echo $(pamixer --get-volume)%',
 					foreground = '000000',
-					background = 'AE00FF',
+					background = '00FFFF',
 					fmt = "♪   {}",
 					padding = 10,
 					scroll_fixed_width = True,
@@ -311,13 +309,14 @@ screens = [
                 widget.Wlan(
                     background = '00FFFF',
                     foreground = '000000',
-                    format = '     {percent:2.0%}  ',
+                    format = '     {percent:1.0%}  ',
+                    width = 70,
                     update_internal = 60,
                     **powerline
                 ),
 
                 widget.Backlight(
-					background = 'FF00FF',
+					background = '00FFFF',
                     foreground = '000000',
                     format = '☀   {percent:2.0%}  ',
                     backlight_name = 'intel_backlight',
@@ -325,9 +324,9 @@ screens = [
                 ),
 
 				widget.Clock(
-                    background = '262626',
-					foreground = 'FF760D',
-					fmt = "♥   {}",
+                    background = 'FF005C',
+					foreground = '000000',
+					fmt = "   {}",
 					format="%I:%M %p",
 					padding = 10,
                     **powerline
@@ -343,12 +342,12 @@ screens = [
 				#),
 
 				widget.Spacer(
-                    background = '262626',
+                    background = 'FF005C',
 					length = -1, 
 				),
             ],
             26,
-            margin = [0, 5, 0, 5],
+            margin = [10, 15, 0, 15],
             #border_width=[4, 0, 4, 0],  # Draw top and bottom borders
             #border_color=["000000", "000000", "000000", "000000"]  # Borders are magenta
         ),

@@ -302,7 +302,7 @@ main() {
             if $show_day_month && $show_military; then # military time and dd/mm
                 script="  %R ${timezone} "
             elif $show_military; then # only military time
-                script="  %R${timezone}"
+                script="   %d-%m-%y${timezone}"
             elif $show_day_month; then # only dd/mm
                 script="  %p ${timezone} "
             else
