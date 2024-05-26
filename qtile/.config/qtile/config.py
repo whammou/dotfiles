@@ -91,7 +91,7 @@ groups = []
 
 group_names = ["1", "2", "3", "4", "5", "6", "7"]
 #group_labels = ["", "☎","☰", "", "", "", "",]
-group_labels = ["NETS", "COMS","NOTE", "FILE", "CODE", "IMAG", "VIDS",]
+group_labels = ["NETS ❯", "COMS ❯","NOTE ❯", "FILE ❯", "CODE ❯", "IMAG ❯", "VIDS ❯",]
 group_layouts = ["MonadTall", "MonadTall", "MonadThreeCol", "MonadThreeCol", "MonadTall", "MonadTall", "MonadThreeCol",]
 
 
@@ -192,6 +192,7 @@ screens = [
                     inactive = '232323',
 					active = '404040',
                     highlight_method = "text",
+                    font = 'sans bold',
 					rounded = True,
 					this_current_screen_border = 'FF00FF',
 					pading = 10,
@@ -244,7 +245,7 @@ screens = [
                     foreground = '000000',
                     background = '00FF00',
                     low_foreground = '000000',
-                    battery = 0,
+                    battery = 1,
                     discharge_char = '',
                     not_charging_char = '',
                     charge_char = '',
@@ -309,16 +310,15 @@ screens = [
                 widget.Wlan(
                     background = '00FFFF',
                     foreground = '000000',
-                    format = '     {percent:1.0%}  ',
-                    width = 70,
+                    format = '❮       {percent:1.0%}  ',
+                    width = 115,
                     update_internal = 60,
-                    **powerline
                 ),
 
                 widget.Backlight(
 					background = '00FFFF',
                     foreground = '000000',
-                    format = '☀   {percent:2.0%}  ',
+                    format = '❮  ☀   {percent:2.0%}  ',
                     backlight_name = 'intel_backlight',
                     **powerline
                 ),
@@ -347,7 +347,7 @@ screens = [
 				),
             ],
             26,
-            margin = [10, 15, 0, 15],
+            margin = [5, 15, 0, 15],
             #border_width=[4, 0, 4, 0],  # Draw top and bottom borders
             #border_color=["000000", "000000", "000000", "000000"]  # Borders are magenta
         ),
