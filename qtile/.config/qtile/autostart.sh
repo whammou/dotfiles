@@ -12,6 +12,8 @@ xbanish &
 ibus &
 
 # Sync
+ngrok start --config ~/.config/ngrok/ngrok.yml --all &
 mega-session &
 syncthing --no-browser &
+
 

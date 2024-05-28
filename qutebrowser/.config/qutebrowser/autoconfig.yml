@@ -63,7 +63,7 @@ settings:
     https://teams.microsoft.com: true
     https://www.tiktok.com: false
   content.user_stylesheets:
-    global: null
+    global: ~/.config/qutebrowser/css/blackbg.css
   statusbar.show:
     global: never
   statusbar.widgets:
