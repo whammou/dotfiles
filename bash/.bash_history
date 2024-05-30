@@ -560,3 +560,14 @@ time vmux
 cd notes/physics/uni.OENG1209/
 vmux README.md 
 time vmux
+mega-sync /samba/documents/ Linux/Documents_cloud/
+mega-transfers --show-sync
+mega-transfer --show-sync
+mega-transfers --show-sync
+mega-transfers --show-
+mega-transfers --show-syncs
+btm
+mega-sync 
+mega-sync /samba/ Linux/Documents_cloud/
+mega-transfers --show-syncs
+ls /samba/

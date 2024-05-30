@@ -1,13 +1,14 @@
 version: "2"
 authtoken: 2h4qqXyHWKYkTY4wzX5fUnKhzOf_3NpCkJqRCthe5PHwy3gNV
 tunnels:
-  ssh-access:
+  ssh:
     proto: tcp
-    addr: 20
-  samba-access:
+    addr: 22
+  samba1:
     proto: tcp
     addr: 445
-
-
+  samba2:
+    proto: tcp
+    addr: 139
 
 
