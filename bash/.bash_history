@@ -505,3 +505,26 @@ wl
 :q
 wl()
 wl
+compgen 
+compgen -c | sort -u
+$(compgen -c | fzf)
+xbacklight -set 60
+sudo xbacklight -set 69
+sudo xbacklight -set 60
+uptime
+#!/bin/bash
+cd /var/tmp/
+acpidump -b
+iasl -d *.dat
+lp=$(grep "Low Power S0 Idle" /var/tmp/facp.dsl | awk '{print $(NF)}')
+if [ "$lp" -eq 1 ]; then         echo "Low Power S0 Idle is" $lp;         echo "The system supports S0ix!"; else         echo "Low Power S0 Idle is" $lp;         echo "The system does not support S0ix!"; fi
+cd /var/tmp/
+acpidump -b
+iasl -d *.dat
+lp=$(grep "Low Power S0 Idle" /var/tmp/facp.dsl | awk '{print $(NF)}')
+if [ "$lp" -eq 1 ]; then         echo "Low Power S0 Idle is" $lp;         echo "The system supports S0ix!"; else         echo "Low Power S0 Idle is" $lp;         echo "The system does not support S0ix!"; fi
+chatgpt
+ls
+conn
+nmcli con | grep "$ssid" | awk '{print $1}' | uniq
+clear -x; fetch

@@ -148,7 +148,7 @@ main() {
         fi
 
         if [ "$lplugin" = "battery" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-battery-colors' 'red gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-battery-colors' 'cyan gray')"
             script="#($current_dir/battery.sh)"
         fi
 
@@ -169,7 +169,7 @@ main() {
         fi
 
         if [ "$lplugin" = "network" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'purple dark_gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'cyan dark_gray')"
             script="#($current_dir/network.sh)"
         fi
 
@@ -196,7 +196,7 @@ main() {
         fi
 
         if [ "$lplugin" = "time" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'cyan gray')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'red gray')"
             if $show_day_month && $show_military; then # military time and dd/mm
                 script=" %R ${timezone} "
             elif $show_military; then # only military time
@@ -251,7 +251,7 @@ main() {
         fi
 
         if [ "$rplugin" = "battery" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-battery-colors' 'red black')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-battery-colors' 'purple black')"
             script="#($current_dir/battery.sh)"
         fi
 
@@ -271,7 +271,7 @@ main() {
         fi
 
         if [ "$rplugin" = "network" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'purple black')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-network-colors' 'cyan black')"
             script="#($current_dir/network.sh)"
         fi
 
@@ -298,7 +298,7 @@ main() {
         fi
 
         if [ "$rplugin" = "time" ]; then
-            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'cyan black')"
+            IFS=' ' read -r -a colors <<<"$(get_tmux_option '@tmux2k-time-colors' 'red black')"
             if $show_day_month && $show_military; then # military time and dd/mm
                 script="  %R ${timezone} "
             elif $show_military; then # only military time

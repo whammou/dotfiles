@@ -66,10 +66,13 @@ keys = [
 	Key([mod], "o", lazy.spawn("okular")),
 
 	# Keybinds for Script
-	Key([mod], "F2", lazy.spawn("./.myscript/touchpad_tg.sh")),
-	Key([mod], "F1", lazy.spawn("vktablet")),
-	Key([mod], "F5", lazy.spawn("xbacklight -dec 5")),
-	Key([mod], "F6", lazy.spawn("xbacklight -inc 5")),
+    #Key([mod], "F2", lazy.spawn("./.myscript/touchpad_tg.sh")),
+	Key([mod], "F1", lazy.spawn("pamixer -t")), 
+	Key([mod], "F2", lazy.spawn("pamixer -d 5")), 
+    Key([mod], "F3", lazy.spawn("pamixer -i 5")),
+	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
+	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
+	Key([mod], "F11", lazy.spawn("vktablet")),
 
 
 	# Toggle between different layouts as defined below
@@ -121,6 +124,7 @@ groups.append(ScratchPad("scratchpad", [
     DropDown("calculator", "alacritty --class=calc -e python -i .myscript/calc.py", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("grip", "qutebrowser --override-restore --target window http://localhost:6419/", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
+    DropDown("tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
     DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
     DropDown("ranger", "alacritty --class=ranger -e ranger", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
     DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
@@ -137,6 +141,7 @@ keys.extend([
     Key([mod], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
     Key([mod, "control"], "b", lazy.group['scratchpad'].dropdown_toggle('grip')),
     Key([mod], "y", lazy.group['scratchpad'].dropdown_toggle('youtube')),
+    Key([mod, "control"], "y", lazy.group['scratchpad'].dropdown_toggle('tyoutube')),
     Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
     Key([mod], "e", lazy.group['scratchpad'].dropdown_toggle('ranger')),
     Key([mod, "control"], "e", lazy.group['scratchpad'].dropdown_toggle('bottom')),
@@ -229,6 +234,7 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+
                 widget.Systray(
 					background = '000000',
 					icon_size = 15,
@@ -236,6 +242,7 @@ screens = [
 					width = 50,
                     **powerline
 				),
+
 				widget.Spacer(
                     length=1,
                     **powerline
@@ -249,8 +256,9 @@ screens = [
                     discharge_char = '',
                     not_charging_char = '',
                     charge_char = '',
-                    ful_char = '',
+                    full_char = '',
                     empty_char = '󱉝',
+                    show_short_text = False,
                     format = '1: {char}  {percent:2.0%}',
                     low_percent = 0.4,
                     notify_below = 40,
@@ -266,8 +274,9 @@ screens = [
                     discharge_char = '',
                     not_charging_char = '',
                     charge_char = '',
-                    ful_char = '',
+                    full_char = '',
                     empty_char = '󱉝',
+                    show_short_text = False,
                     format = '0: {char}  {percent:2.0%}',
                     low_percent = 0.4,
                     notify_below = 40,
@@ -298,10 +307,12 @@ screens = [
 				 # ),
 
 				widget.Volume(
-                    get_volume_command = 'echo $(pamixer --get-volume)%',
 					foreground = '000000',
 					background = '00FFFF',
 					fmt = "♪   {}",
+                    get_volume_command = 'echo $(pamixer --get-volume)%',
+                    check_mute_command = 'pamixer --get-mute',
+                    check_mute_string = 'true',
 					padding = 10,
 					scroll_fixed_width = True,
                     **powerline

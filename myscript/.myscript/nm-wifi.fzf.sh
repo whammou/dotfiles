@@ -10,10 +10,14 @@
       echo "Please wait while switching to known network $ssid…"
       # if yes, bring up that connection
       nmcli con up id "$conn"
+      name=$(iwgetid -r)
+      notify-send -i " " "Network Manager" "Connected to $name"
     else
       echo "Please wait while connecting to new network $ssid…"
       # if not connect to it and ask for the password
       nmcli device wifi connect "$ssid"
+      name=$(iwgetid -r)
+      notify-send -i " " "Network Manager" "Connected to $name"
     fi
   fi
 

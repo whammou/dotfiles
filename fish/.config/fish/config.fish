@@ -69,7 +69,7 @@ alias fetch="echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --color
 alias yt='ytfzf --detach -c youtube -stl'
 alias livetex='mkdir .aux/; latexmk --pvc --auxdir=.aux/ --emulate-aux-dir -recorder- --pdf'
 #alias cat='ccat -G String="teal" -G Plaintext="darkgray" -G Keyword="turquoise" -G Decimal="red" -G Type="fuchsia" -G Punctuation="green"'
-alias shellgpt="bash && cd ~/shellgpt/; source shellgpt/bin/activate; clear"
+#alias shellgpt="bash && cd ~/shellgpt/; source shellgpt/bin/activate; clear"
 alias grip="grip --render-math --user-content --quiet"
 alias tt="tt -theme mine"
 alias NOTE="clear; cd /home/whammou/notes; git status"

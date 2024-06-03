@@ -12,10 +12,13 @@ config.set('content.javascript.enabled', True, 'devtools://*')
 config.set('content.javascript.enabled', True, 'chrome://*/*')
 config.set('content.javascript.enabled', True, 'qute://*/*')
 config.set('zoom.default', 110)
+config.set('qt.highdpi', True)
+config.set('hints.border', '0px')
+
 
 # Enable Theme
 #config.source('qutebrowser-themes/themes/onedark.py')
-config.source('themes/qute-city-lights/city-lights-theme.py')
+config.source('themes/mine/mine.py')
 
 # Enable Hardware Acceleration
 config.set('qt.args',['ignore-gpu-blacklist','enable-gpu-rasterization','enable-native-gpu-memory-buffers','num-raster-threads=4'])
