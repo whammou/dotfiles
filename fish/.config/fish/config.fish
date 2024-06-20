@@ -37,6 +37,11 @@ function get-mega-url
     echo $url
 end
 
+function smbmount
+    set port $argv[1]
+    sudo mount -t cifs //0.tcp.ap.ngrok.io/sambashare ~/server -o username=whammou,password=Unlimitednova199-,uid=1000,gid=1000,workgroup=workgroup,mfsymlinks,port=$port
+end
+
 # Term settings
 export TERM=xterm-256color
 
@@ -82,6 +87,7 @@ alias syncthing="syncthing --no-browser"
 alias ls="ls --group-directories-first --sort=extension --color=always"
 alias python='python3'
 alias calc="python3 -i ~/.myscript/calc.py"
+alias rm="rm -i"
 
 export LANG=en_US.UTF-8
 

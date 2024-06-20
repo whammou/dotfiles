@@ -49,7 +49,7 @@ text = "#000000"
 background = "#00FF00"
 
 [colors.normal]
-black = "#001314"
+black = "#002628"
 red = "#C30046"
 #red = "#27000e"
 green = "#00CD00"
@@ -60,7 +60,7 @@ cyan = "#00CDCD"
 white = "#FAEBD7"
 
 [colors.bright]
-black = "#232323"
+black = "#464646"
 red = "#FF005C"
 green = "#00FF00"
 yellow = "#FFDB00"

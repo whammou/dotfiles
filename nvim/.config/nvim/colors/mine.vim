@@ -18,27 +18,27 @@ let colors_name = "slate"
 ":hi Title cterm=bold ctermfg=cyan
 :hi Normal guifg=white guibg=black
 :hi Pmenu guifg=#00FF00 guibg=#0A0A0A
-:hi PmenuSel guifg=cyan guibg=#001314
-:hi CursorLine guibg=#001314 gui=NONE
-:hi CursorLineNR guibg=#001314 guifg=white gui=NONE
+:hi PmenuSel guifg=cyan guibg=#002628
+:hi CursorLine guibg=#002628 gui=NONE
+:hi CursorLineNR guibg=#002628 guifg=white gui=NONE
 :hi VertSplit gui=reverse
 :hi Folded guifg=#AE00FF guibg=#0D0014
 :hi FoldColumn guifg=4 guibg=7
 :hi IncSearch gui=none guifg=black guibg=#FFDB00
-:hi ModeMsg gui=none guifg=cyan guibg=#001314
+:hi ModeMsg gui=none guifg=cyan guibg=#002628
 :hi MoreMsg guifg=#00FF00
 :hi NonText gui=bold guifg=#AE00FF
 :hi Question guifg=#00FF00
 :hi Search gui=none guifg=black guibg=#AE00FF
 :hi SpecialKey guifg=#00FF00
 :hi StatusLine gui=NONE guibg=#140007 guifg=#FF005C
-:hi StatusLineNC gui=NONE guibg=#0A0A0A guifg=#232323
+:hi StatusLineNC gui=NONE guibg=#0A0A0A guifg=#464646
 :hi Title gui=bold guifg=cyan
 :hi Statement guifg=magenta
 :hi Visual gui=reverse
 :hi WarningMsg guifg=#FFDB00
 :hi String guifg=cyan
-:hi Comment guifg=#232323
+:hi Comment guifg=#464646
 :hi Constant gui=bold guifg=cyan
 :hi Special guifg=#FFDB00
 :hi Identifier guifg=#FF005C
@@ -50,7 +50,7 @@ let colors_name = "slate"
 :hi Type guifg=#FF005C
 :hi Function guifg=#FFDB00
 :hi Structure guifg=#FF005C
-:hi LineNr gui=bold guifg=#232323
+:hi LineNr gui=bold guifg=#464646
 :hi Ignore gui=bold guifg=7
 :hi Todo gui=bold guifg=back guibg=#FFDB00
 :hi Directory guifg=cyan
@@ -66,7 +66,7 @@ let colors_name = "slate"
 :hi Underlined gui=underline guifg=#FF005C
 ":hi SpellErrors fg=White bg=#FF005C gui=bold guifg=7 guibg=1"
 :hi Spellbad guifg=#FF00FF
-:hi NvimInternalError guibg=#FF005C guifg=#232323
+:hi NvimInternalError guibg=#FF005C guifg=#464646
 :hi ErrorMsg guifg=#FF005C guibg=black
 
 " SNIPPETS -----------------------------------------
@@ -106,7 +106,7 @@ let colors_name = "slate"
 :hi markdownLinkTextDelimiter gui=bold
 :hi markdownFootnoteDefinition guifg=#AE00FF
 :hi markdownFootnote guifg=#AE00FF
-:hi htmlTagName gui=NONE guifg=#232323
+:hi htmlTagName gui=NONE guifg=#464646
 :hi htmlTag guifg=#28003B
 :hi htmlEndTag guifg=#3B0015
 :hi yamlBlockMappingKey guifg=#FF00FF
@@ -130,7 +130,7 @@ let colors_name = "slate"
 :hi org_todo_keyword_TODO guifg=black guibg=#FFDB00
 :hi org_list_checkbox guifg=#AE00FF
 :hi org_heading3 gui=bold guifg=#FF005C
-:hi org_shade_stars guifg=#232323
+:hi org_shade_stars guifg=#464646
 :hi hyperlink gui=underline guifg=normal
 
 " EasyMotion ---------------------------------------

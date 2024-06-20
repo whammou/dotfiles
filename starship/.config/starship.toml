@@ -87,7 +87,7 @@ symbol = ".NET "
 format = "[ $path ]($style)[  ](black)"
 read_only = " ro"
 # style = 'bg:#140007 fg:bright-red'
-style = 'bg:#001314 fg:bright-cyan'
+style = 'bg:#002628 fg:bright-cyan'
 
 [docker_context]
 symbol = "docker "

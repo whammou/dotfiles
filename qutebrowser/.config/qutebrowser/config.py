@@ -14,7 +14,7 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 config.set('zoom.default', 110)
 config.set('qt.highdpi', True)
 config.set('hints.border', '0px')
-
+config.set('downloads.location.directory', '/home/whammou/.downloads/')
 
 # Enable Theme
 #config.source('qutebrowser-themes/themes/onedark.py')

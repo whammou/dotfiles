@@ -1,3 +1,4 @@
+xinput disable TPPS\/2\ IBM\ TrackPoint
 setxkbmap -option caps:swapescape &
 xinput disable "Synaptics TM3075-002" &
 (sleep 2; xmodmap $HOME/.Xmodmap 2>/tmp/xmodmap.errors) &

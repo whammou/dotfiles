@@ -1,39 +1,3 @@
-fish
-fish
-apt search fish
-sudo apt install fish
-fish
-vi .bashrc
-ls
-fjds
-chsh -s /usr/bin/fish 
-sudo apt autoremove fish
-sudo apt install fish
-vi .config/starship.toml 
-vi .config/fish/config.fish
-fish
-which fish
-echo $SHELL
-vi .tmux.conf 
-vi .config/alacritty/alacritty.toml 
-chatgpt
-sgpt "how to install bash shell as default"
-echo /usr/bin/fish | sudo tee -a /etc/shells 
-chsh -s /usr/bin/fish 
-ls
-fish
-which fish
-vi .tmux.conf 
-cd $MATH
-cd topic3-differrentiation/
-mkdir note/assets
-tree -I tmp*
-:q
-clear -x
-cd $MATH
-cd topic3-differrentiation/
-ls
-mkdir note
 vi note/note.md
 fish
 clear -x
@@ -528,3 +492,16 @@ ls
 conn
 nmcli con | grep "$ssid" | awk '{print $1}' | uniq
 clear -x; fetch
+./.myscript/check-battery.sh 
+nvim .myscript/check-battery.sh
+./.myscript/check-battery.sh 
+nvim .myscript/check-battery.sh
+fish
+tmux a
+bat0_state=$(acpi -b | grep -P -o '[A-z]+(?=,)'| sed -n 2p)
+acpi -b | grep -P -o '[A-z]+(?=,)'| sed -n 2p
+acpi -b | grep -P -o '[A-z]+(?=,)'| sed -n 1p
+uptie
+uptime
+shutdown now
+echo 4544471 | sudo tee /sys/power/resume_offset 

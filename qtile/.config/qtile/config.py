@@ -12,7 +12,7 @@ from qtile_extras import widget
 from qtile_extras.widget.decorations import PowerLineDecoration
 
 from libqtile import bar, layout, qtile
-from libqtile.config import Click, Drag, Group, ScratchPad, DropDown, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, ScratchPad, DropDown, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -56,8 +56,12 @@ keys = [
 
 	# Keybind for apps
     #Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-	Key([mod], "Return", lazy.spawn("alacritty -e tmux")),
-	Key([mod, "shift"], "Return", lazy.spawn("alacritty -e tmux a")),
+    KeyChord([mod], "Return", [
+        Key([], "t", lazy.spawn("alacritty -e tmux")),
+        Key([], "a", lazy.spawn("alacritty -e tmux a")),
+        Key([], "Return", lazy.spawn("alacritty")),
+        ]),
+	Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui")),
 	Key([mod, "shift"], "b", lazy.spawn("qutebrowser -T")),
 	Key([mod], "a", lazy.spawn("rofi -show drun")),
@@ -72,8 +76,10 @@ keys = [
     Key([mod], "F3", lazy.spawn("pamixer -i 5")),
 	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
 	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
+	Key([mod], "F7", lazy.spawn("sh /usr/local/bin/uptime-notification")),
 	Key([mod], "F11", lazy.spawn("vktablet")),
-
+	Key([mod], "End", lazy.spawn("sh /usr/local/bin/lock-screen")),
+	Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
 
 	# Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -120,32 +126,38 @@ for i in groups:
 
 groups.append(ScratchPad("scratchpad", [
     DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("cpustats", "alacritty --class=monitor -e auto-cpufreq --stats", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash .myscript/nm-wifi.fzf.sh", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("calculator", "alacritty --class=calc -e python -i .myscript/calc.py", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("grip", "qutebrowser --override-restore --target window http://localhost:6419/", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
     DropDown("tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
     DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
     DropDown("ranger", "alacritty --class=ranger -e ranger", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
     DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("typing", "alacritty --class=racer -e tt -theme mine", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("okular", "okular", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("drawing", "rnote", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("terminal", terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("discord", "discord", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
 ]))
 
 keys.extend([
-    Key([mod], "m", lazy.group['scratchpad'].dropdown_toggle('music')),
+    KeyChord([mod], "y", [
+        Key([], "y", lazy.group['scratchpad'].dropdown_toggle('youtube') ,desc="Launch ytfzf"),
+        Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music') ,desc="Launch ytfzf"),
+        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('tyoutube') ,desc="Launch ytfzf"),
+        ]),
+    Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
+    KeyChord([mod], "m", [
+        Key([], "f", lazy.group['scratchpad'].dropdown_toggle('ranger') ,desc="Launch ranger"),
+        Key([], "s", lazy.group['scratchpad'].dropdown_toggle('bottom') ,desc="Launch bottom"),
+        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats') ,desc="Launch bottom"),
+        ]),
     Key([mod], "n", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
     Key([mod], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
-    Key([mod, "control"], "b", lazy.group['scratchpad'].dropdown_toggle('grip')),
-    Key([mod], "y", lazy.group['scratchpad'].dropdown_toggle('youtube')),
-    Key([mod, "control"], "y", lazy.group['scratchpad'].dropdown_toggle('tyoutube')),
-    Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
-    Key([mod], "e", lazy.group['scratchpad'].dropdown_toggle('ranger')),
-    Key([mod, "control"], "e", lazy.group['scratchpad'].dropdown_toggle('bottom')),
     Key([mod], "t", lazy.group['scratchpad'].dropdown_toggle('typing')),
+    Key([mod], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
     Key([mod, "control"], "o", lazy.group['scratchpad'].dropdown_toggle('okular')),
     Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
     Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
@@ -261,7 +273,7 @@ screens = [
                     show_short_text = False,
                     format = '1: {char}  {percent:2.0%}',
                     low_percent = 0.4,
-                    notify_below = 40,
+                    notify_below = 0.45,
                     update_interval = 60,
                     **powerline
                 ),
@@ -277,9 +289,9 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '0: {char}  {percent:2.0%}',
+                    format = '❮   0: {char}  {percent:2.0%}',
                     low_percent = 0.4,
-                    notify_below = 40,
+                    notify_below = 0.45,
                     update_interval = 60,
                     padding = 10,
                     **powerline
