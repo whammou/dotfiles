@@ -14,7 +14,7 @@ command_timeout = 3000
 # Custom style
 [hostname]
 ssh_only = false
-format = "[ $hostname ]($style)"
+format = "[ $ssh_symbol$hostname ]($style)"
 style = 'bg:#00FF00 fg:#000000'
 disabled = false
 

@@ -37,6 +37,10 @@ function get-mega-url
     echo $url
 end
 
+if test -n "$SSH_CONNECTION"
+    set -x DBUS_SESSION_BUS_ADDRESS unix:path=/tmp/ssh_dbus.sock
+end
+
 export TERM=xterm-256color
 
 # PATH
