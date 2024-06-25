@@ -62,9 +62,9 @@ keys = [
         Key([], "Return", lazy.spawn("alacritty")),
         ]),
     KeyChord([mod, "Shift"], "Return", [
-        Key([], "t", lazy.spawn("alacritty -e ssh home -t 'tmux'")),
-        Key([], "a", lazy.spawn("alacritty -e ssh home -t 'tmux a'")),
-        Key([], "Return", lazy.spawn("alacritty -e ssh home")),
+        Key([], "t", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux'")),
+        Key([], "a", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux a'")),
+        Key([], "Return", lazy.spawn("/home/whammou/.config/qtile/script/ssh ' '")),
         ]),
 	Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui")),
