@@ -61,12 +61,19 @@ keys = [
         Key([], "a", lazy.spawn("alacritty -e tmux a")),
         Key([], "Return", lazy.spawn("alacritty")),
         ]),
+    KeyChord([mod, "Shift"], "Return", [
+        Key([], "t", lazy.spawn("alacritty -e ssh home -t 'tmux'")),
+        Key([], "a", lazy.spawn("alacritty -e ssh home -t 'tmux a'")),
+        Key([], "Return", lazy.spawn("alacritty -e ssh home")),
+        ]),
 	Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui")),
-	Key([mod, "shift"], "b", lazy.spawn("qutebrowser -T")),
+    KeyChord([mod], "q", [
+        Key([], "b", lazy.spawn("qutebrowser")),
+        Key([], "p", lazy.spawn("qutebrowser -T")),
+        ]),
 	Key([mod], "a", lazy.spawn("rofi -show drun")),
     Key([mod], "d", lazy.spawn("drawing")),
-	Key([mod], "b", lazy.spawn("qutebrowser")),
 	Key([mod], "o", lazy.spawn("okular")),
 
 	# Keybinds for Script
@@ -98,10 +105,10 @@ keys = [
 
 groups = []
 
-group_names = ["1", "2", "3", "4", "5", "6", "7"]
+group_names = ["1", "2", "3", "4", "5", "6"]
 #group_labels = ["", "☎","☰", "", "", "", "",]
-group_labels = ["NETS ❯", "COMS ❯","NOTE ❯", "FILE ❯", "CODE ❯", "IMAG ❯", "VIDS ❯",]
-group_layouts = ["MonadTall", "MonadTall", "MonadThreeCol", "MonadThreeCol", "MonadTall", "MonadTall", "MonadThreeCol",]
+group_labels = ["NETS ❯", "CODE ❯","SSH  ❯", "COMS ❯", "IMAG ❯", "VIDS ❯",]
+group_layouts = ["MonadTall", "MonadThreeCol", "MonadTall", "MonadTall", "MonadTall", "MonadThreeCol",]
 
 
 for i in range(len(group_names)):
@@ -127,19 +134,21 @@ for i in groups:
 groups.append(ScratchPad("scratchpad", [
     DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("cpustats", "alacritty --class=monitor -e auto-cpufreq --stats", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash .myscript/nm-wifi.fzf.sh", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
     DropDown("tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
     DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
     DropDown("ranger", "alacritty --class=ranger -e ranger", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
     DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine", width=0.8, height=0.2, x=0.1, y =0.4, opacity=0.9),
     DropDown("okular", "okular", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
     DropDown("drawing", "rnote", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=1),
     DropDown("terminal", terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("discord", "discord", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
 ]))
 
 keys.extend([
@@ -154,14 +163,18 @@ keys.extend([
         Key([], "s", lazy.group['scratchpad'].dropdown_toggle('bottom') ,desc="Launch bottom"),
         Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats') ,desc="Launch bottom"),
         ]),
-    Key([mod], "n", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
+    Key([mod], "F8", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
     Key([mod], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
     Key([mod], "t", lazy.group['scratchpad'].dropdown_toggle('typing')),
-    Key([mod], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
+    Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+    KeyChord([mod, "Control"], "q", [
+        Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser') ,desc="Launch qutebrowser"),
+        Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord') ,desc="Launch discord"),
+        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams') ,desc="Launch teams"),
+        ]),
     Key([mod, "control"], "o", lazy.group['scratchpad'].dropdown_toggle('okular')),
     Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
     Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
-    Key([mod, "control"], "Return", lazy.group['scratchpad'].dropdown_toggle('terminal')),
 ])
 
 layout_theme = {

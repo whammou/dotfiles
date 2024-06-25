@@ -69,6 +69,9 @@ let colors_name = "slate"
 :hi NvimInternalError guibg=#FF005C guifg=#464646
 :hi ErrorMsg guifg=#FF005C guibg=black
 
+" BASH ---------------------------------------------
+:hi shCommandSub guifg=#AE00FF
+
 " SNIPPETS -----------------------------------------
 :hi snipTabStop guifg=#00FF00
 :hi snipEscape guifg=#AE00FF

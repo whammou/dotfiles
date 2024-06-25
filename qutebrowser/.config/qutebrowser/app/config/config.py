@@ -14,10 +14,10 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 config.set('zoom.default', 110)
 config.set('qt.highdpi', True)
 config.set('hints.border', '0px')
-config.set('colors.webpage.darkmode.enabled', True)
+#config.set('colors.webpage.darkmode.enabled', True)
 config.set('statusbar.show', 'never')
 config.set('tabs.show', 'never')
-config.set('content.user_stylesheets', '/home/whammou/.config/qutebrowser/css/blackbg.css')
+#config.set('content.user_stylesheets', '/home/whammou/.config/qutebrowser/css/blackbg.css')
 config.set('downloads.location.directory', '/home/whammou/.downloads/')
 
 # Enable Theme
@@ -39,12 +39,7 @@ config.bind('xc', "config-cycle content.user_stylesheets ~/.config/qutebrowser/c
 #config.set("fileselect.multiple_files.command", ['alacritty', '--title=ranger.ranger', '-e', 'ranger --choosefiles {}'])
 
 # Set default search Engine and Startpage
-c.url.searchengines = { "DEFAULT" : "https://opnxng.com/search?q={}", 
-                       "gs" : "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=",
-                       "g" : "https://www.google.com/search?q={}",
-                       "y" : "https://www.youtube.com/results?search_query={}",
-                       "wa" : "https://wiki.archlinux.org/?search={}",
-                       }
+c.url.searchengines = { "DEFAULT" : "https://opnxng.com/search?q={}" , "g" : "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=", "y" : "https://www.youtube.com/results?search_query={}", "wa" : "https://wiki.archlinux.org/?search={}"}
 c.url.start_pages = ['https://nimplex.github.io/Minimal-StartPage']
 config.set('url.default_page', 'https://nimplex.github.io/Minimal-StartPage')
 

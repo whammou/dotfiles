@@ -1,10 +1,3 @@
-vi note/note.md
-fish
-clear -x
-chatgpt
-sgpt "run bash script on fish shell"
-sgpt "source bash script on fish shell"
-which fish
 sudo apt install fish
 fish
 chatgpt

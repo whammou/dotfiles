@@ -19,29 +19,6 @@ end
 set fish_cursor_default block
 set fish_cursor_insert line
 
-function goto
-    vmux $argv[1] "+$argv[2]" -c "normal zo"
-end
-
-function odtkular
-    set file (path basename $argv[1] | string split -r -m1 .)[1]
-    set pdf (string join '' $file .pdf)
-    libreoffice --convert-to pdf $argv[1] --outdir /tmp/
-    okular /tmp/$pdf
-end
-
-function get-mega-url
-    set pwd (pwd | cut -d'/' -f4-)
-    set path (string join '' $pwd '/' $argv[1])
-    set url (mega-export -a $path | cut -d' ' -f3-)
-    echo $url
-end
-
-function smbmount
-    set port $argv[1]
-    sudo mount -t cifs //0.tcp.ap.ngrok.io/sambashare ~/server -o username=whammou,password=Unlimitednova199-,uid=1000,gid=1000,workgroup=workgroup,mfsymlinks,port=$port
-end
-
 # Term settings
 export TERM=xterm-256color
 
@@ -54,7 +31,7 @@ export PATH="$PATH:/usr/lib/python3/dist-packages/stubtest"
 export PATH="$PATH:/opt/nvim"
 set PATH "$HOME/.local/bin:$PATH"
 set PATH "$HOME/.cargo/bin:$PATH"
-set PATH "/opt/nvim:$PATH"
+set PATH "/usr/local/bin:$PATH"
 
 set PATH "$HOME/.myscript:$PATH"
 set PATH "/usr/lib/vktablet/:$PATH"
@@ -64,7 +41,6 @@ export VISUAL=nvim
 export EDITOR="$VISUAL"
 # vmux customization
 export VMUX_EDITOR=nvim
-#export VMUX_REALEDITOR_NVIM=/usr/local/bin/nvim
 export VMUX_NVIM_SESSION_DIR=~/.cache/nvim_sessions
 export VMUX_GLOBAL=1
 export VMUX_NOT_SELECT_PANE=2
