@@ -9,5 +9,5 @@ else
     ssh_port=220
 fi
 
-alacritty -e ssh home -p $ssh_port -t $1
+alacritty -e ssh -X home -p $ssh_port -t $1
 
