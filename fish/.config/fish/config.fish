@@ -1,21 +1,12 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    clear -x
-    echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8
     starship init fish | source
+    echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8
     set fish_greeting
-end
-
-function fish_user_key_bindings
-    fish_vi_key_bindings --no-erase default
-end
-
-if status is-interactive
     if string match -q -- 'tmux*' $TERM
         set -g fish_vi_force_cursor 1
     end
 end
-
 set fish_cursor_default block
 set fish_cursor_insert line
 
@@ -27,18 +18,13 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#d0d0d0,bg:#000000,hl:#5f8
 set fzf_fd_opts --hidden
 
 # PATH
-export PATH="$PATH:/usr/lib/python3/dist-packages/stubtest"
-export PATH="$PATH:/opt/nvim"
-set PATH "$HOME/.local/bin:$PATH"
-set PATH "$HOME/.cargo/bin:$PATH"
 set PATH "/usr/local/bin:$PATH"
-
 set PATH "$HOME/.myscript:$PATH"
-set PATH "/usr/lib/vktablet/:$PATH"
 
 # set Nano as default text editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
+
 # vmux customization
 export VMUX_EDITOR=nvim
 export VMUX_NVIM_SESSION_DIR=~/.cache/nvim_sessions
@@ -49,8 +35,6 @@ export VMUX_NOT_SELECT_PANE=2
 alias fetch="echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8"
 alias yt='ytfzf --detach -c youtube -stl'
 alias livetex='mkdir .aux/; latexmk --pvc --auxdir=.aux/ --emulate-aux-dir -recorder- --pdf'
-#alias cat='ccat -G String="teal" -G Plaintext="darkgray" -G Keyword="turquoise" -G Decimal="red" -G Type="fuchsia" -G Punctuation="green"'
-#alias shellgpt="bash && cd ~/shellgpt/; source shellgpt/bin/activate; clear"
 alias grip="grip --render-math --user-content --quiet"
 alias tt="tt -theme mine"
 alias NOTE="clear; cd /home/whammou/notes; git status"
