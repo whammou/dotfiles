@@ -155,6 +155,9 @@ symbol = "ml "
 [opa]
 symbol = "opa "
 
+[username]
+style_user = "bold cyan"
+
 [os.symbols]
 Alpaquita = "alq "
 Alpine = "alp "
