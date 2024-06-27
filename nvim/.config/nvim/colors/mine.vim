@@ -87,16 +87,17 @@ let colors_name = "slate"
 :hi markdownCodeDelimiter guifg=#00FF00
 :hi markdownHeadingDelimiter guifg=#00FF00
 :hi markdownH1 gui=bold guifg=cyan
-:hi markdownH1Delimiter guifg=cyan
+:hi markdownH1Delimiter gui=bold guifg=cyan
 :hi markdownH2 gui=bold guifg=#FF005C
-:hi markdownH2Delimiter guifg=#FF005C
+:hi markdownH2Delimiter gui=bold guifg=#FF005C
 :hi markdownH3 gui=bold guifg=#FF00FF
-:hi markdownH3Delimiter guifg=#FF00FF
+:hi markdownH3Delimiter gui=bold guifg=#FF00FF
 :hi markdownH4 gui=bold guifg=#00FF00
-:hi markdownH4Delimiter guifg=#00FF00
+:hi markdownH4Delimiter gui=bold guifg=#00FF00
 :hi markdownH5 gui=bold guifg=#AE00FF
-:hi markdownH5Delimiter guifg=#AE00FF
-:hi markdownH6Delimiter guifg=#00FF00
+:hi markdownH5Delimiter gui=bold guifg=#AE00FF
+:hi markdownH6 gui=bold guifg=#FF6700
+:hi markdownH6Delimiter gui=bold guifg=#FF6700
 :hi markdownBold gui=bold
 :hi markdownBoldDelimiter gui=bold
 :hi markdownItalic gui=italic
