@@ -1,7 +1,7 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
     starship init fish | source
-    echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8
+    echo; neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 10 6 8 8
     set fish_greeting
     if string match -q -- 'tmux*' $TERM
         set -g fish_vi_force_cursor 1
@@ -32,7 +32,7 @@ export VMUX_GLOBAL=1
 export VMUX_NOT_SELECT_PANE=2
 
 # alias for commands:
-alias fetch="echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8"
+alias fetch="echo; neofetch --ascii_distro debian_small --ascii_colors 5 --colors 5 8 10 6 8 8"
 alias yt='ytfzf --detach -c youtube -stl'
 alias livetex='mkdir .aux/; latexmk --pvc --auxdir=.aux/ --emulate-aux-dir -recorder- --pdf'
 #alias grip="grip --render-math --user-content --quiet"
