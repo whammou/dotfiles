@@ -4,7 +4,7 @@ function _pacman_install
     _fzf_wrapper \
         --multi \
         --ansi \
-        --prompt="Packages> " \
+        --prompt="Pacman> " \
         --preview 'pacman -Si {1}'
     )
     if test $status -eq 0
