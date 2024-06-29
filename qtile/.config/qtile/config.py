@@ -81,6 +81,7 @@ keys = [
 	Key([mod], "F1", lazy.spawn("pamixer -t")), 
 	Key([mod], "F2", lazy.spawn("pamixer -d 5")), 
     Key([mod], "F3", lazy.spawn("pamixer -i 5")),
+    Key([mod], "F4", lazy.spawn("pactl set-source-mute 0 toggle")),
 	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
 	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
 	Key([mod], "F7", lazy.spawn("sh /usr/local/bin/uptime-notification")),
