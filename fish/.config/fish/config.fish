@@ -14,15 +14,10 @@ set fish_cursor_insert line
 # Term settings
 export TERM=xterm-256color
 
-# FZF settings
-#export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color=fg:#d0d0d0,bg:#000000,hl:#5f87af --color=fg+:#d0d0d0,bg+:#262626,hl+:#00ffff --color=info:#d78700,prompt:#ff005c,pointer:#af5fff --color=marker:#00ff00,spinner:#ae00ff,header:#87afaf"
+# Fish FZF settings
 set fzf_fd_opts --hidden
 
-# PATH
-set PATH "/usr/local/bin:$PATH"
-set PATH "$HOME/.myscript:$PATH"
-
-# set Nano as default text editor
+# set Neovim as default text editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
