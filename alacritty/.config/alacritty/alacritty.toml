@@ -1,3 +1,7 @@
+[window]
+dimensions.columns = 180
+dimensions.lines = 50
+
 [font]
 size = 7
 
