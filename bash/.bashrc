@@ -2,6 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+
 # PATH
 export PATH="$PATH:/usr/lib/python3/dist-packages/stubtest"
 PATH="$HOME/.local/bin:$PATH"
