@@ -36,7 +36,6 @@ map <Leader><Leader> <Leader>s
 
 " Default colorscheme
 ":set termguicolors
-:colo mine
 ":filetype on
 ":filetype plugin on
 ":filetype indent on
@@ -71,6 +70,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'navarasu/onedark.nvim'
 Plugin 'chrisbra/Colorizer'
 Plugin 'willchao612/vim-diagon'
 Plugin 'christoomey/vim-tmux-navigator'
@@ -98,11 +98,15 @@ Plugin 'jceb/vim-orgmode'
 Plugin 'tpope/vim-speeddating'
 Plugin 'mattn/calendar-vim'
 Plugin 'numirias/semshi'
- 
+
 call vundle#end()
 "filetype plugin indent on
 "filetype plugin on
 
+let g:onedark_config = {
+            \ 'style': 'darkest',
+    \}
+:colorscheme onedark
 
 " STAUS LINE SETTINGS ------------------------------
 let g:airline#extensions#tabline#enabled = 1
