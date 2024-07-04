@@ -16,13 +16,13 @@ program ='/usr/bin/fish'
 
 [colors.primary]
 background = "#000000"
-foreground = "#FFFFFF"
+foreground = "#93a4c3"
 dim_foreground = "#232323"
 bright_foreground = "#232323"
 
 [colors.cursor]
 text = "#100C08"
-cursor = "#FFFFFF"
+cursor = "#93a4c3"
 
 [colors.vi_mode_cursor]
 text = "#000000"
@@ -38,7 +38,7 @@ background = "#FF005C"
 
 [colors.footer_bar]
 foreground = "#000000"
-background = "#FFFFFF"
+background = "#93a4c3"
 
 [colors.hints.start]
 foreground = "#000000"
@@ -57,7 +57,7 @@ black = "#002628"
 red = "#C30046"
 #red = "#27000e"
 green = "#00CD00"
-yellow = "#B35A00"
+yellow = "#FF6700"
 blue = "#7400AB"
 magenta = "#CD00CD"
 cyan = "#00CDCD"
@@ -71,7 +71,7 @@ yellow = "#FFDB00"
 blue = "#AE00FF"
 magenta = "#FF00FF"
 cyan = "#00FFFF"
-white = "#FFFFFF"
+white = "#93a4c3"
 
 [colors.dim]
 black = "#0A0A0A"
