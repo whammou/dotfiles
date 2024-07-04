@@ -97,7 +97,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'jceb/vim-orgmode'
 Plugin 'tpope/vim-speeddating'
 Plugin 'mattn/calendar-vim'
-Plugin 'numirias/semshi'
+"Plugin 'numirias/semshi'
 
 call vundle#end()
 "filetype plugin indent on
