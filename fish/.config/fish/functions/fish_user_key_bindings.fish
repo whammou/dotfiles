@@ -3,6 +3,7 @@ function fish_user_key_bindings
 
     for mode in default insert
         bind --mode $mode \cs _paru_install
+        bind --mode $mode \e\cq _paru_uninstall
         bind --mode $mode \co _reset
     end
 end

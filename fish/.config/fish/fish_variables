@@ -17,12 +17,12 @@ SETUVAR fish_color_end:8700ff
 SETUVAR fish_color_error:FF005C
 SETUVAR fish_color_escape:95E6CB
 SETUVAR fish_color_history_current:normal
-SETUVAR fish_color_host:FFFFFF
+SETUVAR fish_color_host:93A4C3
 SETUVAR fish_color_host_remote:yellow
 SETUVAR fish_color_match:FFDB00
-SETUVAR fish_color_normal:FFFFFF
+SETUVAR fish_color_normal:93A4C3
 SETUVAR fish_color_operator:FF00FF
-SETUVAR fish_color_param:FFFFFF
+SETUVAR fish_color_param:93A4C3
 SETUVAR fish_color_quote:00FF00
 SETUVAR fish_color_redirection:AE00FF
 SETUVAR fish_color_search_match:normal
