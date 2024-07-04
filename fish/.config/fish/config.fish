@@ -20,6 +20,7 @@ set fzf_fd_opts --hidden
 # PATH
 set PATH "/usr/local/bin:$PATH"
 set PATH "$HOME/.myscript:$PATH"
+set PATH "$HOME/.local/bin:$PATH"
 
 # set Nano as default text editor
 export VISUAL=nvim

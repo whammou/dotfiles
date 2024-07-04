@@ -37,4 +37,4 @@ SETUVAR fish_pager_color_description:00FF00
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/home/whammou/\x2efzf/bin
+SETUVAR fish_user_paths:/home/whammou/\x2efzf/bin\x1e/home/whammou/\x2ecargo/bin
