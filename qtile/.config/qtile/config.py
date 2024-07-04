@@ -211,7 +211,10 @@ layout_theme = {
 }
 
 layouts = [
-    layout.MonadTall(**layout_theme),
+    layout.MonadTall(
+        **layout_theme
+
+    ),
 	layout.MonadThreeCol(
 		**layout_theme,
 		main_centered=True,
