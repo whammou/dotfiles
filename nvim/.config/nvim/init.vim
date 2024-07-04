@@ -7,9 +7,6 @@
 
 
 lua vim.loader.enable()
-"lua require('init')
-"let g:CommandTPreferredImplementation='lua'
-"set nocompatible
 let g:python3_host_prog = '/usr/bin/python3'
 
 
@@ -68,8 +65,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 
 call vundle#begin()
-
 Plugin 'VundleVim/Vundle.vim'
+
 Plugin 'tpope/vim-fugitive'
 Plugin 'navarasu/onedark.nvim'
 Plugin 'chrisbra/Colorizer'
@@ -101,8 +98,6 @@ Plugin 'mattn/calendar-vim'
 "Plugin 'numirias/semshi'
 
 call vundle#end()
-"filetype plugin indent on
-"filetype plugin on
 
 let g:onedark_config = {
             \ 'style': 'darkest',
