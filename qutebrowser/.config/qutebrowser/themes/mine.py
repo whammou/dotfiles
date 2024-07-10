@@ -12,16 +12,17 @@ bg_lighter = "#353b45"
 bg_selection = "#3e4451"
 # "#545862"
 fg_disabled = "#565c64"
-fg_default = "#abb2bf"
+fg_default = "#93a4c3"
 # "#b6bdca"
 bg_lightest = "#c8ccd4"         # main shade lightest
-fg_error = "#e06c75"            # red
+fg_error = "#ff005c"            # red
 # "#d19a66"                     # orange
-bg_hint = "#e5c07b"             # yellow
-fg_matched_text = "#98c379"     # green
-bg_passthrough_mode = "#56b6c2" # teal
+# "#e5c07b"             # yellow
+bg_hint = '#ae00ff'
+fg_matched_text = "#00ff00"     # green
+bg_passthrough_mode = "#00ffff" # teal
 bg_insert_mode = "#61afef"      # blue
-bg_warning = "#c678dd"          # purple
+bg_warning = "#ae00ff"          # purple
 # "#be5046"                     # dark red
 
 ############

@@ -153,7 +153,7 @@ for i in groups:
 
 groups.append(ScratchPad("scratchpad", [
     DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("cpustats", "alacritty --class=monitor -e auto-cpufreq --stats", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
     DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
@@ -313,7 +313,7 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '{char}  1|{percent:2.0%} ',
+                    format = '   {char}  {percent:2.0%}  ',
                     low_percent = 0.4,
                     notify_below = 0.45,
                     update_interval = 60,
@@ -330,7 +330,7 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '❮  {char}  0|{percent:2.0%} ',
+                    format = '❮    {char}  {percent:2.0%} ',
                     low_percent = 0.4,
                     notify_below = 0.45,
                     update_interval = 60,
@@ -344,7 +344,7 @@ screens = [
                     colour_have_updates = '000000',
                     colour_no_updates = '000000',
                     distro='Arch',
-				  	fmt = " {}",
+				  	fmt = "    {}  ",
                     padding = 10,
                     no_update_string ="Up to date",
                     update_interval = 360,
@@ -354,14 +354,14 @@ screens = [
                 widget.Wlan(
                     background = '00FFFF',
                     foreground = '000000',
-                    format = '  {percent:1.0%} ',
-                    update_internal = 60,
+                    format = '     {percent:1.0%}  ',
+                    update_interval = 60,
                 ),
 
                 widget.Backlight(
 					background = '00FFFF',
                     foreground = '000000',
-                    format = '❮  󰃞 {percent:2.0%} ',
+                    format = '❮    󰃞   {percent:2.0%}  ',
                     backlight_name = 'intel_backlight',
                     **powerline
                 ),
@@ -369,7 +369,7 @@ screens = [
 				widget.Clock(
                     background = 'FF005C',
 					foreground = '000000',
-					fmt = " {}",
+					fmt = "    {}  ",
 					format="%I:%M %p",
 					padding = 10,
                     **powerline
