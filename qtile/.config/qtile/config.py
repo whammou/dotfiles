@@ -76,9 +76,9 @@ keys = [
 
 	# Keybinds for Script
     #Key([mod], "F2", lazy.spawn("./.myscript/touchpad_tg.sh")),
-	Key([mod], "F1", lazy.spawn("pamixer -t")), 
-	Key([mod], "F2", lazy.spawn("pamixer -d 5")), 
-    Key([mod], "F3", lazy.spawn("pamixer -i 5")),
+	Key([mod], "F1", lazy.spawn("pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle")), 
+	Key([mod], "F2", lazy.spawn("dec-volume-notification")), 
+    Key([mod], "F3", lazy.spawn("inc-volume-notification")),
     Key([mod], "F4", lazy.spawn("pactl set-source-mute 0 toggle")),
     Key([mod, "Shift"], "F4", lazy.spawn("noise-supression")),
 	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
@@ -109,9 +109,9 @@ keys = [
         Key([], "Return", lazy.spawn("alacritty")),
         ]),
     KeyChord([mod, "Shift"], "t", [
-        Key([], "1", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux new -AD -s 1'")),
-        Key([], "2", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux new -AD -s 2'")),
-        Key([], "3", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux new -AD -s 3 '")),
+        Key([], "1", lazy.spawn("alacritty -e ssh-tmux 'tmux new -AD -s 1'")),
+        Key([], "2", lazy.spawn("alacritty -e ssh-tmux 'tmux new -AD -s 2'")),
+        Key([], "3", lazy.spawn("alacritty -e ssh-tmux 'tmux new -AD -s 3'")),
         Key([], "Return", lazy.spawn("/home/whammou/.config/qtile/script/ssh ' '")),
         ]),
 ]
@@ -313,11 +313,10 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '1: {char}  {percent:2.0%}',
+                    format = '{char}  1|{percent:2.0%} ',
                     low_percent = 0.4,
                     notify_below = 0.45,
                     update_interval = 60,
-                    **powerline
                 ),
 
                 widget.Battery(
@@ -331,7 +330,7 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '❮   0: {char}  {percent:2.0%}',
+                    format = '❮  {char}  0|{percent:2.0%} ',
                     low_percent = 0.4,
                     notify_below = 0.45,
                     update_interval = 60,
@@ -345,45 +344,24 @@ screens = [
                     colour_have_updates = '000000',
                     colour_no_updates = '000000',
                     distro='Arch',
-				  	fmt = "  {}",
+				  	fmt = " {}",
                     padding = 10,
                     no_update_string ="Up to date",
                     update_interval = 360,
                     **powerline
                 ),
-                 # widget.CurrentLayout(
-				 # 	foreground = '000000',
-				 # 	background = 'C30046',
-				 # 	fmt = " {}",
-				 # 	padding = 10,
-				 # 	scroll_fixed_width = True,
-                 #     **powerline
-				 # ),
-
-				widget.Volume(
-					foreground = '000000',
-					background = '00FFFF',
-					fmt = "♪   {}",
-                    get_volume_command = 'echo $(pamixer --get-volume)%',
-                    check_mute_command = 'pamixer --get-mute',
-                    check_mute_string = 'true',
-					padding = 10,
-					scroll_fixed_width = True,
-                    **powerline
-				),
 
                 widget.Wlan(
                     background = '00FFFF',
                     foreground = '000000',
-                    format = '❮       {percent:1.0%}  ',
-                    width = 115,
+                    format = '  {percent:1.0%} ',
                     update_internal = 60,
                 ),
 
                 widget.Backlight(
 					background = '00FFFF',
                     foreground = '000000',
-                    format = '❮  ☀   {percent:2.0%}  ',
+                    format = '❮  󰃞 {percent:2.0%} ',
                     backlight_name = 'intel_backlight',
                     **powerline
                 ),
@@ -391,20 +369,11 @@ screens = [
 				widget.Clock(
                     background = 'FF005C',
 					foreground = '000000',
-					fmt = "   {}",
+					fmt = " {}",
 					format="%I:%M %p",
 					padding = 10,
                     **powerline
 				),
-
-                #widget.QuickExit(
-				#	foreground = '000000',
-				#	background = 'FF00FF',
-				#	default_text = '[X]',
-				#	countdown_format = '[{}]',
-				#	padding = 0,
-                #    **powerline
-				#),
 
 				widget.Spacer(
                     background = 'FF005C',
