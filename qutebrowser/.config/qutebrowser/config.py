@@ -22,7 +22,7 @@ config.set('downloads.location.directory', '/home/whammou/.downloads/')
 
 # Enable Theme
 #config.source('qutebrowser-themes/themes/onedark.py')
-config.source('/home/whammou/.config/qutebrowser/themes/mine/mine.py')
+config.source('/home/whammou/.config/qutebrowser/themes/mine.py')
 
 # Enable Hardware Acceleration
 config.set('qt.args',['ignore-gpu-blacklist','enable-gpu-rasterization','enable-native-gpu-memory-buffers','num-raster-threads=4'])
