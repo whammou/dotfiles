@@ -4,6 +4,7 @@ dimensions.lines = 50
 
 [font]
 size = 7
+normal.family =  'JetBrainsMonoNLNerdFont'
 
 #[env]
 #TERM = "xterm-256color"
