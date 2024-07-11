@@ -9,5 +9,5 @@ nitrogen --restore &>/dev/null &
 picom -b &>/dev/null &
 unclutter a --start-hidden &
 
-qutebrowser --nowindow &
+qutebrowser -R --nowindow &
 
