@@ -1,17 +1,31 @@
-#  _________________________________________________________
-#    ___   _    _  _                             __  _  __ _
-#   / _ \ | |_ (_)| | ___        __  ___  _ _   / _|(_)/ _` |
-#  | (_) ||  _|| || |/ -_)      / _|/ _ \| ' \ |  _|| |\__. |
-#   \__\_\ \__||_||_|\___|      \__|\___/|_||_||_|  |_||___/
-#  _________________________________________________________
+# Copyright (c) 2010 Aldo Cortesi
+# Copyright (c) 2010, 2014 dequis
+# Copyright (c) 2012 Randall Ma
+# Copyright (c) 2012-2014 Tycho Andersen
+# Copyright (c) 2012 Craig Barnes
+# Copyright (c) 2013 horsik
+# Copyright (c) 2013 Tao Sauvage
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-
-
-from qtile_extras import widget
-from qtile_extras.widget.decorations import PowerLineDecoration
-
-from libqtile import bar, layout, qtile
-from libqtile.config import Click, Drag, Group, ScratchPad, DropDown, Key, KeyChord, Match, Screen
+from libqtile import bar, layout, qtile, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -26,7 +40,7 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    #Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -35,59 +49,23 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), lazy.layout.shrink(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), lazy.layout.grow(), desc="Grow window up"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-
     Key(
         [mod, "shift"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-
-	# Keybind for apps
-    # Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # KeyChord([mod], "Return", [
-    #     Key([], "t", lazy.spawn("alacritty -e tmux")),
-    #     Key([], "a", lazy.spawn("alacritty -e tmux a")),
-    #     Key([], "Return", lazy.spawn("alacritty")),
-    #     ]),
-    # KeyChord([mod, "Shift"], "Return", [
-    #     Key([], "t", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux new -AD -s 1'")),
-    #     Key([], "a", lazy.spawn("/home/whammou/.config/qtile/script/ssh 'tmux a'")),
-    #     Key([], "Return", lazy.spawn("/home/whammou/.config/qtile/script/ssh ' '")),
-    #     ]),
-	Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
-    Key([mod, "shift"], "s", lazy.spawn("flameshot gui")),
-    KeyChord([mod], "q", [
-        Key([], "b", lazy.spawn("qb")),
-        Key([], "p", lazy.spawn("qutebrowser -T")),
-        ]),
-    Key([mod], "d", lazy.spawn("drawing")),
-	Key([mod], "o", lazy.spawn("okular")),
-
-	# Keybinds for Script
-    #Key([mod], "F2", lazy.spawn("./.myscript/touchpad_tg.sh")),
-	Key([mod], "F1", lazy.spawn("pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle")), 
-	Key([mod], "F2", lazy.spawn("dec-volume-notification")), 
-    Key([mod], "F3", lazy.spawn("inc-volume-notification")),
-    Key([mod], "F4", lazy.spawn("pactl set-source-mute 0 toggle")),
-    Key([mod, "Shift"], "F4", lazy.spawn("noise-supression")),
-	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
-	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
-	Key([mod], "F7", lazy.spawn("sh /usr/local/bin/uptime-notification")),
-	Key([mod], "F11", lazy.spawn("vktablet")),
-	Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
-
-	# Toggle between different layouts as defined below
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key(
@@ -96,295 +74,105 @@ keys = [
         lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
-    Key([mod, "shift"], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-
-    KeyChord([mod], "t", [
-        Key([], "1", lazy.spawn("alacritty -e tmux new -AD -s 1")),
-        Key([], "2", lazy.spawn("alacritty -e tmux new -AD -s 2")),
-        Key([], "3", lazy.spawn("alacritty -e tmux new -AD -s 3")),
-        Key([], "4", lazy.spawn("alacritty -e tmux new -AD -s 4")),
-        Key([], "Return", lazy.spawn("alacritty")),
-        ]),
-    KeyChord([mod, "Shift"], "t", [
-        Key([], "1", lazy.spawn("alacritty -e ssh-tmux 'tmux new -AD -s 1'")),
-        Key([], "2", lazy.spawn("alacritty -e ssh-tmux 'tmux new -AD -s 2'")),
-        Key([], "3", lazy.spawn("alacritty -e ssh-tmux 'tmux new -AD -s 3'")),
-        Key([], "Return", lazy.spawn("/home/whammou/.config/qtile/script/ssh ' '")),
-        ]),
 ]
 
-#pane = ["1", "2", "3"]
-#for i in pane:
-#    tmux = 'alacritty -e tmux new -AD -s ' + i
-#    keys.extend([
-#        KeyChord([mod], 'a', [
-#            Key([], i, lazy.spawn(tmux)),
-#            ])
-#        ])
-    
-
-groups = []
-group_names = ["1", "2", "3", "4", "5", "6"]
-group_labels = ["NETS ❯", "CODE ❯","SSH  ❯", "COMS ❯", "IMAG ❯", "VIDS ❯",]
-group_layouts = ["MonadTall", "MonadThreeCol", "MonadTall", "MonadTall", "MonadTall", "MonadThreeCol",]
+# Add key bindings to switch VTs in Wayland.
+# We can't check qtile.core.name in default config as it is loaded before qtile is started
+# We therefore defer the check until the key binding is run by using .when(func=...)
+for vt in range(1, 8):
+    keys.append(
+        Key(
+            ["control", "mod1"],
+            f"f{vt}",
+            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
+            desc=f"Switch to VT{vt}",
+        )
+    )
 
 
-for i in range(len(group_names)):
-	groups.append(
-		Group(
-			name=group_names[i],
-			layout=group_layouts[i].lower(),
-			label=group_labels[i],
-        ))
+groups = [Group(i) for i in "123456789"]
 
 for i in groups:
-	keys.extend([
-		Key([mod], i.name, lazy.group[i.name].toscreen()),
-        Key(["mod1"], "Tab", lazy.screen.next_group()),
-        Key(["mod1", "shift"], "Tab", lazy.screen.prev_group()),
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name) , lazy.group[i.name].toscreen()),
-        Key([mod, "control"], i.name, lazy.window.togroup(i.name)),
-        # Key([mod], "Tab", lazy.screen.next_group()),
-        # Key([mod, "shift" ], "Tab", lazy.screen.prev_group()),
-    ])
-
-groups.append(ScratchPad("scratchpad", [
-    DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
-    DropDown("tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
-    DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
-    DropDown("ranger", "alacritty --class=ranger -e ranger", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
-    DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine", width=0.8, height=0.2, x=0.1, y =0.4, opacity=0.9),
-    DropDown("okular", "okular", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("drawing", "rnote", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=1),
-    DropDown("terminal", terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("powermenu", "alacritty --class=powermenu -e power-menu", width=0.1, height=0.2, x=0.45, y =0.4, opacity=0.9),
-    DropDown("qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://mytimetable.rmit.edu.vn/even/student?ss=70b876e2e1fb477da39d8f828ddac455#timetable/grid", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-]))
-
-keys.extend([
-    KeyChord([mod], "y", [
-        Key([], "y", lazy.group['scratchpad'].dropdown_toggle('youtube') ,desc="Launch ytfzf"),
-        Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music') ,desc="Launch ytfzf"),
-        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('tyoutube') ,desc="Launch ytfzf"),
-        ]),
-    Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
-    KeyChord([mod], "m", [
-        Key([], "f", lazy.group['scratchpad'].dropdown_toggle('ranger') ,desc="Launch ranger"),
-        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom') ,desc="Launch bottom"),
-        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats') ,desc="Launch bottom"),
-        ]),
-    Key([mod], "F8", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
-    KeyChord([mod], "u", [
-        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
-        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('typing')),
-        ]),
-    Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
-    KeyChord([mod, "Control"], "q", [
-        Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser') ,desc="Launch qutebrowser"),
-        Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord') ,desc="Launch discord"),
-        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams') ,desc="Launch teams"),
-        Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable') ,desc="Launch teams"),
-        ]),
-    Key([mod, "control"], "o", lazy.group['scratchpad'].dropdown_toggle('okular')),
-    Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
-    Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
-    Key([mod], "Delete", lazy.group['scratchpad'].dropdown_toggle('powermenu')),
-])
-
-layout_theme = {
-	"border_width" : 0,
-	"margin" : 15,
-	"border_focus" : "FFFFFF",
-	"border_normal" : "CCCCCC"
-}
+    keys.extend(
+        [
+            # mod + group number = switch to group
+            Key(
+                [mod],
+                i.name,
+                lazy.group[i.name].toscreen(),
+                desc="Switch to group {}".format(i.name),
+            ),
+            # mod + shift + group number = switch to & move focused window to group
+            Key(
+                [mod, "shift"],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(i.name),
+            ),
+            # Or, use below if you prefer not to switch to that group.
+            # # mod + shift + group number = move focused window to group
+            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            #     desc="move focused window to group {}".format(i.name)),
+        ]
+    )
 
 layouts = [
-    layout.MonadTall(
-        **layout_theme
-
-    ),
-	layout.MonadThreeCol(
-		**layout_theme,
-		main_centered=True,
-		new_client_position = 'bottom',
-		ratio = 0.34
-	),
+    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    layout.Max(),
+    # Try more layouts by unleashing below layouts.
+    # layout.Stack(num_stacks=2),
+    # layout.Bsp(),
+    # layout.Matrix(),
+    # layout.MonadTall(),
+    # layout.MonadWide(),
+    # layout.RatioTile(),
+    # layout.Tile(),
+    # layout.TreeTab(),
+    # layout.VerticalTile(),
+    # layout.Zoomy(),
 ]
 
 widget_defaults = dict(
     font="sans",
-    fontsize=16,
+    fontsize=12,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
 
-powerline = {
-    "decorations": [
-        PowerLineDecoration(path="arrow_right")
-    ]
-}
-
 screens = [
     Screen(
-        top=bar.Bar(
+        bottom=bar.Bar(
             [
-				widget.Spacer(
-					length = 0,
-				),
-
-                widget.GroupBox(
-					foreground ='000000',
-					center_aligned = True,
-					border = 'ff00ff',
-                    inactive = '232323',
-					active = '404040',
-                    highlight_method = "text",
-                    font = 'sans bold',
-					rounded = True,
-					this_current_screen_border = 'FF00FF',
-					pading = 10,
-				),
-
-				widget.Sep(
-					foreground = "a20640",
-					linewidth = 0,
-					size_percent = 60,
-					padding = 13,
-				),
-
-				widget.TextBox(
-					fmt = "[]= {}",
-					width = 30,
-                    foreground = '00ffff',
-					fontsize = 14,
-				),
-
-                widget.Prompt(
-			    	fmt = "{}",
-                    foreground="00FFFF",
-			    	prompt = "",
-			    	scroll_fixed_width = True,
-			    ),
-
-				widget.Spacer(
-					width = 950,
-				),
-                
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
                 widget.Chord(
                     chords_colors={
                         "launch": ("#ff0000", "#ffffff"),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-
-                widget.Systray(
-					background = '000000',
-					icon_size = 15,
-					padding = 10,
-					width = 50,
-                    **powerline
-				),
-
-				widget.Spacer(
-                    length=1,
-                    **powerline
-                ),
-
-                widget.Battery(
-                    foreground = '000000',
-                    background = '00FF00',
-                    low_foreground = '000000',
-                    battery = 1,
-                    discharge_char = '',
-                    not_charging_char = '',
-                    charge_char = '',
-                    full_char = '',
-                    empty_char = '󱉝',
-                    show_short_text = False,
-                    format = '   {char}  {percent:2.0%}  ',
-                    low_percent = 0.4,
-                    notify_below = 0.45,
-                    update_interval = 60,
-                ),
-
-                widget.Battery(
-                    foreground = '000000',
-                    background = '00FF00',
-                    low_foreground = '000000',
-                    battery = 0,
-                    discharge_char = '',
-                    not_charging_char = '',
-                    charge_char = '',
-                    full_char = '',
-                    empty_char = '󱉝',
-                    show_short_text = False,
-                    format = '❮    {char}  {percent:2.0%} ',
-                    low_percent = 0.4,
-                    notify_below = 0.45,
-                    update_interval = 60,
-                    padding = 10,
-                    **powerline
-                ),
-
-                widget.CheckUpdates(
-                    foreground = 'ffffff',
-                    background = 'AE00FF',
-                    colour_have_updates = '000000',
-                    colour_no_updates = '000000',
-                    distro='Arch',
-				  	fmt = "    {}  ",
-                    padding = 10,
-                    no_update_string ="Up to date",
-                    update_interval = 360,
-                    **powerline
-                ),
-
-                widget.Wlan(
-                    background = '00FFFF',
-                    foreground = '000000',
-                    format = '     {percent:1.0%}  ',
-                    update_interval = 60,
-                ),
-
-                widget.Backlight(
-					background = '00FFFF',
-                    foreground = '000000',
-                    format = '❮    󰃞   {percent:2.0%}  ',
-                    backlight_name = 'intel_backlight',
-                    **powerline
-                ),
-
-				widget.Clock(
-                    background = 'FF005C',
-					foreground = '000000',
-					fmt = "    {}  ",
-					format="%I:%M %p",
-					padding = 10,
-                    **powerline
-				),
-
-				widget.Spacer(
-                    background = 'FF005C',
-					length = -1, 
-				),
+                widget.TextBox("default config", name="default"),
+                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+                # widget.StatusNotifier(),
+                widget.Systray(),
+                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                widget.QuickExit(),
             ],
-            26,
-            margin = [5, 15, 0, 15],
-            #border_width=[4, 0, 4, 0],  # Draw top and bottom borders
-            #border_color=["000000", "000000", "000000", "000000"]  # Borders are magenta
+            24,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
+        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
+        # By default we handle these events delayed to already improve performance, however your system might still be struggling
+        # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
+        # x11_drag_polling_rate = 60,
     ),
 ]
 
@@ -402,7 +190,6 @@ bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
-    border_width = 0,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -417,6 +204,24 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-auto_minimjize = True
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
+
+# When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
+
+# xcursor theme (string or None) and size (integer) for Wayland backend
+wl_xcursor_theme = None
+wl_xcursor_size = 24
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits; you can see several discussions on the
+# mailing lists, GitHub issues, and other WM documentation that suggest setting
+# this string if your java app doesn't work correctly. We may as well just lie
+# and say that we're a working one by default.
+#
+# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+# java that happens to be on java's whitelist.
 wmname = "LG3D"
