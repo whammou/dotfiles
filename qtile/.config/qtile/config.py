@@ -4,7 +4,7 @@ from qtile_extras.widget.decorations import PowerLineDecoration
 from qtile_bonsai import Bonsai, BonsaiBar
 
 from libqtile import bar, layout, qtile
-from libqtile.config import Click, Drag, Group, Key,EzKey, KeyChord, Match, Screen
+from libqtile.config import Click, Drag, ScratchPad, Key,EzKey, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -405,6 +405,7 @@ screens = [
                     "tab.fg_color": "232323",
                     "tab.active.fg_color": "00ffff",
                     "tab.active.bg_color": "000000",
+                    "length": bar.CALCULATED,
                     "font_size": 18,
                     "tab.padding": [0, 10, 10 ,10],
                 }),
@@ -424,9 +425,9 @@ screens = [
 				),
 
                 widget.Prompt(
-			    	fmt = "{}",
-                    foreground="00FFFF",
-			    	prompt = "",
+			    	fmt = "={}",
+                    foreground="00ffff",
+			    	prompt = "prompt",
 			    	scroll_fixed_width = True,
 			    ),
 
