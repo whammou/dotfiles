@@ -1,5 +1,9 @@
-from libqtile import bar, layout, qtile, widget
+from qtile_extras import widget
+from qtile_extras.widget.decorations import PowerLineDecoration
+
 from qtile_bonsai import Bonsai, BonsaiBar
+
+from libqtile import bar, layout, qtile
 from libqtile.config import Click, Drag, Group, Key,EzKey, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -301,6 +305,20 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     #Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+	# Keybinds for Script
+    #Key([mod], "F2", lazy.spawn("./.myscript/touchpad_tg.sh")),
+	Key([mod], "F1", lazy.spawn("pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle")), 
+	Key([mod], "F2", lazy.spawn("dec-volume-notification")), 
+    Key([mod], "F3", lazy.spawn("inc-volume-notification")),
+    Key([mod], "F4", lazy.spawn("pactl set-source-mute 0 toggle")),
+    Key([mod, "Shift"], "F4", lazy.spawn("noise-supression")),
+	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
+	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
+	Key([mod], "F7", lazy.spawn("sh /usr/local/bin/uptime-notification")),
+	Key([mod], "F11", lazy.spawn("vktablet")),
+	Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
+
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -348,73 +366,168 @@ layouts = [
         "window.border_size": 0,
         "window.margin": [0, 3, 6, 3],
         "window.default.add.mode": "match_previous",
-        "tab_bar.tab.font_size": 1,
         "tab_bar.height": 6,
         "tab_bar.margin": [0, 3, 0, 3],
         "L1.tab_bar.hide_when": "always",
+        "tab_bar.tab.font_size": 1,
+        "tab_bar.tab.bg_color": "006767",
+        "tab_bar.tab.active.bg_color": "00ffff",
     }),
-
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    # layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
 ]
 
 widget_defaults = dict(
     font="sans",
-    fontsize=12,
+    fontsize=16,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
+
+powerline = {
+    "decorations": [
+        PowerLineDecoration(path="arrow_right")
+    ]
+}
 
 screens = [
     Screen(
         wallpaper = '/home/whammou/.wallpaper/meteor.jpg',
         wallpaper_mode = 'fill',
-
         left=bar.Bar([], 6),
-
         right=bar.Bar(
             [],
             1,
             margin = [0, -1, 0 ,7],
         ),
-
         top=bar.Bar(
             [
                 BonsaiBar(**{
-                    "font_size": 12,
+                    "tab.bg_color": "000000",
+                    "tab.fg_color": "232323",
+                    "tab.active.fg_color": "00ffff",
+                    "tab.active.bg_color": "000000",
+                    "font_size": 18,
                     "tab.padding": [0, 10, 10 ,10],
                 }),
-                #widget.CurrentLayout(),
-                #widget.GroupBox(),
-                widget.Prompt(),
-                #widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
+
+                	widget.Sep(
+					foreground = "a20640",
+					linewidth = 0,
+					size_percent = 60,
+					padding = 13,
+				),
+
+                widget.TextBox(
+					fmt = "[]= {}",
+					width = 30,
+                    foreground = '00ffff',
+					fontsize = 14,
+				),
+
+                widget.Prompt(
+			    	fmt = "{}",
+                    foreground="00FFFF",
+			    	prompt = "",
+			    	scroll_fixed_width = True,
+			    ),
+
+				widget.Spacer(
+					width = 950,
+				),
+                widget.Systray(
+					background = '000000',
+					icon_size = 15,
+					padding = 10,
+					width = 50,
+                    **powerline
+				),
+
+				widget.Spacer(
+                    length=1,
+                    **powerline
                 ),
-                #widget.TextBox("default config", name="default"),
-                #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                #widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                #widget.QuickExit(),
+
+                widget.Battery(
+                    foreground = '000000',
+                    background = '00FF00',
+                    low_foreground = '000000',
+                    battery = 1,
+                    discharge_char = '',
+                    not_charging_char = '',
+                    charge_char = '',
+                    full_char = '',
+                    empty_char = '󱉝',
+                    show_short_text = False,
+                    format = '   {char}  {percent:2.0%}  ',
+                    low_percent = 0.4,
+                    notify_below = 0.45,
+                    update_interval = 60,
+                ),
+
+                widget.Battery(
+                    foreground = '000000',
+                    background = '00FF00',
+                    low_foreground = '000000',
+                    battery = 0,
+                    discharge_char = '',
+                    not_charging_char = '',
+                    charge_char = '',
+                    full_char = '',
+                    empty_char = '󱉝',
+                    show_short_text = False,
+                    format = '❮    {char}  {percent:2.0%} ',
+                    low_percent = 0.4,
+                    notify_below = 0.45,
+                    update_interval = 60,
+                    padding = 10,
+                    **powerline
+                ),
+
+                widget.CheckUpdates(
+                    foreground = 'ffffff',
+                    background = 'AE00FF',
+                    colour_have_updates = '000000',
+                    colour_no_updates = '000000',
+                    distro='Arch',
+				  	fmt = "    {}  ",
+                    padding = 10,
+                    no_update_string ="Up to date",
+                    update_interval = 360,
+                    **powerline
+                ),
+
+                widget.Wlan(
+                    background = '00FFFF',
+                    foreground = '000000',
+                    format = '     {percent:1.0%}  ',
+                    update_interval = 60,
+                ),
+
+                widget.Backlight(
+					background = '00FFFF',
+                    foreground = '000000',
+                    format = '❮    󰃞   {percent:2.0%}  ',
+                    backlight_name = 'intel_backlight',
+                    **powerline
+                ),
+
+				widget.Clock(
+                    background = 'FF005C',
+					foreground = '000000',
+					fmt = "    {}  ",
+					format="%I:%M %p",
+					padding = 10,
+                    **powerline
+				),
+
+				widget.Spacer(
+                    background = 'FF005C',
+					length = -1, 
+				),
+
             ],
             26,
             margin = [6, 12 , 6, 12]
+
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
