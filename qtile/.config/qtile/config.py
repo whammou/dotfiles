@@ -8,9 +8,10 @@ mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
-    
+
     # Open your terminal emulator quickly. See further below for how to
     # directly open other apps as splits/tabs using something like rofi.
+
     KeyChord(
         ["mod4"],
         "y",
@@ -379,8 +380,15 @@ screens = [
     Screen(
         wallpaper = '/home/whammou/.wallpaper/meteor.jpg',
         wallpaper_mode = 'fill',
-        left=bar.Bar([],6),
-        right=bar.Bar([],6),
+
+        left=bar.Bar([], 6),
+
+        right=bar.Bar(
+            [],
+            1,
+            margin = [0, -1, 0 ,7],
+        ),
+
         top=bar.Bar(
             [
                 BonsaiBar(**{

@@ -5,7 +5,6 @@ setxkbmap -option caps:swapescape &
 xinput disable "Synaptics TM3075-002" &
 (sleep 2; xmodmap $HOME/.Xmodmap 2>/tmp/xmodmap.errors) &
 
-#nitrogen --restore &>/dev/null &
 picom -b &>/dev/null &
 unclutter a --start-hidden &
 
