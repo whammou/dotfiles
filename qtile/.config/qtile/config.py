@@ -4,7 +4,7 @@ from qtile_extras.widget.decorations import PowerLineDecoration
 from qtile_bonsai import Bonsai, BonsaiBar
 
 from libqtile import bar, layout, qtile
-from libqtile.config import Click, Drag, ScratchPad, Key,EzKey, KeyChord, Match, Screen
+from libqtile.config import Click, Drag, ScratchPad, DropDown, Key,EzKey, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -27,12 +27,21 @@ keys = [
             ),
             KeyChord([], "t",
                 [
-                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'y', position='next')),
-                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='next')),
-                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='next')),
-                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='next')),
+                    EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'y', position='next')),
+                    EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='next')),
+                    EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='next')),
+                    EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='next')),
                 ]
             ),
+            KeyChord([], "s", 
+                [
+                    EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "y", position="next")),
+                    EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "y", position="next")),
+                    EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "y", position="next")),
+                    EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "y", position="next")),
+                ]
+            ),
+
         ]
     ),
     
@@ -53,6 +62,14 @@ keys = [
                    EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='next')),
                 ]
             ),
+            KeyChord([], "s", 
+                [
+                    EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "x", position="next")),
+                    EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "x", position="next")),
+                    EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "x", position="next")),
+                    EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "x", position="next")),
+                ]
+            ),
         ]
     ),
 
@@ -67,10 +84,18 @@ keys = [
             ),
             KeyChord([], "t",
                 [
-                   EzKey("1", lazy.layout.spawn_tab("tmux-session-attach 1")),
-                   EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2")),
-                   EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3")),
-                   EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4")),
+                    EzKey("1", lazy.layout.spawn_tab("tmux-session-attach 1")),
+                    EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2")),
+                    EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3")),
+                    EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4")),
+                ]
+            ),
+            KeyChord([], "s", 
+                [
+                    EzKey("1", lazy.layout.spawn_tab("ssh-tmux 1", "y")),
+                    EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2", "y")),
+                    EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3", "y")),
+                    EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4", "y")),
                 ]
             ),
         ]
@@ -87,10 +112,18 @@ keys = [
             ),
             KeyChord([], "t",
                 [
-                   EzKey("1", lazy.layout.spawn_tab("tmux-session-attach 1", new_level=True)),
-                   EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2", new_level=True)),
-                   EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3", new_level=True)),
-                   EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4", new_level=True)),
+                    EzKey("1", lazy.layout.spawn_tab("tmux-session-attach 1", new_level=True)),
+                    EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2", new_level=True)),
+                    EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3", new_level=True)),
+                    EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4", new_level=True)),
+                ]
+            ),
+            KeyChord([], "s", 
+                [
+                    EzKey("1", lazy.layout.spawn_tab("ssh-tmux 1", "y", new_level=True)),
+                    EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2", "y", new_level=True)),
+                    EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3", "y", new_level=True)),
+                    EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4", "y", new_level=True)),
                 ]
             ),
         ]
@@ -108,10 +141,18 @@ keys = [
             ),
             KeyChord([], "t",
                 [
-                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'y', position='previous')),
-                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='previous')),
-                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='previous')),
-                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='previous')),
+                    EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'y', position='previous')),
+                    EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='previous')),
+                    EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='previous')),
+                    EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='previous')),
+                ]
+            ),
+            KeyChord([], "s", 
+                [
+                    EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "y", position="next")),
+                    EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "y", position="next")),
+                    EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "y", position="next")),
+                    EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "y", position="next")),
                 ]
             ),
         ]
@@ -128,10 +169,18 @@ keys = [
             ),
             KeyChord([], "t",
                 [
-                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'x', position='previous')),
-                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'x', position='previous')),
-                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='previous')),
-                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='previous')),
+                    EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'x', position='previous')),
+                    EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'x', position='previous')),
+                    EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='previous')),
+                    EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='previous')),
+                ]
+            ),
+            KeyChord([], "s", 
+                [
+                    EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "x", position="next")),
+                    EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "x", position="next")),
+                    EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "x", position="next")),
+                    EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "x", position="next")),
                 ]
             ),
         ]
@@ -361,6 +410,59 @@ keys = [
 #        ]
 #    )
 
+groups = []
+
+groups.append(ScratchPad("scratchpad", [
+    DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
+    DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
+    DropDown("tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
+    DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
+    DropDown("ranger", "alacritty --class=ranger -e ranger", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
+    DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine", width=0.8, height=0.2, x=0.1, y =0.4, opacity=0.9),
+    DropDown("okular", "okular", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("drawing", "rnote", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=1),
+    DropDown("terminal", terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("powermenu", "alacritty --class=powermenu -e power-menu", width=0.1, height=0.2, x=0.45, y =0.4, opacity=0.9),
+    DropDown("qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown("timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://mytimetable.rmit.edu.vn/even/student?ss=70b876e2e1fb477da39d8f828ddac455#timetable/grid", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+]))
+
+keys.extend([
+    Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
+    KeyChord([mod], "m", [
+        Key([], "f", lazy.group['scratchpad'].dropdown_toggle('ranger') ,desc="Launch ranger"),
+        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom') ,desc="Launch bottom"),
+        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats') ,desc="Launch bottom"),
+        ]),
+    Key([mod], "F8", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
+    KeyChord([mod], "u", [
+        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
+        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('typing')),
+        Key([], "y", lazy.group['scratchpad'].dropdown_toggle('youtube') ,desc="Launch ytfzf"),
+        Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music') ,desc="Launch ytfzf"),
+        Key([], "v", lazy.group['scratchpad'].dropdown_toggle('tyoutube') ,desc="Launch ytfzf"),
+        ]),
+    Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+    KeyChord([mod, "Control"], "q", [
+        Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser') ,desc="Launch qutebrowser"),
+        Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord') ,desc="Launch discord"),
+        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams') ,desc="Launch teams"),
+        Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable') ,desc="Launch teams"),
+        ]),
+    Key([mod, "control"], "o", lazy.group['scratchpad'].dropdown_toggle('okular')),
+    Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
+    Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
+    Key([mod], "Delete", lazy.group['scratchpad'].dropdown_toggle('powermenu')),
+])
+
+
 layouts = [
     Bonsai(**{
         "window.border_size": 0,
@@ -425,7 +527,7 @@ screens = [
 				),
 
                 widget.Prompt(
-			    	fmt = "={}",
+			    	fmt = "{}",
                     foreground="00ffff",
 			    	prompt = "",
 			    	scroll_fixed_width = True,
@@ -553,6 +655,7 @@ bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
 floating_layout = layout.Floating(
+    border_width = 0,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
