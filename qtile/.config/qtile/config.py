@@ -1,5 +1,5 @@
 from libqtile import bar, layout, qtile, widget
-from qtile_bonsai import Bonsai
+from qtile_bonsai import Bonsai, BonsaiBar
 from libqtile.config import Click, Drag, Group, Key,EzKey, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -11,14 +11,126 @@ keys = [
     
     # Open your terminal emulator quickly. See further below for how to
     # directly open other apps as splits/tabs using something like rofi.
-    EzKey("M-v", lazy.layout.spawn_split(terminal, "x")),
-    EzKey("M-x", lazy.layout.spawn_split(terminal, "y")),
-    EzKey("M-t", lazy.layout.spawn_tab(terminal)),
-    EzKey("M-S-t", lazy.layout.spawn_tab(terminal, new_level=True)),
+    KeyChord(
+        ["mod4"],
+        "y",
+        [
+            KeyChord([], "q",
+                [
+                   EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'y', position='next')),
+                ]
+            ),
+            KeyChord([], "t",
+                [
+                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'y', position='next')),
+                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='next')),
+                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='next')),
+                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='next')),
+                ]
+            ),
+        ]
+    ),
+    
+    KeyChord(
+        ["mod4"],
+        "x",
+        [
+            KeyChord([],"q",
+                [
+                    EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'x', position='next')),
+                ]
+            ),
+            KeyChord([], "t",
+                [
+                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'x', position='next')),
+                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'x', position='next')),
+                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='next')),
+                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='next')),
+                ]
+            ),
+        ]
+    ),
+
+    KeyChord(
+        ["mod4"],
+        "t",
+        [
+            KeyChord([],"q",
+                [
+                    EzKey("b", lazy.layout.spawn_tab("qutebrowser -R")),
+                ]
+            ),
+            KeyChord([], "t",
+                [
+                   EzKey("1", lazy.layout.spawn_tab("tmux-session-attach 1")),
+                   EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2")),
+                   EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3")),
+                   EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4")),
+                ]
+            ),
+        ]
+
+    ),
+    KeyChord(
+        ["mod4", "Shift"],
+        "t",
+        [
+            KeyChord([],"q",
+                [
+                    EzKey("b", lazy.layout.spawn_tab("qutebrowser -R", new_level=True)),
+                ]
+            ),
+            KeyChord([], "t",
+                [
+                   EzKey("1", lazy.layout.spawn_tab("tmux-session-attach 1", new_level=True)),
+                   EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2", new_level=True)),
+                   EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3", new_level=True)),
+                   EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4", new_level=True)),
+                ]
+            ),
+        ]
+    ),
     
     # Sometimes it's handy to have a split open in the 'previous' position
-    EzKey("M-S-v", lazy.layout.spawn_split(terminal, "x", position="previous")),
-    EzKey("M-S-x", lazy.layout.spawn_split(terminal, "y", position="previous")),
+    KeyChord(
+        ["mod4", "Shift"],
+        "y",
+        [
+            KeyChord([], "q",
+                [
+                   EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'y', position='previous')),
+                ]
+            ),
+            KeyChord([], "t",
+                [
+                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'y', position='previous')),
+                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='previous')),
+                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='previous')),
+                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='previous')),
+                ]
+            ),
+        ]
+    ),
+    
+    KeyChord(
+        ["mod4", "Shift"],
+        "x",
+        [
+            KeyChord([],"q",
+                [
+                    EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'x', position='previous')),
+                ]
+            ),
+            KeyChord([], "t",
+                [
+                   EzKey("1", lazy.layout.spawn_split("tmux-session-attach 1", 'x', position='previous')),
+                   EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'x', position='previous')),
+                   EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='previous')),
+                   EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='previous')),
+                ]
+            ),
+        ]
+    ),
 
     # Motions to move focus. The names are compatible with built-in layouts.
     EzKey("M-h", lazy.layout.left()),
@@ -27,7 +139,8 @@ keys = [
     EzKey("M-j", lazy.layout.down()),
     EzKey("M-d", lazy.layout.prev_tab()),
     EzKey("M-f", lazy.layout.next_tab()),
-    
+
+
     # Precise motions to move directly to specific tabs at the nearest tab level
     EzKey("M-1", lazy.layout.focus_nth_tab(1, level=-1)),
     EzKey("M-2", lazy.layout.focus_nth_tab(2, level=-1)),
@@ -186,21 +299,21 @@ keys = [
     #Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     #Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    #Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
 # Add key bindings to switch VTs in Wayland.
 # We can't check qtile.core.name in default config as it is loaded before qtile is started
 # We therefore defer the check until the key binding is run by using .when(func=...)
-for vt in range(1, 8):
-    keys.append(
-        Key(
-            ["control", "mod1"],
-            f"f{vt}",
-            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
-            desc=f"Switch to VT{vt}",
-        )
-    )
+#for vt in range(1, 8):
+#    keys.append(
+#        Key(
+#            ["control", "mod1"],
+#            f"f{vt}",
+#            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
+#            desc=f"Switch to VT{vt}",
+#        )
+#    )
 
 
 #groups = [Group(i) for i in "123456789"]
@@ -231,8 +344,15 @@ for vt in range(1, 8):
 
 layouts = [
     Bonsai(**{
-        "window.border_size": 1,
+        "window.border_size": 0,
+        "window.margin": [0, 3, 6, 3],
+        "window.default.add.mode": "match_previous",
+        "tab_bar.tab.font_size": 1,
+        "tab_bar.height": 6,
+        "tab_bar.margin": [0, 3, 0, 3],
+        "L1.tab_bar.hide_when": "always",
     }),
+
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
     # Try more layouts by unleashing below layouts.
@@ -257,27 +377,36 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        bottom=bar.Bar(
+        wallpaper = '/home/whammou/.wallpaper/meteor.jpg',
+        wallpaper_mode = 'fill',
+        left=bar.Bar([],6),
+        right=bar.Bar([],6),
+        top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
+                BonsaiBar(**{
+                    "font_size": 12,
+                    "tab.padding": [0, 10, 10 ,10],
+                }),
+                #widget.CurrentLayout(),
+                #widget.GroupBox(),
                 widget.Prompt(),
-                widget.WindowName(),
+                #widget.WindowName(),
                 widget.Chord(
                     chords_colors={
                         "launch": ("#ff0000", "#ffffff"),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                #widget.TextBox("default config", name="default"),
+                #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
-                widget.Systray(),
+                #widget.Systray(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
+                #widget.QuickExit(),
             ],
-            24,
+            26,
+            margin = [6, 12 , 6, 12]
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),

@@ -25,6 +25,7 @@ nnoremap ]s ]sz=
 nnoremap <M-h> Hzb
 nnoremap <M-l> Lzt
 nnoremap zo zMzvzz
+nnoremap <CR> :noh<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
