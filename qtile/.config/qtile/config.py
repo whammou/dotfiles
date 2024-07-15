@@ -427,7 +427,7 @@ screens = [
                 widget.Prompt(
 			    	fmt = "={}",
                     foreground="00ffff",
-			    	prompt = "prompt",
+			    	prompt = "",
 			    	scroll_fixed_width = True,
 			    ),
 
