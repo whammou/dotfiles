@@ -29,6 +29,7 @@ nnoremap <CR> :noh<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
+map <Leader>g :GripStart<CR>
 map <Leader> <Plug>(easymotion-prefix)
 map <Leader><Leader> <Leader>s
 
