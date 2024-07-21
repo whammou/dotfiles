@@ -3,7 +3,7 @@
 
 # Use custom format
 format = '[┌─](cyan) $all[└─](cyan) $character'
-right_format = '$battery[ ](bright-green)$hostname'
+#right_format = '$battery[ ](bright-green)$hostname'
 
 # Inserts a blank line between shell prompts
 add_newline = true
@@ -12,11 +12,15 @@ add_newline = true
 command_timeout = 3000
 
 # Custom style
-[hostname]
-ssh_only = false
-format = "[ $hostname ]($style)"
-style = 'bg:#00FF00 fg:#000000'
-disabled = false
+
+[battery]
+disabled = true
+
+#[hostname]
+#ssh_only = false
+#format = "[ $hostname ]($style)"
+#style = 'bg:#00FF00 fg:#000000'
+#disabled = false
 
 
 [cmd_duration]
