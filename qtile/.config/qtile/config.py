@@ -4,7 +4,7 @@ from qtile_extras.widget.decorations import PowerLineDecoration
 from qtile_bonsai import Bonsai, BonsaiBar
 
 from libqtile import bar, layout, qtile
-from libqtile.config import Click, Drag, ScratchPad, DropDown, Key,EzKey, KeyChord, Match, Screen
+from libqtile.config import Click, Drag, Group, ScratchPad, DropDown, Key,EzKey, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -12,6 +12,8 @@ mod = "mod4"
 terminal = guess_terminal()
 
 keys = [
+
+	Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
 
     # Open your terminal emulator quickly. See further below for how to
     # directly open other apps as splits/tabs using something like rofi.
@@ -22,7 +24,9 @@ keys = [
         [
             KeyChord([], "q",
                 [
-                   EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'y', position='next')),
+                   EzKey("b", lazy.layout.spawn_split("qb", 'y', position='next')),
+                   EzKey("d", lazy.layout.spawn_split("discord", 'y', position='next')),
+                   EzKey("t", lazy.layout.spawn_split("teams", 'y', position='next')),
                 ]
             ),
             KeyChord([], "t",
@@ -33,7 +37,7 @@ keys = [
                     EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='next')),
                 ]
             ),
-            KeyChord([], "s", 
+            KeyChord(["Shift"], "t", 
                 [
                     EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "y", position="next")),
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "y", position="next")),
@@ -51,7 +55,9 @@ keys = [
         [
             KeyChord([],"q",
                 [
-                    EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'x', position='next')),
+                    EzKey("b", lazy.layout.spawn_split("qb", 'x', position='next')),
+                    EzKey("d", lazy.layout.spawn_split("discord", 'x', position='next')),
+                    EzKey("t", lazy.layout.spawn_split("teams", 'x', position='next')),
                 ]
             ),
             KeyChord([], "t",
@@ -62,7 +68,7 @@ keys = [
                    EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='next')),
                 ]
             ),
-            KeyChord([], "s", 
+            KeyChord(["Shift"], "t", 
                 [
                     EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "x", position="next")),
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "x", position="next")),
@@ -79,7 +85,7 @@ keys = [
         [
             KeyChord([],"q",
                 [
-                    EzKey("b", lazy.layout.spawn_tab("qutebrowser -R")),
+                    EzKey("b", lazy.layout.spawn_tab("qb")),
                 ]
             ),
             KeyChord([], "t",
@@ -90,12 +96,12 @@ keys = [
                     EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4")),
                 ]
             ),
-            KeyChord([], "s", 
+            KeyChord(["Shift"], "t", 
                 [
-                    EzKey("1", lazy.layout.spawn_tab("ssh-tmux 1", "y")),
-                    EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2", "y")),
-                    EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3", "y")),
-                    EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4", "y")),
+                    EzKey("1", lazy.layout.spawn_tab("ssh-tmux 1")),
+                    EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2")),
+                    EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3")),
+                    EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4")),
                 ]
             ),
         ]
@@ -107,7 +113,7 @@ keys = [
         [
             KeyChord([],"q",
                 [
-                    EzKey("b", lazy.layout.spawn_tab("qutebrowser -R", new_level=True)),
+                    EzKey("b", lazy.layout.spawn_tab("qb", new_level=True)),
                 ]
             ),
             KeyChord([], "t",
@@ -118,12 +124,12 @@ keys = [
                     EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4", new_level=True)),
                 ]
             ),
-            KeyChord([], "s", 
+            KeyChord(["Shift"], "t", 
                 [
-                    EzKey("1", lazy.layout.spawn_tab("ssh-tmux 1", "y", new_level=True)),
-                    EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2", "y", new_level=True)),
-                    EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3", "y", new_level=True)),
-                    EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4", "y", new_level=True)),
+                    EzKey("1", lazy.layout.spawn_tab("ssh-tmux 1", new_level=True)),
+                    EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2", new_level=True)),
+                    EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3", new_level=True)),
+                    EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4", new_level=True)),
                 ]
             ),
         ]
@@ -136,7 +142,7 @@ keys = [
         [
             KeyChord([], "q",
                 [
-                   EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'y', position='previous')),
+                   EzKey("b", lazy.layout.spawn_split("qb", 'y', position='previous')),
                 ]
             ),
             KeyChord([], "t",
@@ -147,7 +153,7 @@ keys = [
                     EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='previous')),
                 ]
             ),
-            KeyChord([], "s", 
+            KeyChord(["Shift"], "t", 
                 [
                     EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "y", position="next")),
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "y", position="next")),
@@ -164,7 +170,7 @@ keys = [
         [
             KeyChord([],"q",
                 [
-                    EzKey("b", lazy.layout.spawn_split("qutebrowser -R", 'x', position='previous')),
+                    EzKey("b", lazy.layout.spawn_split("qb", 'x', position='previous')),
                 ]
             ),
             KeyChord([], "t",
@@ -174,8 +180,7 @@ keys = [
                     EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='previous')),
                     EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='previous')),
                 ]
-            ),
-            KeyChord([], "s", 
+            ), KeyChord(["Shift"], "t", 
                 [
                     EzKey("1", lazy.layout.spawn_split("ssh-tmux 1", "x", position="next")),
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "x", position="next")),
@@ -187,12 +192,10 @@ keys = [
     ),
 
     # Motions to move focus. The names are compatible with built-in layouts.
-    EzKey("M-h", lazy.layout.left()),
-    EzKey("M-l", lazy.layout.right()),
-    EzKey("M-k", lazy.layout.up()),
-    EzKey("M-j", lazy.layout.down()),
-    EzKey("M-d", lazy.layout.prev_tab()),
-    EzKey("M-f", lazy.layout.next_tab()),
+    EzKey("M-h", lazy.layout.move_focus("left", wrap=False)),
+    EzKey("M-l", lazy.layout.move_focus("right", wrap=False)),
+    EzKey("M-k", lazy.layout.move_focus("up", wrap=False)),
+    EzKey("M-j", lazy.layout.move_focus("down", wrap=False)),
 
 
     # Precise motions to move directly to specific tabs at the nearest tab level
@@ -211,11 +214,11 @@ keys = [
 
     # Precise motions to move to specific windows. The options provided here let
     # us pick the nth window counting only from under currently active [sub]tabs
-    EzKey("C-1", lazy.layout.focus_nth_window(1, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("C-2", lazy.layout.focus_nth_window(2, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("C-3", lazy.layout.focus_nth_window(3, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("C-4", lazy.layout.focus_nth_window(4, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("C-5", lazy.layout.focus_nth_window(5, ignore_inactive_tabs_at_levels=[1,2])),
+    EzKey("A-1", lazy.layout.focus_nth_window(1, ignore_inactive_tabs_at_levels=[1,2])),
+    EzKey("A-2", lazy.layout.focus_nth_window(2, ignore_inactive_tabs_at_levels=[1,2])),
+    EzKey("A-3", lazy.layout.focus_nth_window(3, ignore_inactive_tabs_at_levels=[1,2])),
+    EzKey("A-4", lazy.layout.focus_nth_window(4, ignore_inactive_tabs_at_levels=[1,2])),
+    EzKey("A-5", lazy.layout.focus_nth_window(5, ignore_inactive_tabs_at_levels=[1,2])),
 
     # Resize operations
     EzKey("M-C-h", lazy.layout.resize("left", 100)),
@@ -235,7 +238,7 @@ keys = [
     EzKey("M-o", lazy.layout.select_container_outer()),
     EzKey("M-i", lazy.layout.select_container_inner()),
 
-# It's kinda nice to have more advanced window management commands under a
+    # It's kinda nice to have more advanced window management commands under a
     # qtile key chord.
     KeyChord(
         ["mod4"],
@@ -250,10 +253,8 @@ keys = [
             # Toggle container-selection mode to split/tab over containers of
             # multiple windows. Manipulate using select_container_outer()/select_container_inner()
             EzKey("C-v", lazy.layout.toggle_container_select_mode()),
-            
             EzKey("o", lazy.layout.pull_out()),
             EzKey("u", lazy.layout.pull_out_to_tab()),
-            
             EzKey("r", lazy.layout.rename_tab()),
             
             # Directional commands to merge windows with their neighbor into subtabs.
@@ -306,30 +307,7 @@ keys = [
         ]
     ),
     
-    # Your other bindings
-    # ...
-
-    ## A list of available commands that can be bound to keys can be found
-    ## at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    ## Switch between windows
-    #Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    #Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    #Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    #Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    #Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    ## Move windows between left/right columns or move up/down in current stack.
-    ## Moving out of range in Columns layout will create new column.
-    #Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    #Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    #Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    #Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    ## Grow windows. If current window is on the edge of screen and direction
-    ## will be to screen edge - window would shrink.
-    #Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    #Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    #Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    #Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    #Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     ## Toggle between split and unsplit sides of stack.
     ## Split = all windows displayed
     ## Unsplit = 1 window displayed, like Max layout, but still with
@@ -344,15 +322,9 @@ keys = [
     ## Toggle between different layouts as defined below
     #Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    #Key(
-    #    [mod],
-    #    "f",
-    #    lazy.window.toggle_fullscreen(),
-    #    desc="Toggle fullscreen on the focused window",
-    #),
-    #Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
+    Key([mod], "p", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    #Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
 	# Keybinds for Script
@@ -364,7 +336,7 @@ keys = [
     Key([mod, "Shift"], "F4", lazy.spawn("noise-supression")),
 	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
 	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
-	Key([mod], "F7", lazy.spawn("sh /usr/local/bin/uptime-notification")),
+	Key([mod], "F7", lazy.spawn("uptime-notification")),
 	Key([mod], "F11", lazy.spawn("vktablet")),
 	Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
 
@@ -384,7 +356,7 @@ keys = [
 #    )
 
 
-#groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "123456789"]
 #
 #for i in groups:
 #    keys.extend(
@@ -410,56 +382,104 @@ keys = [
 #        ]
 #    )
 
-groups = []
-
 groups.append(ScratchPad("scratchpad", [
-    DropDown("music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf", on_focus_lost_hide = False, width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc", width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9),
-    DropDown("youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
-    DropDown("tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl", width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9),
-    DropDown("shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
-    DropDown("ranger", "alacritty --class=ranger -e ranger", width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9),
-    DropDown("bottom", "alacritty --class=monitor -e btm", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine", width=0.8, height=0.2, x=0.1, y =0.4, opacity=0.9),
-    DropDown("okular", "okular", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("drawing", "rnote", on_focus_lost_hide= False, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("mpv", "mpv /tmp/open &", width=0.8, height=0.8, x=0.1, y =0.1, opacity=1),
-    DropDown("terminal", terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("powermenu", "alacritty --class=powermenu -e power-menu", width=0.1, height=0.2, x=0.45, y =0.4, opacity=0.9),
-    DropDown("qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
-    DropDown("timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://mytimetable.rmit.edu.vn/even/student?ss=70b876e2e1fb477da39d8f828ddac455#timetable/grid", width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9),
+    DropDown(
+        "music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml",
+        width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor",
+        width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
+         width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9, on_focus_lost_hide = False
+         ),
+    DropDown(
+        "calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc",
+        width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl",
+        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl",
+        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc",
+        width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
+        ),
+    DropDown(
+        "bottom", "alacritty --class=monitor -e btm",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine",
+        width=0.8, height=0.2, x=0.1, y =0.4, opacity=0.9
+        ),
+    DropDown(
+        "drawing", "rnote",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9, on_focus_lost_hide= False
+        ),
+    DropDown(
+        "mpv", "mpv /tmp/open &",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=1
+        ),
+    DropDown(
+        "terminal",
+        terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "powermenu", "alacritty --class=powermenu -e power-menu",
+        width=0.1, height=0.2, x=0.45, y =0.4, opacity=0.9
+        ),
+    DropDown(
+        "qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://mytimetable.rmit.edu.vn/even/student?ss=70b876e2e1fb477da39d8f828ddac455#timetable/grid",
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        ),
 ]))
 
 keys.extend([
     Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
-    KeyChord([mod], "m", [
-        Key([], "f", lazy.group['scratchpad'].dropdown_toggle('ranger') ,desc="Launch ranger"),
-        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom') ,desc="Launch bottom"),
-        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats') ,desc="Launch bottom"),
-        ]),
     Key([mod], "F8", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
+    Key([mod], "Delete", lazy.group['scratchpad'].dropdown_toggle('powermenu')),
+    Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
+    Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
+    Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+
+    KeyChord([mod], "m", [
+        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom')),
+        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats')),
+        ]),
+
     KeyChord([mod], "u", [
         Key([], "c", lazy.group['scratchpad'].dropdown_toggle('calculator')),
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('typing')),
-        Key([], "y", lazy.group['scratchpad'].dropdown_toggle('youtube') ,desc="Launch ytfzf"),
-        Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music') ,desc="Launch ytfzf"),
-        Key([], "v", lazy.group['scratchpad'].dropdown_toggle('tyoutube') ,desc="Launch ytfzf"),
+        Key([], "y", lazy.group['scratchpad'].dropdown_toggle('youtube')),
+        Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music')),
+        Key([], "v", lazy.group['scratchpad'].dropdown_toggle('tyoutube')),
         ]),
-    Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+
     KeyChord([mod, "Control"], "q", [
-        Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser') ,desc="Launch qutebrowser"),
-        Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord') ,desc="Launch discord"),
-        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams') ,desc="Launch teams"),
-        Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable') ,desc="Launch teams"),
+        Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+        Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
+        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams')),
+        Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable')),
         ]),
-    Key([mod, "control"], "o", lazy.group['scratchpad'].dropdown_toggle('okular')),
-    Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
-    Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
-    Key([mod], "Delete", lazy.group['scratchpad'].dropdown_toggle('powermenu')),
 ])
 
 
@@ -474,6 +494,8 @@ layouts = [
         "tab_bar.tab.font_size": 1,
         "tab_bar.tab.bg_color": "006767",
         "tab_bar.tab.active.bg_color": "00ffff",
+        "container_select_mode.border_color": "ff00ff",
+        "container_select_mode.borser_size": 1,
     }),
 ]
 
@@ -536,6 +558,11 @@ screens = [
 				widget.Spacer(
 					width = 950,
 				),
+
+                widget.Chord(
+                    
+                ),
+
                 widget.Systray(
 					background = '000000',
 					icon_size = 15,
@@ -629,7 +656,7 @@ screens = [
 
             ],
             26,
-            margin = [6, 12 , 6, 12]
+            margin = [6, 12 , 12, 12]
 
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
