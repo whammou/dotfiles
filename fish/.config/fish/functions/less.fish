@@ -1,4 +1,4 @@
-function less --description 'alias less=less -R'
- command less -R $argv
+function less --description 'alias less=less -r'
+ command less -r $argv
         
 end

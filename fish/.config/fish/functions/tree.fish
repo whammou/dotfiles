@@ -1,4 +1,4 @@
-function tree --description 'alias tree=tree -C'
- command tree -C $argv
+function tree --wraps='eza --tree --color=always' --description 'alias tree=eza --tree --color=always'
+  eza --tree --color=always $argv
         
 end
