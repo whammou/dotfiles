@@ -1,4 +1,6 @@
 [window]
+padding.x = 0
+padding.y = 0
 dimensions.columns = 94
 dimensions.lines = 25
 

@@ -1,5 +1,5 @@
 notify_playing=1
-ytdl_pref='bestvideo[height<=720]+bestaudio/best[height<=720]'
+ytdl_pref='worstvideo[height>=720]+bestaudio'
 thumbnail_quality='sddefault'
 invidious_instance='https://inv.nadeko.net'
 #thumbnail_viewer='mpv'

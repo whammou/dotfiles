@@ -436,6 +436,10 @@ groups.append(ScratchPad("scratchpad", [
         width=0.1, height=0.2, x=0.45, y =0.4, opacity=0.9
         ),
     DropDown(
+        "adapter", "alacritty --class=pwd_prompt -o font.size=10 -e adapter-switch",
+        width=0.45, height=0.04, x=0.275, y =0.48, opacity=0.9
+        ),
+    DropDown(
         "qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
         width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
         ),
@@ -456,6 +460,7 @@ groups.append(ScratchPad("scratchpad", [
 keys.extend([
     Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
     Key([mod], "F8", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
+    Key([mod], "F12", lazy.group['scratchpad'].dropdown_toggle('adapter')),
     Key([mod], "Delete", lazy.group['scratchpad'].dropdown_toggle('powermenu')),
     Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
     Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
