@@ -1,0 +1,40 @@
+set recolor true
+set guioptions None
+
+set default-fg 			    "#93a4c3"
+set default-bg 			    "#000000"
+
+set completion-bg		    "#000000"
+set completion-fg		    "#93a4c3"
+set completion-highlight-bg	"#575268"
+set completion-highlight-fg	"#93a4c3"
+set completion-group-bg		"#000000"
+set completion-group-fg		"#96cdfb"
+
+set statusbar-fg		    "#93a4c3"
+set statusbar-bg		    "#000000"
+
+set notification-bg		    "#000000"
+set notification-fg		    "#93a4c3"
+set notification-error-bg	"#000000"
+set notification-error-fg	"#ff005c"
+set notification-warning-bg	"#000000"
+set notification-warning-fg	"#ff6700"
+
+set inputbar-fg			    "#93a4c3"
+set inputbar-bg 		    "#000000"
+
+set recolor-lightcolor		"#000000"
+set recolor-darkcolor		"#93a4c3"
+
+set index-fg			    "#93a4c3"
+set index-bg			    "#000000"
+set index-active-fg		    "#93a4c3"
+set index-active-bg		    "#000000"
+
+set render-loading-bg		"#000000"
+set render-loading-fg		"#93a4c3"
+
+set highlight-color		    "#575268"
+set highlight-fg            "#ff00ff"
+set highlight-active-color	"#ff00ff"
