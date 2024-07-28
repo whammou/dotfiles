@@ -458,6 +458,14 @@ groups.append(ScratchPad("scratchpad", [
         width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
         ),
     DropDown(
+        "yazi", "alacritty --class=file -e yazi $HOME",
+        width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
+        ),
+    DropDown(
+        "yazis", "alacritty --class=file -e yazi /server/",
+        width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
+        ),
+    DropDown(
         "bottom", "alacritty --class=monitor -e btm",
         width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
         ),
@@ -512,10 +520,15 @@ keys.extend([
     Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
     Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
 
+    KeyChord([mod], "f", [
+        Key([], "h", lazy.group['scratchpad'].dropdown_toggle('yazi')),
+        Key([], "s", lazy.group['scratchpad'].dropdown_toggle('yazis')),
+        ]),
+
     KeyChord([mod], "m", [
         Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom')),
         Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats')),
-        Key([], "u", lazy.group['scratchpad'].dropdown_toggle('undervoltstats')),
+        Key([], "v", lazy.group['scratchpad'].dropdown_toggle('undervoltstats')),
         ]),
 
     KeyChord([mod], "u", [

@@ -43,16 +43,16 @@ progress_bar_max_width = 400
 timeout = 10
 background = "#282c34"
 foreground = "#abb2bf"
-frame_color = "#56b6c2"
+frame_color = "#ae00ff"
 
 [urgency_normal]
 timeout = 10
 background = "#282c34"
 foreground = "#abb2bf"
-frame_color = "#56B6C2"
+frame_color = "#00ffff"
 
 [urgency_critical]
 timeout = 0
 background = "#282c34"
 foreground = "#abb2bf"
-frame_color = "#56B6C2"
+frame_color = "#ff005c"
