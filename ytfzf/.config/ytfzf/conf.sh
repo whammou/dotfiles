@@ -1,5 +1,6 @@
 notify_playing=1
 ytdl_pref='worstvideo[height>=720]+bestaudio'
+ytdl_opts='write--auto-subs'
 thumbnail_quality='sddefault'
 invidious_instance='https://inv.nadeko.net'
 #thumbnail_viewer='mpv'

@@ -3,7 +3,7 @@
 cwd = { fg = "#00FF00" }  # Blue
 
 # Hovered
-hovered = { bg = "#282C34" }  # Darkened background
+hovered = { reversed = true }  # Darkened background
 preview_hovered = { underline = true }
 
 # Find
@@ -122,30 +122,30 @@ title_error = { fg = "#FF2600" }  # Orange
 
 rules = [
     # Images
-    { mime = "image/*", fg = "#FF2600" },  # Orange
+    { mime = "image/*", fg = "#FF2600" , bold = true},  # Orange
 
     # Media
-    { mime = "video/*", fg = "#FF005C" },  # Red
-    { mime = "audio/*", fg = "#FF005C" },  # Red
+    { mime = "video/*", fg = "#FF005C", bold = true },  # Red
+    { mime = "audio/*", fg = "#FF005C", bold = true },  # Red
 
     # Archives
-    { mime = "application/zip", fg = "#FF00FF" },  # Magenta
-    { mime = "application/x-tar", fg = "#FF00FF" },  # Magenta
-    { mime = "application/x-bzip*", fg = "#FF00FF" },  # Magenta
-    { mime = "application/x-bzip2", fg = "#FF00FF" },  # Magenta
-    { mime = "application/x-7z-compressed", fg = "#FF00FF" },  # Magenta
-    { mime = "application/x-rar", fg = "#FF00FF" },  # Magenta
-    { mime = "application/x-xz", fg = "#FF00FF" },  # Magenta
+    { mime = "application/zip", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/x-tar", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/x-bzip*", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/x-bzip2", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/x-7z-compressed", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/x-rar", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/x-xz", fg = "#FF00FF", bold = true },  # Magenta
 
     # Documents
-    { mime = "application/doc", fg = "#00FF00" },  # Green
-    { mime = "application/pdf", fg = "#00FF00" },  # Green
-    { mime = "application/rtf", fg = "#00FF00" },  # Green
-    { mime = "application/vnd.*", fg = "#00FF00" },  # Green
+    { mime = "application/doc", fg = "#00FF00", bold = true },  # Green
+    { mime = "application/pdf", fg = "#00FF00", bold = true },  # Green
+    { mime = "application/rtf", fg = "#00FF00", bold = true },  # Green
+    { mime = "application/vnd.*", fg = "#00FF00", bold = true },  # Green
 
     # Fallback
-    { name = "*", fg = "#93a4c3" },  # Blue
-    { name = "*/", fg = "#AE00FF" }  # Blue
+    { name = "*", fg = "#93a4c3", bold = true },  # Blue
+    { name = "*/", fg = "#AE00FF", bold = true }  # Blue
 ]
 
 # : }}}
