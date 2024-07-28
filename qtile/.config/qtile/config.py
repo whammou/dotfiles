@@ -8,6 +8,7 @@ from libqtile.config import Click, Drag, Group, ScratchPad, DropDown, Key,EzKey,
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
+
 mod = "mod4"
 terminal = guess_terminal()
 
@@ -191,40 +192,70 @@ keys = [
         ]
     ),
 
-    # Motions to move focus. The names are compatible with built-in layouts.
-    EzKey("M-h", lazy.layout.move_focus("left", wrap=False)),
-    EzKey("M-l", lazy.layout.move_focus("right", wrap=False)),
-    EzKey("M-k", lazy.layout.move_focus("up", wrap=False)),
-    EzKey("M-j", lazy.layout.move_focus("down", wrap=False)),
+    ## Motions to move focus. The names are compatible with built-in layouts.
+    #EzKey("M-h", lazy.layout.move_focus("left", wrap=False)),
+    #EzKey("M-l", lazy.layout.move_focus("right", wrap=False)),
+    #EzKey("M-k", lazy.layout.move_focus("up", wrap=False)),
+    #EzKey("M-j", lazy.layout.move_focus("down", wrap=False)),
 
 
     # Precise motions to move directly to specific tabs at the nearest tab level
-    EzKey("M-1", lazy.layout.focus_nth_tab(1, level=-1)),
-    EzKey("M-2", lazy.layout.focus_nth_tab(2, level=-1)),
-    EzKey("M-3", lazy.layout.focus_nth_tab(3, level=-1)),
-    EzKey("M-4", lazy.layout.focus_nth_tab(4, level=-1)),
-    EzKey("M-5", lazy.layout.focus_nth_tab(5, level=-1)),
-    
-    # Precise motions to move directly to specific tabs at the nearest tab level
-    EzKey("M-S-1", lazy.layout.focus_nth_tab(1, level=1)),
-    EzKey("M-S-2", lazy.layout.focus_nth_tab(2, level=1)),
-    EzKey("M-S-3", lazy.layout.focus_nth_tab(3, level=1)),
-    EzKey("M-S-4", lazy.layout.focus_nth_tab(4, level=1)),
-    EzKey("M-S-5", lazy.layout.focus_nth_tab(5, level=1)),
+    EzKey("M-S-1", lazy.layout.focus_nth_tab(1, level=-1)),
+    EzKey("M-S-2", lazy.layout.focus_nth_tab(2, level=-1)),
+    EzKey("M-S-3", lazy.layout.focus_nth_tab(3, level=-1)),
+    EzKey("M-S-4", lazy.layout.focus_nth_tab(4, level=-1)),
+    EzKey("M-S-5", lazy.layout.focus_nth_tab(5, level=-1)),
+
+    # Select tab layer to focus the layer on 
+    KeyChord(
+            ["mod4"],
+            "1",
+            [
+            EzKey("1", lazy.layout.focus_nth_tab(1, level=1)),
+            EzKey("2", lazy.layout.focus_nth_tab(2, level=1)),
+            EzKey("3", lazy.layout.focus_nth_tab(3, level=1)),
+            EzKey("4", lazy.layout.focus_nth_tab(4, level=1)),
+            EzKey("5", lazy.layout.focus_nth_tab(5, level=1)),
+            ]
+        ),  
+
+    KeyChord(
+            ["mod4"],
+            "2",
+            [
+            EzKey("1", lazy.layout.focus_nth_tab(1, level=2)),
+            EzKey("2", lazy.layout.focus_nth_tab(2, level=2)),
+            EzKey("3", lazy.layout.focus_nth_tab(3, level=2)),
+            EzKey("4", lazy.layout.focus_nth_tab(4, level=2)),
+            EzKey("5", lazy.layout.focus_nth_tab(5, level=2)),
+            ]
+        ),  
+
+    KeyChord(
+            ["mod4"],
+            "3",
+            [
+            EzKey("1", lazy.layout.focus_nth_tab(1, level=3)),
+            EzKey("2", lazy.layout.focus_nth_tab(2, level=3)),
+            EzKey("3", lazy.layout.focus_nth_tab(3, level=3)),
+            EzKey("4", lazy.layout.focus_nth_tab(4, level=3)),
+            EzKey("5", lazy.layout.focus_nth_tab(5, level=3)),
+            ]
+        ),  
 
     # Precise motions to move to specific windows. The options provided here let
     # us pick the nth window counting only from under currently active [sub]tabs
-    EzKey("A-1", lazy.layout.focus_nth_window(1, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("A-2", lazy.layout.focus_nth_window(2, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("A-3", lazy.layout.focus_nth_window(3, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("A-4", lazy.layout.focus_nth_window(4, ignore_inactive_tabs_at_levels=[1,2])),
-    EzKey("A-5", lazy.layout.focus_nth_window(5, ignore_inactive_tabs_at_levels=[1,2])),
+    EzKey("A-1", lazy.layout.focus_nth_window(1, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-2", lazy.layout.focus_nth_window(2, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-3", lazy.layout.focus_nth_window(3, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-4", lazy.layout.focus_nth_window(4, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-5", lazy.layout.focus_nth_window(5, ignore_inactive_tabs_at_levels=[1,2,3,4])),
 
     # Resize operations
-    EzKey("M-C-h", lazy.layout.resize("left", 100)),
-    EzKey("M-C-l", lazy.layout.resize("right", 100)),
-    EzKey("M-C-k", lazy.layout.resize("up", 100)),
-    EzKey("M-C-j", lazy.layout.resize("down", 100)),
+    EzKey("M-C-h", lazy.layout.resize("left", 50)),
+    EzKey("M-C-l", lazy.layout.resize("right", 50)),
+    EzKey("M-C-k", lazy.layout.resize("up", 50)),
+    EzKey("M-C-j", lazy.layout.resize("down", 50)),
 
     # Swap windows/tabs with neighbors
     EzKey("M-S-h", lazy.layout.swap("left")),
@@ -255,6 +286,8 @@ keys = [
             EzKey("C-v", lazy.layout.toggle_container_select_mode()),
             EzKey("o", lazy.layout.pull_out()),
             EzKey("u", lazy.layout.pull_out_to_tab()),
+            EzKey("S-o", lazy.layout.pull_out(position='next')),
+            EzKey("S-u", lazy.layout.pull_out_to_tab(position='next')),
             EzKey("r", lazy.layout.rename_tab()),
             
             # Directional commands to merge windows with their neighbor into subtabs.
@@ -307,7 +340,8 @@ keys = [
         ]
     ),
     
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset current column sizes"),
+    Key([mod, "Shift"], "n", lazy.layout.normalize_all(), desc="Reset all window sizes"),
     ## Toggle between split and unsplit sides of stack.
     ## Split = all windows displayed
     ## Unsplit = 1 window displayed, like Max layout, but still with
@@ -384,12 +418,16 @@ groups = [Group(i) for i in "123456789"]
 
 groups.append(ScratchPad("scratchpad", [
     DropDown(
-        "music", "alacritty --class=music -e ytfzf --type=all --pages=5 -sml",
+        "music", "alacritty --class=music -e ytfzf --type=all --pages=5 --submenu-opts=-ml -sml",
         width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
         ),
     DropDown(
         "cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor",
         width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "undervoltstats", "alacritty --hold --class=monitor -e sudo undervolt --read",
+        width=0.45, height=0.2, x=0.275, y =0.4, opacity=0.9
         ),
     DropDown(
         "nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
@@ -400,11 +438,19 @@ groups.append(ScratchPad("scratchpad", [
         width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
         ),
     DropDown(
-        "youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -sl",
+        "youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 --submenu-opts=-l -sl",
         width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
         ),
     DropDown(
-        "tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 -stl",
+        "tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 --submenu-opts=-tl -stl",
+        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "lobster", "alacritty --class=music -e lobster -q 1080",
+        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        ),
+    DropDown(
+        "ani-cli", "alacritty --class=music -e ani-cli --no-detach -q 1080p",
         width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
         ),
     DropDown(
@@ -421,7 +467,7 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "drawing", "rnote",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9, on_focus_lost_hide= False
+        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9, on_focus_lost_hide=False
         ),
     DropDown(
         "mpv", "mpv /tmp/open &",
@@ -469,6 +515,7 @@ keys.extend([
     KeyChord([mod], "m", [
         Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom')),
         Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats')),
+        Key([], "u", lazy.group['scratchpad'].dropdown_toggle('undervoltstats')),
         ]),
 
     KeyChord([mod], "u", [
@@ -476,7 +523,9 @@ keys.extend([
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('typing')),
         Key([], "y", lazy.group['scratchpad'].dropdown_toggle('youtube')),
         Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music')),
-        Key([], "v", lazy.group['scratchpad'].dropdown_toggle('tyoutube')),
+        Key(["Shift"], "y", lazy.group['scratchpad'].dropdown_toggle('tyoutube')),
+        Key([], "l", lazy.group['scratchpad'].dropdown_toggle('lobster')),
+        Key([], "a", lazy.group['scratchpad'].dropdown_toggle('ani-cli')),
         ]),
 
     KeyChord([mod, "Control"], "q", [
@@ -493,14 +542,18 @@ layouts = [
         "window.border_size": 0,
         "window.margin": [0, 3, 6, 3],
         "window.default.add.mode": "match_previous",
-        "tab_bar.height": 6,
-        "tab_bar.margin": [0, 3, 0, 3],
-        "L1.tab_bar.hide_when": "always",
-        "tab_bar.tab.font_size": 1,
-        "tab_bar.tab.bg_color": "006767",
-        "tab_bar.tab.active.bg_color": "00ffff",
         "container_select_mode.border_color": "ff00ff",
         "container_select_mode.borser_size": 1,
+        "L1.tab_bar.hide_when": "always",
+        "tab_bar.height": 6,
+        "tab_bar.margin": [0, 3, 0, 3],
+        "tab_bar.tab.font_size": 1,
+        "L2.tab_bar.tab.bg_color": "007676",
+        "L2.tab_bar.tab.active.bg_color": "00ffff",
+        "L3.tab_bar.tab.bg_color": "500076",
+        "L3.tab_bar.tab.active.bg_color": "ae00ff",
+        #"L4.tab_bar.tab.bg_color": "76002a",
+        #"L4.tab_bar.tab.active.bg_color": "ff005c",
     }),
 ]
 
@@ -682,7 +735,7 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
+follow_mouse_focus = False
 bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
@@ -699,8 +752,8 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
     ]
 )
-auto_fullscreen = True
-focus_on_window_activation = "smart"
+auto_fullscreen = False
+focus_on_window_activation = "never"
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
