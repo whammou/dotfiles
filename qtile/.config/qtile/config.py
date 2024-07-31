@@ -356,7 +356,7 @@ keys = [
     ## Toggle between different layouts as defined below
     #Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
+    #Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
     Key([mod], "p", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
@@ -419,63 +419,63 @@ groups = [Group(i) for i in "123456789"]
 groups.append(ScratchPad("scratchpad", [
     DropDown(
         "music", "alacritty --class=music -e ytfzf --type=all --pages=5 --submenu-opts=-ml -sml",
-        width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
         "cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor",
-        width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
         "undervoltstats", "alacritty --hold --class=monitor -e sudo undervolt --read",
-        width=0.45, height=0.2, x=0.275, y =0.4, opacity=0.9
+        width=0.45, height=0.2, x=0.275, y =0.4
         ),
     DropDown(
         "nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
-         width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9, on_focus_lost_hide = False
+         width=0.45, height=0.8, x=0.275, y =0.1, on_focus_lost_hide = False
          ),
     DropDown(
-        "calculator", "alacritty --class=calc -e python -i /usr/local/bin/calc",
-        width=0.45, height=0.8, x=0.275, y =0.1, opacity=0.9
+        "calculator", "alacritty --class=calc  -e .venv/calculator/bin/python -i /usr/local/bin/calc",
+        width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
         "youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 --submenu-opts=-l -sl",
-        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
         "tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 --submenu-opts=-tl -stl",
-        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
         "lobster", "alacritty --class=music -e lobster -q 1080",
-        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
         "ani-cli", "alacritty --class=music -e ani-cli --no-detach -q 1080p",
-        width=0.7, height=0.8, x=0.15, y =0.1, opacity=0.9
+        width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
         "shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc",
-        width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
+        width=0.6, height=0.6, x=0.2, y =0.2
         ),
     DropDown(
         "yazi", "alacritty --class=file -e yazi $HOME",
-        width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
+        width=0.6, height=0.6, x=0.2, y =0.2
         ),
     DropDown(
         "yazis", "alacritty --class=file -e yazi /server/",
-        width=0.6, height=0.6, x=0.2, y =0.2, opacity=0.9
+        width=0.6, height=0.6, x=0.2, y =0.2
         ),
     DropDown(
         "bottom", "alacritty --class=monitor -e btm",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine",
-        width=0.8, height=0.2, x=0.1, y =0.4, opacity=0.9
+        width=0.8, height=0.2, x=0.1, y =0.4
         ),
     DropDown(
         "drawing", "rnote",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9, on_focus_lost_hide=False
+        width=0.8, height=0.8, x=0.1, y =0.1, on_focus_lost_hide=False
         ),
     DropDown(
         "mpv", "mpv /tmp/open &",
@@ -483,31 +483,31 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "terminal",
-        terminal, width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        terminal, width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "powermenu", "alacritty --class=powermenu -e power-menu",
-        width=0.1, height=0.2, x=0.45, y =0.4, opacity=0.9
+        width=0.1, height=0.2, x=0.45, y =0.4
         ),
     DropDown(
         "adapter", "alacritty --class=pwd_prompt -o font.size=10 -e adapter-switch",
-        width=0.45, height=0.04, x=0.275, y =0.48, opacity=0.9
+        width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
         "qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://mytimetable.rmit.edu.vn/even/student?ss=70b876e2e1fb477da39d8f828ddac455#timetable/grid",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=0.9
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
 ]))
 
