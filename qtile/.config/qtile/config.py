@@ -36,6 +36,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='next')),
                     EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='next')),
                     EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='next')),
+                    EzKey("5", lazy.layout.spawn_split("tmux-session-attach 5", 'y', position='next')),
                 ]
             ),
             KeyChord(["Shift"], "t", 
@@ -44,6 +45,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "y", position="next")),
                     EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "y", position="next")),
                     EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "y", position="next")),
+                    EzKey("5", lazy.layout.spawn_split("ssh-tmux 5", "y", position="next")),
                 ]
             ),
 
@@ -67,6 +69,7 @@ keys = [
                    EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'x', position='next')),
                    EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='next')),
                    EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='next')),
+                   EzKey("5", lazy.layout.spawn_split("tmux-session-attach 5", 'x', position='next')),
                 ]
             ),
             KeyChord(["Shift"], "t", 
@@ -75,6 +78,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "x", position="next")),
                     EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "x", position="next")),
                     EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "x", position="next")),
+                    EzKey("5", lazy.layout.spawn_split("ssh-tmux 5", "x", position="next")),
                 ]
             ),
         ]
@@ -95,6 +99,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2")),
                     EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3")),
                     EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4")),
+                    EzKey("5", lazy.layout.spawn_tab("tmux-session-attach 5")),
                 ]
             ),
             KeyChord(["Shift"], "t", 
@@ -103,6 +108,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2")),
                     EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3")),
                     EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4")),
+                    EzKey("5", lazy.layout.spawn_tab("ssh-tmux 5")),
                 ]
             ),
         ]
@@ -123,6 +129,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_tab("tmux-session-attach 2", new_level=True)),
                     EzKey("3", lazy.layout.spawn_tab("tmux-session-attach 3", new_level=True)),
                     EzKey("4", lazy.layout.spawn_tab("tmux-session-attach 4", new_level=True)),
+                    EzKey("5", lazy.layout.spawn_tab("tmux-session-attach 5", new_level=True)),
                 ]
             ),
             KeyChord(["Shift"], "t", 
@@ -131,6 +138,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_tab("ssh-tmux 2", new_level=True)),
                     EzKey("3", lazy.layout.spawn_tab("ssh-tmux 3", new_level=True)),
                     EzKey("4", lazy.layout.spawn_tab("ssh-tmux 4", new_level=True)),
+                    EzKey("5", lazy.layout.spawn_tab("ssh-tmux 5", new_level=True)),
                 ]
             ),
         ]
@@ -152,6 +160,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'y', position='previous')),
                     EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'y', position='previous')),
                     EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'y', position='previous')),
+                    EzKey("5", lazy.layout.spawn_split("tmux-session-attach 5", 'y', position='previous')),
                 ]
             ),
             KeyChord(["Shift"], "t", 
@@ -160,6 +169,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "y", position="next")),
                     EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "y", position="next")),
                     EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "y", position="next")),
+                    EzKey("5", lazy.layout.spawn_split("ssh-tmux 5", "y", position="next")),
                 ]
             ),
         ]
@@ -180,6 +190,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("tmux-session-attach 2", 'x', position='previous')),
                     EzKey("3", lazy.layout.spawn_split("tmux-session-attach 3", 'x', position='previous')),
                     EzKey("4", lazy.layout.spawn_split("tmux-session-attach 4", 'x', position='previous')),
+                    EzKey("5", lazy.layout.spawn_split("tmux-session-attach 5", 'x', position='previous')),
                 ]
             ), KeyChord(["Shift"], "t", 
                 [
@@ -187,6 +198,7 @@ keys = [
                     EzKey("2", lazy.layout.spawn_split("ssh-tmux 2", "x", position="next")),
                     EzKey("3", lazy.layout.spawn_split("ssh-tmux 3", "x", position="next")),
                     EzKey("4", lazy.layout.spawn_split("ssh-tmux 4", "x", position="next")),
+                    EzKey("5", lazy.layout.spawn_split("ssh-tmux 5", "x", position="next")),
                 ]
             ),
         ]
@@ -644,6 +656,14 @@ screens = [
 
 				widget.Spacer(
                     length=1,
+                    **powerline
+                ),
+
+                widget.TextBox(
+					fmt = "{}",
+					width = 30,
+                    foreground = 'ff7600',
+					fontsize = 14,
                     **powerline
                 ),
 
