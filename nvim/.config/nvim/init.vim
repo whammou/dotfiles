@@ -29,6 +29,7 @@ nnoremap <CR> :noh<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
+map <Leader>p :set spell!<CR>
 map <Leader>g :GripStart<CR>
 map <Leader> <Plug>(easymotion-prefix)
 map <Leader><Leader> <Leader>s
@@ -94,12 +95,15 @@ Plugin 'junegunn/fzf.vim'
 "Plugin 'rafaqz/citation.vim'
 "Plugin 'Shougo/unite.vim'
 " vim-orgmode
-Plugin 'jceb/vim-orgmode'
-Plugin 'tpope/vim-speeddating'
-Plugin 'mattn/calendar-vim'
+"Plugin 'jceb/vim-orgmode'
+"Plugin 'tpope/vim-speeddating'
+"Plugin 'mattn/calendar-vim'
 "Plugin 'numirias/semshi'
+Plugin 'nvim-orgmode/orgmode'
 
 call vundle#end()
+
+lua require('init')
 
 let g:onedark_config = {
             \ 'style': 'darkest',
