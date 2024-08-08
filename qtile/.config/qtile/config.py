@@ -506,6 +506,14 @@ groups.append(ScratchPad("scratchpad", [
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
+        "samba-mount", "alacritty --class=pwd_prompt -o font.size=10 -e sh .scripts/smb-mount",
+        width=0.45, height=0.04, x=0.275, y =0.48
+        ),
+    DropDown(
+        "samba-umount", "alacritty --class=pwd_prompt -o font.size=10 -e sh .scripts/smb-umount",
+        width=0.45, height=0.04, x=0.275, y =0.48
+        ),
+    DropDown(
         "qutebrowser", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
@@ -535,6 +543,8 @@ keys.extend([
     KeyChord([mod], "f", [
         Key([], "h", lazy.group['scratchpad'].dropdown_toggle('yazi')),
         Key([], "s", lazy.group['scratchpad'].dropdown_toggle('yazis')),
+        Key(["Shift"], "s", lazy.group['scratchpad'].dropdown_toggle('samba-mount')),
+        Key(["Shift"], "h", lazy.group['scratchpad'].dropdown_toggle('samba-umount')),
         ]),
 
     KeyChord([mod], "m", [
