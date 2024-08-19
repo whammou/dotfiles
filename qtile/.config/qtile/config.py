@@ -462,6 +462,10 @@ groups.append(ScratchPad("scratchpad", [
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
+        "lobster_trending", "alacritty --class=music -e lobster -t -q 1080",
+        width=0.7, height=0.8, x=0.15, y =0.1
+        ),
+    DropDown(
         "ani-cli", "alacritty --class=music -e ani-cli --no-detach -q 1080p",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
@@ -482,7 +486,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "typing", "alacritty --class=racer -o font.size=11.5 -e tt -theme mine",
+            "typing", "alacritty --class=racer -o font.size=11.5 -e tt --multi --nohighlight --theme=mine",
         width=0.8, height=0.2, x=0.1, y =0.4
         ),
     DropDown(
@@ -519,6 +523,10 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "beeper", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://chat.beeper.com/",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
@@ -560,11 +568,13 @@ keys.extend([
         Key([], "m", lazy.group['scratchpad'].dropdown_toggle('music')),
         Key(["Shift"], "y", lazy.group['scratchpad'].dropdown_toggle('tyoutube')),
         Key([], "l", lazy.group['scratchpad'].dropdown_toggle('lobster')),
+        Key(["Shift"], "l", lazy.group['scratchpad'].dropdown_toggle('lobster_trending')),
         Key([], "a", lazy.group['scratchpad'].dropdown_toggle('ani-cli')),
         ]),
 
     KeyChord([mod, "Control"], "q", [
         Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('beeper')),
         Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams')),
         Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable')),
