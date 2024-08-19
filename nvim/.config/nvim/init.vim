@@ -45,6 +45,7 @@ map <Leader><Leader> <Leader>s
 :set shell=/bin/bash
 :set number relativenumber
 :set cursorline
+
 :set shiftwidth=4
 :set tabstop=4
 :set expandtab
@@ -83,9 +84,11 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'kuangliu/vim-easymotion'
 Plugin 'jiangmiao/auto-pairs'
+
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
 " Vim-tex
+Plugin 'lervag/vimtex'
 Plugin 'matze/vim-tex-fold'
 " Vim-papis
 Plugin 'junegunn/fzf'
@@ -95,9 +98,6 @@ Plugin 'junegunn/fzf.vim'
 "Plugin 'rafaqz/citation.vim'
 "Plugin 'Shougo/unite.vim'
 " vim-orgmode
-"Plugin 'jceb/vim-orgmode'
-"Plugin 'tpope/vim-speeddating'
-"Plugin 'mattn/calendar-vim'
 "Plugin 'numirias/semshi'
 Plugin 'nvim-orgmode/orgmode'
 
@@ -158,9 +158,14 @@ let g:citation_vim_suffix="]"
 let g:pandoc#filetypes#handled = ["pandoc", "markdown"]
 let g:pandoc#filetypes#pandoc_markdown = 0
 
-" ft MARKDOWN SETTINGS -----------------------------
+" MARKDOWN SETTINGS --------------------------------
 let g:markdown_folding = 1
 let g:markdown_recommended_style = 0
+
+" LATEX SETTINGS -----------------------------------
+
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_compiler_method = 'latexmk'
 
 let g:fzf_vim ={}
 

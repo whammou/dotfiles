@@ -42,9 +42,9 @@ function! airline#themes#onedark#refresh()
         \ 'airline_c': [ group[0], '', group[2], '', '' ]
         \ }
 
-  let s:I1 = [ '#282C34', '#00FF00', s:term_black, s:term_blue ]
+  let s:I1 = [ '#282C34', '#AE00FF', s:term_black, s:term_blue ]
   let s:I2 = s:N2
-  let s:I3 = [ '#00FF00', '#282C34', s:term_blue, s:term_grey ]
+  let s:I3 = [ '#AE00FF', '#282C34', s:term_blue, s:term_grey ]
   let g:airline#themes#onedark#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3)
   let g:airline#themes#onedark#palette.insert_modified = g:airline#themes#onedark#palette.normal_modified
 
@@ -54,9 +54,9 @@ function! airline#themes#onedark#refresh()
   let g:airline#themes#onedark#palette.replace = airline#themes#generate_color_map(s:R1, s:R2, s:R3)
   let g:airline#themes#onedark#palette.replace_modified = g:airline#themes#onedark#palette.normal_modified
 
-  let s:V1 = [ '#282C34', '#AE00FF', s:term_black, s:term_purple ]
+  let s:V1 = [ '#282C34', '#00FF00', s:term_black, s:term_purple ]
   let s:V2 = s:N2
-  let s:V3 = [ '#AE00FF', '#282C34', s:term_purple, '' ]
+  let s:V3 = [ '#00FF00', '#282C34', s:term_purple, '' ]
   let g:airline#themes#onedark#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3)
   let g:airline#themes#onedark#palette.visual_modified = g:airline#themes#onedark#palette.normal_modified
 

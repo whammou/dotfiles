@@ -69,7 +69,7 @@ return {
 		green = "#00ff00",
 		orange = "#ff6700",
 		blue = "#41a7fc",
-		yellow = "#e2b86b",
+		yellow = "#FFFF33",
 		cyan = "#00ffff",
 		red = "#ff005c",
 		grey = "#535965",

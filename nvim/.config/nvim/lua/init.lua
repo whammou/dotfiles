@@ -1,5 +1,7 @@
+-- init.lua
+
 require('orgmode').setup({
-  org_agenda_files = {'~/orgmode/*', '~/my-orgs/**/*'},
+  org_agenda_files = {'~/orgmode/*'},
   org_default_notes_file = '~/orgmode/activity.org',
 })
 

@@ -1,4 +1,5 @@
 # extends markdown
+extends html
 
 # MARKDOWN --------------------------------------
 snippet [t "Markdown title link to file" w
@@ -21,6 +22,11 @@ snippet "block quote" w
 ```
 $1
 ```$0
+endsnippet
+
+snippet footnote "footnote" w
+$1[^$2]
+[^$2]:$0
 endsnippet
 
 snippet f$ "footnote inmath" w
