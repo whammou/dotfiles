@@ -41,7 +41,7 @@ map <Leader><Leader> <Leader>s
 ":filetype indent on
 
 :syntax on
-":set foldmethod=indent
+":set foldmethod=syntax
 :set shell=/bin/bash
 :set number relativenumber
 :set cursorline
