@@ -217,6 +217,10 @@ keys = [
     EzKey("M-S-3", lazy.layout.focus_nth_tab(3, level=-1)),
     EzKey("M-S-4", lazy.layout.focus_nth_tab(4, level=-1)),
     EzKey("M-S-5", lazy.layout.focus_nth_tab(5, level=-1)),
+    EzKey("M-S-6", lazy.layout.focus_nth_tab(6, level=-1)),
+    EzKey("M-S-7", lazy.layout.focus_nth_tab(7, level=-1)),
+    EzKey("M-S-8", lazy.layout.focus_nth_tab(8, level=-1)),
+    EzKey("M-S-9", lazy.layout.focus_nth_tab(9, level=-1)),
 
     # Select tab layer to focus the layer on 
     KeyChord(
@@ -674,14 +678,14 @@ screens = [
                     **powerline
 				),
 
-				widget.Spacer(
-                    length=1,
-                    **powerline
-                ),
+                #widget.Spacer(
+                #    length=1,
+                #    **powerline
+                #),
 
                 widget.TextBox(
 					fmt = "{}",
-					width = 30,
+                    #width = 30,
                     foreground = 'ff7600',
 					fontsize = 14,
                     **powerline
