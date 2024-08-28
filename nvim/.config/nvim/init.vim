@@ -163,9 +163,17 @@ let g:markdown_folding = 1
 let g:markdown_recommended_style = 0
 
 " LATEX SETTINGS -----------------------------------
-
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_compiler_method = 'latexmk'
 
+" VIM-FZF SETTINGS ---------------------------------
 let g:fzf_vim ={}
 
+" VIM-FZF SETTINGS ---------------------------------
+:hi @org.headline.level1 gui=bold guifg=#ff005c
+:hi @org.headline.level2 gui=bold guifg=#ae00ff
+:hi @org.headline.level3 gui=bold guifg=#ff6700
+:hi @org.headline.level4 gui=bold guifg=#ff005c
+:hi @org.headline.level5 gui=bold guifg=#ae00ff
+:hi @org.agenda.scheduled_past guifg=#ff005c
+:hi @org.keyword.todo gui=reverse guifg=#ffff33
