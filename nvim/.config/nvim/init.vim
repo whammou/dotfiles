@@ -161,6 +161,8 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 " MARKDOWN SETTINGS --------------------------------
 let g:markdown_folding = 1
 let g:markdown_recommended_style = 0
+let g:mardown_fenced_languages  = ['html', 'pyton', 'lua', 'vim', 'typescript', 'javascript']
+let g:vim_markdown_math = 1
 
 " LATEX SETTINGS -----------------------------------
 let g:vimtex_view_method = 'zathura'

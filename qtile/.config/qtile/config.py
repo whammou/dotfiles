@@ -9,6 +9,8 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 
+focus_on_window_activation = "smart"
+
 mod = "mod4"
 terminal = guess_terminal()
 
@@ -26,6 +28,7 @@ keys = [
             KeyChord([], "q",
                 [
                    EzKey("b", lazy.layout.spawn_split("qb", 'y', position='next')),
+                   EzKey("p", lazy.layout.spawn_split("qb-url", 'y', position='next')),
                    EzKey("d", lazy.layout.spawn_split("discord", 'y', position='next')),
                    EzKey("t", lazy.layout.spawn_split("teams", 'y', position='next')),
                 ]
@@ -59,6 +62,7 @@ keys = [
             KeyChord([],"q",
                 [
                     EzKey("b", lazy.layout.spawn_split("qb", 'x', position='next')),
+                   EzKey("p", lazy.layout.spawn_split("qb-url", 'x', position='next')),
                     EzKey("d", lazy.layout.spawn_split("discord", 'x', position='next')),
                     EzKey("t", lazy.layout.spawn_split("teams", 'x', position='next')),
                 ]
@@ -91,6 +95,7 @@ keys = [
             KeyChord([],"q",
                 [
                     EzKey("b", lazy.layout.spawn_tab("qb")),
+                    EzKey("p", lazy.layout.spawn_tab("qb-url")),
                 ]
             ),
             KeyChord([], "t",
@@ -121,6 +126,7 @@ keys = [
             KeyChord([],"q",
                 [
                     EzKey("b", lazy.layout.spawn_tab("qb", new_level=True)),
+                    EzKey("p", lazy.layout.spawn_tab("qb-url", new_level=True)),
                 ]
             ),
             KeyChord([], "t",
@@ -152,6 +158,7 @@ keys = [
             KeyChord([], "q",
                 [
                    EzKey("b", lazy.layout.spawn_split("qb", 'y', position='previous')),
+                   EzKey("p", lazy.layout.spawn_split("qb-url", 'y', position='previous')),
                 ]
             ),
             KeyChord([], "t",
@@ -182,6 +189,7 @@ keys = [
             KeyChord([],"q",
                 [
                     EzKey("b", lazy.layout.spawn_split("qb", 'x', position='previous')),
+                    EzKey("p", lazy.layout.spawn_split("qb-url", 'x', position='previous')),
                 ]
             ),
             KeyChord([], "t",
@@ -212,16 +220,6 @@ keys = [
 
 
     # Precise motions to move directly to specific tabs at the nearest tab level
-    EzKey("M-S-1", lazy.layout.focus_nth_tab(1, level=-1)),
-    EzKey("M-S-2", lazy.layout.focus_nth_tab(2, level=-1)),
-    EzKey("M-S-3", lazy.layout.focus_nth_tab(3, level=-1)),
-    EzKey("M-S-4", lazy.layout.focus_nth_tab(4, level=-1)),
-    EzKey("M-S-5", lazy.layout.focus_nth_tab(5, level=-1)),
-    EzKey("M-S-6", lazy.layout.focus_nth_tab(6, level=-1)),
-    EzKey("M-S-7", lazy.layout.focus_nth_tab(7, level=-1)),
-    EzKey("M-S-8", lazy.layout.focus_nth_tab(8, level=-1)),
-    EzKey("M-S-9", lazy.layout.focus_nth_tab(9, level=-1)),
-
     # Select tab layer to focus the layer on 
     KeyChord(
             ["mod4"],
@@ -266,6 +264,10 @@ keys = [
     EzKey("A-3", lazy.layout.focus_nth_window(3, ignore_inactive_tabs_at_levels=[1,2,3,4])),
     EzKey("A-4", lazy.layout.focus_nth_window(4, ignore_inactive_tabs_at_levels=[1,2,3,4])),
     EzKey("A-5", lazy.layout.focus_nth_window(5, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-6", lazy.layout.focus_nth_window(6, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-7", lazy.layout.focus_nth_window(7, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-8", lazy.layout.focus_nth_window(8, ignore_inactive_tabs_at_levels=[1,2,3,4])),
+    EzKey("A-9", lazy.layout.focus_nth_window(9, ignore_inactive_tabs_at_levels=[1,2,3,4])),
 
     # Resize operations
     EzKey("M-C-h", lazy.layout.resize("left", 50)),
@@ -372,7 +374,7 @@ keys = [
     ## Toggle between different layouts as defined below
     #Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    #Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
+    Key([mod, 'Shift'], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window",),
     Key([mod], "p", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
@@ -431,6 +433,7 @@ groups = [Group(i) for i in "123456789"]
 #            #     desc="move focused window to group {}".format(i.name)),
 #        ]
 #    )
+
 
 groups.append(ScratchPad("scratchpad", [
     DropDown(
@@ -810,7 +813,6 @@ floating_layout = layout.Floating(
     ]
 )
 auto_fullscreen = False
-focus_on_window_activation = "never"
 reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
