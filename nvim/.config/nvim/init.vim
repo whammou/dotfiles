@@ -1,4 +1,4 @@
-"__     _____ __  __ ____   ____ 
+" __     _____ __  __ ____   ____ 
 " \ \   / /_ _|  \/  |  _ \ / ___|
 "  \ \ / / | || |\/| | |_) | |    
 "   \ V /  | || |  | |  _ <| |___ 
@@ -26,6 +26,13 @@ nnoremap <M-h> Hzb
 nnoremap <M-l> Lzt
 nnoremap zo zMzvzz
 nnoremap <CR> :noh<CR>
+nnoremap <leader>u :let @+ = expand('<cfile>')<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>M :MarksToggleSigns<CR>
+nnoremap <silent> <leader>m :Marks<CR>
+nnoremap <silent> <leader>l :Lines<CR>
+nnoremap <silent> <leader>L :BLines<CR>
+nnoremap <silent> <leader>gl :GetCurrentBranchLink<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
@@ -42,7 +49,7 @@ map <Leader><Leader> <Leader>s
 
 :syntax on
 ":set foldmethod=syntax
-:set shell=/bin/bash
+set shell=/bin/bash
 :set number relativenumber
 :set cursorline
 
@@ -84,6 +91,8 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'kuangliu/vim-easymotion'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'chentoast/marks.nvim'
+Plugin 'knsh14/vim-github-link'
 
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
@@ -110,10 +119,14 @@ let g:onedark_config = {
     \}
 :colorscheme onedark
 
-" STAUS LINE SETTINGS ------------------------------
+" vim-marks SETTINGS -------------------------------
+
+hi MarkSignHL gui=bold guifg=#00FF00
+
+" vim-airline SETTINGS -----------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline_theme = 'onedark'
 let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
