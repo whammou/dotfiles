@@ -1,11 +1,5 @@
-[user]
-	name = whammou
-	email = khoabui.ld99@gmail.com
 [init]
 	defaultBranch = main
-[credential]
-	credentialStore = gpg
-	helper = 
-	helper = /sbin/git-credential-manager
-[credentiall]
-	helper = gcm
+[user]
+	email = khoabui.ld99@gmail.com
+	name = whammou@arch
