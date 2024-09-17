@@ -441,7 +441,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
-        "cpustats", "alacritty --class=monitor -e sudo auto-cpufreq --monitor",
+        "cpustats", "alacritty --class=monitor -e watch-cpu",
         width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
