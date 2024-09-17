@@ -1,13 +1,16 @@
 -- init.lua
 
 require('orgmode').setup({
-  org_agenda_files = {'~/orgmode/*'},
-  org_default_notes_file = '~/orgmode/notes.org',
+  org_agenda_files = {'~/notes/**/*'},
+  org_default_notes_file = '~/notes/todo.org',
+  org_archive_location = './archive/%s_archive::',
+  org_split_mode = {'auto'},
   org_hide_leading_stars = false,
-  org_tags_column = 0,
-  org_use_tag_inheritance = true,
-  org_todo_keywords = {'TODO(t)', 'IN-PROGESS(p)', '|', 'DONE(d)'},
   org_adapt_indentaion = false,
+  org_startup_indented = true,
+  org_use_tag_inheritance = true,
+  org_tags_column = 0,
+  org_todo_keywords = {'TODO(t)', 'IN-PROGESS(p)', '|', 'DONE(d)', 'ABORTED(a)'},
   ui = {
       folds = {
           colored = false
