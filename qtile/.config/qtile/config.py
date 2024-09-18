@@ -442,7 +442,7 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "cpustats", "alacritty --class=monitor -e watch-cpu",
-        width=0.45, height=0.8, x=0.275, y =0.1
+        width=0.45, height=0.2, x=0.275, y =0.4
         ),
     DropDown(
         "undervoltstats", "alacritty --hold --class=monitor -e sudo undervolt --read",
@@ -493,7 +493,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-            "typing", "alacritty --class=racer -o font.size=11.5 -e tt --multi --nohighlight --theme=mine",
+        "typing", "alacritty --class=racer -o font.size=11.5 -e tt --multi --nohighlight --theme=mine",
         width=0.8, height=0.2, x=0.1, y =0.4
         ),
     DropDown(
