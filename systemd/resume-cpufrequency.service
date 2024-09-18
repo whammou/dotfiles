@@ -1,0 +1,10 @@
+[Unit]
+Description=Reset cpu frequency
+After=hibernate.target suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/reset-cpufreq
+
+[Install]
+WantedBy=hibernate.target suspend.target
