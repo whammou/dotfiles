@@ -33,13 +33,15 @@ nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>L :BLines<CR>
 nnoremap <silent> <leader>gl :GetCurrentBranchLink<CR>
+nnoremap <silent> <leader>gf :GFiles<CR>
+nnoremap <silent> <leader>f :Files<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
 map <Leader>p :set spell!<CR>
 map <Leader>g :GripStart<CR>
-map <Leader> <Plug>(easymotion-prefix)
-map <Leader><Leader> <Leader>s
+"map <Leader> <Plug>(easymotion-prefix)
+"map <leader><Leader><Leader> <Leader><leader>s
 
 " Default colorscheme
 ":set termguicolors
@@ -93,6 +95,7 @@ Plugin 'kuangliu/vim-easymotion'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'chentoast/marks.nvim'
 Plugin 'knsh14/vim-github-link'
+Plugin 'farconics/victionary'
 
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
@@ -174,7 +177,7 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 " MARKDOWN SETTINGS --------------------------------
 let g:markdown_folding = 1
 let g:markdown_recommended_style = 0
-let g:mardown_fenced_languages  = ['html', 'pyton', 'lua', 'vim', 'typescript', 'javascript']
+let g:mardown_fenced_languages  = ['html', 'python', 'lua', 'vim', 'typescript', 'javascript']
 let g:vim_markdown_math = 1
 
 " LATEX SETTINGS -----------------------------------
@@ -192,3 +195,4 @@ let g:fzf_vim ={}
 :hi @org.headline.level5 gui=bold guifg=#ae00ff
 :hi @org.agenda.scheduled_past guifg=#ff005c
 :hi @org.keyword.todo gui=reverse guifg=#ffff33
+
