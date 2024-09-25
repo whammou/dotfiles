@@ -1,4 +1,4 @@
 #!/bin/bash
 
-/usr/local/bin/tmux-session
+#/usr/local/bin/tmux-session
 
