@@ -27,9 +27,6 @@ export VMUX_NVIM_SESSION_DIR=~/.cache/nvim_sessions
 export VMUX_GLOBAL=1
 export VMUX_NOT_SELECT_PANE=2
 
-# fzf source
-export FZF_DEFAULT_OPTS_FILE=$HOME/.config/fzf/config
-
 # alias for commands:
 #alias livetex='mkdir .aux/; latexmk --pvc --auxdir=.aux/ --emulate-aux-dir -recorder- --pdf'
 #export LANG=en_US.UTF-8

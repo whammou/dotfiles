@@ -437,7 +437,7 @@ groups = [Group(i) for i in "123456789"]
 
 groups.append(ScratchPad("scratchpad", [
     DropDown(
-        "music", "alacritty --class=music -e ytfzf --type=all --pages=5 --submenu-opts=-ml -sml",
+        "music", "alacritty --class=music -e ytfzf-music",
         width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
@@ -457,11 +457,11 @@ groups.append(ScratchPad("scratchpad", [
         width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
-        "youtube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 --submenu-opts=-l -sl",
+        "youtube", "alacritty --class=music -e ytfzf-video",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "tyoutube", "alacritty --class=music -e ytfzf --type=all --detach --pages=5 --submenu-opts=-tl -stl",
+        "tyoutube", "alacritty --class=music -e ytfzf-thumbnail",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
