@@ -2,8 +2,8 @@
 
 
 require('orgmode').setup({
-  org_agenda_files = {'~/notes/**/*'},
-  org_default_notes_file = '~/notes/todo.org',
+  org_agenda_files = {'~/notes/**/*', '~/notes/git/*'},
+  org_default_notes_file = '~/notes/quick.org',
   org_archive_location = './archive/%s_archive::',
   org_split_mode = {'auto'},
   org_hide_leading_stars = false,
@@ -11,7 +11,7 @@ require('orgmode').setup({
   org_startup_indented = true,
   org_use_tag_inheritance = true,
   org_tags_column = 0,
-  org_todo_keywords = {'TODO(t)','PENDING(p)' , 'IN-PROGRESS(i)', '|', 'DONE(d)', 'ABORTED(a)'},
+  org_todo_keywords = {'TODO(t)','PENDING(p)' , 'DOING(d)', '|', 'DONE(n)', 'ABORTED(a)'},
   ui = {
       folds = {
           colored = false
@@ -56,4 +56,5 @@ require'marks'.setup {
   },
   mappings = {}
 }
+
 

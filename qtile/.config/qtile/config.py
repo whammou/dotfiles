@@ -465,15 +465,15 @@ groups.append(ScratchPad("scratchpad", [
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "lobster", "alacritty --class=music -e lobster -q 1080",
+        "lobster", "alacritty --hold --class=music -e lobsterfzf",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "lobster_trending", "alacritty --class=music -e lobster -t -q 1080",
+        "lobster_trending", "alacritty --class=music -e lobsterfzf_trending",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "ani-cli", "alacritty --class=music -e ani-cli --no-detach -q 1080p",
+        "ani-cli", "alacritty --class=music -e anifzf",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(

@@ -99,24 +99,25 @@ Plugin 'farconics/victionary'
 
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
+
 " Vim-tex
 Plugin 'lervag/vimtex'
 Plugin 'matze/vim-tex-fold'
+
 " Vim-papis
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 "Plugin 'papis/papis-vim'
+
 " Vim-citation
 "Plugin 'rafaqz/citation.vim'
 "Plugin 'Shougo/unite.vim'
+
 " vim-orgmode
-"Plugin 'numirias/semshi'
 Plugin 'nvim-orgmode/orgmode'
 
 call vundle#end()
-
 lua require('init')
-
 let g:onedark_config = {
             \ 'style': 'darkest',
     \}
@@ -139,6 +140,7 @@ let g:airline_section_warning = ''
 
 " YouCompleteMe SETTINGS ---------------------------
 let g:ycm_filetype_blacklist = {}
+
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
