@@ -16,6 +16,7 @@ export TERM=xterm-256color
 
 # Fish FZF settings
 set fzf_fd_opts --hidden
+fzf --fish | source
 
 # set Neovim as default text editor
 export VISUAL=nvim

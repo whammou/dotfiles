@@ -43,7 +43,7 @@ progress_bar_max_width = 400
 timeout = 10
 background = "#282c34"
 foreground = "#abb2bf"
-frame_color = "#00ffff"
+frame_color = "#00ff00"
 
 [urgency_normal]
 timeout = 10

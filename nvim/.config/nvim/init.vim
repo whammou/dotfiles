@@ -32,16 +32,23 @@ nnoremap <silent> <leader>M :MarksToggleSigns<CR>
 nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>L :BLines<CR>
-nnoremap <silent> <leader>gl :GetCurrentBranchLink<CR>
-nnoremap <silent> <leader>gf :GFiles<CR>
 nnoremap <silent> <leader>f :Files<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
 map <Leader>p :set spell!<CR>
-map <Leader>g :GripStart<CR>
-"map <Leader> <Plug>(easymotion-prefix)
-"map <leader><Leader><Leader> <Leader><leader>s
+map <Leader>G :GripStart<CR>
+
+" Git related keybinds
+nnoremap <silent> <leader>gu :GetCurrentBranchLink<CR>
+nnoremap <silent> <leader>gl :GFiles<CR>
+nnoremap <silent> <leader>gs :Git<CR>
+nnoremap <silent> <leader>gdx :Gvdiffsplit!<CR>
+nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
+nnoremap <silent> <leader>gf :G fetch<CR>
+nnoremap <silent> <leader>gm :G merge<CR>
+nnoremap <silent> <leader>gp :G pull<CR>
+
 
 " Default colorscheme
 ":set termguicolors

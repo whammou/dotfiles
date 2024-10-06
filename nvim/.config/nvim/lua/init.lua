@@ -11,7 +11,7 @@ require('orgmode').setup({
   org_startup_indented = true,
   org_use_tag_inheritance = true,
   org_tags_column = 0,
-  org_todo_keywords = {'TODO(t)','PENDING(p)' , 'DOING(d)', '|', 'DONE(n)', 'ABORTED(a)'},
+  org_todo_keywords = {'TODO(t)','PENDING(p)' , 'DOING(d)', '|', 'DONE(f)', 'ABORTED(a)'},
   ui = {
       folds = {
           colored = false

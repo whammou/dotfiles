@@ -18,6 +18,15 @@ keys = [
 
 	Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
 
+    # Screenshot keybindings
+    KeyChord(
+        ["mod4"],
+        "s",
+        [
+            EzKey("s", lazy.spawn("flameshot gui")),
+        ]
+    ),
+
     # Open your terminal emulator quickly. See further below for how to
     # directly open other apps as splits/tabs using something like rofi.
 
@@ -230,6 +239,10 @@ keys = [
             EzKey("3", lazy.layout.focus_nth_tab(3, level=1)),
             EzKey("4", lazy.layout.focus_nth_tab(4, level=1)),
             EzKey("5", lazy.layout.focus_nth_tab(5, level=1)),
+            EzKey("6", lazy.layout.focus_nth_tab(6, level=1)),
+            EzKey("7", lazy.layout.focus_nth_tab(7, level=1)),
+            EzKey("8", lazy.layout.focus_nth_tab(8, level=1)),
+            EzKey("9", lazy.layout.focus_nth_tab(9, level=1)),
             ]
         ),  
 
@@ -242,6 +255,10 @@ keys = [
             EzKey("3", lazy.layout.focus_nth_tab(3, level=2)),
             EzKey("4", lazy.layout.focus_nth_tab(4, level=2)),
             EzKey("5", lazy.layout.focus_nth_tab(5, level=2)),
+            EzKey("6", lazy.layout.focus_nth_tab(6, level=2)),
+            EzKey("7", lazy.layout.focus_nth_tab(7, level=2)),
+            EzKey("8", lazy.layout.focus_nth_tab(8, level=2)),
+            EzKey("9", lazy.layout.focus_nth_tab(9, level=2)),
             ]
         ),  
 
@@ -254,6 +271,10 @@ keys = [
             EzKey("3", lazy.layout.focus_nth_tab(3, level=3)),
             EzKey("4", lazy.layout.focus_nth_tab(4, level=3)),
             EzKey("5", lazy.layout.focus_nth_tab(5, level=3)),
+            EzKey("6", lazy.layout.focus_nth_tab(6, level=3)),
+            EzKey("7", lazy.layout.focus_nth_tab(7, level=3)),
+            EzKey("8", lazy.layout.focus_nth_tab(8, level=3)),
+            EzKey("9", lazy.layout.focus_nth_tab(9, level=3)),
             ]
         ),  
 
@@ -505,8 +526,8 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1, opacity=1
         ),
     DropDown(
-        "terminal",
-        terminal, width=0.8, height=0.8, x=0.1, y =0.1
+        "tmux", "alacritty -e tmux new -AD -s 0", 
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "powermenu", "alacritty --class=powermenu -e power-menu",
@@ -554,6 +575,7 @@ keys.extend([
     Key([mod, "control"], "d", lazy.group['scratchpad'].dropdown_toggle('drawing')),
     Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
     Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+    Key([mod, "Control"], "t", lazy.group['scratchpad'].dropdown_toggle('tmux')),
 
     KeyChord([mod], "f", [
         Key([], "h", lazy.group['scratchpad'].dropdown_toggle('yazi')),
