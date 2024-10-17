@@ -48,6 +48,7 @@ c.url.searchengines = { "DEFAULT" : "https://opnxng.com/search?q={}",
                        "g" : "https://www.google.com/search?q={}",
                        "y" : "https://www.youtube.com/results?search_query={}",
                        "wa" : "https://wiki.archlinux.org/?search={}",
+                       "lg" : "https://libgen.li/index.php?req={}"
                        }
 c.url.start_pages = ['https://nimplex.github.io/Minimal-StartPage']
 config.set('url.default_page', 'https://nimplex.github.io/Minimal-StartPage')

@@ -9,8 +9,6 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 
-focus_on_window_activation = "smart"
-
 mod = "mod4"
 terminal = guess_terminal()
 
@@ -515,7 +513,7 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "typing", "alacritty --class=racer -o font.size=11.5 -e tt --multi --nohighlight --theme=mine",
-        width=0.8, height=0.2, x=0.1, y =0.4
+        width=0.8, height=0.2, x=0.1, y =0.8
         ),
     DropDown(
         "drawing", "rnote",
@@ -562,13 +560,12 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://mytimetable.rmit.edu.vn/even/student?ss=70b876e2e1fb477da39d8f828ddac455#timetable/grid",
+        "orgmode-agenda", "alacritty -e tmux -c orgmode",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
 ]))
 
 keys.extend([
-    Key([mod], "g", lazy.group['scratchpad'].dropdown_toggle('shellgpt')),
     Key([mod], "F8", lazy.group['scratchpad'].dropdown_toggle('nmfzf')),
     Key([mod], "F12", lazy.group['scratchpad'].dropdown_toggle('adapter')),
     Key([mod], "Delete", lazy.group['scratchpad'].dropdown_toggle('powermenu')),
@@ -576,6 +573,10 @@ keys.extend([
     Key([mod, "control"], "p", lazy.group['scratchpad'].dropdown_toggle('mpv')),
     Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
     Key([mod, "Control"], "t", lazy.group['scratchpad'].dropdown_toggle('tmux')),
+
+    KeyChord([mod, "control"], "o", [
+        Key([], "a", lazy.group['scratchpad'].dropdown_toggle('orgmode-agenda')),
+        ]),
 
     KeyChord([mod], "f", [
         Key([], "h", lazy.group['scratchpad'].dropdown_toggle('yazi')),
@@ -836,6 +837,7 @@ floating_layout = layout.Floating(
 )
 auto_fullscreen = False
 reconfigure_screens = True
+focus_on_window_activation = 'never'
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?

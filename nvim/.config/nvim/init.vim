@@ -43,11 +43,12 @@ map <Leader>G :GripStart<CR>
 nnoremap <silent> <leader>gu :GetCurrentBranchLink<CR>
 nnoremap <silent> <leader>gl :GFiles<CR>
 nnoremap <silent> <leader>gs :Git<CR>
-nnoremap <silent> <leader>gdx :Gvdiffsplit!<CR>
-nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
 nnoremap <silent> <leader>gf :G fetch<CR>
 nnoremap <silent> <leader>gm :G merge<CR>
 nnoremap <silent> <leader>gp :G pull<CR>
+nnoremap <silent> <leader>gc :G commit %<CR>
+nnoremap <silent> <leader>gdx :Gvdiffsplit!<CR>
+nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
 
 
 " Default colorscheme
@@ -103,6 +104,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'chentoast/marks.nvim'
 Plugin 'knsh14/vim-github-link'
 Plugin 'farconics/victionary'
+Plugin 'wolandark/vim-piper'
 
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
