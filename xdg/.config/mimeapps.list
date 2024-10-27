@@ -3,3 +3,4 @@
 application/pdf=org.pwmt.zathura.desktop
 image/png=vimiv.desktop
 image/jpeg=vimiv.desktop
+application/vnd.oasis.opendocument.text=zaread.desktop

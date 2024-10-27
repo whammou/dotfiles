@@ -548,15 +548,35 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "discord", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
+        "discord", "qutebrowser --target=window -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "beeper", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://chat.beeper.com/",
+        "beeper", "qutebrowser --target=window -B /home/whammou/.config/qutebrowser/app/ https://chat.beeper.com/",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "timetable", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://mytimetable.rmit.edu.vn/even/student?ss=10fe64c71a47493a90682102761a492e#timetable/grid'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "gdocs", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://docs.google.com/document/u/0/'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "gsheets", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://docs.google.com/spreadsheets/u/0/'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "gslides", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://docs.google.com/presentation/u/0/'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "canvas", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://myapps.rmit.edu.au/nidp/saml2/sso?SAMLRequest=fVJbT8IwFH73Vyx97%2B4BabYlCDGSoC4wffDFlO0ATbZ29rRe%2Fr1laMQHeD39buc7zZB3bc%2Bm1uzlCt4soPE%2Bu1YiGx5yYrVkiqNAJnkHyEzN1tP7JYv9kPVaGVWrlpxQLjM4ImgjlCTeYp6T1ybi4SSJgCZjzmk6ueZ0UycjmsaTybZpxuloMyLeM2h0nJw4CUdEtLCQaLg0bhTGKY1CGsdVFLMkYkn8Qry520NIbgbW3pgeWRB0X7zv0dedMD401uc2kKLpg0PsOEBUxJv%2B5pspibYDvQb9Lmp4Wi3%2FdAYB4QJoWxurwa9VF7RqJ%2BQgRbzyp5cbIRshd5cr2RxByO6qqqTl47oiRXbQYcOiujjYnnMdomfBKTw7XvTBGS3mpWpF%2FeXdKt1xcz5H5EfDRDR0O0CZldhDLbYCGtdK26qPmQZuICfOH0hQHE3%2F%2F5zi6hs%3D'",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
@@ -604,10 +624,16 @@ keys.extend([
 
     KeyChord([mod, "Control"], "q", [
         Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
+        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('canvas')),
         Key([], "p", lazy.group['scratchpad'].dropdown_toggle('beeper')),
         Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams')),
         Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable')),
+        KeyChord([], "g", [
+            Key([], "d", lazy.group['scratchpad'].dropdown_toggle('gdocs')),
+            Key([], "s", lazy.group['scratchpad'].dropdown_toggle('gsheets')),
+            Key([], "p", lazy.group['scratchpad'].dropdown_toggle('gslides')),
+            ]),
         ]),
 ])
 
