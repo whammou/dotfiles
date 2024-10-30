@@ -8,7 +8,7 @@
 
 lua vim.loader.enable()
 let g:python3_host_prog = '/usr/bin/python3'
-
+let g:loaded_perl_provider = 0
 
 " SETTINGS GO HERE------------------------------
 
@@ -105,9 +105,12 @@ Plugin 'chentoast/marks.nvim'
 Plugin 'knsh14/vim-github-link'
 Plugin 'farconics/victionary'
 Plugin 'wolandark/vim-piper'
+Plugin 'echasnovski/mini.nvim'
+Plugin 'nvim-treesitter/nvim-treesitter'
 
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
+Plugin 'MeanderingProgrammer/render-markdown.nvim'
 
 " Vim-tex
 Plugin 'lervag/vimtex'
@@ -207,3 +210,4 @@ let g:fzf_vim ={}
 :hi @org.agenda.scheduled_past guifg=#ff005c
 :hi @org.keyword.todo gui=reverse guifg=#ffff33
 
+lua require'nvim-treesitter.configs'.setup{ ensure_installed = { "latex" },highlight={enable=true} }

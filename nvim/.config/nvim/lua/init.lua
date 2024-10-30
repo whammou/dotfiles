@@ -57,4 +57,3 @@ require'marks'.setup {
   mappings = {}
 }
 
-
