@@ -1,0 +1,8 @@
+#+TITLE: Installation Instruction
+#+DESCRIPTION: Install xdg desktop entry to system 
+
+* Installation
+
+~xdg~ desktop entries are stored under ~/usr/share/applications~
+run ~stow --verbose --adopt --no-folding --target=/usr/share/applications/ xdg-desktop/~ to install 
+
