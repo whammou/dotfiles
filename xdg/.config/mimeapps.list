@@ -4,3 +4,5 @@ application/pdf=org.pwmt.zathura.desktop
 image/png=vimiv.desktop
 image/jpeg=vimiv.desktop
 application/vnd.oasis.opendocument.text=zaread.desktop
+application/vnd.oasis.opendocument.spreadsheet=zaread.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=zaread.desktop

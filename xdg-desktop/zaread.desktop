@@ -2,8 +2,8 @@
 Version=1.0
 Name=Zaread
 Comment=zaread is a package that converts office file to pdf and pipe to a pdf reader
-Exec=/usr/local/bin/zaread
-Terminal=true
+Exec=zaread %U
+Terminal=false
 Type=Application
-MimeType=application/clarisworks;vnd.oasis.opendocument.text
-Categories=Office
+MimeType=application/vnd.oasis.opendocument.text
+Categories=Viewer
