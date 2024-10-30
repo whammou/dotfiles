@@ -536,11 +536,11 @@ groups.append(ScratchPad("scratchpad", [
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
-        "samba-mount", "alacritty --class=pwd_prompt -o font.size=10 -e sh .scripts/smb-mount",
+        "samba-mount", "alacritty --class=pwd_prompt -o font.size=10 -e sh smb-mount",
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
-        "samba-umount", "alacritty --class=pwd_prompt -o font.size=10 -e sh .scripts/smb-umount",
+        "samba-umount", "alacritty --class=pwd_prompt -o font.size=10 -e sh smb-umount",
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
@@ -557,6 +557,10 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "teams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "ms-streams", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://www.microsoft365.com/launch/stream?auth=2'",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
@@ -628,12 +632,14 @@ keys.extend([
         Key([], "p", lazy.group['scratchpad'].dropdown_toggle('beeper')),
         Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams')),
+        Key([], "m", lazy.group['scratchpad'].dropdown_toggle('ms-streams')),
         Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable')),
-        KeyChord([], "g", [
-            Key([], "d", lazy.group['scratchpad'].dropdown_toggle('gdocs')),
-            Key([], "s", lazy.group['scratchpad'].dropdown_toggle('gsheets')),
-            Key([], "p", lazy.group['scratchpad'].dropdown_toggle('gslides')),
-            ]),
+        ]),
+
+    KeyChord([mod, "Control"], "g", [
+        Key([], "d", lazy.group['scratchpad'].dropdown_toggle('gdocs')),
+        Key([], "s", lazy.group['scratchpad'].dropdown_toggle('gsheets')),
+        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('gslides')),
         ]),
 ])
 
