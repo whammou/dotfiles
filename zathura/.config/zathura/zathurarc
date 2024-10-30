@@ -1,5 +1,6 @@
 set recolor true
 set guioptions None
+set selection-clipboard clipboard
 
 set default-fg 			    "#93a4c3"
 set default-bg 			    "#000000"
