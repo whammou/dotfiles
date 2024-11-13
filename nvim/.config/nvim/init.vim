@@ -33,6 +33,7 @@ nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>L :BLines<CR>
 nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>R :RG<CR>
 
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
@@ -107,6 +108,7 @@ Plugin 'farconics/victionary'
 Plugin 'wolandark/vim-piper'
 Plugin 'echasnovski/mini.nvim'
 Plugin 'nvim-treesitter/nvim-treesitter'
+Plugin 'duane9/nvim-rg'
 
 " vim-markdown
 Plugin 'PratikBhusal/vim-grip'
