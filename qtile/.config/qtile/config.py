@@ -568,6 +568,10 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
+        "myRMIT", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://www.rmit.edu.vn/students'",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
         "gdocs", "qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://docs.google.com/document/u/0/'",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
@@ -634,6 +638,7 @@ keys.extend([
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams')),
         Key([], "m", lazy.group['scratchpad'].dropdown_toggle('ms-streams')),
         Key([], "i", lazy.group['scratchpad'].dropdown_toggle('timetable')),
+        Key([], "r", lazy.group['scratchpad'].dropdown_toggle('myRMIT')),
         ]),
 
     KeyChord([mod, "Control"], "g", [
