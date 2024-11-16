@@ -133,7 +133,7 @@ Plug 'nvim-orgmode/orgmode'
 call plug#end()
 lua require('init')
 let g:onedark_config = {
-            \ 'style': 'darker',
+            \ 'style': 'darkest',
     \}
 :colorscheme onedark
 
