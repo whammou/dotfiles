@@ -81,59 +81,59 @@ set shell=/bin/bash
 :set cmdheight=0
 :set showtabline=1
 :set nomore
-set rtp+=~/.vim/bundle/Vundle.vim
+"set rtp+=~/.vim/bundle/Vundle.vim
 
 " PLUGINS-------------------------------------------
 
 
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.config/nvim/vim-plug')
+"Plug 'VundleVim/Vundle.vim'
 
-Plugin 'tpope/vim-fugitive'
-Plugin 'navarasu/onedark.nvim'
-Plugin 'chrisbra/Colorizer'
-Plugin 'willchao612/vim-diagon'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'kuangliu/vim-easymotion'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'chentoast/marks.nvim'
-Plugin 'knsh14/vim-github-link'
-Plugin 'farconics/victionary'
-Plugin 'wolandark/vim-piper'
-Plugin 'echasnovski/mini.nvim'
-Plugin 'nvim-treesitter/nvim-treesitter'
-Plugin 'duane9/nvim-rg'
+Plug 'tpope/vim-fugitive'
+Plug 'navarasu/onedark.nvim'
+Plug 'chrisbra/Colorizer'
+Plug 'willchao612/vim-diagon'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'kuangliu/vim-easymotion'
+Plug 'jiangmiao/auto-pairs'
+Plug 'chentoast/marks.nvim'
+Plug 'knsh14/vim-github-link'
+Plug 'farconics/victionary'
+Plug 'wolandark/vim-piper'
+Plug 'echasnovski/mini.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'duane9/nvim-rg'
 
 " vim-markdown
-Plugin 'PratikBhusal/vim-grip'
-Plugin 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'PratikBhusal/vim-grip'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 
 " Vim-tex
-Plugin 'lervag/vimtex'
-Plugin 'matze/vim-tex-fold'
+Plug 'lervag/vimtex'
+Plug 'matze/vim-tex-fold'
 
 " Vim-papis
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-"Plugin 'papis/papis-vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+"Plug 'papis/papis-vim'
 
 " Vim-citation
-"Plugin 'rafaqz/citation.vim'
-"Plugin 'Shougo/unite.vim'
+"Plug 'rafaqz/citation.vim'
+"Plug 'Shougo/unite.vim'
 
 " vim-orgmode
-Plugin 'nvim-orgmode/orgmode'
+Plug 'nvim-orgmode/orgmode'
 
-call vundle#end()
+call plug#end()
 lua require('init')
 let g:onedark_config = {
-            \ 'style': 'darkest',
+            \ 'style': 'darker',
     \}
 :colorscheme onedark
 
