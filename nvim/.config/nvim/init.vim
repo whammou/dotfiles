@@ -54,9 +54,9 @@ nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
 
 " Default colorscheme
 ":set termguicolors
-":filetype on
-":filetype plugin on
-":filetype indent on
+:filetype on
+:filetype plugin on
+:filetype indent on
 
 :syntax on
 ":set foldmethod=syntax
@@ -111,7 +111,7 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'duane9/nvim-rg'
 
 " vim-markdown
-Plug 'PratikBhusal/vim-grip'
+Plug 'PratikBhusal/vim-grip', {'for': 'markdown'}
 Plug 'MeanderingProgrammer/render-markdown.nvim'
 
 " Vim-tex
@@ -129,6 +129,8 @@ Plug 'junegunn/fzf.vim'
 
 " vim-orgmode
 Plug 'nvim-orgmode/orgmode'
+Plug 'lukas-reineke/headlines.nvim'
+Plug 'nvim-orgmode/org-bullets.nvim'
 
 call plug#end()
 lua require('init')
