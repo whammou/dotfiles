@@ -87,7 +87,6 @@ set shell=/bin/bash
 
 
 call plug#begin('~/.config/nvim/vim-plug')
-"Plug 'VundleVim/Vundle.vim'
 
 Plug 'tpope/vim-fugitive'
 Plug 'navarasu/onedark.nvim'
@@ -96,10 +95,21 @@ Plug 'willchao612/vim-diagon'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" Vim cpm config
 Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
 Plug 'kuangliu/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chentoast/marks.nvim'
