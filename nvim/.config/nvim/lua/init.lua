@@ -18,3 +18,4 @@ require('orgmode').setup({
 })
 
 require'marks'.setup()
+require'lspconfig'.pyright.setup{}

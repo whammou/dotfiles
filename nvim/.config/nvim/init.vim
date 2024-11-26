@@ -10,8 +10,8 @@ lua vim.loader.enable()
 let g:python3_host_prog = '/usr/bin/python3'
 let g:loaded_perl_provider = 0
 
-" SETTINGS GO HERE------------------------------
 
+" SETTINGS --------------------------------------
 " Key binds
 
 let mapleader=" "
@@ -51,7 +51,6 @@ nnoremap <silent> <leader>gc :G commit %<CR>
 nnoremap <silent> <leader>gdx :Gvdiffsplit!<CR>
 nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
 
-
 " Default colorscheme
 ":set termguicolors
 :filetype on
@@ -81,16 +80,14 @@ set shell=/bin/bash
 :set cmdheight=0
 :set showtabline=1
 :set nomore
-"set rtp+=~/.vim/bundle/Vundle.vim
+
 
 " PLUGINS-------------------------------------------
-
 
 call plug#begin('~/.config/nvim/vim-plug')
 Plug 'tpope/vim-fugitive'
 Plug 'navarasu/onedark.nvim'
 Plug 'chrisbra/Colorizer'
-Plug 'willchao612/vim-diagon'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -103,6 +100,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'neovim/nvim-lspconfig'
+
 Plug 'kuangliu/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chentoast/marks.nvim'
@@ -114,12 +113,13 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'duane9/nvim-rg'
 
 " vim-markdown
+Plug 'willchao612/vim-diagon', {'for': 'markdown'}
 Plug 'PratikBhusal/vim-grip', {'for': 'markdown'}
 Plug 'MeanderingProgrammer/render-markdown.nvim'
 
 " Vim-tex
-Plug 'lervag/vimtex'
-Plug 'matze/vim-tex-fold'
+Plug 'lervag/vimtex', {'for': 'tex'}
+Plug 'matze/vim-tex-fold', {'for': 'tex'}
 
 " Vim-papis
 Plug 'junegunn/fzf'
@@ -132,13 +132,15 @@ Plug 'junegunn/fzf.vim'
 
 " vim-orgmode
 Plug 'nvim-orgmode/orgmode'
-Plug 'lukas-reineke/headlines.nvim'
-Plug 'nvim-orgmode/org-bullets.nvim'
+Plug 'lukas-reineke/headlines.nvim', {'for': 'org'}
+Plug 'nvim-orgmode/org-bullets.nvim', {'for': 'org'}
 call plug#end()
 lua require('init')
-let g:onedark_config = {
-            \ 'style': 'darkest',
-    \}
+
+
+" vim-onedark CONFIGS ------------------------------
+
+let g:onedark_config = {'style': 'darkest'}
 :colorscheme onedark
 
 " vim-marks SETTINGS -------------------------------
