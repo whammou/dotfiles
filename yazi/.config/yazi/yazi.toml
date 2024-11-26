@@ -1,0 +1,26 @@
+# yazi configs
+[opener]
+edit = [
+    { run = 'nvim "$@"', block = true, for = 'unix' },
+]
+url_opener = [
+    { run = 'open-url "$@"', block = false, for = 'unix' },
+]
+open = [
+    { run = 'xdg-open "$@"' ,block = false, for = 'unix' }
+]
+
+[open]
+prepend_rules = [
+    { name = "*.url", use = 'url_opener' },
+    { name = "*.html", use = 'open' },
+]
+
+
+# Disable preloaders and previewer for /server
+[[plugin.prepend_previewers]]
+name = "/server/**"
+run = "noop"
+[[plugin.prepend_preloaders]]
+name = "/server/**"
+run = "noop"
