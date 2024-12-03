@@ -10,6 +10,13 @@ require('orgmode').setup({
   org_use_tag_inheritance = true,
   org_tags_column = 0,
   org_todo_keywords = {'TODO(t)','PENDING(p)' , 'DOING(d)', '|', 'DONE(f)', 'ABORTED(a)'},
+
+  mappings = {
+      org = {
+          org_cycle = false,
+      },
+  },
+
   ui = {
       folds = {
           colored = false
@@ -17,5 +24,25 @@ require('orgmode').setup({
   },
 })
 
+require'image'.setup({
+    backend = 'kitty',
+    processor = 'magick_cli',
+    integrations = {
+        markdown = {
+            enabled = true,
+            clear_in_insert_mode = true,
+            only_render_image_at_cursor = true,
+            filtypes = { "markdown", "html" },
+        },
+        html = {
+            enabled = true,
+            clear_in_insert_mode = true,
+            only_render_image_at_cursor = true,
+            filetypes = { "markdown" },
+        },
+    },
+    max_width_window_percentage = 80,
+    max_height_window_percentage = 80,
+})
+
 require'marks'.setup()
-require'lspconfig'.pyright.setup{}

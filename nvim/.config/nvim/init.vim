@@ -100,17 +100,15 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'neovim/nvim-lspconfig'
-
 Plug 'kuangliu/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chentoast/marks.nvim'
-Plug 'knsh14/vim-github-link'
-Plug 'farconics/victionary'
+Plug 'knsh14/vim-github-link', {'for': ['markdown', 'org']}
 Plug 'wolandark/vim-piper'
 Plug 'echasnovski/mini.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'duane9/nvim-rg'
+Plug '3rd/image.nvim', {'for': ['markdown', 'org']}
 
 " vim-markdown
 Plug 'willchao612/vim-diagon', {'for': 'markdown'}
@@ -120,6 +118,14 @@ Plug 'MeanderingProgrammer/render-markdown.nvim'
 " Vim-tex
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'matze/vim-tex-fold', {'for': 'tex'}
+
+" " telescope
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
+" 
+" " telescope-plugin
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-telescope/telescope-media-files.nvim'
 
 " Vim-papis
 Plug 'junegunn/fzf'
@@ -218,4 +224,4 @@ let g:fzf_vim ={}
 :hi @org.agenda.scheduled_past guifg=#ff005c
 :hi @org.keyword.todo gui=reverse guifg=#ffff33
 
-lua require'nvim-treesitter.configs'.setup{ ensure_installed = { "latex" },highlight={enable=true} }
+lua require'nvim-treesitter.configs'.setup{ ensure_installed = { "latex", "html", "org"},highlight={enable=true} }
