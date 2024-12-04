@@ -24,6 +24,7 @@ require('orgmode').setup({
   },
 })
 
+
 require'image'.setup({
     backend = 'kitty',
     processor = 'magick_cli',
@@ -44,5 +45,6 @@ require'image'.setup({
     max_width_window_percentage = 80,
     max_height_window_percentage = 80,
 })
+
 
 require'marks'.setup()

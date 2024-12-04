@@ -100,11 +100,13 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+" nvim-tts
+" Plug 'wolandark/vim-piper'
+
 Plug 'kuangliu/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chentoast/marks.nvim'
 Plug 'knsh14/vim-github-link', {'for': ['markdown', 'org']}
-Plug 'wolandark/vim-piper'
 Plug 'echasnovski/mini.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'duane9/nvim-rg'
