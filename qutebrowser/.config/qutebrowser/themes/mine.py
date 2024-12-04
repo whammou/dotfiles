@@ -29,7 +29,7 @@ bg_warning = "#ae00ff"          # purple
 # SETTINGS #
 ############
 
-c.fonts.default_size = '15pt'
+c.fonts.default_size = '13pt'
 c.colors.webpage.preferred_color_scheme = 'dark'
 
 # Text color of the completion widget. May be a single color to use for

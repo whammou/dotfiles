@@ -512,7 +512,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "typing", "kitty --class=racer -o font_size=25 -e tt --multi --nohighlight --theme=mine",
+        "typing", "kitty --class=racer -o font_size=20 -e tt --multi --nohighlight --theme=mine",
         width=0.8, height=0.2, x=0.1, y =0.8
         ),
     DropDown(
@@ -765,7 +765,7 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '   {char}  {percent:2.0%}  ',
+                    format = '  {char} {percent:2.0%} ',
                     low_percent = 0.4,
                     notify_below = 0.45,
                     update_interval = 60,
@@ -782,11 +782,11 @@ screens = [
                     full_char = '',
                     empty_char = '󱉝',
                     show_short_text = False,
-                    format = '❮    {char}  {percent:2.0%} ',
+                    format = '❮  {char} {percent:2.0%} ',
                     low_percent = 0.4,
                     notify_below = 0.45,
                     update_interval = 60,
-                    padding = 10,
+                    padding = 5,
                     **powerline
                 ),
 
@@ -797,7 +797,7 @@ screens = [
                     colour_no_updates = '000000',
                     distro='Arch',
 				  	fmt = "    {}  ",
-                    padding = 10,
+                    padding = 0,
                     no_update_string ="Up to date",
                     update_interval = 360,
                     **powerline
@@ -806,14 +806,14 @@ screens = [
                 widget.Wlan(
                     background = '00FFFF',
                     foreground = '000000',
-                    format = '     {percent:1.0%}  ',
+                    format = '   {percent:1.0%} ',
                     update_interval = 60,
                 ),
 
                 widget.Backlight(
 					background = '00FFFF',
                     foreground = '000000',
-                    format = '❮    󰃞   {percent:2.0%}  ',
+                    format = '❮  󰃞 {percent:2.0%}  ',
                     backlight_name = 'intel_backlight',
                     **powerline
                 ),
@@ -823,7 +823,7 @@ screens = [
 					foreground = '000000',
 					fmt = "    {}  ",
 					format="%I:%M %p",
-					padding = 10,
+					padding = 0,
                     **powerline
 				),
 
