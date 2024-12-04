@@ -456,63 +456,63 @@ groups = [Group(i) for i in "123456789"]
 
 groups.append(ScratchPad("scratchpad", [
     DropDown(
-        "music", "alacritty --class=music -e ytfzf-music",
+        "music", "kitty --class=music -e ytfzf-music",
         width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
-        "cpustats", "alacritty --class=monitor -e watch-cpu",
+        "cpustats", "kitty --class=monitor -e watch-cpu",
         width=0.45, height=0.2, x=0.275, y =0.4
         ),
     DropDown(
-        "undervoltstats", "alacritty --hold --class=monitor -e sudo undervolt --read",
+        "undervoltstats", "kitty --hold --class=monitor -e sudo undervolt --read",
         width=0.45, height=0.2, x=0.275, y =0.4
         ),
     DropDown(
-        "nmfzf", "alacritty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
+        "nmfzf", "kitty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
          width=0.45, height=0.8, x=0.275, y =0.1, on_focus_lost_hide = False
          ),
     DropDown(
-        "calculator", "alacritty --class=calc  -e .venv/calculator/bin/python -i /usr/local/bin/calc",
+        "calculator", "kitty --class=calc  -e .venv/calculator/bin/python -i /usr/local/bin/calc",
         width=0.45, height=0.8, x=0.275, y =0.1
         ),
     DropDown(
-        "youtube", "alacritty --class=music -e ytfzf-video",
+        "youtube", "kitty --class=music -e ytfzf-video",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "tyoutube", "alacritty --class=music -e ytfzf-thumbnail",
+        "tyoutube", "kitty --class=music -e ytfzf-thumbnail",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "lobster", "alacritty --hold --class=music -e lobsterfzf",
+        "lobster", "kitty --hold --class=music -e lobsterfzf",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "lobster_trending", "alacritty --class=music -e lobsterfzf_trending",
+        "lobster_trending", "kitty --class=music -e lobsterfzf_trending",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "ani-cli", "alacritty --class=music -e anifzf",
+        "ani-cli", "kitty --class=music -e anifzf",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "shellgpt", "alacritty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc",
+        "shellgpt", "kitty --class=shellgpt -e bash --rcfile ~/.config/shell_gpt/bashrc",
         width=0.6, height=0.6, x=0.2, y =0.2
         ),
     DropDown(
-        "yazi", "alacritty --class=file -e yazi $HOME",
+        "yazi", "kitty --class=file -e yazi $HOME",
         width=0.6, height=0.6, x=0.2, y =0.2
         ),
     DropDown(
-        "yazis", "alacritty --class=file -e yazi /server/",
+        "yazis", "kitty --class=file -e yazi /server/",
         width=0.6, height=0.6, x=0.2, y =0.2
         ),
     DropDown(
-        "bottom", "alacritty --class=monitor -e btm",
+        "bottom", "kitty --class=monitor -e btm",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "typing", "alacritty --class=racer -o font.size=11.5 -e tt --multi --nohighlight --theme=mine",
+        "typing", "kitty --class=racer -o font_size=20 -e tt --multi --nohighlight --theme=mine",
         width=0.8, height=0.2, x=0.1, y =0.8
         ),
     DropDown(
@@ -524,23 +524,23 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1, opacity=1
         ),
     DropDown(
-        "tmux", "alacritty -e tmux new -AD -s 0", 
+        "tmux", "kitty -e tmux new -AD -s 0", 
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "powermenu", "alacritty --class=powermenu -e power-menu",
+        "powermenu", "kitty --class=powermenu -e power-menu",
         width=0.1, height=0.2, x=0.45, y =0.4
         ),
     DropDown(
-        "adapter", "alacritty --class=pwd_prompt -o font.size=10 -e adapter-switch",
+        "adapter", "kitty --class=pwd_prompt -o font.size=10 -e adapter-switch",
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
-        "samba-mount", "alacritty --class=pwd_prompt -o font.size=10 -e sh smb-mount",
+        "samba-mount", "kitty --class=pwd_prompt -o font.size=10 -e sh smb-mount",
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
-        "samba-umount", "alacritty --class=pwd_prompt -o font.size=10 -e sh smb-umount",
+        "samba-umount", "kitty --class=pwd_prompt -o font.size=10 -e sh smb-umount",
         width=0.45, height=0.04, x=0.275, y =0.48
         ),
     DropDown(
@@ -588,7 +588,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "orgmode-agenda", "alacritty -e tmux -c orgmode",
+        "orgmode-agenda", "kitty -e tmux -c orgmode",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
 ]))
