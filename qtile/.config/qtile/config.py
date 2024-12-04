@@ -512,7 +512,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "typing", "kitty --class=racer -o font_size=20 -e tt --multi --nohighlight --theme=mine",
+        "typing", "kitty --class=racer -o font_size=25 -e tt --multi --nohighlight --theme=mine",
         width=0.8, height=0.2, x=0.1, y =0.8
         ),
     DropDown(
