@@ -1,8 +1,12 @@
 
 [Default Applications]
 application/pdf=org.pwmt.zathura.desktop
-image/png=vimiv.desktop
-image/jpeg=vimiv.desktop
+application/epub+zip=org.pwmt.zathura.desktop
 application/vnd.oasis.opendocument.text=zaread.desktop
 application/vnd.oasis.opendocument.spreadsheet=zaread.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=zaread.desktop
+
+image/png=vimiv.desktop
+image/jpeg=vimiv.desktop
+
+text/plain=nvim.desktop

@@ -517,7 +517,7 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "drawing", "rnote",
-        width=0.8, height=0.8, x=0.1, y =0.1, on_focus_lost_hide=False
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "mpv", "mpv /tmp/open &",
