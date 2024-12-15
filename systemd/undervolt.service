@@ -4,7 +4,7 @@ Before=shutdown.target
 
 [Service]
 Type=oneshot
-ExecStart=undervolt --verbose --core -121 --cache -121 --uncore -121 --gpu -110 --analogio -110
+ExecStart=undervolt --verbose --core -121 --cache -121 --uncore -121 --gpu -105 --analogio -110
 ExecStop=undervolt --verbose --core 0 --cache 0 --uncore 0 --gpu 0 --analogio 0
 RemainAfterExit=yes
 
