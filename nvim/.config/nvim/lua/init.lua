@@ -24,27 +24,9 @@ require('orgmode').setup({
   },
 })
 
-
-require'image'.setup({
-    backend = 'kitty',
-    processor = 'magick_cli',
-    integrations = {
-        markdown = {
-            enabled = true,
-            clear_in_insert_mode = true,
-            only_render_image_at_cursor = true,
-            filtypes = { "markdown", "html" },
-        },
-        html = {
-            enabled = true,
-            clear_in_insert_mode = true,
-            only_render_image_at_cursor = true,
-            filetypes = { "markdown" },
-        },
+require('markdown').setup({
+    mappings = {
+        link_follow = "gm",
     },
-    max_width_window_percentage = 80,
-    max_height_window_percentage = 80,
 })
-
-
 require'marks'.setup()

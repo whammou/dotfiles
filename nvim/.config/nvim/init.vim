@@ -10,13 +10,13 @@ lua vim.loader.enable()
 let g:python3_host_prog = '/usr/bin/python3'
 let g:loaded_perl_provider = 0
 
-
 " SETTINGS --------------------------------------
 " Key binds
 
 let mapleader=" "
 let maplocalleader=" "
 
+" Navigate keybinds
 nnoremap <silent><A-j> :set paste<CR>m`o<Esc>``:set nopaste<CR>
 nnoremap <silent><A-k> :set paste<CR>m`O<Esc>``:set nopaste<CR>
 nnoremap <SPACE> <Nop>
@@ -27,18 +27,22 @@ nnoremap <M-l> Lzt
 nnoremap zo zMzvzz
 nnoremap <CR> :noh<CR>
 nnoremap <leader>u :let @+ = expand('<cfile>')<CR>
+nnoremap co :Bufonly<CR>
+
+" Fzf related keybinds
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>M :MarksToggleSigns<CR>
 nnoremap <silent> <leader>m :Marks<CR>
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>L :BLines<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>R :RG<CR>
 
+" File related keybinds
 inoremap <C-b> <space><esc>ce
 map <Leader>r :set wrap!<CR>
 map <Leader>p :set spell!<CR>
 map <Leader>G :GripStart<CR>
+nnoremap <silent> <leader>M :MarksToggleSigns<CR>
 
 " Git related keybinds
 nnoremap <silent> <leader>gu :GetCurrentBranchLink<CR>
@@ -51,6 +55,10 @@ nnoremap <silent> <leader>gc :G commit %<CR>
 nnoremap <silent> <leader>gdx :Gvdiffsplit!<CR>
 nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
 
+" Notes related keybinds
+nnoremap <silent> <leader>nr :cd ~/notes \| RG<CR>
+nnoremap <silent> <leader>nl :cd ~/notes \| Files<CR>
+
 " Default colorscheme
 ":set termguicolors
 :filetype on
@@ -59,10 +67,10 @@ nnoremap <silent> <leader>gdy :Gdiffsplit!<CR>
 
 :syntax on
 ":set foldmethod=syntax
-set shell=/bin/bash
+:set shell=/bin/bash
 :set number relativenumber
 :set cursorline
-
+:set autochdir
 :set shiftwidth=4
 :set tabstop=4
 :set expandtab
@@ -80,6 +88,22 @@ set shell=/bin/bash
 :set cmdheight=0
 :set showtabline=1
 :set nomore
+:set includeexpr=v:fname.'.'
+
+
+" Turn off unused plugins --------------------------
+
+:let g:loaded_netrw       = 1
+:let g:loaded_netrwPlugin = 1
+ 
+:let g:loaded_tarPlugin= 1
+:let g:loaded_tar      = 1
+ 
+:let g:loaded_zipPlugin= 1
+:let g:loaded_zip      = 1
+ 
+:let g:loaded_zipPlugin= 1
+:let g:loaded_zip      = 1
 
 
 " PLUGINS-------------------------------------------
@@ -91,6 +115,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-scripts/BufOnly.vim'
 
 " nvim completion
 Plug 'ervandew/supertab'
@@ -107,15 +132,16 @@ Plug 'kuangliu/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'chentoast/marks.nvim'
 Plug 'knsh14/vim-github-link', {'for': ['markdown', 'org']}
-Plug 'echasnovski/mini.nvim'
+" Plug 'echasnovski/mini.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'duane9/nvim-rg'
-Plug '3rd/image.nvim', {'for': ['markdown', 'org']}
+" Plug '3rd/image.nvim', {'for': ['markdown', 'org']}
 
 " vim-markdown
 Plug 'willchao612/vim-diagon', {'for': 'markdown'}
 Plug 'PratikBhusal/vim-grip', {'for': 'markdown'}
 Plug 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'tadmccorkle/markdown.nvim'
 
 " Vim-tex
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -173,7 +199,7 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " UltilSnip SETTINGS -------------------------------
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/bundle/vim-snippets/UltiSnips', 'mycoolsnippets']
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/vim-plug/vim-snippets/UltiSnips', 'mycoolsnippets']
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
