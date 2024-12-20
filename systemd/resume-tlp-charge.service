@@ -1,0 +1,10 @@
+[Unit]
+Description=resume tlp charge
+Before=hibernate.target suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/reset-charge
+
+[Install]
+WantedBy=hibernate.target suspend.target

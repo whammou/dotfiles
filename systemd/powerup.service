@@ -1,0 +1,11 @@
+[Unit]
+Description=system power up
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/local/bin/ac-plugin
+ExecStart=/sbin/sleep 5
+ExecStartPost=undervolt --verbose --core 0 --uncore 0 --cache 0 --gpu 0 --analogio 0
+
+[Install]
+WantedBy=ac.target

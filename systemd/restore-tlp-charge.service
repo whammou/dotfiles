@@ -1,0 +1,11 @@
+[Unit]
+Description=restore default charge settings
+PartOf=tlp.service
+After=tlp.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/reset-charge
+
+[Install]
+WantedBy=tlp.service
