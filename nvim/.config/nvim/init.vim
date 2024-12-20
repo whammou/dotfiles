@@ -140,8 +140,9 @@ Plug 'duane9/nvim-rg'
 " vim-markdown
 Plug 'willchao612/vim-diagon', {'for': 'markdown'}
 Plug 'PratikBhusal/vim-grip', {'for': 'markdown'}
-Plug 'MeanderingProgrammer/render-markdown.nvim'
 Plug 'tadmccorkle/markdown.nvim'
+"Plug 'jakewvincent/mkdnflow.nvim'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 
 " Vim-tex
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -233,8 +234,8 @@ let g:pandoc#filetypes#pandoc_markdown = 0
 " MARKDOWN SETTINGS --------------------------------
 let g:markdown_folding = 1
 let g:markdown_recommended_style = 0
-let g:mardown_fenced_languages  = ['html', 'python', 'lua', 'vim', 'typescript', 'javascript']
-let g:vim_markdown_math = 1
+"let g:mardown_fenced_languages  = ['html', 'python', 'lua', 'vim', 'typescript', 'javascript']
+let g:vim_markdown_math = 0
 
 " LATEX SETTINGS -----------------------------------
 let g:vimtex_view_method = 'zathura'
