@@ -245,12 +245,17 @@ let g:vimtex_compiler_method = 'latexmk'
 let g:fzf_vim ={}
 
 " VIM-FZF SETTINGS ---------------------------------
-:hi @org.headline.level1 gui=bold guifg=#ff005c
-:hi @org.headline.level2 gui=bold guifg=#ae00ff
-:hi @org.headline.level3 gui=bold guifg=#ff6700
-:hi @org.headline.level4 gui=bold guifg=#ff005c
-:hi @org.headline.level5 gui=bold guifg=#ae00ff
-:hi @org.agenda.scheduled_past guifg=#ff005c
-:hi @org.keyword.todo gui=reverse guifg=#ffff33
+hi @org.headline.level1 gui=bold guifg=#ff005c
+hi @org.headline.level2 gui=bold guifg=#ae00ff
+hi @org.headline.level3 gui=bold guifg=#ff6700
+hi @org.headline.level4 gui=bold guifg=#ff005c
+hi @org.headline.level5 gui=bold guifg=#ae00ff
+
+hi @org.agenda.scheduled_past guifg=#ff005c
+hi @org.agenda.scheduled guifg=#00ffff
+hi @org.agenda.day guifg=#93a4c3
+hi @org.agenda.today guifg=#00ff00
+
+hi @org.keyword.todo gui=reverse guifg=#ffff33
 
 lua require'nvim-treesitter.configs'.setup{ ensure_installed = { "latex", "html", "org"},highlight={enable=true} }
