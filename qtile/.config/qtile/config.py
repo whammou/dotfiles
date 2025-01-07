@@ -427,7 +427,7 @@ keys = [
 #    )
 
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "12"]
 #
 #for i in groups:
 #    keys.extend(
@@ -855,7 +855,7 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = False
+#follow_mouse_focus = False
 bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
