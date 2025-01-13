@@ -2,7 +2,7 @@
 require('orgmode').setup({
   org_agenda_files = {'~/notes/**/*', '~/notes/git/*'},
   org_default_notes_file = '~/notes/quick.org',
-  org_archive_location = './archive/%s_archive::',
+  org_archive_location = './archive/log.org::ARCHIVED',
   org_split_mode = {'auto'},
   org_hide_leading_stars = false,
   org_adapt_indentaion = false,

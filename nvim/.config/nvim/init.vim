@@ -1,11 +1,3 @@
-" __     _____ __  __ ____   ____ 
-" \ \   / /_ _|  \/  |  _ \ / ___|
-"  \ \ / / | || |\/| | |_) | |    
-"   \ V /  | || |  | |  _ <| |___ 
-"    \_/  |___|_|  |_|_| \_\\____|
-"_________________________________                                 
-
-
 lua vim.loader.enable()
 let g:python3_host_prog = '/usr/bin/python3'
 let g:loaded_perl_provider = 0
@@ -109,33 +101,35 @@ nnoremap <silent> <leader>nl :cd ~/notes \| Files<CR>
 " PLUGINS-------------------------------------------
 
 call plug#begin('~/.config/nvim/vim-plug')
-Plug 'tpope/vim-fugitive'
 Plug 'navarasu/onedark.nvim'
-Plug 'chrisbra/Colorizer'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/BufOnly.vim'
+"Plug 'chrisbra/Colorizer'
+
+" git related
+Plug 'tpope/vim-fugitive'
 
 " nvim completion
-Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe'
-
-" nvim snippet
+"Plug 'ervandew/supertab'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
-" nvim-tts
-" Plug 'wolandark/vim-piper'
-
-Plug 'kuangliu/vim-easymotion'
+" Navigation
 Plug 'jiangmiao/auto-pairs'
 Plug 'chentoast/marks.nvim'
 Plug 'knsh14/vim-github-link', {'for': ['markdown', 'org']}
-" Plug 'echasnovski/mini.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'duane9/nvim-rg'
-" Plug '3rd/image.nvim', {'for': ['markdown', 'org']}
+"Plug 'kuangliu/vim-easymotion'
+" Plug 'echasnovski/mini.nvim'
 
 " vim-markdown
 Plug 'willchao612/vim-diagon', {'for': 'markdown'}
@@ -148,22 +142,9 @@ Plug 'MeanderingProgrammer/render-markdown.nvim'
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'matze/vim-tex-fold', {'for': 'tex'}
 
-" " telescope
-" Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-telescope/telescope.nvim'
-" 
-" " telescope-plugin
-" Plug 'nvim-lua/popup.nvim'
-" Plug 'nvim-telescope/telescope-media-files.nvim'
-
 " Vim-papis
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-"Plug 'papis/papis-vim'
-
-" Vim-citation
-"Plug 'rafaqz/citation.vim'
-"Plug 'Shougo/unite.vim'
 
 " vim-orgmode
 Plug 'nvim-orgmode/orgmode'
@@ -258,4 +239,4 @@ hi @org.agenda.today guifg=#00ff00
 
 hi @org.keyword.todo gui=reverse guifg=#ffff33
 
-lua require'nvim-treesitter.configs'.setup{ ensure_installed = { "latex", "html", "org"},highlight={enable=true} }
+lua require'nvim-treesitter.configs'.setup{ ensure_installed = { "latex", "html", "org", "bash", "python", "lua"},highlight={enable=true} }
