@@ -464,7 +464,11 @@ groups.append(ScratchPad("scratchpad", [
         width=0.45, height=0.2, x=0.275, y =0.4
         ),
     DropDown(
-        "undervoltstats", "kitty --hold --class=monitor -e sudo undervolt --read",
+        "undervoltstats", "kitty --hold --class=monitor -e monitor-voltage",
+        width=0.45, height=0.2, x=0.275, y =0.4
+        ),
+    DropDown(
+        "battery-stat", "kitty --hold --class=monitor -e monitor-battery",
         width=0.45, height=0.2, x=0.275, y =0.4
         ),
     DropDown(
@@ -617,6 +621,7 @@ keys.extend([
         Key([], "p", lazy.group['scratchpad'].dropdown_toggle('bottom')),
         Key([], "c", lazy.group['scratchpad'].dropdown_toggle('cpustats')),
         Key([], "v", lazy.group['scratchpad'].dropdown_toggle('undervoltstats')),
+        Key([], "b", lazy.group['scratchpad'].dropdown_toggle('battery-stat')),
         ]),
 
     KeyChord([mod], "u", [
