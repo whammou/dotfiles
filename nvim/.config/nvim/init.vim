@@ -107,15 +107,24 @@ Plug 'navarasu/onedark.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" Extras
 Plug 'vim-scripts/BufOnly.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'chentoast/marks.nvim'
+Plug 'duane9/nvim-rg'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 "Plug 'chrisbra/Colorizer'
 
 " git related
 Plug 'tpope/vim-fugitive'
+Plug 'knsh14/vim-github-link', {'for': ['markdown', 'org']}
 
 " nvim completion
-"Plug 'SirVer/ultisnips'
-Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
+Plug 'SirVer/ultisnips'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 "Plug 'honza/vim-snippets'
 "Plug 'prabirshrestha/async.vim'
 "Plug 'prabirshrestha/vim-lsp'
@@ -123,14 +132,9 @@ Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 "Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 "Plug 'ervandew/supertab'
 "Plug 'Valloric/YouCompleteMe'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Navigation
-Plug 'jiangmiao/auto-pairs'
-Plug 'chentoast/marks.nvim'
-Plug 'knsh14/vim-github-link', {'for': ['markdown', 'org']}
+" Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'duane9/nvim-rg'
 "Plug 'kuangliu/vim-easymotion'
 " Plug 'echasnovski/mini.nvim'
 
@@ -144,10 +148,6 @@ Plug 'MeanderingProgrammer/render-markdown.nvim'
 " Vim-tex
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'matze/vim-tex-fold', {'for': 'tex'}
-
-" Vim-papis
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 
 " vim-orgmode
 Plug 'nvim-orgmode/orgmode'
