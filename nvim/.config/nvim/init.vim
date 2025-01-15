@@ -101,6 +101,8 @@ nnoremap <silent> <leader>nl :cd ~/notes \| Files<CR>
 " PLUGINS-------------------------------------------
 
 call plug#begin('~/.config/nvim/vim-plug')
+
+" General
 Plug 'navarasu/onedark.nvim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline'
@@ -112,15 +114,16 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'tpope/vim-fugitive'
 
 " nvim completion
+"Plug 'SirVer/ultisnips'
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
+"Plug 'honza/vim-snippets'
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
+"Plug 'thomasfaingnaert/vim-lsp-snippets'
+"Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 "Plug 'ervandew/supertab'
 "Plug 'Valloric/YouCompleteMe'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
 " Navigation
 Plug 'jiangmiao/auto-pairs'
@@ -135,8 +138,8 @@ Plug 'duane9/nvim-rg'
 Plug 'willchao612/vim-diagon', {'for': 'markdown'}
 Plug 'PratikBhusal/vim-grip', {'for': 'markdown'}
 Plug 'tadmccorkle/markdown.nvim'
-"Plug 'jakewvincent/mkdnflow.nvim'
 Plug 'MeanderingProgrammer/render-markdown.nvim'
+"Plug 'jakewvincent/mkdnflow.nvim'
 
 " Vim-tex
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -150,6 +153,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'nvim-orgmode/orgmode'
 Plug 'lukas-reineke/headlines.nvim', {'for': 'org'}
 Plug 'nvim-orgmode/org-bullets.nvim', {'for': 'org'}
+
 call plug#end()
 lua require('init')
 
