@@ -115,7 +115,7 @@ Plug 'chentoast/marks.nvim'
 Plug 'duane9/nvim-rg'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-"Plug 'chrisbra/Colorizer'
+Plug 'chrisbra/Colorizer'
 
 " git related
 Plug 'tpope/vim-fugitive'
