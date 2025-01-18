@@ -70,8 +70,8 @@ symbol = " "
 
 [directory]
 read_only = " 󰌾"
-format = "[ $path ]($style)[  ](black)"
-style = 'bg:#002628 fg:bright-cyan'
+format = "[ $path ]($style)[  ](cyan)"
+style = 'bg:cyan fg:bright-cyan'
 
 [docker_context]
 symbol = " "

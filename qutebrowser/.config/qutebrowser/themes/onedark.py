@@ -7,26 +7,29 @@
 # base16 colors but with variable names that 
 # reflect what the color is mainly used for
 
-bg_default = "#282c34"          # main shade darkest
-bg_lighter = "#353b45"
-bg_selection = "#3e4451"
+bg_default = "#1a212e"          # main shade darkest
+bg_lighter = "#21283b"
+bg_selection = "#283347"
 # "#545862"
-fg_disabled = "#565c64"
-fg_default = "#abb2bf"
+fg_disabled = "#455574"
+fg_default = "#93a4c3"
 # "#b6bdca"
 bg_lightest = "#c8ccd4"         # main shade lightest
-fg_error = "#e06c75"            # red
+fg_error = "#f65866"            # red
 # "#d19a66"                     # orange
-bg_hint = "#e5c07b"             # yellow
-fg_matched_text = "#98c379"     # green
-bg_passthrough_mode = "#56b6c2" # teal
-bg_insert_mode = "#61afef"      # blue
-bg_warning = "#c678dd"          # purple
+bg_hint = "#efbd5c"             # yellow
+fg_matched_text = "#8bcd5b"     # green
+bg_passthrough_mode = "#34bfd0" # teal
+bg_insert_mode = "#41a7fc"      # blue
+bg_warning = "#c75ae8"          # purple
 # "#be5046"                     # dark red
 
 ############
 # SETTINGS #
 ############
+
+c.fonts.default_size = '13pt'
+c.colors.webpage.preferred_color_scheme = 'dark'
 
 # Text color of the completion widget. May be a single color to use for
 # all columns or a list of three colors, one for each column.

@@ -42,18 +42,18 @@ progress_bar_max_width = 400
 
 [urgency_low]
 timeout = 10
-background = "#282c34"
-foreground = "#abb2bf"
-frame_color = "#00ff00"
+background = "#1a212e"
+foreground = "#93a4c3"
+frame_color = "#34bfd0"
 
 [urgency_normal]
 timeout = 10
-background = "#282c34"
-foreground = "#abb2bf"
-frame_color = "#ae00ff"
+background = "#1a212e"
+foreground = "#93a4c3"
+frame_color = "#c75ae8"
 
 [urgency_critical]
 timeout = 0
-background = "#282c34"
-foreground = "#abb2bf"
-frame_color = "#ff005c"
+background = "#1a212e"
+foreground = "#93a4c3"
+frame_color = "#f65866"

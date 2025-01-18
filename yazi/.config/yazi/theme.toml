@@ -1,34 +1,34 @@
 # : Manager {{{
 [manager]
-cwd = { fg = "#00FF00" }  # Blue
+cwd = { fg = "green" }  # Blue
 
 # Hovered
 hovered = { reversed = true }  # Darkened background
 preview_hovered = { underline = true }
 
 # Find
-find_keyword = { fg = "#FF005C", italic = true, underline = true }  # Red
-find_position = { fg = "#FF2600", italic = true }  # Orange
+find_keyword = { fg = "red", italic = true, underline = true }  # Red
+find_position = { fg = "yellow", italic = true }  # Orange
 
 # Marker
-marker_copied = { fg = "#ABB2BF", bg = "#00FF00" }  # Light gray on Green
-marker_cut = { fg = "#ABB2BF", bg = "#FF005C" }  # Light gray on Red
-marker_marked = { fg = "#ABB2BF", bg = "#00FFFF" }  # Light gray on cyan
-marker_selected = { fg = "#ABB2BF", bg = "#FF2600" }  # Light gray on Orange
+marker_copied = { fg = "gray", bg = "green" }  # Light gray on Green
+marker_cut = { fg = "gray", bg = "red" }  # Light gray on Red
+marker_marked = { fg = "gray", bg = "#00FFFF" }  # Light gray on cyan
+marker_selected = { fg = "gray", bg = "yellow" }  # Light gray on Orange
 
 # Tab
-tab_active = { bg = "#282C34", fg = "#AE00FF" }  # Darkened background, Blue text
+tab_active = { bg = "darkgray", fg = "blue" }  # Darkened background, Blue text
 tab_inactive = {}
 tab_width = 1
 
 # Count
-count_copied = { fg = "#00FF00", bg = "#282C34" }  # Green on Darkened background
-count_cut = { fg = "#FF005C", bg = "#282C34" }  # Red on Darkened background
-count_selected = { fg = "#00FF00", bg = "#282C34" }  # Green on Darkened background
+count_copied = { fg = "green", bg = "darkgray" }  # Green on Darkened background
+count_cut = { fg = "red", bg = "darkgray" }  # Red on Darkened background
+count_selected = { fg = "green", bg = "darkgray" }  # Green on Darkened background
 
 # Border
 border_symbol = "│"
-border_style = { fg = "#282C34" }  # Darkened background
+border_style = { fg = "darkgray" }  # Darkened background
 
 # : }}}
 
@@ -36,38 +36,38 @@ border_style = { fg = "#282C34" }  # Darkened background
 [status]
 separator_open = ""
 separator_close = ""
-separator_style = { fg = "#41A7Fc", bg = "#282C34" }  # Blue on Darkened background
+separator_style = { fg = "#41A7Fc", bg = "darkgray" }  # Blue on Darkened background
 
 # Mode
-mode_normal = { fg = "#282C34", bg = "#41A7FC", bold = true }  # Dark gray on Blue
-mode_select = { fg = "#282C34", bg = "#00FF00", bold = true }  # Dark gray on Blue
-mode_unset = { fg = "#282C34", bg = "#AE00FF", bold = true }  # Dark gray on Blue
+mode_normal = { fg = "darkgray", bg = "#41A7FC", bold = true }  # Dark gray on Blue
+mode_select = { fg = "darkgray", bg = "green", bold = true }  # Dark gray on Blue
+mode_unset = { fg = "darkgray", bg = "blue", bold = true }  # Dark gray on Blue
 
 # Progress
-progress_label = { fg = "#ABB2BF", bold = true }  # Light gray
-progress_normal = { fg = "#00FF00", bg = "#282C34" }  # Green on Darkened background
-progress_error = { fg = "#FF005C", bg = "#282C34" }  # Red on Darkened background
+progress_label = { fg = "gray", bold = true }  # Light gray
+progress_normal = { fg = "green", bg = "darkgray" }  # Green on Darkened background
+progress_error = { fg = "red", bg = "darkgray" }  # Red on Darkened background
 
 # Permissions
-permissions_t = { fg = "#00FF00" }  # Green
-permissions_r = { fg = "#FF005C" }  # Red
-permissions_w = { fg = "#FF2600" }  # Orange
-permissions_x = { fg = "#00FF00" }  # Green
-permissions_s = { fg = "#ABB2BF" }  # Light gray
+permissions_t = { fg = "green" }  # Green
+permissions_r = { fg = "red" }  # Red
+permissions_w = { fg = "yellow" }  # Orange
+permissions_x = { fg = "green" }  # Green
+permissions_s = { fg = "gray" }  # Light gray
 
 # : }}}
 
 # : Select {{{
 [select]
-border = { fg = "#00FF00" }  # Green
-active = { fg = "#FF2600", bold = true }  # Orange
+border = { fg = "green" }  # Green
+active = { fg = "yellow", bold = true }  # Orange
 inactive = {}
 
 # : }}}
 
 # : Input {{{
 [input]
-border = { fg = "#00FF00" }  # Green
+border = { fg = "green" }  # Green
 title = {}
 value = {}
 selected = { reversed = true }
@@ -76,43 +76,43 @@ selected = { reversed = true }
 
 # : Completion {{{
 [completion]
-border = { fg = "#00FF00" }  # Green
+border = { fg = "green" }  # Green
 
 # : }}}
 
 # : Tasks {{{
 [tasks]
-border = { fg = "#00FF00" }  # Green
+border = { fg = "green" }  # Green
 title = {}
-hovered = { fg = "#FF2600", underline = true }  # Orange
+hovered = { fg = "yellow", underline = true }  # Orange
 
 # : }}}
 
 # : Which {{{
 [which]
-mask = { bg = "#282C34" }  # Darkened background
-cand = { fg = "#00FF00" }  # Green
-rest = { fg = "#ABB2BF" }  # Light gray
-desc = { fg = "#FF2600" }  # Orange
+mask = { bg = "darkgray" }  # Darkened background
+cand = { fg = "green" }  # Green
+rest = { fg = "gray" }  # Light gray
+desc = { fg = "yellow" }  # Orange
 separator = "  "
-separator_style = { fg = "#ABB2BF" }  # Light gray
+separator_style = { fg = "gray" }  # Light gray
 
 # : }}}
 
 # : Help {{{
 [help]
-on = { fg = "#00FF00" }  # Green
-run = { fg = "#FF2600" }  # Orange
+on = { fg = "green" }  # Green
+run = { fg = "yellow" }  # Orange
 hovered = { reversed = true, bold = true }
-footer = { fg = "#ABB2BF", bg = "#000000" }  # Light gray on Black
+footer = { fg = "gray", bg = "#000000" }  # Light gray on Black
 
 # : }}}
 
 # : Notify {{{
 [notify]
-title_info = { fg = "#00FF00" }  # Green
-title_warn = { fg = "#FF005C" }  # Red
-title_error = { fg = "#FF2600" }  # Orange
+title_info = { fg = "green" }  # Green
+title_warn = { fg = "red" }  # Red
+title_error = { fg = "yellow" }  # Orange
 
 # : }}}
 
@@ -122,30 +122,30 @@ title_error = { fg = "#FF2600" }  # Orange
 
 rules = [
     # Images
-    { mime = "image/*", fg = "#FF2600" , bold = true},  # Orange
+    { mime = "image/*", fg = "yellow" , bold = true},  # Orange
 
     # Media
-    { mime = "video/*", fg = "#FF005C", bold = true },  # Red
-    { mime = "audio/*", fg = "#FF005C", bold = true },  # Red
+    { mime = "video/*", fg = "red", bold = true },  # Red
+    { mime = "audio/*", fg = "red", bold = true },  # Red
 
     # Archives
-    { mime = "application/zip", fg = "#FF00FF", bold = true },  # Magenta
-    { mime = "application/x-tar", fg = "#FF00FF", bold = true },  # Magenta
-    { mime = "application/x-bzip*", fg = "#FF00FF", bold = true },  # Magenta
-    { mime = "application/x-bzip2", fg = "#FF00FF", bold = true },  # Magenta
-    { mime = "application/x-7z-compressed", fg = "#FF00FF", bold = true },  # Magenta
-    { mime = "application/x-rar", fg = "#FF00FF", bold = true },  # Magenta
-    { mime = "application/x-xz", fg = "#FF00FF", bold = true },  # Magenta
+    { mime = "application/zip", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/x-tar", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/x-bzip*", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/x-bzip2", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/x-7z-compressed", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/x-rar", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/x-xz", fg = "magenta", bold = true },  # Magenta
 
     # Documents
-    { mime = "application/doc", fg = "#00FF00", bold = true },  # Green
-    { mime = "application/pdf", fg = "#00FF00", bold = true },  # Green
-    { mime = "application/rtf", fg = "#00FF00", bold = true },  # Green
-    { mime = "application/vnd.*", fg = "#00FF00", bold = true },  # Green
+    { mime = "application/doc", fg = "green", bold = true },  # Green
+    { mime = "application/pdf", fg = "green", bold = true },  # Green
+    { mime = "application/rtf", fg = "green", bold = true },  # Green
+    { mime = "application/vnd.*", fg = "green", bold = true },  # Green
 
     # Fallback
     { name = "*", fg = "#93a4c3", bold = true },  # Blue
-    { name = "*/", fg = "#AE00FF", bold = true }  # Blue
+    { name = "*/", fg = "blue", bold = true }  # Blue
 ]
 
 # : }}}

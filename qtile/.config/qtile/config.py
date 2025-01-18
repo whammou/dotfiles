@@ -666,9 +666,9 @@ layouts = [
         "tab_bar.margin": [0, 3, 0, 3],
         "tab_bar.tab.font_size": 1,
         "L2.tab_bar.tab.bg_color": "007676",
-        "L2.tab_bar.tab.active.bg_color": "00ffff",
+        "L2.tab_bar.tab.active.bg_color": "41a7fc",
         "L3.tab_bar.tab.bg_color": "500076",
-        "L3.tab_bar.tab.active.bg_color": "ae00ff",
+        "L3.tab_bar.tab.active.bg_color": "c75ae8",
         #"L4.tab_bar.tab.bg_color": "76002a",
         #"L4.tab_bar.tab.active.bg_color": "ff005c",
     }),
@@ -700,17 +700,18 @@ screens = [
         top=bar.Bar(
             [
                 BonsaiBar(**{
-                    "tab.bg_color": "000000",
+                    "tab.bg_color": "283347",
                     "tab.fg_color": "232323",
-                    "tab.active.fg_color": "00ffff",
-                    "tab.active.bg_color": "000000",
+                    "tab.active.fg_color": "41a7fc",
+                    "tab.active.bg_color": "283347",
                     "length": bar.CALCULATED,
-                    "font_size": 18,
-                    "tab.padding": [0, 10, 10 ,10],
+                    "font_size": 16,
+                    "tab.padding": [-5, 10, 10 ,10],
                 }),
 
                 	widget.Sep(
 					foreground = "a20640",
+                    background = '283347',
 					linewidth = 0,
 					size_percent = 60,
 					padding = 13,
@@ -719,19 +720,21 @@ screens = [
                 widget.TextBox(
 					fmt = "[]= {}",
 					width = 30,
-                    foreground = '00ffff',
+                    foreground = '41a7fc',
+                    background = '283347',
 					fontsize = 14,
 				),
 
                 widget.Prompt(
 			    	fmt = "{}",
-                    foreground="00ffff",
+                    foreground="41a7fc",
 			    	prompt = "",
 			    	scroll_fixed_width = True,
 			    ),
 
 				widget.Spacer(
 					width = 950,
+                    background = '283347',
 				),
 
                 widget.Chord(
@@ -739,7 +742,7 @@ screens = [
                 ),
 
                 widget.Systray(
-					background = '000000',
+					background = '283347',
 					icon_size = 15,
 					padding = 10,
 					width = 50,
@@ -755,13 +758,14 @@ screens = [
 					fmt = "{}",
                     #width = 30,
                     foreground = 'ff7600',
+                    background = '283347',
 					fontsize = 14,
                     **powerline
                 ),
 
                 widget.Battery(
                     foreground = '000000',
-                    background = '00FF00',
+                    background = '8bcd5b',
                     low_foreground = '000000',
                     battery = 1,
                     discharge_char = '',
@@ -778,7 +782,7 @@ screens = [
 
                 widget.Battery(
                     foreground = '000000',
-                    background = '00FF00',
+                    background = '8bcd5b',
                     low_foreground = '000000',
                     battery = 0,
                     discharge_char = '',
@@ -797,7 +801,7 @@ screens = [
 
                 widget.CheckUpdates(
                     foreground = 'ffffff',
-                    background = 'AE00FF',
+                    background = 'c75ae8',
                     colour_have_updates = '000000',
                     colour_no_updates = '000000',
                     distro='Arch',
@@ -809,14 +813,14 @@ screens = [
                 ),
 
                 widget.Wlan(
-                    background = '00FFFF',
+                    background = '41a7fc',
                     foreground = '000000',
                     format = '   {percent:1.0%} ',
                     update_interval = 60,
                 ),
 
                 widget.Backlight(
-					background = '00FFFF',
+					background = '41a7fc',
                     foreground = '000000',
                     format = '❮  󰃞 {percent:2.0%}  ',
                     backlight_name = 'intel_backlight',
@@ -824,7 +828,7 @@ screens = [
                 ),
 
 				widget.Clock(
-                    background = 'FF005C',
+                    background = 'f65866',
 					foreground = '000000',
 					fmt = "    {}  ",
 					format="%I:%M %p",
@@ -833,7 +837,7 @@ screens = [
 				),
 
 				widget.Spacer(
-                    background = 'FF005C',
+                    background = 'f65866',
 					length = -1, 
 				),
 
