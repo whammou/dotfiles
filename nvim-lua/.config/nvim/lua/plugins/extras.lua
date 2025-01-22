@@ -4,10 +4,11 @@ return {
     'duane9/nvim-rg',
     'junegunn/fzf',
     'junegunn/fzf.vim',
-    {
-        'chentoast/marks.nvim',
-        opt = {},
-    },
+--    {
+--        'chentoast/marks.nvim',
+--        event = "VeryLazy",
+--        opt = {},
+--    },
 
     {
         'chrisbra/Colorizer'
