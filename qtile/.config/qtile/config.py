@@ -556,7 +556,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "beeper", "qutebrowser --target=window -B /home/whammou/.config/qutebrowser/app/ https://chat.beeper.com/",
+        "qutebrowser clipboard", "qb-url",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
@@ -592,7 +592,15 @@ groups.append(ScratchPad("scratchpad", [
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
-        "orgmode-agenda", "kitty -e tmux -c orgmode",
+        "orgmode-agenda", "kitty -e tmux -c orgmode-agenda",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "orgmode-todo", "kitty -e tmux -c orgmode-todo",
+        width=0.8, height=0.8, x=0.1, y =0.1
+        ),
+    DropDown(
+        "orgmode-capture", "kitty -e tmux -c orgmode-capture",
         width=0.8, height=0.8, x=0.1, y =0.1
         ),
 ]))
@@ -608,6 +616,8 @@ keys.extend([
 
     KeyChord([mod, "control"], "o", [
         Key([], "a", lazy.group['scratchpad'].dropdown_toggle('orgmode-agenda')),
+        Key([], "t", lazy.group['scratchpad'].dropdown_toggle('orgmode-todo')),
+        Key([], "c", lazy.group['scratchpad'].dropdown_toggle('orgmode-capture')),
         ]),
 
     KeyChord([mod], "f", [
@@ -638,7 +648,7 @@ keys.extend([
     KeyChord([mod, "Control"], "q", [
         Key([], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser')),
         Key([], "c", lazy.group['scratchpad'].dropdown_toggle('canvas')),
-        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('beeper')),
+        Key([], "p", lazy.group['scratchpad'].dropdown_toggle('qutebrowser clipboard')),
         Key([], "d", lazy.group['scratchpad'].dropdown_toggle('discord')),
         Key([], "t", lazy.group['scratchpad'].dropdown_toggle('teams')),
         Key([], "m", lazy.group['scratchpad'].dropdown_toggle('ms-streams')),
@@ -700,10 +710,10 @@ screens = [
         top=bar.Bar(
             [
                 BonsaiBar(**{
-                    "tab.bg_color": "283347",
+                    "tab.bg_color": "21283b",
                     "tab.fg_color": "232323",
                     "tab.active.fg_color": "41a7fc",
-                    "tab.active.bg_color": "283347",
+                    "tab.active.bg_color": "21283b",
                     "length": bar.CALCULATED,
                     "font_size": 16,
                     "tab.padding": [-5, 10, 10 ,10],
@@ -711,7 +721,7 @@ screens = [
 
                 	widget.Sep(
 					foreground = "a20640",
-                    background = '283347',
+                    background = '21283b',
 					linewidth = 0,
 					size_percent = 60,
 					padding = 13,
@@ -721,20 +731,21 @@ screens = [
 					fmt = "[]= {}",
 					width = 30,
                     foreground = '41a7fc',
-                    background = '283347',
+                    background = '21283b',
 					fontsize = 14,
 				),
 
                 widget.Prompt(
 			    	fmt = "{}",
                     foreground="41a7fc",
+                    background = '21283b',
 			    	prompt = "",
 			    	scroll_fixed_width = True,
 			    ),
 
 				widget.Spacer(
 					width = 950,
-                    background = '283347',
+                    background = '21283b',
 				),
 
                 widget.Chord(
@@ -742,7 +753,7 @@ screens = [
                 ),
 
                 widget.Systray(
-					background = '283347',
+					background = '21283b',
 					icon_size = 15,
 					padding = 10,
 					width = 50,
@@ -758,7 +769,7 @@ screens = [
 					fmt = "{}",
                     #width = 30,
                     foreground = 'ff7600',
-                    background = '283347',
+                    background = '21283b',
 					fontsize = 14,
                     **powerline
                 ),
@@ -807,7 +818,7 @@ screens = [
                     distro='Arch',
 				  	fmt = "    {}  ",
                     padding = 0,
-                    no_update_string ="Up to date",
+                    no_update_string ="None",
                     update_interval = 360,
                     **powerline
                 ),
