@@ -525,7 +525,7 @@ groups.append(ScratchPad("scratchpad", [
         ),
     DropDown(
         "mpv", "mpv /tmp/open &",
-        width=0.8, height=0.8, x=0.1, y =0.1, opacity=1
+        width=0.8, height=0.8, x=0.1, y =0.1
         ),
     DropDown(
         "tmux", "kitty -e tmux new -AD -s 0", 
