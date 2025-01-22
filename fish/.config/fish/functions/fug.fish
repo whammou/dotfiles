@@ -1,4 +1,5 @@
-function fug --wraps=nvim\ +\':G\ \|\ only\' --description alias\ fug=nvim\ +\':G\ \|\ only\'
-  nvim +':G | only' $argv
-        
+function fug
+    nvim +":G | only"
+    commandline --function repaint
 end
+
