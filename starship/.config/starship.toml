@@ -2,7 +2,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Use custom format
-format = '[┌─](cyan) $all[└─](cyan) $character'
+format = '[┌─](cyan) $jobs$all[└─](cyan) $character'
 #right_format = '$battery[ ](bright-green)$hostname'
 
 # Inserts a blank line between shell prompts
