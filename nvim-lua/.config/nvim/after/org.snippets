@@ -1,0 +1,63 @@
+extends markdown
+
+snippet -[ "org-task" w
+- [${1: }] $0
+endsnippet
+
+snippet DE "org-DEADLINE" w
+DEADLINE: <$1>$0
+endsnippet
+
+snippet :: "org-TAG" w
+:$1:$0
+endsnippet
+
+snippet ~ "org-inline-code" w
+~$1~$0
+endsnippet
+
+snippet / "org-italic" w
+/$1/$0
+endsnippet
+
+snippet Gl "content-goal" w
+- *Goal(s):* $0
+endsnippet
+
+snippet St "content-stumble-upon" w
+- *Stumble upon:* $0
+endsnippet
+
+snippet So "content-source" w
+- *Source(s):* $0
+endsnippet
+
+snippet Vi "content-visit" w
+- *Visit:* [[${1:URL}][${2:text}]]$0
+endsnippet
+
+snippet code "org-codeblock" w
+#+NAME: ${1:name}
+#+BEGIN_SRC ${2:language} ${3:switches} ${4:header argument}
+$5
+#+END_SRC$0
+endsnippet
+
+snippet TI "org-TITLE" b
+#+TITLE: $0
+endsnippet
+
+snippet DES "org-descriptuin" b
+#+DESCRIPTION: $0
+endsnippet
+
+snippet FI "org-filetags" b
+#+FILETAGS: $0
+endsnippet
+
+snippet UID "org-custom_ID" b
+:PROPERTIES:
+:CUSTOM_ID: ${1:Custom ID}
+:END:$0
+endsnippet
+
