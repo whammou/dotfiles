@@ -11,6 +11,7 @@ return {
 
     {
         "nvim-lualine/lualine.nvim",
+        Lazy = false,
         opts = {
             always_show_tabline = true,
             tabline = {

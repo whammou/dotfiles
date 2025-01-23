@@ -1,6 +1,7 @@
 return {
     {
         'nvim-orgmode/orgmode',
+        event = "VeryLazy",
         ft = 'org',
         opts = {
             org_agenda_files = { '~/notes/**/*', '~/notes/git/*' },
@@ -29,6 +30,7 @@ return {
 
     {
         'lukas-reineke/headlines.nvim',
+        lazy = true,
         ft = 'org',
         opts = {},
     },
@@ -36,6 +38,7 @@ return {
 
     {
         'nvim-orgmode/org-bullets.nvim',
+        lazy = true,
         ft = 'org',
         opts = {},
     },

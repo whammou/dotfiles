@@ -8,9 +8,12 @@ return {
       },
     },
     dependencies = {
-      "MunifTanjim/nui.nvim",
+      {
+        "MunifTanjim/nui.nvim",
+      },
+
       { 
-        "rcarriaga/nvim-notify",
+        "rcarriga/nvim-notify",
         opts = {
           stages = "static",
         },

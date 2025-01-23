@@ -1,4 +1,11 @@
 return {
-    "tpope/vim-fugitive",
-    "knsh14/vim-github-link",
+    {
+      "tpope/vim-fugitive",
+      lazy = false,
+    },
+
+    {
+      "knsh14/vim-github-link",
+      event = "VeryLazy"
+    }
 }
