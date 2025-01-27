@@ -13,7 +13,7 @@ find_position = { fg = "yellow", italic = true }  # Orange
 # Marker
 marker_copied = { fg = "gray", bg = "green" }  # Light gray on Green
 marker_cut = { fg = "gray", bg = "red" }  # Light gray on Red
-marker_marked = { fg = "gray", bg = "#00FFFF" }  # Light gray on cyan
+marker_marked = { fg = "gray", bg = "cyan" }  # Light gray on cyan
 marker_selected = { fg = "gray", bg = "yellow" }  # Light gray on Orange
 
 # Tab
@@ -36,12 +36,7 @@ border_style = { fg = "darkgray" }  # Darkened background
 [status]
 separator_open = ""
 separator_close = ""
-separator_style = { fg = "#41A7Fc", bg = "darkgray" }  # Blue on Darkened background
-
-# Mode
-mode_normal = { fg = "darkgray", bg = "#41A7FC", bold = true }  # Dark gray on Blue
-mode_select = { fg = "darkgray", bg = "green", bold = true }  # Dark gray on Blue
-mode_unset = { fg = "darkgray", bg = "blue", bold = true }  # Dark gray on Blue
+separator_style = { fg = "blue", bg = "darkgray" }  # Blue on Darkened background
 
 # Progress
 progress_label = { fg = "gray", bold = true }  # Light gray
@@ -56,6 +51,16 @@ permissions_x = { fg = "green" }  # Green
 permissions_s = { fg = "gray" }  # Light gray
 
 # : }}}
+
+[mode]
+normal_main = { fg = "black", bg = "green", bold = true } # Black on Green background
+normal_alt  = { fg = "green", bg = "black"} # reversed
+
+select_main = { fg = "black", bg = "magenta", bold = true } # Black on Magenta background
+select_alt  = { fg = "magenta", bg = "black"} # reversed
+
+unset_main  = { fg = "black", bg = "red", bold = true } # Black on Red backgouend
+unset_alt   = { fg = "red", bg = "black"} # reversed
 
 # : Select {{{
 [select]
@@ -104,7 +109,7 @@ separator_style = { fg = "gray" }  # Light gray
 on = { fg = "green" }  # Green
 run = { fg = "yellow" }  # Orange
 hovered = { reversed = true, bold = true }
-footer = { fg = "gray", bg = "#000000" }  # Light gray on Black
+footer = { fg = "gray", bg = "black" }  # Light gray on Black
 
 # : }}}
 
