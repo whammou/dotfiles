@@ -3,37 +3,37 @@ set guioptions None
 set selection-clipboard clipboard
 
 set default-fg 			    "#93a4c3"
-set default-bg 			    "#000000"
+set default-bg 			    "#1a212e"
 
-set completion-bg		    "#000000"
+set completion-bg		    "#1a212e"
 set completion-fg		    "#93a4c3"
-set completion-highlight-bg	"#575268"
+set completion-highlight-bg	"#21283b"
 set completion-highlight-fg	"#93a4c3"
-set completion-group-bg		"#000000"
+set completion-group-bg		"#1a212e"
 set completion-group-fg		"#96cdfb"
 
 set statusbar-fg		    "#93a4c3"
-set statusbar-bg		    "#000000"
+set statusbar-bg		    "#1a212e"
 
-set notification-bg		    "#000000"
+set notification-bg		    "#1a212e"
 set notification-fg		    "#93a4c3"
-set notification-error-bg	"#000000"
-set notification-error-fg	"#ff005c"
-set notification-warning-bg	"#000000"
-set notification-warning-fg	"#ff6700"
+set notification-error-bg	"#1a212e"
+set notification-error-fg	"#f65866"
+set notification-warning-bg	"#1a212e"
+set notification-warning-fg	"#efbd5d"
 
 set inputbar-fg			    "#93a4c3"
-set inputbar-bg 		    "#000000"
+set inputbar-bg 		    "#1a212e"
 
-set recolor-lightcolor		"#000000"
+set recolor-lightcolor		"#1a212e"
 set recolor-darkcolor		"#93a4c3"
 
 set index-fg			    "#93a4c3"
-set index-bg			    "#000000"
+set index-bg			    "#1a212e"
 set index-active-fg		    "#93a4c3"
-set index-active-bg		    "#000000"
+set index-active-bg		    "#1a212e"
 
-set render-loading-bg		"#000000"
+set render-loading-bg		"#1a212e"
 set render-loading-fg		"#93a4c3"
 
 set highlight-color		    "rgba(255,0,255,0.5)"

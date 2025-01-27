@@ -668,7 +668,7 @@ layouts = [
     Bonsai(**{
         "window.border_size": 0,
         "window.margin": [0, 3, 6, 3],
-        "window.default.add.mode": "match_previous",
+        "window.default_add_mode": "tab",
         "container_select_mode.border_color": "ff00ff",
         "container_select_mode.borser_size": 1,
         "L1.tab_bar.hide_when": "always",
