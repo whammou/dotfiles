@@ -746,14 +746,15 @@ screens = [
 				widget.Spacer(
 					width = 950,
                     background = '21283b',
+                    **powerline
 				),
 
                 widget.Chord(
-                    
+                    **powerline
                 ),
 
                 widget.Systray(
-					background = '21283b',
+					background = '283347',
 					icon_size = 15,
 					padding = 10,
 					width = 50,
@@ -769,7 +770,7 @@ screens = [
 					fmt = "{}",
                     #width = 30,
                     foreground = 'ff7600',
-                    background = '21283b',
+                    background = '283347',
 					fontsize = 14,
                     **powerline
                 ),
