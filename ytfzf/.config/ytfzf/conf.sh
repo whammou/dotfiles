@@ -5,7 +5,7 @@ thumbnail_viewer='kitty'
 url_handler_opts='--shuffle'
 sort_by=relavence,view_count,upload_date
 
-#max_thread_count=5
+max_thread_count=5
 #thumbnail_viewer='mpv'
 #search_sort_by='view_count'
 #ytdl_opts='--write-auto-sub --all-subs'
@@ -17,3 +17,4 @@ invidious_instance='https://vid.puffyan.us'
 #invidious_instance='https://vid.lilay.dev'
 #invidious_instance='https://invidious.io'
 #invidious_instance='https://yewtu.be'
+#invidious_instance='https://invidious.jing.rocks'

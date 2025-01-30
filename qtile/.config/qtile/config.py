@@ -496,7 +496,7 @@ groups.append(ScratchPad("scratchpad", [
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
-        "ani-cli", "kitty --class=music -e anifzf",
+        "ani-cli", "kitty --class=music -e anifzf -q worst",
         width=0.7, height=0.8, x=0.15, y =0.1
         ),
     DropDown(
