@@ -3,9 +3,6 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 
-#def focus_window(kemap):
-#    for i in range(10)
-#    return EzKey(key, lazy.layout.focus_nth_window(window, ignore_inactive_tabs_at_levels=[1,2,3,4]))
 
 ''' Example keymap
 keymap = ([mod] , "x", [], "q", "b", lazy.layout.spawn_split("qb", "y", position="next")) -- spawn qutebrowser next to current window
@@ -15,6 +12,7 @@ terminal = guess_terminal()
 mod = "mod4"
 
 keys = [
+    Key(["mod1"], "1", lazy.layout.focus_nth_window(1, ignore_inactive_tabs_at_levels=[1,2,3,4])),
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
