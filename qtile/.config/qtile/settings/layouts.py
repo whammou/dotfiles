@@ -3,8 +3,8 @@ from libqtile.config import Match
 from qtile_bonsai import Bonsai
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
+    #layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    #layout.Max(),
     Bonsai(**{
         "window.border_size": 0,
         "window.margin": [0, 3, 6, 3],

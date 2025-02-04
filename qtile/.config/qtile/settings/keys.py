@@ -1,55 +1,126 @@
-from libqtile.config import Key, EzKey
+from libqtile.config import Key, EzKey, KeyChord
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
-
-
-''' Example keymap
-keymap = ([mod] , "x", [], "q", "b", lazy.layout.spawn_split("qb", "y", position="next")) -- spawn qutebrowser next to current window
-'''
 
 terminal = guess_terminal()
 mod = "mod4"
 
 keys = [
-    Key(["mod1"], "1", lazy.layout.focus_nth_window(1, ignore_inactive_tabs_at_levels=[1,2,3,4])),
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-
-
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-
-
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
-
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key(
-        [mod],
-        "f",
-        lazy.window.toggle_fullscreen(),
-        desc="Toggle fullscreen on the focused window",
-    ),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "control"], "r", lazy.reload_config()),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    
+    # Open your terminal emulator quickly. See further below for how to
+    # directly open other apps as splits/tabs using something like rofi.
+    EzKey("M-x", lazy.layout.spawn_split(terminal, "x")),
+    EzKey("M-y", lazy.layout.spawn_split(terminal, "y")),
+    EzKey("M-t", lazy.layout.spawn_tab(terminal)),
+    EzKey("M-S-t", lazy.layout.spawn_tab(terminal, new_level=True)),
+    
+    # Sometimes it's handy to have a split open in the 'previous' position
+    EzKey("M-S-v", lazy.layout.spawn_split(terminal, "x", position="previous")),
+    EzKey("M-S-x", lazy.layout.spawn_split(terminal, "y", position="previous")),
+
+    # Motions to move focus. The names are compatible with built-in layouts.
+    EzKey("M-d", lazy.layout.prev_tab()),
+    EzKey("M-f", lazy.layout.next_tab()),
+    
+
+    # Resize operations
+    EzKey("M-C-h", lazy.layout.resize("left", 100)),
+    EzKey("M-C-l", lazy.layout.resize("right", 100)),
+    EzKey("M-C-k", lazy.layout.resize("up", 100)),
+    EzKey("M-C-j", lazy.layout.resize("down", 100)),
+
+    # Swap windows/tabs with neighbors
+    EzKey("M-S-h", lazy.layout.swap("left")),
+    EzKey("M-S-l", lazy.layout.swap("right")),
+    EzKey("M-S-k", lazy.layout.swap("up")),
+    EzKey("M-S-j", lazy.layout.swap("down")),
+    EzKey("A-S-d", lazy.layout.swap_tabs("previous")),
+    EzKey("A-S-f", lazy.layout.swap_tabs("next")),
+    
+    # Manipulate selections after entering container-select mode
+    EzKey("M-o", lazy.layout.select_container_outer()),
+    EzKey("M-i", lazy.layout.select_container_inner()),
+
+    # It's kinda nice to have more advanced window management commands under a
+    # qtile key chord.
+    KeyChord(
+        ["mod4"],
+        "w",
+        [
+            # Use something like rofi to pick GUI apps to open as splits/tabs.
+            # EzKey("v", lazy.layout.spawn_split(rofi_run_cmd, "x")),
+            # EzKey("x", lazy.layout.spawn_split(rofi_run_cmd, "y")),
+            # EzKey("t", lazy.layout.spawn_tab(rofi_run_cmd)),
+            # EzKey("S-t", lazy.layout.spawn_tab(rofi_run_cmd, new_level=True)),
+            
+            # Toggle container-selection mode to split/tab over containers of
+            # multiple windows. Manipulate using select_container_outer()/select_container_inner()
+            EzKey("C-v", lazy.layout.toggle_container_select_mode()),
+            
+            EzKey("o", lazy.layout.pull_out()),
+            EzKey("u", lazy.layout.pull_out_to_tab()),
+            
+            EzKey("r", lazy.layout.rename_tab()),
+            
+            # Directional commands to merge windows with their neighbor into subtabs.
+            KeyChord(
+                [],
+                "m",
+                [
+                    EzKey("h", lazy.layout.merge_to_subtab("left")),
+                    EzKey("l", lazy.layout.merge_to_subtab("right")),
+                    EzKey("j", lazy.layout.merge_to_subtab("down")),
+                    EzKey("k", lazy.layout.merge_to_subtab("up")),
+
+                    # Merge entire tabs with each other as splits
+                    EzKey("S-h", lazy.layout.merge_tabs("previous")),
+                    EzKey("S-l", lazy.layout.merge_tabs("next")),
+                ],
+            ),
+            
+            # Directional commands for push_in() to move window inside neighbor space.
+            KeyChord(
+                [],
+                "i",
+                [
+                    EzKey("j", lazy.layout.push_in("down")),
+                    EzKey("k", lazy.layout.push_in("up")),
+                    EzKey("h", lazy.layout.push_in("left")),
+                    EzKey("l", lazy.layout.push_in("right")),
+                    
+                    # It's nice to be able to push directly into the deepest
+                    # neighbor node when desired. The default bindings above
+                    # will have us push into the largest neighbor container.
+                    EzKey(
+                        "S-j",
+                        lazy.layout.push_in("down", dest_selection="mru_deepest"),
+                    ),
+                    EzKey(
+                        "S-k",
+                        lazy.layout.push_in("up", dest_selection="mru_deepest"),
+                    ),
+                    EzKey(
+                        "S-h",
+                        lazy.layout.push_in("left", dest_selection="mru_deepest"),
+                    ),
+                    EzKey(
+                        "S-l",
+                        lazy.layout.push_in("right", dest_selection="mru_deepest"),
+                    ),
+                ],
+            ),
+        ]
+    ),
+    
+    # Your other bindings
+    # ...
 ]
+
+# Precise motions to move to specific windows. The options provided here let
+# us pick the nth window counting only from under currently active [sub]tabs
+for i in range(9):
+    keys.append(Key(["mod1"], str(i), lazy.layout.focus_nth_window(i, ignore_inactive_tabs_at_levels=[1,2])))
