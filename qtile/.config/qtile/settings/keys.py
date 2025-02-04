@@ -2,6 +2,7 @@ from libqtile.config import Key, EzKey, KeyChord
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
+from .keymaps.motions import motion_keymaps
 
 terminal = guess_terminal()
 mod = "mod4"
@@ -120,7 +121,4 @@ keys = [
     # ...
 ]
 
-# Precise motions to move to specific windows. The options provided here let
-# us pick the nth window counting only from under currently active [sub]tabs
-for i in range(9):
-    keys.append(Key(["mod1"], str(i), lazy.layout.focus_nth_window(i, ignore_inactive_tabs_at_levels=[1,2])))
+keys = keys + motion_keymaps
