@@ -52,12 +52,6 @@ keys = [
         ["mod4"],
         "w",
         [
-            # Use something like rofi to pick GUI apps to open as splits/tabs.
-            # EzKey("v", lazy.layout.spawn_split(rofi_run_cmd, "x")),
-            # EzKey("x", lazy.layout.spawn_split(rofi_run_cmd, "y")),
-            # EzKey("t", lazy.layout.spawn_tab(rofi_run_cmd)),
-            # EzKey("S-t", lazy.layout.spawn_tab(rofi_run_cmd, new_level=True)),
-            
             # Toggle container-selection mode to split/tab over containers of
             # multiple windows. Manipulate using select_container_outer()/select_container_inner()
             EzKey("C-v", lazy.layout.toggle_container_select_mode()),
@@ -116,9 +110,6 @@ keys = [
             ),
         ]
     ),
-    
-    # Your other bindings
-    # ...
 ]
 
 keys = keys + motion_keymaps
