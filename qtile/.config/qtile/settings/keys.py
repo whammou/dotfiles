@@ -2,7 +2,7 @@ from libqtile.config import Key, EzKey, KeyChord
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
-from .keymaps.motions import motion_keymaps
+from .keymaps.motions import focus_visible_window, change_bonsai_tab_layer
 
 terminal = guess_terminal()
 mod = "mod4"
@@ -90,4 +90,4 @@ keys = [
     ),
 ]
 
-keys = keys + motion_keymaps
+keys = keys + focus_visible_window(9) + change_bonsai_tab_layer(9, 9)
