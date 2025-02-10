@@ -13,6 +13,8 @@ general_keybinds = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload config"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset current column sizes"),
+    Key([mod, "Shift"], "n", lazy.layout.normalize_all(), desc="Reset all window sizes"),
 
 
     # Spawn position
@@ -86,4 +88,6 @@ general_keybinds = [
             ),
         ]
     ),
+ #   Key([mod, "Shift"], "g", lazy.window.togroup("scratchpad"), desc="Move Window to scratchpad"),
+ #   Key([mod], "g", lazy.group["scratchpad"].toscreen(toggle=True), desc="Toggle scratchpad group"),
 ]
