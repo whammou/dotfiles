@@ -21,9 +21,6 @@ general_keybinds = [
     #EzKey("M-t", lazy.layout.spawn_tab(terminal)),
     #EzKey("M-S-t", lazy.layout.spawn_tab(terminal, new_level=True)),
 
-    EzKey("M-S-v", lazy.layout.spawn_split(terminal, "x", position="previous")),
-    EzKey("M-S-x", lazy.layout.spawn_split(terminal, "y", position="previous")),
-
 
     # Resize windows
     EzKey("M-C-h", lazy.layout.resize("left", 100)),
