@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 # Variables for current session
 export QT_IM_MODULE=fcitx
 export GTK_IM_MODULE=fcitx
