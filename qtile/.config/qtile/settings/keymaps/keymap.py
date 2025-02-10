@@ -1,3 +1,10 @@
+def tmux_session_attach(session_range):
+    session_bind = []
+    for i in session_range:
+        session_bind.append([str(i), " ".join(["tmux-session-attach", str(i)])])
+    return session_bind
+
+
 cmd_keymaps = [
     {
         "name": "qutebrowser",
@@ -32,5 +39,10 @@ cmd_keymaps = [
             ["h", "kitty --hold -e yazi $HOME"],
             ["s", "kitty --hold -e yazi /server/"],
         ],
+    },
+    {
+        "name": "tmux",
+        "prefix": "t",
+        "cmd": tmux_session_attach(range(1, 10)),
     },
 ]
