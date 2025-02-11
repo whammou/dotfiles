@@ -17,11 +17,17 @@ general_keybinds = [
     Key([mod, "Shift"], "n", lazy.layout.normalize_all(), desc="Reset all window sizes"),
 
 
-    # Spawn position
-    #EzKey("M-x", lazy.layout.spawn_split(terminal, "x")),
-    #EzKey("M-y", lazy.layout.spawn_split(terminal, "y")),
-    #EzKey("M-t", lazy.layout.spawn_tab(terminal)),
-    #EzKey("M-S-t", lazy.layout.spawn_tab(terminal, new_level=True)),
+    # Function keybindings
+	Key([mod], "F1", lazy.spawn("pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle")), 
+	Key([mod], "F2", lazy.spawn("dec-volume-notification")), 
+    Key([mod], "F3", lazy.spawn("inc-volume-notification")),
+    Key([mod], "F4", lazy.spawn("pactl set-source-mute 0 toggle")),
+    Key([mod, "Shift"], "F4", lazy.spawn("noise-supression")),
+	Key([mod], "F5", lazy.spawn("brightnessctl set 5%-")),
+	Key([mod], "F6", lazy.spawn("brightnessctl set +5%")),
+	Key([mod], "F7", lazy.spawn("uptime-notification")),
+	Key([mod], "F11", lazy.spawn("vktablet")),
+	Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
 
 
     # Resize windows
@@ -30,35 +36,37 @@ general_keybinds = [
     EzKey("M-C-k", lazy.layout.resize("up", 100)),
     EzKey("M-C-j", lazy.layout.resize("down", 100)),
 
+
     # Swap Windows
     EzKey("M-S-h", lazy.layout.swap("left")),
     EzKey("M-S-l", lazy.layout.swap("right")),
     EzKey("M-S-k", lazy.layout.swap("up")),
     EzKey("M-S-j", lazy.layout.swap("down")),
 
+
     # Swap tabs
     EzKey("A-S-d", lazy.layout.swap_tabs("previous")),
     EzKey("A-S-f", lazy.layout.swap_tabs("next")),
+
 
     #Select containers
     EzKey("M-o", lazy.layout.select_container_outer()),
     EzKey("M-i", lazy.layout.select_container_inner()),
 
+
     # Container select mode
-    KeyChord(
-        ["mod4"],
-        "w",
+    KeyChord(["mod4"], "w",
         [
             EzKey("C-v", lazy.layout.toggle_container_select_mode()),
+
 
             # Pull window out
             EzKey("o", lazy.layout.pull_out()),
             EzKey("u", lazy.layout.pull_out_to_tab()),
 
+
             # Merge window to tab
-            KeyChord(
-                [],
-                "m",
+            KeyChord([],"m",
                 [
                     EzKey("h", lazy.layout.merge_to_subtab("left")),
                     EzKey("l", lazy.layout.merge_to_subtab("right")),
@@ -70,10 +78,9 @@ general_keybinds = [
                 ],
             ),
  
+
             # Push window in
-            KeyChord(
-                [],
-                "i",
+            KeyChord([], "i",
                 [
                     EzKey("j", lazy.layout.push_in("down")),
                     EzKey("k", lazy.layout.push_in("up")),
