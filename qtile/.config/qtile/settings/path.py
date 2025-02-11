@@ -4,3 +4,8 @@ from os import path
 qtile_path = path.join(path.expanduser('~'), ".config", "qtile")
 script_path = path.join(qtile_path, "scripts")
 wallpaper_path = path.join(path.expanduser('~'), ".wallpaper")
+
+
+def run_script():
+    return
+
