@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+tlp ac
+tlp start

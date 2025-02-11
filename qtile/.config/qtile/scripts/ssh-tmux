@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+_name=$(iwgetid -r)
+_ssh_port=220
+if [ "$_name" == "XUAN HANH" ] || [ "$_name" == "XUAN DINH" ]; then
+    _ssh_port=22
+    kitty -e ssh -XC whammou@home -p $_ssh_port -t "tmux new -AD -s $1"
+
+else
+    kitty -e ssh -XC whammou@home -p $_ssh_port -t "tmux new -AD -s $1"
+
+fi

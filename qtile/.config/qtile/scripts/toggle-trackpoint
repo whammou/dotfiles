@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+DeviceName=TPPS\/2\ IBM\ TrackPoint
+DeviceState=$(xinput --list-props "$DeviceName" | grep "Device Enabled" | cut -d: -f2)
+if [ $DeviceState -eq 1 ]; then
+	xinput disable "$DeviceName"
+	notify-send "Thinkpad Trackpoint" "\nDisabled $DeviceName" -i " " -u low -t 2000
+else
+	xinput enable "$DeviceName"
+	notify-send "Thinkpad Trackpoint" "\nEnabled $DeviceName" -i " " -u low -t 2000
+fi

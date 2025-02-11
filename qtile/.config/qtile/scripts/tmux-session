@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+for session in {0..9}; do
+  tmux new -d -s $session
+done

@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+cat "$@" | rg URL | cut -d= -f2 | xargs qutebrowser --target=window
+
+

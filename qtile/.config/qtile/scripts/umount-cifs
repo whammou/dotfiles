@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+umount -l /server && qtile cmd-obj -o widget textbox_1 -f update -a ""
+

@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+upTime=$(~/dotfiles/scripts/uptime)
+notify-send "Device Uptime" "\n$upTime" -i " "

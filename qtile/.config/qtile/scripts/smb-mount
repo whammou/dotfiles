@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+sudo mount //27.65.44.36/sambashare /server/ -o username=whammou,password=Unlimitednova199-,uid=1000,uid=1000 && qtile cmd-obj -o widget textbox_1 -f update -a "● "

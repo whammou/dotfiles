@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+qutebrowser -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app

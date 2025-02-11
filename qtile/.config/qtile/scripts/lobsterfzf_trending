@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+export FZF_DEFAULT_OPTS_FILE=$HOME/.config/fzf/menu.conf
+lobster -t -q 1080

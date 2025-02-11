@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+device=$(pactl list short sources | sed -n 3p | cut -d\  -f2)
+
+if [[ $device != "Microphone" ]]; then
+    noisetorch -i
+    notify-send "Input Device" "Enabled Noise-Supression" -i ' ' -u low -t 3000
+else
+    noisetorch -u
+    notify-send "Input Device" "Disabled Noise-Supression" -i ' ' -u low -t 3000
+fi
