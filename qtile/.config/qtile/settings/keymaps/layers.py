@@ -9,7 +9,7 @@ meta = "mod1"
 def focus_visible_window(window_index):
     keymaps =[]
     for i in window_index:
-        keymaps.append(Key([meta], str(i), lazy.layout.focus_nth_window(i, ignore_inactive_tabs_at_levels=[1,2])))
+        keymaps.append(Key([meta], str(i), lazy.layout.focus_nth_window(i, ignore_inactive_tabs_at_levels=window_index)))
     return keymaps
 
 
