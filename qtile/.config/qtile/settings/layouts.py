@@ -6,6 +6,7 @@ layouts = [
     #layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     #layout.Max(),
     Bonsai(**{
+        "auto_cwd_for_terminals": False,
         "window.border_size": 0,
         "window.margin": [0, 3, 6, 3],
         "window.default_add_mode": "tab",
