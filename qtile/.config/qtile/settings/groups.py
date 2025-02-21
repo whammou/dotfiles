@@ -1,12 +1,13 @@
-from libqtile.config import Group
+from libqtile.config import Group, ScratchPad
 from libqtile.lazy import lazy
 
 from .keys import mod, keys
-from .group.scratchpads import scratchpads
+from .group.scratchpads import dropdowns, scratchpad_keys
+from .keymaps import keymap
 
 
 groups = [Group(i) for i in "1"]
-groups.append(scratchpads)
+groups.append(ScratchPad("scratchpad", dropdowns(keymap)))
 
 
 # for i in groups:

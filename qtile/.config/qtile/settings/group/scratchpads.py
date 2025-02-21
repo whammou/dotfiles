@@ -55,7 +55,7 @@ def dropdowns(keymap):
             dropdowns.append(DropDown(c[1], c[1], **scratchpad_layout(preset=c[2])))
     return dropdowns
 
-scratchpads = ScratchPad("scratchpad", dropdowns(keymap))
+#scratchpads = ScratchPad("scratchpad", dropdowns(keymap))
 
 
 def scratchpad_keys(mod, trigger, keymap):
