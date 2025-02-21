@@ -3,10 +3,10 @@ from libqtile.lazy import lazy
 
 import itertools
 
-from .keymap import keymap
-from .keymaps.general import general_keybinds
-from .keymaps.layers import focus_visible_window, change_tab_layer
-from .keymaps.spawn import spawn_position, spawn_tab
+from .keymaps import keymap
+from .key.general import general_keybinds
+from .key.layers import focus_visible_window, change_tab_layer
+from .key.spawn import spawn_position, spawn_tab
 from .group.scratchpads import scratchpad_keys
 
 
@@ -25,5 +25,3 @@ keys = list(itertools.chain(
     spawn_tab([mod, "shift"], "t", keymap, new_level=True),
     scratchpad_keys([mod], "p", keymap)
 ))
-
-keys.extend([Key([mod, "control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py'))])
