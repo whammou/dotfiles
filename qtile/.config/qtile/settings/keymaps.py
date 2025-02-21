@@ -1,4 +1,4 @@
-from .keymaps.spawn import tmux_session_attach
+from .key.spawn import tmux_session_attach
 from .path import script_path, run_script, in_terminal
 
 
@@ -39,9 +39,9 @@ keymap = [
         "prefix": "m",
         "cmd": [
             ["p", in_terminal("btm"), "pad_large"],
-            ["b", in_terminal("monitor-battery"), "pad_small"],
-            ["v", in_terminal("monitor-voltage"), "pad_small"],
-            ["c", in_terminal("watch-cpu"), "pad_small"],
+            ["b", in_terminal("monitor-battery"), "pad_list"],
+            ["v", in_terminal("monitor-voltage"), "pad_list"],
+            ["c", in_terminal("watch-cpu"), "pad_list"],
         ],
     },
     {
@@ -49,11 +49,11 @@ keymap = [
         "prefix": "u",
         "cmd": [
             ["a",   in_terminal("anifzf"), "pad_list"],
-            ["t",   in_terminal("tt --theme=mine --multi --nohighlight", parameters="-o font_size=20"), [0.8, 0.2, 0.1, 0.8]], 
-            ["l",   in_terminal("lobsterfzf"), "pad_list"],
-            ["S-l", in_terminal("lobsterfzf_trending"), "pad_list"],
+            ["t",   in_terminal("tt --theme=mine --multi --nohighlight", parameters="-o font_size=20"), "pad_large"],
+            ["l",   in_terminal("lobsterfzf"), "pad_small"],
+            ["S-l", in_terminal("lobsterfzf_trending"), "pad_small"],
             ["c",   in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"), "pad_list"],
-            ["m",   in_terminal("ytfzf-music"), "pad_list"],
+            ["m",   in_terminal("ytfzf-music"), "pad_small"],
             ["y",   in_terminal("ytfzf-video"), "pad_large"],
             ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
         ],
