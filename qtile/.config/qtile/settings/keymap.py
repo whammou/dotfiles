@@ -7,26 +7,26 @@ keymap = [
         "name": "qutebrowser",
         "prefix": "q",
         "cmd": [
-            ["b",   "qb"],
-            ["p",   "qb-url"],
-            ["S-p", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py"]
+            ["b",   "qb", "pad_large"],
+            ["p",   "qb-url", "pad_large"],
+            ["S-p", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py", "pad_large"]
         ],
     },
     {
         "name": "orgmode",
         "prefix": "o",
         "cmd": [
-            ["a", in_terminal("orgmode-agenda")],
-            ["t", in_terminal("orgmode-todo")],
-            ["c", in_terminal("orgmode-capture")],
+            ["a", in_terminal("orgmode-agenda"), "pad_large"],
+            ["t", in_terminal("orgmode-todo"), "pad_large"],
+            ["c", in_terminal("orgmode-capture"), "pad_large"],
         ],
     },
     {
         "name": "yazi",
         "prefix": "f",
         "cmd": [
-            ["h", in_terminal("yazi $HOME")],
-            ["s", in_terminal("yazi /server/")],
+            ["h", in_terminal("yazi $HOME"), "pad_medium"],
+            ["s", in_terminal("yazi /server/"), "pad_medium"],
         ],
     },
     {
@@ -38,24 +38,24 @@ keymap = [
         "name": "monitor",
         "prefix": "m",
         "cmd": [
-            ["p", in_terminal("btm")],
-            ["b", in_terminal("monitor-battery")],
-            ["v", in_terminal("monitor-voltage")],
-            ["c", in_terminal("watch-cpu")],
+            ["p", in_terminal("btm"), "pad_large"],
+            ["b", in_terminal("monitor-battery"), "pad_small"],
+            ["v", in_terminal("monitor-voltage"), "pad_small"],
+            ["c", in_terminal("watch-cpu"), "pad_small"],
         ],
     },
     {
         "name": "utility",
         "prefix": "u",
         "cmd": [
-            ["a",   in_terminal("anifzf")],
-            ["t",   in_terminal("tt --theme=mine --multi --nohighlight", parameters="-o font_size=20")],
-            ["l",   in_terminal("lobsterfzf")],
-            ["S-l", in_terminal("lobsterfzf")],
-            ["c",   in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc")],
-            ["m",   in_terminal("ytfzf-music")],
-            ["y",   in_terminal("ytfzf-video")],
-            ["S-y", in_terminal("ytfzf-thumbnail")],
+            ["a",   in_terminal("anifzf"), "pad_list"],
+            ["t",   in_terminal("tt --theme=mine --multi --nohighlight", parameters="-o font_size=20"), [0.8, 0.2, 0.1, 0.8]], 
+            ["l",   in_terminal("lobsterfzf"), "pad_list"],
+            ["S-l", in_terminal("lobsterfzf_trending"), "pad_list"],
+            ["c",   in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"), "pad_list"],
+            ["m",   in_terminal("ytfzf-music"), "pad_list"],
+            ["y",   in_terminal("ytfzf-video"), "pad_large"],
+            ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
         ],
     },
 ]
