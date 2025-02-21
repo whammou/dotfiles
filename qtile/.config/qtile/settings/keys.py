@@ -7,6 +7,7 @@ from .keymap import keymap
 from .keymaps.general import general_keybinds
 from .keymaps.layers import focus_visible_window, change_tab_layer
 from .keymaps.spawn import spawn_position, spawn_tab
+from .group.scratchpads import scratchpad_keys
 
 
 mod = "mod4"
@@ -22,6 +23,7 @@ keys = list(itertools.chain(
     spawn_position([mod, "shift"], "y", keymap, "y", position="previous"),
     spawn_tab([mod], "t", keymap, new_level=False),
     spawn_tab([mod, "shift"], "t", keymap, new_level=True),
+    scratchpad_keys([mod], "p", keymap)
 ))
 
-keys.extend([Key([mod, "Control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py'))])
+keys.extend([Key([mod, "control"], "b", lazy.group['scratchpad'].dropdown_toggle('qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py'))])

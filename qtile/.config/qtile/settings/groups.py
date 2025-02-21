@@ -1,19 +1,13 @@
-from libqtile.config import Key, Group, ScratchPad
+from libqtile.config import Group
 from libqtile.lazy import lazy
+
 from .keys import mod, keys
+from .group.scratchpads import scratchpads
 
-
-def base(wd=0.45, he=0.8):
-    return {
-        "width": wd,
-        "height": he,
-        "x": 0.275,
-        "y": 0.4,
-    }
 
 groups = [Group(i) for i in "1"]
+groups.append(scratchpads)
 
-#scratchpad = ScratchPad("scratchpad", [DropDown()])
 
 # for i in groups:
 #     keys.extend(
