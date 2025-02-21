@@ -5,7 +5,7 @@ from libqtile.lazy import lazy
 def tmux_session_attach(session_range):
     session_bind = []
     for i in session_range:
-        session_bind.append([str(i), " ".join(["tmux-session-attach", str(i)])])
+        session_bind.append([str(i), " ".join(["tmux-session-attach", str(i)]), "pad_large"])
     return session_bind
 
 
@@ -16,7 +16,7 @@ def spawn_position(mod, trigger, keymap, orientation, **spawn):
         for p in package["prefix"]:
             key_bind =[]
             for c in package["cmd"]:
-                print(c[0], c[1], spawn)
+                #print(c[0], c[1], spawn)
                 key_bind.append(EzKey(c[0], lazy.layout.spawn_split(c[1], orientation, **spawn)))
             #print(p, key_bind)
             cmd_bind.append(KeyChord([], p, key_bind))
