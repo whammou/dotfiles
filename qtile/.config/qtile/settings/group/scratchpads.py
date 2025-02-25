@@ -46,6 +46,20 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
                 "x":        0.275,
                 "y":        0.4,
             }
+        case "pad_typing":
+            return {
+                "width": 0.8,
+                "height": 0.2,
+                "x": 0.1,
+                "y": 0.8,
+            }
+        case "power_menu":
+            return {
+                "width": 0.1,
+                "height": 0.2,
+                "x": 0.45,
+                "y": 0.4,
+            }
 
 
 def dropdowns(keymap):
@@ -54,8 +68,6 @@ def dropdowns(keymap):
         for c in package["cmd"]:
             dropdowns.append(DropDown(c[1], c[1], **scratchpad_layout(preset=c[2])))
     return dropdowns
-
-#scratchpads = ScratchPad("scratchpad", dropdowns(keymap))
 
 
 def scratchpad_keys(mod, trigger, keymap):
