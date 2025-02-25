@@ -76,21 +76,22 @@ def battery(bat):
         format = '{char}{percent:2.0%}',
         show_short_text = False,
         low_percent = 0.2,
-        low_forground=colors["red"],
+        low_foreground=colors["red"],
         notify_below = 0.2,
         update_interval = 60,
     )
 
 
 def disk_free():
-    return widget.DF(**base(fg="purple"),
-                    update_interval = 60,
-                    partition = '/',
-                    format = '{uf}{m}',
-                    #format = "{r: 0.0f}",
-                    fmt = ' {}',
-                    visible_on_warn = False,
-                    )
+    return widget.DF(
+        **base(fg="purple"),
+        update_interval = 60,
+        partition = '/',
+        format = '{uf}{m}',
+        #format = "{r: 0.0f}",
+        fmt = ' {}',
+        visible_on_warn = False,
+        )
 
 
 def net():
