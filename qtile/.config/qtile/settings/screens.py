@@ -8,8 +8,8 @@ from .path import wallpaper_path
 from os import path
 
 
-def status_bar(widgets):
-    return bar.Bar(widgets, 24)
+def status_bar(widgets, **kargs):
+    return bar.Bar(widgets, 26, **kargs)
 
 def select_wallpaper(wallpaper):
     wallpaper = path.join(wallpaper_path, wallpaper)
@@ -19,5 +19,7 @@ def select_wallpaper(wallpaper):
 screens = [Screen(
     wallpaper = select_wallpaper("meteor.jpg"),
     wallpaper_mode = "fill",
-    top = status_bar(widgets),
+    top = status_bar(widgets, margin=[6, 12, 12, 12]),
+    left = bar.Bar([], 6),
+    right = bar.Bar([], 1)
 )]
