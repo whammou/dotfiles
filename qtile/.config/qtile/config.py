@@ -12,9 +12,9 @@ from os import path
 import subprocess
 
 
-@hook.subscribe.startup_once
-def autostart():
-    subprocess.call([path.join(qtile_path, 'autostart.sh')])
+#@hook.subscribe.startup_once
+#def autostart():
+#    subprocess.call([path.join(qtile_path, 'autostart.sh')])
 
 
 dgroups_key_binder = None
