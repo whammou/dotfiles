@@ -51,7 +51,7 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
                 "width": 0.8,
                 "height": 0.2,
                 "x": 0.1,
-                "y": 0.8,
+                "y": 0.79,
             }
         case "power_menu":
             return {
