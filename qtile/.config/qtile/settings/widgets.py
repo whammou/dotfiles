@@ -85,12 +85,12 @@ def battery(bat):
 def disk_free():
     return widget.DF(
         **base(fg="purple"),
-        update_interval = 60,
         partition = '/',
         format = '{uf}{m}',
         #format = "{r: 0.0f}",
         fmt = ' {}',
         visible_on_warn = False,
+        update_interval = 600,
         )
 
 
@@ -99,7 +99,7 @@ def net():
         **base(bg='blue'),
         interface = 'wlan0',
         format = '↓{down:6.1f}{down_suffix:<2}↑{up:6.1f}{up_suffix:<2}',
-        update_interval=10,
+        update_interval=60,
     )
 
 
@@ -107,7 +107,7 @@ def wlan():
     return widget.Wlan(
         **base(bg="red"),
         format = "{percent:2.0%} ",
-        update_interval=30,
+        update_interval=60,
     )
 
 
