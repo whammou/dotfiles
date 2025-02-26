@@ -48,7 +48,7 @@ keymap = [
         "name": "utility",
         "prefix": "u",
         "cmd": [
-            ["a",       in_terminal("anifzf"), "pad_list"],
+            ["a",       in_terminal("anifzf"), "pad_small"],
             ["t",       in_terminal("tt --theme=mine --multi --nohighlight", parameters="-o font_size=20"), "pad_typing"],
             ["l",       in_terminal("lobsterfzf"), "pad_small"],
             ["S-l",     in_terminal("lobsterfzf_trending"), "pad_small"],
