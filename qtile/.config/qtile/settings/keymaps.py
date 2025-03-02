@@ -7,9 +7,13 @@ keymap = [
         "name": "qutebrowser",
         "prefix": "q",
         "cmd": [
-            ["b",   "qb", "pad_large"],
-            ["p",   "qb-url", "pad_large"],
-            ["S-p", "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py", "pad_large"]
+            ["b", "qb", "pad_large"],
+            ["p", "qb-url", "pad_large"],
+            [
+                "i",
+                "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
+                "pad_large",
+            ],
         ],
     },
     {
@@ -48,16 +52,35 @@ keymap = [
         "name": "utility",
         "prefix": "u",
         "cmd": [
-            ["a",       in_terminal("anifzf"), "pad_small"],
-            ["t",       in_terminal("tt --theme=mine --multi --nohighlight", parameters="-o font_size=20"), "pad_typing"],
-            ["l",       in_terminal("lobsterfzf"), "pad_small"],
-            ["S-l",     in_terminal("lobsterfzf_trending"), "pad_small"],
-            ["c",       in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"), "pad_small"],
-            ["m",       in_terminal("ytfzf-music"), "pad_small"],
-            ["y",       in_terminal("ytfzf-video"), "pad_large"],
-            ["S-y",     in_terminal("ytfzf-thumbnail"), "pad_large"],
-            ["S-s",     in_terminal("sh smb-mount", parameters="-o font.size=10"), "pad_prompt"],
-            ["S-h",     in_terminal("sh smb-umount", parameters="-o font.size=10"), "pad_prompt"],
+            ["a", in_terminal("anifzf"), "pad_small"],
+            [
+                "t",
+                in_terminal(
+                    "tt --theme=mine --multi --nohighlight",
+                    parameters="-o font_size=20",
+                ),
+                "pad_typing",
+            ],
+            ["l", in_terminal("lobsterfzf"), "pad_small"],
+            ["S-l", in_terminal("lobsterfzf_trending"), "pad_small"],
+            [
+                "c",
+                in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"),
+                "pad_small",
+            ],
+            ["m", in_terminal("ytfzf-music"), "pad_small"],
+            ["y", in_terminal("ytfzf-video"), "pad_large"],
+            ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
+            [
+                "S-s",
+                in_terminal("sh smb-mount", parameters="-o font.size=10"),
+                "pad_prompt",
+            ],
+            [
+                "S-h",
+                in_terminal("sh smb-umount", parameters="-o font.size=10"),
+                "pad_prompt",
+            ],
         ],
     },
 ]

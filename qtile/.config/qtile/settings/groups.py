@@ -1,29 +1,30 @@
-from libqtile.config import Group, ScratchPad
-from libqtile.lazy import lazy
+from libqtile.config import Group, ScratchPad, DropDown
 
-from .keys import mod, keys
-from .group.scratchpads import dropdowns, scratchpad_keys
+from .group.scratchpads import dropdowns
 from .keymaps import keymap
 
 
 groups = [Group(i) for i in "1"]
-groups.append(ScratchPad("scratchpad", dropdowns(keymap)))
 
+dropdown = [
+    DropDown(
+        "nmfzf",
+        "kitty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
+        width=0.45,
+        height=0.8,
+        x=0.275,
+        y=0.1,
+        on_focus_lost_hide=False,
+    ),
+    DropDown(
+        "adapter",
+        "kitty --class=pwd_prompt -o font.size=10 -e adapter-switch",
+        width=0.45,
+        height=0.04,
+        x=0.275,
+        y=0.48,
+    ),
+]
+dropdown.extend(dropdowns(keymap))
 
-# for i in groups:
-#     keys.extend(
-#         [
-#             Key(
-#                 [mod],
-#                 i.name,
-#                 lazy.group[i.name].toscreen(),
-#                 desc=f"Switch to group {i.name}",
-#             ),
-#             Key(
-#                 [mod, "shift"],
-#                 i.name,
-#                 lazy.window.togroup(i.name, switch_group=True),
-#                 desc=f"Switch to & move focused window to group {i.name}",
-#             ),
-#         ]
-#     )
+groups.append(ScratchPad("scratchpad", dropdown))
