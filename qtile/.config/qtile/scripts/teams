@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-qutebrowser -B /home/whammou/.config/qutebrowser/app/ 'https://teams.microsoft.com/v2/?culture=en-us&country=us'

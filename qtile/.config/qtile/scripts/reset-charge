@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-
-tlp setcharge BAT0
-tlp setcharge BAT1

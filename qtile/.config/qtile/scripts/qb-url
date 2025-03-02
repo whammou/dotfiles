@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-
-clipboard=$(xclip -selection clipboard -o)
-qutebrowser --target window $clipboard

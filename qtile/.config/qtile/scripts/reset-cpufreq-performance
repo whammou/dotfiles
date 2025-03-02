@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-
-cpufreqctl.auto-cpufreq --governor --set=powersave
-cpufreqctl.auto-cpufreq --governor --set=performance

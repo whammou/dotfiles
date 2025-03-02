@@ -1,6 +1,0 @@
-#!/bin/python
-
-import time,datetime
-
-d=datetime.datetime(1,1,1) + datetime.timedelta(seconds=time.clock_gettime(time.CLOCK_MONOTONIC))
-print(f"{d.day-1} days, {d.hour} hours, {d.minute} minutes")

@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-
-ln -sv $HOME/orgmode/EEET2604.org $HOME/notes/design/EEET2604/schedule.org
-ln -sv /server/canvas/Digital\ Systems\ Design\ 1/ $HOME/notes/design/EEET2604/doc
-

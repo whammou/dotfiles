@@ -1,6 +1,0 @@
-#!/home/whammou/.venv/calculator/bin/python3
-
-from numpy import *
-import pylab as plot
-
-plot.style.use ('dark_background')

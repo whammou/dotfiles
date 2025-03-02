@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-
-export FZF_DEFAULT_OPTS_FILE=$HOME/.config/fzf/menu.conf
-ytfzf --type=all --detach --pages=1 --submenu-opts=-l -sl

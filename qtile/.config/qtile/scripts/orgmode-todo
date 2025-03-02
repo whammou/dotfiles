@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-nvim ~/notes/capture.org +:"cd ~/notes | Org agenda t | 1q"

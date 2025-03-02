@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-
-level=$(pactl get-sink-volume @DEFAULT_SINK@ | cut -d\  -f6 | sed -n 1p)
-pactl set-sink-volume @DEFAULT_SINK@ -5%
-notify-send "Current Volume level: $level" -i ' ' -u low -t 2000
