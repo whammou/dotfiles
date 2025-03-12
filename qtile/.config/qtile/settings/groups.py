@@ -24,6 +24,14 @@ dropdown = [
         x=0.275,
         y=0.48,
     ),
+    DropDown(
+        "powermenu",
+        "kitty --class=powermenu -e power-menu",
+        width=0.1,
+        height=0.2,
+        x=0.45,
+        y=0.4,
+    ),
 ]
 dropdown.extend(dropdowns(keymap))
 
