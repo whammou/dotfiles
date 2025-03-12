@@ -26,7 +26,7 @@ windows_keys = [
         [
             EzKey("C-v", lazy.layout.toggle_container_select_mode()),
             # Pull window out
-            EzKey("o", lazy.layout.pull_out()),
+            EzKey("o", lazy.layout.pull_out(position="next")),
             EzKey("u", lazy.layout.pull_out_to_tab()),
             # Merge window to tab
             KeyChord(
@@ -37,8 +37,8 @@ windows_keys = [
                     EzKey("l", lazy.layout.merge_to_subtab("right")),
                     EzKey("j", lazy.layout.merge_to_subtab("down")),
                     EzKey("k", lazy.layout.merge_to_subtab("up")),
-                    EzKey("S-h", lazy.layout.merge_tabs("previous", "y")),
-                    EzKey("S-l", lazy.layout.merge_tabs("next", "y")),
+                    EzKey("S-h", lazy.layout.merge_tabs("previous", "x")),
+                    EzKey("S-l", lazy.layout.merge_tabs("next", "x")),
                 ],
             ),
             # Push window in
