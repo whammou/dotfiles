@@ -1,5 +1,5 @@
 from .key.spawn import tmux_session_attach
-from .path import script_path, run_script, in_terminal
+from .path import in_terminal
 
 
 keymap = [
