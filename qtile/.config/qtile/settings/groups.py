@@ -14,7 +14,6 @@ dropdown = [
         height=0.8,
         x=0.275,
         y=0.1,
-        on_focus_lost_hide=False,
     ),
     DropDown(
         "adapter",
