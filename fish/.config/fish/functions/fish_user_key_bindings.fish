@@ -9,6 +9,7 @@ function fish_user_key_bindings
 
         bind --mode $mode \cZ true #unbind <C-z> send to background
         bind --mode $mode \x1c bg
+
+        bind --mode $mode \cf _yazi
     end
 end
-
