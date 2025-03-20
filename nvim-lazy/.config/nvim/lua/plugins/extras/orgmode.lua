@@ -30,7 +30,7 @@ return {
       org_tags_column = 0,
       org_todo_keywords = { "TODO(t)", "PENDING(p)", "DOING(d)", "|", "DONE(f)", "ABORTED(a)" },
       mappings = {
-        org_return_uses_meta_return = true,
+        org_return_uses_meta_return = false,
         org = {
           org_cycle = false,
         },
@@ -39,9 +39,9 @@ return {
         folds = {
           colored = false,
         },
-        ui = {
-          use_vim_ui = true,
-        },
+        -- ui = {
+        --   use_vim_ui = true,
+        -- },
       },
     },
   },
