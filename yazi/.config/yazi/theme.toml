@@ -34,8 +34,8 @@ border_style = { fg = "darkgray" }  # Darkened background
 
 # : Status {{{
 [status]
-separator_open = ""
-separator_close = ""
+sep_left =  { open = " ", close = "" }
+sep_right = { open = "", close = " " }
 separator_style = { fg = "blue", bg = "darkgray" }  # Blue on Darkened background
 
 # Progress
@@ -53,8 +53,8 @@ permissions_s = { fg = "gray" }  # Light gray
 # : }}}
 
 [mode]
-normal_main = { fg = "black", bg = "green", bold = true } # Black on Green background
-normal_alt  = { fg = "green", bg = "black"} # reversed
+normal_main = { fg = "black", bg = "blue", bold = true } # Black on Green background
+normal_alt  = { fg = "#93a4c3", bg = "#21283b"} # reversed
 
 select_main = { fg = "black", bg = "magenta", bold = true } # Black on Magenta background
 select_alt  = { fg = "magenta", bg = "black"} # reversed
