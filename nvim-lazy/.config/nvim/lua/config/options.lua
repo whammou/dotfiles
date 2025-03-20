@@ -6,6 +6,7 @@ local opt = vim.opt
 
 -- Vim
 opt.autochdir = true
+-- opts.rocks.hererocks = false
 
 -- Animation
 vim.g.snacks_animate = false -- Turn off snacks animation
