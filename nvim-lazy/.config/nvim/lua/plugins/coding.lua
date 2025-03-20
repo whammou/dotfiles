@@ -1,17 +1,14 @@
 return {
   {
     "L3MON4D3/LuaSnip",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
-        require("luasnip.loaders.from_lua").load({ paths = { "~/.config/nvim/snippets/" } })
-      end,
-    },
+    config = function()
+      require("luasnip.loaders.from_lua").load({ path = "~/.config/nvim/lua/config/snippets/" })
+    end,
   },
 
   {
     "saghen/blink.cmp",
+    optional = true,
     opts = {
       snippets = {
         preset = "luasnip",
