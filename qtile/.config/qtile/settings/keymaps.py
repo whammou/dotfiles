@@ -31,6 +31,8 @@ keymap = [
         "cmd": [
             ["h", in_terminal("yazi $HOME"), "pad_medium"],
             ["s", in_terminal("yazi /server/"), "pad_medium"],
+            ["S-s", in_terminal("smb-mount"), "pad_prompt"],
+            ["S-h", in_terminal("smb-umount"), "pad_prompt"],
         ],
     },
     {
