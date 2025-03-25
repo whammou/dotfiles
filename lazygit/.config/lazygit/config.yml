@@ -1,0 +1,12 @@
+gui:
+  showBottomLine : false
+  border: "single"
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor:
+      - default
+      - bold
+    inactiveBorderColor:
+      - "#ffffff"
+    selectedLineBgColor:
+      - "#ffffff"
