@@ -9,4 +9,17 @@
 	process = git-lfs filter-process
 	required = true
 [core]
-	editor = nvim
+  editor = nvim
+[diff]
+  tool = nvimdiff
+[difftool]
+  prompt = false
+[difftool "nvimdiff"]
+  cmd = nvim -c Gvdiffsplit! "$MERGED"
+[merge]
+  tool = nvimdiff
+  conflictstyle = diff3
+[mergetool]
+  prompt = false
+[mergetool "nvimdiff"]
+  cmd = nvim -f -c Gvdiffsplit! "$MERGED"
