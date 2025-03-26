@@ -18,7 +18,7 @@
             "type": "title",
             "color": {
                 "user": "magenta",
-                "at": "bright_black",
+                "at": "white",
                 "host": "magenta"
             }
         },
@@ -30,13 +30,13 @@
             "type": "kernel",
         },
         {
-            "type": "memory",
+            "type": "initsystem",
+        },
+        {
+            "type": "shell",
         },
         {
             "type": "packages",
         },
-        {
-            "type": "uptime",
-        }
     ]
 }
