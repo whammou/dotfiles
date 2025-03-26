@@ -71,7 +71,7 @@ symbol = " "
 [directory]
 read_only = " 󰌾"
 format = "[ $path ]($style)[  ](cyan)"
-style = 'bg:cyan fg:bright-cyan'
+style = 'bg:cyan fg:bold bright-black'
 home_symbol = "HOME"
 
 [docker_context]
