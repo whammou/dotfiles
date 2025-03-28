@@ -29,6 +29,10 @@ return {
       org_use_tag_inheritance = true,
       org_tags_column = 0,
       org_todo_keywords = { "TODO(t)", "PENDING(p)", "DOING(d)", "|", "DONE(f)", "ABORTED(a)" },
+      org_priority_highest = "A",
+      org_priority_default = "B",
+      org_priority_lowest = "F",
+      org_deadline_warning_days = 0,
       mappings = {
         org_return_uses_meta_return = false,
         org = {
