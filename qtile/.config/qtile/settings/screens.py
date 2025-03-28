@@ -22,6 +22,6 @@ screens = [
         wallpaper_mode="fill",
         top=status_bar(widgets, margin=[6, 12, 12, 12]),
         left=bar.Bar([], 6),
-        right=bar.Bar([], 1),
+        right=bar.Bar([], 6),
     )
 ]
