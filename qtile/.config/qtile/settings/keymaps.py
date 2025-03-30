@@ -14,6 +14,11 @@ keymap = [
                 "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
                 "pad_large",
             ],
+            [
+                "d",
+                "qutebrowser --target=window -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
+                "pad_large",
+            ],
         ],
     },
     {
