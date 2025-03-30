@@ -10,3 +10,4 @@ image/png=vimiv.desktop
 image/jpeg=vimiv.desktop
 
 text/plain=nvim.desktop
+x-scheme-handler/beeper=beepertexts.desktop
