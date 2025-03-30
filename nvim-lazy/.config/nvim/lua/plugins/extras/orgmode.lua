@@ -22,30 +22,42 @@ return {
       org_agenda_files = { "~/notes/**/*" },
       org_default_notes_file = "~/notes/capture.org",
       org_archive_location = "./archive/log.org::ARCHIVED",
+      org_ellipsis = "",
+
       org_split_mode = { "auto" },
       org_hide_leading_stars = false,
       org_adapt_indentaion = false,
       org_startup_indented = true,
+
       org_use_tag_inheritance = true,
       org_tags_column = 0,
+
       org_todo_keywords = { "TODO(t)", "PENDING(p)", "DOING(d)", "|", "DONE(f)", "ABORTED(a)" },
+      org_todo_keyword_faces = {
+        ABORTED = ":foreground #f65866 :weight bold",
+        DOING = ":foreground #34bfd0 :weight bold",
+        PENDING = ":foreground #93a4c3 :weight bold",
+      },
+
       org_priority_highest = "A",
       org_priority_default = "B",
       org_priority_lowest = "F",
       org_deadline_warning_days = 0,
+
       mappings = {
         org_return_uses_meta_return = false,
         org = {
           org_cycle = false,
         },
       },
+
       ui = {
         folds = {
           colored = false,
         },
-        -- ui = {
-        --   use_vim_ui = true,
-        -- },
+        ui = {
+          use_vim_ui = true,
+        },
       },
     },
   },
