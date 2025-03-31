@@ -2,6 +2,7 @@ return {
   {
     "nvim-orgmode/orgmode",
     lazy = true,
+    event = { "LazyFile" },
     ft = "org",
     dependencies = {
       {

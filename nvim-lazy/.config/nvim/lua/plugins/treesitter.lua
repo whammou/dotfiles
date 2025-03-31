@@ -14,9 +14,7 @@ return {
         "toml",
         "yaml",
       },
-      ignore_install = {
-        "org",
-      },
+      ignore_install = { "org" },
     },
   },
 }
