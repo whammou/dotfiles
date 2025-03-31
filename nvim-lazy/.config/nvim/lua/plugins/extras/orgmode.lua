@@ -52,11 +52,11 @@ return {
       },
 
       ui = {
+        --        input = {
+        --          use_vim_ui = true,
+        --        },
         folds = {
           colored = false,
-        },
-        ui = {
-          use_vim_ui = true,
         },
       },
     },
