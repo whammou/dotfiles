@@ -20,8 +20,12 @@ screens = [
     Screen(
         wallpaper=select_wallpaper("meteor.jpg"),
         wallpaper_mode="fill",
-        top=status_bar(widgets, margin=[6, 12, 12, 12]),
+        right=bar.Bar(
+            [],
+            1,
+            margin=[0, -1, 0, 7],
+        ),
         left=bar.Bar([], 6),
-        right=bar.Bar([], 6),
+        top=status_bar(widgets, margin=[6, 12, 12, 12]),
     )
 ]
