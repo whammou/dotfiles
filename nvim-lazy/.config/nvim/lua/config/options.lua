@@ -6,6 +6,7 @@ local opt = vim.opt
 
 -- Vim
 opt.autochdir = true
+opt.foldmethod = "indent"
 -- opts.rocks.hererocks = false
 
 -- Animation

@@ -2,8 +2,8 @@ return {
   {
     "nvim-orgmode/orgmode",
     lazy = true,
-    event = { "LazyFile" },
     ft = "org",
+
     dependencies = {
       {
         "lukas-reineke/headlines.nvim",
@@ -19,11 +19,14 @@ return {
         opts = {},
       },
     },
+
     opts = {
       org_agenda_files = { "~/notes/**/*" },
       org_default_notes_file = "~/notes/capture.org",
       org_archive_location = "./archive/log.org::ARCHIVED",
+
       org_ellipsis = "",
+      win_split_mode = { "float", 0.9 },
 
       org_split_mode = { "auto" },
       org_hide_leading_stars = false,
@@ -53,9 +56,9 @@ return {
       },
 
       ui = {
-        --        input = {
-        --          use_vim_ui = true,
-        --        },
+        input = {
+          use_vim_ui = true,
+        },
         folds = {
           colored = false,
         },
