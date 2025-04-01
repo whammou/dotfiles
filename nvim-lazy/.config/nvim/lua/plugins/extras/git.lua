@@ -1,17 +1,17 @@
 return {
   {
     "tpope/vim-fugitive",
-    lazy = false,
+    lazy = true,
+    event = { "LazyFile" },
   },
 
   {
     "knsh14/vim-github-link",
-    event = "VeryLazy",
+    lazy = true,
   },
   {
     "kdheepak/lazygit.nvim",
     lazy = true,
-    event = "VeryLazy",
     cmd = {
       "LazyGit",
       "LazyGitConfig",

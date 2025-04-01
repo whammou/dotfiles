@@ -8,7 +8,6 @@ return {
   {
     "whammou/vim-grip",
     lazy = true,
-    event = "VeryLazy",
     ft = "markdown",
   },
 
