@@ -32,6 +32,13 @@ run  = "plugin open-with-cmd"
 desc = "Open with command"
 
 [[manager.prepend_keymap]]
+on   = [ "c", "s" ]
+run  = "plugin what-size"
+desc = "Calc size of selection or cwd"
+
+
+# Relative motion keybinds
+[[manager.prepend_keymap]]
 on = [ "1" ]
 run = "plugin relative-motions 1"
 desc = "Move in relative steps"
@@ -75,9 +82,3 @@ desc = "Move in relative steps"
 on = [ "9" ]
 run = "plugin relative-motions 9"
 desc = "Move in relative steps"
-
-[[manager.prepend_keymap]]
-on   = [ "c", "s" ]
-run  = "plugin what-size"
-desc = "Calc size of selection or cwd"
-
