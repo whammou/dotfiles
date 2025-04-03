@@ -75,9 +75,14 @@ keymap = [
                 in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"),
                 "pad_small",
             ],
-            ["m", in_terminal("ytfzf-music"), "pad_small"],
-            ["y", in_terminal("ytfzf-video"), "pad_large"],
-            ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
+            # ["m", in_terminal("ytfzf-music"), "pad_small"],
+            # ["y", in_terminal("ytfzf-video"), "pad_large"],
+            # ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
+            [
+                "y",
+                in_terminal("tmux -c yt-x", parameters="--title='yt-x'"),
+                "pad_large",
+            ],
             [
                 "S-s",
                 in_terminal("sh smb-mount", parameters="-o font.size=10"),
