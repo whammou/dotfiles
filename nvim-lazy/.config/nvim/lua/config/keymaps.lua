@@ -13,5 +13,5 @@ map("n", "<C-g>f", "<cmd>Git fetch<cr>", { desc = "Git fetch" })
 map("n", "<C-G>p", "<cmd>Git pull<cr>", { desc = "Git pull" })
 
 -- Edit
-map("n", "<C-A-j>", "<cmd>set paste<CR>m`o<ESC>``<cmd>set nopaste<CR>")
-map("n", "<C-A-k>", "<cmd>set paste<CR>m`O<ESC>``<cmd>set nopaste<CR>")
+map("n", "<C-A-j>", "<cmd>set paste<CR>m`o<ESC>``<cmd>set nopaste<CR>", { desc = "Add empty line above" })
+map("n", "<C-A-k>", "<cmd>set paste<CR>m`O<ESC>``<cmd>set nopaste<CR>", { desc = "Add empty line below" })

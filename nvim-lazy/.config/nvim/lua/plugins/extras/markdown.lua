@@ -9,6 +9,9 @@ return {
     "whammou/vim-grip",
     lazy = true,
     ft = "markdown",
+    keys = {
+      { "<leader>mr", "<cmd>GripStart<cr>", desc = "Render markdown" },
+    },
   },
 
   {
