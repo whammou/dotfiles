@@ -80,6 +80,14 @@ keymap = [
             # ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
             [
                 "y",
+                in_terminal(
+                    "tmux -c 'yt-x --preview'",
+                    parameters="--hold --title='yt-x (Thumbnail)'",
+                ),
+                "pad_large",
+            ],
+            [
+                "S-y",
                 in_terminal("tmux -c yt-x", parameters="--title='yt-x'"),
                 "pad_large",
             ],
