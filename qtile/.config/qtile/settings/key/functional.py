@@ -1,4 +1,4 @@
-from libqtile.config import Key
+from libqtile.config import Key, KeyChord
 from libqtile.lazy import lazy
 
 
@@ -25,4 +25,21 @@ functional_keys = [
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
     Key([mod], "Delete", lazy.group["scratchpad"].dropdown_toggle("powermenu")),
     Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
+    KeyChord(
+        [mod, "control"],
+        "p",
+        [
+            KeyChord(
+                [],
+                "t",
+                [
+                    Key(
+                        [],
+                        "0",
+                        lazy.group["scratchpad"].dropdown_toggle("terminal-tmux"),
+                    )
+                ],
+            )
+        ],
+    ),
 ]
