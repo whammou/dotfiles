@@ -31,6 +31,14 @@ dropdown = [
         x=0.45,
         y=0.4,
     ),
+    DropDown(
+        "terminal-tmux",
+        "kitty --title='Session 0 - tmux' -e tmux new -A -s 0",
+        width=0.8,
+        height=0.8,
+        x=0.1,
+        y=0.1,
+    ),
 ]
 dropdown.extend(dropdowns(keymap))
 
