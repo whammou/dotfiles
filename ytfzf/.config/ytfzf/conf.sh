@@ -18,10 +18,11 @@ thumbnail_viewer='kitty'
 #invidious_instance='invidious.io'
 #invidious_instance='yewtu.be'
 #invidious_instance='invidious.jing.rocks'
+invidious_instance='id.420129.xyz'
 
 #invidious_instance='inv5.nadeko.net'
 #invidious_instance="Tor: inv.nadekonw7plitnjuawu6ytjsl7jlglk2t6pyq6eftptmiv3dvqndwvyd.onion"
 
 #invidious_instance='pol1.iv.ggtyler.dev'
-invidious_instance='cal1.iv.ggtyler.dev'
+#invidious_instance='cal1.iv.ggtyler.dev'
 #invidious_instance='nyc1.iv.ggtyler.dev'
