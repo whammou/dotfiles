@@ -25,11 +25,11 @@ dropdown = [
     ),
     DropDown(
         "powermenu",
-        "kitty --class=powermenu -e power-menu",
-        width=0.1,
-        height=0.2,
-        x=0.45,
-        y=0.4,
+        "kitty --title=Power -o font_size=20 -e power-menu",
+        width=0.2,
+        height=0.4,
+        x=0.4,
+        y=0.2,
     ),
     DropDown(
         "terminal-tmux",
