@@ -2,31 +2,34 @@ return {
   {
     "tpope/vim-fugitive",
     lazy = true,
-    event = { "LazyFile" },
+    event = "LazyFile",
   },
 
   {
     "knsh14/vim-github-link",
     lazy = true,
   },
+
   {
     "kdheepak/lazygit.nvim",
     lazy = true,
     cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
+      -- "LazyGit",
+      -- "LazyGitConfig",
+      -- "LazyGitCurrentFile",
       "LazyGitFilter",
       "LazyGitFilterCurrentFile",
     },
-    -- optional for floating window border decoration
-    -- dependencies = {
-    --   "nvim-lua/plenary.nvim",
-    -- },
-    -- setting the keybinding for LazyGit with 'keys' is recommended in
-    -- order to load the plugin when the command is run for the first time
-    --keys = {
-    --  { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-    --},
+  },
+
+  {
+    "Almo7aya/openingh.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    keys = {
+      { "<leader>gr", "<cmd>OpenInGHRepo <CR>", desc = "Current GitHub repo" },
+      { "<leader>gf", "<cmd>OpenInGHFile <CR>", desc = "Current File GitHub" },
+      { "v", "<leader>gf", "<cnd>OpenInGHFileLines <CR>", desc = "Current Line Github" },
+    },
   },
 }
