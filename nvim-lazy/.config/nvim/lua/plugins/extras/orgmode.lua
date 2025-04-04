@@ -48,6 +48,10 @@ return {
       org_priority_lowest = "F",
       org_deadline_warning_days = 0,
 
+      org_capture_templates = {
+        d = { description = "Document", template = "* %? [%]" },
+      },
+
       mappings = {
         org_return_uses_meta_return = false,
         org = {
