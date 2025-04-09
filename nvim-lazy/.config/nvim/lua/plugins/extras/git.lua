@@ -2,7 +2,7 @@ return {
   {
     "tpope/vim-fugitive",
     lazy = true,
-    event = "LazyFile",
+    event = { "LazyFile" },
   },
 
   {
@@ -29,7 +29,7 @@ return {
     keys = {
       { "<leader>gr", "<cmd>OpenInGHRepo <CR>", desc = "Current GitHub repo" },
       { "<leader>gf", "<cmd>OpenInGHFile <CR>", desc = "Current File GitHub" },
-      { "v", "<leader>gf", "<cnd>OpenInGHFileLines <CR>", desc = "Current Line Github" },
+      --{ "<leader>gf", "<cnd>OpenInGHFileLines <CR>", desc = "Current Line Github" },
     },
   },
 }

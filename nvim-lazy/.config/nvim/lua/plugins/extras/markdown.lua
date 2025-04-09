@@ -29,6 +29,27 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = true,
     ft = "markdown",
-    opts = {},
+    opts = {
+      completions = { blink = { enabled = true } },
+
+      heading = {
+        position = "left",
+      },
+
+      indent = {
+        enabled = false,
+        per_level = 0,
+        skip_level = 0,
+        icon = "│ ",
+      },
+
+      latex = {
+        enabled = true,
+      },
+
+      html = {
+        enabled = true,
+      },
+    },
   },
 }

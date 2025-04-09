@@ -24,6 +24,7 @@ return {
       org_agenda_files = { "~/notes/**/*" },
       org_default_notes_file = "~/notes/capture.org",
       org_archive_location = "./archive/log.org::ARCHIVED",
+      org_log_into_drawer = "LOGBOOK",
 
       org_ellipsis = "",
       win_split_mode = { "float", 0.9 },
