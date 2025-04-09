@@ -6,6 +6,7 @@ return {
         "html",
         "latex",
         "markdown",
+        "markdown_inline",
         "python",
         "bash",
         "fish",

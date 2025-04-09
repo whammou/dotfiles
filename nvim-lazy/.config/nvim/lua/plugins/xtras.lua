@@ -1,10 +1,11 @@
 return {
 
-  --  {
-  --    "norcalli/nvim-colorizer.lua",
-  --    event = "VeryLazy",
-  --    opts = {},
-  --  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    lazy = true,
+    event = "VeryLazy",
+    opts = {},
+  },
 
   {
     "pysan3/fcitx5.nvim",
