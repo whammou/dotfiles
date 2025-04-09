@@ -4,32 +4,32 @@
 # COLORS #
 ##########
 
-# base16 colors but with variable names that 
+# base16 colors but with variable names that
 # reflect what the color is mainly used for
 
-bg_default = "#1a212e"          # main shade darkest
+bg_default = "#1a212e"  # main shade darkest
 bg_lighter = "#21283b"
 bg_selection = "#283347"
 # "#545862"
 fg_disabled = "#455574"
 fg_default = "#93a4c3"
 # "#b6bdca"
-bg_lightest = "#c8ccd4"         # main shade lightest
-fg_error = "#f65866"            # red
+bg_lightest = "#c8ccd4"  # main shade lightest
+fg_error = "#f65866"  # red
 # "#d19a66"                     # orange
-bg_hint = "#efbd5c"             # yellow
-fg_matched_text = "#8bcd5b"     # green
-bg_passthrough_mode = "#34bfd0" # teal
-bg_insert_mode = "#41a7fc"      # blue
-bg_warning = "#c75ae8"          # purple
+bg_hint = "#efbd5c"  # yellow
+fg_matched_text = "#8bcd5b"  # green
+bg_passthrough_mode = "#34bfd0"  # teal
+bg_insert_mode = "#41a7fc"  # blue
+bg_warning = "#c75ae8"  # purple
 # "#be5046"                     # dark red
 
 ############
 # SETTINGS #
 ############
 
-c.fonts.default_size = '13pt'
-c.colors.webpage.preferred_color_scheme = 'dark'
+c.fonts.default_size = "13pt"
+c.colors.webpage.preferred_color_scheme = "dark"
 
 # Text color of the completion widget. May be a single color to use for
 # all columns or a list of three colors, one for each column.
@@ -87,12 +87,12 @@ c.colors.contextmenu.disabled.fg = fg_disabled
 c.colors.contextmenu.menu.bg = bg_default
 
 # Foreground color of the context menu. If set to null, the Qt default is used.
-c.colors.contextmenu.menu.fg =  fg_default
+c.colors.contextmenu.menu.fg = fg_default
 
 # Background color of the context menu’s selected item. If set to null, the Qt default is used.
 c.colors.contextmenu.selected.bg = bg_selection
 
-#Foreground color of the context menu’s selected item. If set to null, the Qt default is used.
+# Foreground color of the context menu’s selected item. If set to null, the Qt default is used.
 c.colors.contextmenu.selected.fg = fg_default
 
 # Background color for the download bar.
@@ -114,14 +114,14 @@ c.colors.downloads.stop.bg = bg_passthrough_mode
 c.colors.downloads.error.fg = fg_error
 
 # Font color for hints.
-c.colors.hints.fg = bg_default
+c.colors.hints.fg = fg_default
 
 # Background color for hints. Note that you can use a `rgba(...)` value
 # for transparency.
-c.colors.hints.bg = bg_hint
+c.colors.hints.bg = bg_selection
 
 # Font color for the matched part of hints.
-c.colors.hints.match.fg = fg_default
+c.colors.hints.match.fg = bg_insert_mode
 
 # Text color for the keyhint widget.
 c.colors.keyhint.fg = fg_default
