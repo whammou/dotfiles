@@ -7,6 +7,8 @@ gui:
       - default
       - bold
     inactiveBorderColor:
-      - "#ffffff"
+      - "#455574"
+      #- grey
     selectedLineBgColor:
-      - "#ffffff"
+      - "#283347"
+      #- grey
