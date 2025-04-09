@@ -313,6 +313,210 @@
       "live_status": null,
       "channel_is_verified": null,
       "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "Jrg9KxGNeJY",
+      "url": "https://www.youtube.com/watch?v=Jrg9KxGNeJY",
+      "title": "Bury the Light - Vergil's battle theme from Devil May Cry 5 Special Edition",
+      "description": null,
+      "duration": 583.0,
+      "channel_id": "UCl30c4zWJGbIYm_U-bWhPpA",
+      "channel": "Shadow Hunter",
+      "channel_url": "https://www.youtube.com/channel/UCl30c4zWJGbIYm_U-bWhPpA",
+      "uploader": "Shadow Hunter",
+      "uploader_id": "@shadowhunterofficial",
+      "uploader_url": "https://www.youtube.com/@shadowhunterofficial",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/Jrg9KxGNeJY/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAWGClbv4yJ0l6OH1TDTp4gn6SyhQ",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Jrg9KxGNeJY/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA58q-eZeATZF02FgzX2mInpBB6mQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1617840000,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 146407568,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "aVPT-5i_C8M",
+      "url": "https://www.youtube.com/watch?v=aVPT-5i_C8M",
+      "title": "TÓM TẮT TOÀN BỘ DEVIL MAY CRY - SEASON 1 | DEVIL MAY CRY",
+      "description": null,
+      "duration": 1900.0,
+      "channel_id": "UCSmgstpWpgV-dXlbc1pRrcA",
+      "channel": "Anime Rewind",
+      "channel_url": "https://www.youtube.com/channel/UCSmgstpWpgV-dXlbc1pRrcA",
+      "uploader": "Anime Rewind",
+      "uploader_id": "@AnimeRewind.Official",
+      "uploader_url": "https://www.youtube.com/@AnimeRewind.Official",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/aVPT-5i_C8M/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAtkrOds3SGz-dcaCUWEwUVj_5Bhw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/aVPT-5i_C8M/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDS6ZwROmzSrDfQ0aG_dhF0PlqEmw",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1744070400,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 36139,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "3SFK8oWoYL4",
+      "url": "https://www.youtube.com/watch?v=3SFK8oWoYL4",
+      "title": "The BEST Omen Fracture Guide",
+      "description": null,
+      "duration": 886.0,
+      "channel_id": "UCQEBCe4avav7yb9TOypMThg",
+      "channel": "Doctor Freeze",
+      "channel_url": "https://www.youtube.com/channel/UCQEBCe4avav7yb9TOypMThg",
+      "uploader": "Doctor Freeze",
+      "uploader_id": "@DoctorFreeze",
+      "uploader_url": "https://www.youtube.com/@DoctorFreeze",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/3SFK8oWoYL4/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDUuabRAbFTTSgZv7XcTx-pWONhcQ",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/3SFK8oWoYL4/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBEGrUUyo0nnH3AH7ZYJoo9hDfjdA",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1649462400,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 67432,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "7utK7T4iAmw",
+      "url": "https://www.youtube.com/watch?v=7utK7T4iAmw",
+      "title": "Updated Omen Fracture One-Way Smokes - Must Know Tips",
+      "description": null,
+      "duration": 251.0,
+      "channel_id": "UC_R45XQ55ANdX1-9tVUWp2w",
+      "channel": "Fraty",
+      "channel_url": "https://www.youtube.com/channel/UC_R45XQ55ANdX1-9tVUWp2w",
+      "uploader": "Fraty",
+      "uploader_id": "@fraty",
+      "uploader_url": "https://www.youtube.com/@fraty",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/7utK7T4iAmw/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAN9fqjIiXcFGcYO4iyGeB_KOE1_w",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/7utK7T4iAmw/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAM3lmMuQ77w6PvOMRuKktSBAAe3w",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1712620800,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 14721,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "lO2G2Zj03Ho",
+      "url": "https://www.youtube.com/watch?v=lO2G2Zj03Ho",
+      "title": "Advanced Smoke Guide (All Maps) *2024*",
+      "description": null,
+      "duration": 3432.0,
+      "channel_id": "UC6yKGHeA_t3gLTuPX3ZBckg",
+      "channel": "Berate",
+      "channel_url": "https://www.youtube.com/channel/UC6yKGHeA_t3gLTuPX3ZBckg",
+      "uploader": "Berate",
+      "uploader_id": "@BerateValorant",
+      "uploader_url": "https://www.youtube.com/@BerateValorant",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/lO2G2Zj03Ho/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCEPxUkTMup8F96ZhnehLqYU8DSCg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/lO2G2Zj03Ho/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC3AOrZ9ZYlG4WG3Yyz9rFGlqPICA",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1723161600,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 64144,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "oJUz-s5PhsU",
+      "url": "https://www.youtube.com/watch?v=oJUz-s5PhsU",
+      "title": "Why You Don't Feel Good Enough",
+      "description": null,
+      "duration": 1912.0,
+      "channel_id": "UClHVl2N3jPEbkNJVx-ItQIQ",
+      "channel": "HealthyGamerGG",
+      "channel_url": "https://www.youtube.com/channel/UClHVl2N3jPEbkNJVx-ItQIQ",
+      "uploader": "HealthyGamerGG",
+      "uploader_id": "@HealthyGamerGG",
+      "uploader_url": "https://www.youtube.com/@HealthyGamerGG",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/oJUz-s5PhsU/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC41RZZWeJP27d9a5oOvEvdZHdwTA",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/oJUz-s5PhsU/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDl4KAF6H4LbjaXbyf29xDou63ZcQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1743724800,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 175064,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
     }
   ]
 }
