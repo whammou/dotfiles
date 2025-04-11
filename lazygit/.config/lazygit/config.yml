@@ -3,12 +3,14 @@ gui:
   border: "single"
   nerdFontsVersion: "3"
   theme:
+    lightTheme: false
     activeBorderColor:
       - default
       - bold
     inactiveBorderColor:
       - "#455574"
-      #- grey
+      - grey
     selectedLineBgColor:
-      - "#283347"
-      #- grey
+      #- reverse
+      #- "#283347"
+      - grey
