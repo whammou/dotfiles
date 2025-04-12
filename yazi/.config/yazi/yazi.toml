@@ -21,10 +21,12 @@ prepend_rules = [
 [[plugin.prepend_previewers]]
 name = "/server/**"
 run = "noop"
+
 [[plugin.prepend_preloaders]]
 name = "/server/**"
 run = "noop"
 
+# Git change indicators
 [[plugin.prepend_fetchers]]
 id   = "git"
 name = "*"
