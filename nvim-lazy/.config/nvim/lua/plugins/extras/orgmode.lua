@@ -62,6 +62,7 @@ return {
 
       org_capture_templates = {
         d = { description = "Document", template = "* %? [%]" },
+        t = { description = "Task", template = "\n* TODO %?" },
       },
 
       mappings = {
