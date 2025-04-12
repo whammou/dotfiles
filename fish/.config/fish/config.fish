@@ -3,7 +3,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
     starship init fish | source
     # echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8
-    echo; fastfetch
+    echo
+    fastfetch
     set fish_greeting
 
     #    if string match -q -- '*' $TERM
@@ -11,8 +12,8 @@ if status is-interactive
     #    end
 end
 
-set fish_cursor_default block
-set fish_cursor_insert line
+#set fish_cursor_default block
+#set fish_cursor_insert line
 
 # Term settings
 #export TERM=xterm-256color
@@ -21,5 +22,5 @@ set fish_cursor_insert line
 fzf --fish | source
 
 # set Neovim as default text editor
-export VISUAL=nvim
-export EDITOR="$VISUAL"
+#export VISUAL=nvim
+#export EDITOR="$VISUAL"
