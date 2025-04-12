@@ -249,40 +249,6 @@
     {
       "_type": "url",
       "ie_key": "Youtube",
-      "id": "e8Pe6ppHzyQ",
-      "url": "https://www.youtube.com/watch?v=e8Pe6ppHzyQ",
-      "title": "KHẾ ƯỚC (ft. Hà Lê) - The Flob ft. CHIN | OFFICIAL LYRICS VIDEO",
-      "description": null,
-      "duration": 260.0,
-      "channel_id": "UC_2y85xY58cz64hpxJHYlxg",
-      "channel": "The Flob",
-      "channel_url": "https://www.youtube.com/channel/UC_2y85xY58cz64hpxJHYlxg",
-      "uploader": "The Flob",
-      "uploader_id": null,
-      "uploader_url": null,
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/e8Pe6ppHzyQ/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCdENtT1MhA1wV2R_0pzx3aSTrgTQ",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/e8Pe6ppHzyQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCq2EMioRa5Zy21cA3YC4m954Gjaw",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1733270400,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 1856850,
-      "live_status": null,
-      "channel_is_verified": true,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
       "id": "tT89OZ7TNwc",
       "url": "https://www.youtube.com/watch?v=tT89OZ7TNwc",
       "title": "The Eisenhower matrix: How to manage your tasks with EISENHOWER",
@@ -513,7 +479,41 @@
       "timestamp": 1743724800,
       "release_timestamp": null,
       "availability": null,
-      "view_count": 175064,
+      "view_count": 190100,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "e8Pe6ppHzyQ",
+      "url": "https://www.youtube.com/watch?v=e8Pe6ppHzyQ",
+      "title": "KHẾ ƯỚC (ft. Hà Lê) - The Flob ft. CHIN | OFFICIAL LYRICS VIDEO",
+      "description": null,
+      "duration": 260.0,
+      "channel_id": "UC_2y85xY58cz64hpxJHYlxg",
+      "channel": "The Flob",
+      "channel_url": "https://www.youtube.com/channel/UC_2y85xY58cz64hpxJHYlxg",
+      "uploader": "The Flob",
+      "uploader_id": null,
+      "uploader_url": null,
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/e8Pe6ppHzyQ/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCdENtT1MhA1wV2R_0pzx3aSTrgTQ",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/e8Pe6ppHzyQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCq2EMioRa5Zy21cA3YC4m954Gjaw",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1733961600,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 1991836,
       "live_status": null,
       "channel_is_verified": true,
       "__x_forwarded_for_ip": null
