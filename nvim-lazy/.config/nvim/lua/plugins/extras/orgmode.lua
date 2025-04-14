@@ -27,7 +27,7 @@ return {
         "nvim-orgmode/org-bullets.nvim",
         lazy = true,
         ft = "org",
-        opts = {},
+        config = true,
       },
     },
 
