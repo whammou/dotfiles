@@ -20,12 +20,14 @@ return {
       "LazyGitFilter",
       "LazyGitFilterCurrentFile",
     },
+    keys = {
+      { "<leader>gH", "<cmd>LazyGitFilterCurrentFile<cr>", desc = "Lazygit filter current file" },
+    },
   },
 
   {
     "Almo7aya/openingh.nvim",
     lazy = true,
-    event = "VeryLazy",
     keys = {
       { "<leader>gr", "<cmd>OpenInGHRepo <CR>", desc = "Current GitHub repo" },
       { "<leader>gf", "<cmd>OpenInGHFile <CR>", desc = "Current File GitHub" },
