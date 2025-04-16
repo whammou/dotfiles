@@ -44,7 +44,7 @@ keymap = [
     {
         "name": "tmux",
         "prefix": "t",
-        "cmd": tmux_session_attach(range(1, 10)),
+        "cmd": tmux_session_attach(range(0, 10)),
     },
     {
         "name": "monitor",
@@ -54,6 +54,7 @@ keymap = [
             ["b", in_terminal("monitor-battery"), "pad_list"],
             ["v", in_terminal("monitor-voltage"), "pad_list"],
             ["c", in_terminal("watch-cpu"), "pad_list"],
+            ["g", in_terminal("sudo intel_gpu_top"), "pad_list"],
         ],
     },
     {
