@@ -1,17 +1,26 @@
 return {
-  {
-    "L3MON4D3/LuaSnip",
-    config = function()
-      require("luasnip.loaders.from_lua").load({ path = "~/.config/nvim/lua/config/snippets/" })
-    end,
-  },
+  -- {
+  --   "L3MON4D3/LuaSnip",
+
+  --   config = function()
+  --     require("luasnip.loaders.from_lua").load({ path = "~/.config/nvim/snippets/" })
+  --   end,
+  -- },
 
   {
     "saghen/blink.cmp",
-    optional = true,
+    lazy = true,
+
+    dependencies = {
+      "L3MON4D3/LuaSnip",
+      lazy = true,
+      opts = {},
+    },
+
     opts = {
-      snippets = {
-        preset = "luasnip",
+      snippets = { preset = "luasnip" },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
       },
     },
   },
