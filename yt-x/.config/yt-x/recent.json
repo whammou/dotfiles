@@ -623,40 +623,6 @@
     {
       "_type": "url",
       "ie_key": "Youtube",
-      "id": "wMPTyjl-jvc",
-      "url": "https://www.youtube.com/watch?v=wMPTyjl-jvc",
-      "title": "Self Loathing Man of Inaction",
-      "description": null,
-      "duration": 3334.0,
-      "channel_id": "UClHVl2N3jPEbkNJVx-ItQIQ",
-      "channel": "HealthyGamerGG",
-      "channel_url": "https://www.youtube.com/channel/UClHVl2N3jPEbkNJVx-ItQIQ",
-      "uploader": "HealthyGamerGG",
-      "uploader_id": "@HealthyGamerGG",
-      "uploader_url": "https://www.youtube.com/@HealthyGamerGG",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/wMPTyjl-jvc/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBMB7SX1nM6swPis5mDY00vtrEABg",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/wMPTyjl-jvc/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAsUfYJ4StbHxkOiKTQElaKoHCm4w",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1741910400,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 554291,
-      "live_status": null,
-      "channel_is_verified": true,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
       "id": "bCMkhCV2HWE",
       "url": "https://www.youtube.com/watch?v=bCMkhCV2HWE",
       "title": "MAKE A DAMN SCHEDULE - Powerful Motivational Video | Jordan Peterson",
@@ -754,6 +720,142 @@
       "view_count": 491099,
       "live_status": null,
       "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "wMPTyjl-jvc",
+      "url": "https://www.youtube.com/watch?v=wMPTyjl-jvc",
+      "title": "Self Loathing Man of Inaction",
+      "description": null,
+      "duration": 3334.0,
+      "channel_id": "UClHVl2N3jPEbkNJVx-ItQIQ",
+      "channel": "HealthyGamerGG",
+      "channel_url": "https://www.youtube.com/channel/UClHVl2N3jPEbkNJVx-ItQIQ",
+      "uploader": "HealthyGamerGG",
+      "uploader_id": "@HealthyGamerGG",
+      "uploader_url": "https://www.youtube.com/@HealthyGamerGG",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/wMPTyjl-jvc/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBMB7SX1nM6swPis5mDY00vtrEABg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/wMPTyjl-jvc/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAsUfYJ4StbHxkOiKTQElaKoHCm4w",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1741996800,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 560153,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "ZZB1qRteuzc",
+      "url": "https://www.youtube.com/watch?v=ZZB1qRteuzc",
+      "title": "Tech Career Secrets: to get others to like you, get promoted easily, and get a job you actually like",
+      "description": null,
+      "duration": 792.0,
+      "channel_id": "UCEDkO7wshcDZ7UZo17rPkzQ",
+      "channel": "mayuko",
+      "channel_url": "https://www.youtube.com/channel/UCEDkO7wshcDZ7UZo17rPkzQ",
+      "uploader": "mayuko",
+      "uploader_id": "@hellomayuko",
+      "uploader_url": "https://www.youtube.com/@hellomayuko",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/ZZB1qRteuzc/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBSUcnX5NNfa6Griec1pFF_pgURsQ",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ZZB1qRteuzc/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBNL7BD5F4kPyoO9EIOrPHxZOn_tQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1650067200,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 106089,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "5rEYnz7wIOs",
+      "url": "https://www.youtube.com/watch?v=5rEYnz7wIOs",
+      "title": "How Self-Improvement Makes you Unhappy",
+      "description": null,
+      "duration": 9024.0,
+      "channel_id": "UClHVl2N3jPEbkNJVx-ItQIQ",
+      "channel": "HealthyGamerGG",
+      "channel_url": "https://www.youtube.com/channel/UClHVl2N3jPEbkNJVx-ItQIQ",
+      "uploader": "HealthyGamerGG",
+      "uploader_id": "@HealthyGamerGG",
+      "uploader_url": "https://www.youtube.com/@HealthyGamerGG",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/5rEYnz7wIOs/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA2WtP06vlJ2GPMXDmVmvrZZIWLaw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/5rEYnz7wIOs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA6mxWrqB2hZhmamWotwgrYBhjbYw",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1742947200,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 193709,
+      "live_status": "was_live",
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "YM1tjZI9DJc",
+      "url": "https://www.youtube.com/watch?v=YM1tjZI9DJc",
+      "title": "How Radiants Win Duels With Positioning",
+      "description": null,
+      "duration": 1439.0,
+      "channel_id": "UCqCLRG4_zynXOEPU6N5POkw",
+      "channel": "Woohoojin",
+      "channel_url": "https://www.youtube.com/channel/UCqCLRG4_zynXOEPU6N5POkw",
+      "uploader": "Woohoojin",
+      "uploader_id": "@Woohoojin",
+      "uploader_url": "https://www.youtube.com/@Woohoojin",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/YM1tjZI9DJc/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCmUBQ28B3O1ix2dwiu0AhfTrjcJw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/YM1tjZI9DJc/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA8hIfNLYI0waBJl2qM7dXw1-CAJA",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1713312000,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 129964,
+      "live_status": null,
+      "channel_is_verified": true,
       "__x_forwarded_for_ip": null
     }
   ]
