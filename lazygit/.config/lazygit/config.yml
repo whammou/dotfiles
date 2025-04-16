@@ -3,14 +3,31 @@ gui:
   border: "single"
   nerdFontsVersion: "3"
   theme:
-    lightTheme: false
-    activeBorderColor:
-      - default
-      - bold
+    unstagedChangesColor:
+      - "#f65866"
+    selectedLineBgColor:
+      - "#2a324a"
+    searchingActiveBorderColor:
+      - "bold"
+    optionsTextColor:
+      - "#41a7fc"
     inactiveBorderColor:
       - "#455574"
-      - grey
-    selectedLineBgColor:
-      #- reverse
-      #- "#283347"
-      - grey
+    defaultFgColor:
+      - "#93a4c3"
+    cherryPickedCommitFgColor:
+      - "#41a7fc"
+    cherryPickedCommitBgColor:
+      - "#f65866"
+    activeBorderColor:
+      - "bold"
+#  theme:
+#    activeBorderColor:
+#      - default
+#      - bold
+#    inactiveBorderColor:
+#      - "#455574"
+#      #- grey
+#    selectedLineBgColor:
+#      - "#2a324a"
+#      #- grey
