@@ -46,6 +46,11 @@ on   = [ "g", "c" ]
 run  = "plugin vcs-files"
 desc = "Show Git file changes"
 
+[[manager.prepend_keymap]]
+on = [ "_", "r" ]
+run = "plugin reflink"
+desc = "Reflink the yanked files"
+
 
 # Relative motion keybinds
 [[manager.prepend_keymap]]
