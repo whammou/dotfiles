@@ -7,14 +7,12 @@
 config_version: 2
 settings:
   content.desktop_capture:
-    https://discord.com: true
     https://meet.google.com: true
   content.javascript.clipboard:
     https://chatgpt.com: access-paste
     https://github.com: access-paste
     https://nvim-orgmode.github.io: access-paste
   content.media.audio_capture:
-    https://discord.com: true
     https://meet.google.com: true
   content.media.audio_video_capture:
     https://meet.google.com: true
