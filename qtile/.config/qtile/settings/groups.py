@@ -10,9 +10,9 @@ dropdown = [
     DropDown(
         "nmfzf",
         "kitty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
-        width=0.45,
+        width=0.6,
         height=0.8,
-        x=0.275,
+        x=0.2,
         y=0.1,
     ),
     DropDown(
