@@ -5,7 +5,8 @@ export GLFW_IM_MODULE=ibus
 export XMODIFIERS=@im=fcitx
 
 # Pre-start tmux sessions
-kitty -e tmux-session
+export COLORTERM=truecolor
+tmux-session
 
 # Modify keyboard behaviours
 xinput disable TPPS\/2\ IBM\ TrackPoint
