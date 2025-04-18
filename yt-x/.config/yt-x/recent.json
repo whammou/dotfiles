@@ -857,6 +857,74 @@
       "live_status": null,
       "channel_is_verified": true,
       "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "CfTQ0gNfqXg",
+      "url": "https://www.youtube.com/watch?v=CfTQ0gNfqXg",
+      "title": "Terrifying Horrors From Outer Space",
+      "description": null,
+      "duration": 1850.0,
+      "channel_id": "UCCXq_iM-YNIjX_lkyBIl4Sg",
+      "channel": "Virtual Carbon",
+      "channel_url": "https://www.youtube.com/channel/UCCXq_iM-YNIjX_lkyBIl4Sg",
+      "uploader": "Virtual Carbon",
+      "uploader_id": "@VirtualCarbon",
+      "uploader_url": "https://www.youtube.com/@VirtualCarbon",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/CfTQ0gNfqXg/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB7TN3xpjdO6uFiMc2NTgd14VQkIg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/CfTQ0gNfqXg/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBQkc4CGwFMxgTJFH-lwVnwgvuYnw",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1743724800,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 241274,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "sBbplGeFffY",
+      "url": "https://www.youtube.com/watch?v=sBbplGeFffY",
+      "title": "What is blink.cmp and how to configure it | Neovim tutorial",
+      "description": null,
+      "duration": 553.0,
+      "channel_id": "UCrSIvbFncPSlK6AdwE2QboA",
+      "channel": "linkarzu",
+      "channel_url": "https://www.youtube.com/channel/UCrSIvbFncPSlK6AdwE2QboA",
+      "uploader": "linkarzu",
+      "uploader_id": "@linkarzu",
+      "uploader_url": "https://www.youtube.com/@linkarzu",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/sBbplGeFffY/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAFKizLaRDFUCvNMG1P39-PRhv04A",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/sBbplGeFffY/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCh1n_X7wvGkPloGqdDJnAK1QPs2Q",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1737244800,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 10694,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
     }
   ]
 }
