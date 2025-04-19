@@ -48,7 +48,7 @@ return {
       org_use_tag_inheritance = true,
       org_tags_column = 0,
 
-      org_todo_keywords = { "TODO(t)", "PENDING(p)", "DOING(d)", "|", "DONE(f)", "ABORTED(a)" },
+      org_todo_keywords = { "TODO(t)", "DOING(d)", "|", "PENDING(p)", "DONE(f)", "ABORTED(a)" },
       org_todo_keyword_faces = {
         ABORTED = ":foreground #f65866 :weight bold",
         DOING = ":foreground #34bfd0 :weight bold",
