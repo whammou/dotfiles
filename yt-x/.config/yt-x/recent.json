@@ -959,6 +959,40 @@
       "live_status": null,
       "channel_is_verified": null,
       "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "7HYBrw6EDEM",
+      "url": "https://www.youtube.com/watch?v=7HYBrw6EDEM",
+      "title": "Blink.cmp Updates | Show Snippets only After a Character | Fallbacks | transform_items and more",
+      "description": null,
+      "duration": 854.0,
+      "channel_id": "UCrSIvbFncPSlK6AdwE2QboA",
+      "channel": "linkarzu",
+      "channel_url": "https://www.youtube.com/channel/UCrSIvbFncPSlK6AdwE2QboA",
+      "uploader": "linkarzu",
+      "uploader_id": "@linkarzu",
+      "uploader_url": "https://www.youtube.com/@linkarzu",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/7HYBrw6EDEM/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC7Ei5TwCTg1SkGLROAY6XDgYf5Ug",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/7HYBrw6EDEM/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBGn4-7DREdk7a6m4Psmt9dCAgCDA",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1737331200,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 3530,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
     }
   ]
 }
