@@ -1,9 +1,6 @@
 {
   "entries": [
     {
-      "title": ""
-    },
-    {
       "_type": "url",
       "ie_key": "Youtube",
       "id": "SVQlcxiQlzI",
@@ -33,40 +30,6 @@
       "release_timestamp": null,
       "availability": null,
       "view_count": 11559659,
-      "live_status": null,
-      "channel_is_verified": true,
-      "__x_forwarded_for_ip": null
-    },
-    {
-      "_type": "url",
-      "ie_key": "Youtube",
-      "id": "HnP1u1RyWbo",
-      "url": "https://www.youtube.com/watch?v=HnP1u1RyWbo",
-      "title": "[playlist] 맨해튼 뒷골목에서",
-      "description": null,
-      "duration": 7887.0,
-      "channel_id": "UCKxknVfRWj3YKZuE_qiWZ4Q",
-      "channel": "리플레이LEEPLAY",
-      "channel_url": "https://www.youtube.com/channel/UCKxknVfRWj3YKZuE_qiWZ4Q",
-      "uploader": "리플레이LEEPLAY",
-      "uploader_id": "@leeplay.official",
-      "uploader_url": "https://www.youtube.com/@leeplay.official",
-      "thumbnails": [
-        {
-          "url": "https://i.ytimg.com/vi/HnP1u1RyWbo/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDhdHQhP2unoxd6Rz8ut5jBKES2PA",
-          "height": 202,
-          "width": 360
-        },
-        {
-          "url": "https://i.ytimg.com/vi/HnP1u1RyWbo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD0CSI7hAn-78gHCkSmxFmZ_Fj__Q",
-          "height": 404,
-          "width": 720
-        }
-      ],
-      "timestamp": 1712102400,
-      "release_timestamp": null,
-      "availability": null,
-      "view_count": 2963883,
       "live_status": null,
       "channel_is_verified": true,
       "__x_forwarded_for_ip": null
@@ -985,6 +948,74 @@
       "release_timestamp": null,
       "availability": null,
       "view_count": 17460639,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "HnP1u1RyWbo",
+      "url": "https://www.youtube.com/watch?v=HnP1u1RyWbo",
+      "title": "[playlist] 맨해튼 뒷골목에서",
+      "description": null,
+      "duration": 7887.0,
+      "channel_id": "UCKxknVfRWj3YKZuE_qiWZ4Q",
+      "channel": "리플레이LEEPLAY",
+      "channel_url": "https://www.youtube.com/channel/UCKxknVfRWj3YKZuE_qiWZ4Q",
+      "uploader": "리플레이LEEPLAY",
+      "uploader_id": "@leeplay.official",
+      "uploader_url": "https://www.youtube.com/@leeplay.official",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/HnP1u1RyWbo/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDhdHQhP2unoxd6Rz8ut5jBKES2PA",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/HnP1u1RyWbo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD0CSI7hAn-78gHCkSmxFmZ_Fj__Q",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1682121600,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 2969742,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "jv4pDOKe7OE",
+      "url": "https://www.youtube.com/watch?v=jv4pDOKe7OE",
+      "title": "Unknown And Disturbing Lost Media [Vol. 2]",
+      "description": null,
+      "duration": 1365.0,
+      "channel_id": "UCCXq_iM-YNIjX_lkyBIl4Sg",
+      "channel": "Virtual Carbon",
+      "channel_url": "https://www.youtube.com/channel/UCCXq_iM-YNIjX_lkyBIl4Sg",
+      "uploader": "Virtual Carbon",
+      "uploader_id": "@VirtualCarbon",
+      "uploader_url": "https://www.youtube.com/@VirtualCarbon",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/jv4pDOKe7OE/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBrVtGv9wzsn-8Oe27UwDiJUTc8Qg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/jv4pDOKe7OE/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLClVHdmzW4wKJdaUFO0bUu0ZO0u1g",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1713744000,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 173051,
       "live_status": null,
       "channel_is_verified": true,
       "__x_forwarded_for_ip": null
