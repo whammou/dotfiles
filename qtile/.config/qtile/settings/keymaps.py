@@ -19,6 +19,11 @@ keymap = [
                 "qutebrowser --target=window -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
                 "pad_large",
             ],
+            [
+                "a",
+                "qutebrowser-profile --load 'app'",
+                "pad_large",
+            ],
         ],
     },
     {
@@ -84,13 +89,13 @@ keymap = [
                 "y",
                 in_terminal(
                     "tmux -c 'yt-x --preview'",
-                    parameters="--hold --title='yt-x (Thumbnail)'",
+                    parameters="--hold --title='yt-x (thumbnail)'",
                 ),
                 "pad_large",
             ],
             [
                 "S-y",
-                in_terminal("tmux -c yt-x", parameters="--title='yt-x'"),
+                in_terminal("tmux -c yt-x", parameters="--title='yt-x (no-thumbnail)'"),
                 "pad_large",
             ],
             [
