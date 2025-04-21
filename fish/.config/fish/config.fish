@@ -22,5 +22,5 @@ end
 fzf --fish | source
 
 # set Neovim as default text editor
-#export VISUAL=nvim
-#export EDITOR="$VISUAL"
+export VISUAL=nvim
+export EDITOR="$VISUAL"
