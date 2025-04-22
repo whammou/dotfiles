@@ -3,12 +3,14 @@ return {
     "nvim-orgmode/orgmode",
     lazy = true,
     ft = "org",
-
     dependencies = {
+      {
+        "nvim-orgmode/org-bullets.nvim",
+        config = true,
+      },
       {
         "lukas-reineke/headlines.nvim",
         lazy = true,
-        ft = "org",
         opts = {
           markdown = {
             headline_highlights = false,
@@ -22,15 +24,7 @@ return {
           },
         },
       },
-
-      {
-        "nvim-orgmode/org-bullets.nvim",
-        lazy = true,
-        ft = "org",
-        config = true,
-      },
     },
-
     opts = {
       org_agenda_files = { "~/notes/**/*" },
       org_default_notes_file = "~/notes/capture.org",
@@ -45,8 +39,12 @@ return {
       org_adapt_indentaion = false,
       org_startup_indented = true,
 
+      org_id_link_to_org_use_id = true,
+
       org_use_tag_inheritance = true,
       org_tags_column = 0,
+      org_cycle_separator_lines = 0,
+      org_blank_before_new_entry = { heading = false, plain_list_item = false },
 
       org_todo_keywords = { "TODO(t)", "DOING(d)", "|", "PENDING(p)", "DONE(f)", "ABORTED(a)" },
       org_todo_keyword_faces = {
