@@ -6,6 +6,7 @@ application/vnd.oasis.opendocument.text=zaread.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=zaread.desktop;
 image/jpeg=vimiv.desktop;
 image/png=vimiv.desktop;
+notes/capture.org=nvim.desktop;
 text/org=nvim.desktop;
 text/plain=nvim.desktop;
 x-scheme-handler/beeper=beepertexts.desktop;
