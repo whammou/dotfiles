@@ -82,21 +82,15 @@ keymap = [
                 in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"),
                 "pad_small",
             ],
-            # ["m", in_terminal("ytfzf-music"), "pad_small"],
-            # ["y", in_terminal("ytfzf-video"), "pad_large"],
-            # ["S-y", in_terminal("ytfzf-thumbnail"), "pad_large"],
             [
                 "y",
-                in_terminal(
-                    "tmux -c 'yt-x --preview'",
-                    parameters="--hold --title='yt-x (thumbnail)'",
-                ),
+                in_terminal("magic-tape.sh", parameters="--hold"),
                 "pad_large",
             ],
             [
                 "S-y",
-                in_terminal("tmux -c yt-x", parameters="--title='yt-x (no-thumbnail)'"),
-                "pad_large",
+                "firefox 'https://youtube.com/account'",
+                "pad_small",
             ],
             [
                 "S-s",
