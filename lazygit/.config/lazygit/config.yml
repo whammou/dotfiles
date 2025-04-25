@@ -1,3 +1,6 @@
+git:
+  merging:
+    manualCommit: true
 gui:
   showBottomLine : false
   border: "single"
@@ -21,13 +24,3 @@ gui:
       - "#f65866"
     activeBorderColor:
       - "bold"
-#  theme:
-#    activeBorderColor:
-#      - default
-#      - bold
-#    inactiveBorderColor:
-#      - "#455574"
-#      #- grey
-#    selectedLineBgColor:
-#      - "#2a324a"
-#      #- grey
