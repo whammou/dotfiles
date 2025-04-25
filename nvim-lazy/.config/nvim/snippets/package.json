@@ -1,0 +1,9 @@
+{
+  "name": "custom-snippets",
+  "contributes": {
+    "snippets": [
+      { "language": "org", "path": "org.json" },
+      { "language": "lua", "path": "lua.json" }
+    ]
+  }
+}
