@@ -6,6 +6,7 @@ export XMODIFIERS=@im=fcitx
 
 # Pre-start tmux sessions
 export COLORTERM=truecolor
+export FZF_DEFAULT_OPTS_FILE="/home/whammou/.config/fzf/shell.conf"
 tmux-session
 
 # Modify keyboard behaviours
