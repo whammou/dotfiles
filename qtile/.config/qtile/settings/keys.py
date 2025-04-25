@@ -5,7 +5,7 @@ from .key.qtile import qtile_keys
 from .key.functional import functional_keys
 from .key.layers import focus_visible_window, change_tab_layer
 from .key.windows import windows_keys
-from .key.spawn import spawn_position, spawn_tab
+from .key.spawn import spawn_position, spawn_new, spawn_tab
 from .group.scratchpads import scratchpad_keys
 
 
@@ -21,12 +21,13 @@ keys = list(
             [meta], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
         ),
         change_tab_layer([mod], range(1, 10), range(1, 10)),
+        spawn_new([mod], "s", keymap),
+        scratchpad_keys([mod], "p", keymap),
         spawn_position([mod], "x", keymap, "x", position="next"),
         spawn_position([mod], "y", keymap, "y", position="next"),
         spawn_position([mod, "shift"], "x", keymap, "x", position="previous"),
         spawn_position([mod, "shift"], "y", keymap, "y", position="previous"),
         spawn_tab([mod], "t", keymap, new_level=False),
         spawn_tab([mod, "shift"], "t", keymap, new_level=True),
-        scratchpad_keys([mod], "p", keymap),
     )
 )
