@@ -68,9 +68,9 @@ def battery(bat):
         empty_char="󱟩 ",
         format="{char}{percent:2.0%}",
         show_short_text=False,
-        low_percentage=0.1,
+        low_percentage=0.05,
         low_foreground=colors["red"],
-        notify_below=0.06,
+        notify_below=0.05,
         update_interval=60,
     )
 
