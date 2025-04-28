@@ -28,7 +28,7 @@ config.bind("m", "mode-enter set_mark")
 config.bind("xt", "config-cycle tabs.show multiple always")
 config.bind(
     "xc",
-    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/blackbg.css ''",
+    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/blackbg.css",
 )
 
 # Set default search Engine
@@ -65,9 +65,7 @@ config.set("scrolling.bar", "when-searching")
 config.set("statusbar.show", "never")
 config.set("hints.radius", 0)
 config.set("tabs.show", "multiple")
-config.set(
-    "content.user_stylesheets", "/home/whammou/.config/qutebrowser/css/blackbg.css"
-)
+config.set("content.user_stylesheets", "~/.config/qutebrowser/css/blackbg.css")
 
 config.set("fonts.web.size.default", 19)
 config.set("hints.border", "0px")
