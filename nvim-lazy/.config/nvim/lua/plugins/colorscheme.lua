@@ -4,6 +4,9 @@ return {
     lazy = true,
     opts = {
       style = "deep",
+      lualine = {
+        transparent = true,
+      },
       -- highlights = {
       --   ["@org.agenda.scheduled"] = { fg = "$blue" },
       -- },
