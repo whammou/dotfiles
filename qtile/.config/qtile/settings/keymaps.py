@@ -15,11 +15,6 @@ keymap = [
                 "pad_large",
             ],
             [
-                "d",
-                "qutebrowser --target=window -B /home/whammou/.config/qutebrowser/app/ https://discord.com/app",
-                "pad_large",
-            ],
-            [
                 "a",
                 "qutebrowser-profile --load 'app'",
                 "pad_large",
@@ -67,6 +62,7 @@ keymap = [
         "prefix": "u",
         "cmd": [
             ["a", in_terminal("anifzf"), "pad_small"],
+            ["d", "discord", "pad_large"],
             [
                 "t",
                 in_terminal(
