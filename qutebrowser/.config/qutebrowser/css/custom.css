@@ -6,20 +6,15 @@ body {
   font-family: 'SauceCodeProNerdFont', sans-serif !important; /* Ensure this font is properly linked */
 }
 
-/* Override text color for various elements that may have their own color styles */
-/* p, h1, h2, h3, h4, h5, h6, a, li, span, div, footer, header {
-/*   color: #93a4c3 !important;
-/* }
-
-/* Ensure links (anchor tags) retain a default style */
-/*a {
-/*  color: #93a4c3 !important;
-/*  text-decoration: none; /* Optional: removes underline from links */
-/*}
-/*
-/*a:hover {
-/*  color: #abc4e1 !important; /* Lighter shade for hover effect */
+html {
+  font-size: 16px; /* Default font size for the entire page */
 }
+
+body {
+  font-size: 1rem !important; /* 1rem is equivalent to 16px */
+}
+
+} /* This somehow fix github not showing colors
 
 /* Override background colors for common elements that may have their own background */
 button, input, select, textarea {
@@ -33,3 +28,21 @@ button, input, select, textarea {
   background-color: transparent !important;
 }
 
+
+/*p, h1, h2, h3, h4, h5, h6, a, span, div, li {
+  font-size: 1rem !important;
+}
+
+/* Override text color for various elements that may have their own color styles */
+/* p, h1, h2, h3, h4, h5, h6, a, li, span, div, footer, header {
+/*   color: #93a4c3 !important;
+/* }
+
+/* Ensure links (anchor tags) retain a default style */
+/*a {
+/*  color: #93a4c3 !important;
+/*  text-decoration: none; /* Optional: removes underline from links */
+/*}
+/*
+/*a:hover {
+/*  color: #abc4e1 !important; /* Lighter shade for hover effect */
