@@ -5,5 +5,13 @@
       "local ${1:foo} = ${2:bar}",
       "return ${3:baz}"
     ]
+  },
+  "mono": {
+    "prefix": "mono",
+    "body": "~$1~$0"
+  },
+  "bold": {
+    "prefix": "bold",
+    "body": "*$1*$0"
   }
 }
