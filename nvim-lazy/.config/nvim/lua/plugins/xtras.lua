@@ -6,11 +6,16 @@ return {
     event = "VeryLazy",
     opts = {},
   },
-
   {
     "pysan3/fcitx5.nvim",
     -- lazy = true,
     event = "VeryLazy",
     opts = {},
   },
+  -- {
+  --   "kylechui/nvim-surround",
+  --   lazy = true,
+  --   event = "VeryLazy",
+  --   opts = {},
+  -- },
 }
