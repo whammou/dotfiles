@@ -1,12 +1,14 @@
 #!/usr/bin/bash
 
 # Variables for current session
-export QT_IM_MODULE=fcitx
-export GTK_IM_MODULE=fcitx
-export GLFW_IM_MODULE=ibus
-export XMODIFIERS=@im=fcitx
-
-# Pre-start tmux sessions
+#export QT_IM_MODULE=fcitx
+#export GTK_IM_MODULE=fcitx
+#export GLFW_IM_MODULE=ibus
+#export XMODIFIERS=@im=fcitx
+#
+## Pre-start tmux sessions
+#export COLORTERM=truecolor
+#export FZF_DEFAULT_OPTS_FILE="/home/whammou/.config/fzf/shell.conf"
 tmux-session
 
 # Modify keyboard behaviours
@@ -23,7 +25,7 @@ picom -b &>/dev/null &
 unclutter a --start-hidden &
 
 # Pre-start browsers
-qutebrowser -R --nowindow &
+#qutebrowser -R --nowindow &
 
 # Pre-start input methods
 fcitx5 -d &
