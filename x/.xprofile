@@ -21,9 +21,7 @@ xinput disable "Synaptics TM3075-002" &
 # Window Composers
 picom -b &>/dev/null &
 unclutter a --start-hidden &
-
-# Pre-start browsers
-qutebrowser -R --nowindow &
-
 # Pre-start input methods
 fcitx5 -d &
+# Pre-start browsers
+qutebrowser -R --nowindow &
