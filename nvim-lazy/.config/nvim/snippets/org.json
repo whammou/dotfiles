@@ -1,17 +1,10 @@
 {
-  "foo": {
-    "prefix": "foo",
-    "body": [
-      "local ${1:foo} = ${2:bar}",
-      "return ${3:baz}"
-    ]
+  "Goal": {
+    "prefix": "gl",
+    "body": "*Goal:* /$1/$0"
   },
-  "mono": {
-    "prefix": "mono",
-    "body": "~$1~$0"
-  },
-  "bold": {
-    "prefix": "bold",
-    "body": "*$1*$0"
+  "Visit": {
+    "prefix": "vi",
+    "body": "*Visit:* $0"
   }
 }
