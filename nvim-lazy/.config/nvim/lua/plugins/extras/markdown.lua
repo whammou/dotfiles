@@ -4,7 +4,6 @@ return {
     lazy = true,
     ft = "markdown",
   },
-
   {
     "whammou/vim-grip",
     lazy = true,
@@ -13,7 +12,6 @@ return {
       { "<leader>mr", "<cmd>GripStart<cr>", desc = "Render markdown" },
     },
   },
-
   {
     "tadmccorkle/markdown.nvim",
     lazy = true,
@@ -24,22 +22,20 @@ return {
       },
     },
   },
-
   {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = true,
     ft = "markdown",
     opts = {
       completions = { blink = { enabled = true } },
-
       heading = {
-        position = "left",
+        position = "overlay",
+        border = true,
+        border_virtual = true,
       },
-
       indent = {
-        enabled = false,
-        per_level = 0,
-        skip_level = 0,
+        enabled = true,
+        skip_heading = true,
         icon = "│ ",
       },
 
