@@ -65,6 +65,8 @@ config.set("scrolling.bar", "when-searching")
 config.set("statusbar.show", "never")
 config.set("hints.radius", 0)
 config.set("tabs.show", "multiple")
+config.set("new_instance_open_target", "tab-bg")
+config.set("tabs.tabs_are_windows", True)
 config.set("content.user_stylesheets", "~/.config/qutebrowser/css/custom.css")
 
 config.set("fonts.web.size.default", 19)
