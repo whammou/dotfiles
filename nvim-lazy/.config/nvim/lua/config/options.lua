@@ -14,4 +14,4 @@ vim.o.shell = "fish"
 vim.g.snacks_animate = false -- Turn off snacks animation
 
 -- Markdown
-vim.g.markdown_folding = 1
+vim.g.markdown_folding = 0 -- Disable built-in markdown folding
