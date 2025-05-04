@@ -7,9 +7,11 @@ return {
       lualine = {
         transparent = true,
       },
-      -- highlights = {
-      --   ["@org.agenda.scheduled"] = { fg = "$blue" },
-      -- },
+      highlights = {
+        ["@org.agenda.day"] = { fg = "none", fmt = "bold" },
+        ["@org.agenda.today"] = { fg = "$yellow", fmt = "bold" },
+        ["@org.agenda.weekend"] = { fg = "$red", fmt = "bold" },
+      },
     },
   },
 
