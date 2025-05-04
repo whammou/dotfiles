@@ -8,12 +8,6 @@ mod = "mod4"
 
 qtile_keys = [
     # Utilities keybindings
-    Key(
-        [mod, "Shift"],
-        "f",
-        lazy.window.toggle_fullscreen(),
-        desc="Toggle fullscreen on the focused window",
-    ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload config"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),

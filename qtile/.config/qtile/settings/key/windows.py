@@ -2,6 +2,22 @@ from libqtile.config import EzKey, KeyChord
 from libqtile.lazy import lazy
 
 
+@lazy.window.function
+def toggle_floating_center(window):
+    window.toggle_floating()
+    window.center()
+
+
+@lazy.function
+def float_focus(qtile):
+    #    logging.info("bring floating windows to front")
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.focus()
+                window.bring_to_front()
+
+
 windows_keys = [
     # Resize windows
     EzKey("M-C-h", lazy.layout.resize("left", 100)),
@@ -19,6 +35,13 @@ windows_keys = [
     # Select containers
     EzKey("M-o", lazy.layout.select_container_outer()),
     EzKey("M-i", lazy.layout.select_container_inner()),
+    # Windows States
+    EzKey("M-S-f", lazy.window.toggle_fullscreen()),
+    # Floating Windows
+    EzKey("M-C-f", toggle_floating_center()),
+    EzKey("M-A-f", float_focus()),
+    EzKey("M-z", lazy.window.move_up()),
+    EzKey("M-S-z", lazy.window.move_down()),
     # Container select mode
     KeyChord(
         ["mod4"],

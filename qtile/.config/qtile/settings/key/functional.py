@@ -25,6 +25,12 @@ functional_keys = [
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
     Key([mod], "Delete", lazy.group["scratchpad"].dropdown_toggle("powermenu")),
     Key([mod], "Escape", lazy.spawn("dunstctl close-all")),
-    KeyChord([mod, "shift"], "s", [Key([], "s", lazy.spawn("flameshot screen"))]),
-    KeyChord([mod, "shift"], "s", [Key([], "c", lazy.spawn("flameshot gui"))]),
+    KeyChord(
+        [mod, "shift"],
+        "s",
+        [
+            Key([], "s", lazy.spawn("flameshot screen")),
+            Key([], "c", lazy.spawn("flameshot gui")),
+        ],
+    ),
 ]
