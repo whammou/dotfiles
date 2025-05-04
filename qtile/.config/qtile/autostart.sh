@@ -9,6 +9,8 @@
 ## Pre-start tmux sessions
 #export COLORTERM=truecolor
 #export FZF_DEFAULT_OPTS_FILE="/home/whammou/.config/fzf/shell.conf"
+
+# Tmux daemon
 tmux-session
 
 # Modify keyboard behaviours
@@ -25,7 +27,7 @@ picom -b &>/dev/null &
 unclutter a --start-hidden &
 
 # Pre-start browsers
-#qutebrowser -R --nowindow &
+qutebrowser -R --nowindow &
 
 # Pre-start input methods
 fcitx5 -d &

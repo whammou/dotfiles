@@ -22,7 +22,7 @@ c.url.start_pages = ["https://nimplex.github.io/Minimal-StartPage"]
 config.set("url.default_page", "https://nimplex.github.io/Minimal-StartPage")
 
 # Bindings for normal mode
-config.bind("M", "hint links spawn mpv --geometry=720x480 {hint-url}")
+config.bind("M", "hint links spawn mpv --x11-name='mpv-preview' {hint-url}")
 config.bind("xb", "config-cycle statusbar.show never always")
 config.bind("m", "mode-enter set_mark")
 config.bind("xt", "config-cycle tabs.show multiple always")
@@ -30,6 +30,9 @@ config.bind(
     "xc",
     "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom.css",
 )
+config.set("new_instance_open_target", "tab-bg")
+config.set("new_instance_open_target_window", "last-focused")
+config.set("tabs.tabs_are_windows", True)
 
 # Set default search Engine
 c.url.searchengines = {
@@ -65,13 +68,12 @@ config.set("scrolling.bar", "when-searching")
 config.set("statusbar.show", "never")
 config.set("hints.radius", 0)
 config.set("tabs.show", "multiple")
-config.set("new_instance_open_target", "tab-bg")
-config.set("tabs.tabs_are_windows", True)
 config.set("content.user_stylesheets", "~/.config/qutebrowser/css/custom.css")
 
 config.set("fonts.web.size.default", 19)
 config.set("hints.border", "0px")
 config.set("colors.webpage.darkmode.enabled", True)
+config.set("content.autoplay", False)
 
 config.set("downloads.location.directory", "/home/whammou/.downloads/")
 
