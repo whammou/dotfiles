@@ -7,7 +7,7 @@ keymap = [
         "name": "qutebrowser",
         "prefix": "q",
         "cmd": [
-            ["b", "qb", "pad_large"],
+            ["b", "qb https://nimplex.github.io/Minimal-StartPage/", "pad_large"],
             ["p", "qb-url", "pad_large"],
             [
                 "i",
