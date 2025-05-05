@@ -7,14 +7,13 @@ keymap = [
         "name": "qutebrowser",
         "prefix": "q",
         "cmd": [
-            ["h", "qb", "pad_large"],
-            ["t", "qb https://nimplex.github.io/Minimal-StartPage/", "pad_large"],
-            ["p", "qb-url", "pad_large"],
+            ["t", "qutebrowser_tabbed", "pad_large"],
             [
                 "i",
                 "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
                 "pad_large",
             ],
+            ["p", "qb-url", "pad_large"],
         ],
     },
     {
