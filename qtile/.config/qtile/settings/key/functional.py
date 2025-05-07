@@ -7,7 +7,7 @@ alt = "mod1"
 
 functional_keys = [
     Key(
-        [mod],
+        [alt],
         "F1",
         lazy.spawn(
             "pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle"
