@@ -11,5 +11,5 @@ notes/capture.org=nvim.desktop;
 text/org=nvim.desktop;
 text/plain=nvim.desktop;
 x-scheme-handler/beeper=beepertexts.desktop;
-x-scheme-handler/http=org.qutebrowser.qutebrowser.desktop;
-x-scheme-handler/https=org.qutebrowser.qutebrowser.desktop;
+x-scheme-handler/http=qutebrowser.quick.desktop;
+x-scheme-handler/https=qutebrowser.quick.desktop;
