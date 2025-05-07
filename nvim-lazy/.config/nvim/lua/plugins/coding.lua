@@ -23,7 +23,7 @@ return {
       },
       keymap = {
         preset = "default",
-        ["<C-Cr>"] = { "select_and_accept" },
+        -- ["<C-Cr>"] = { "select_and_accept" },
       },
     },
   },

@@ -5,7 +5,7 @@ return {
     opts = {
       style = "deep",
       lualine = {
-        transparent = true,
+        transparent = false,
       },
       highlights = {
         ["@org.agenda.day"] = { fg = "none", fmt = "bold" },
