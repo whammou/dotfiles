@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  font-size: 1rem !important; /* 1rem is equivalent to 16px */
+  font-size: 1.083rem !important; /* 1rem is equivalent to 16px */
 }
 
 } /* This somehow fix github not showing colors
