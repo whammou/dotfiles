@@ -42,6 +42,7 @@ windows_keys = [
     EzKey("M-A-f", float_focus()),
     EzKey("M-z", lazy.window.move_up()),
     EzKey("M-S-z", lazy.window.move_down()),
+    EzKey("A-z", lazy.window.keep_below()),
     # Container select mode
     KeyChord(
         ["mod4"],

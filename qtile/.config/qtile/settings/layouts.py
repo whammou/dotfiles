@@ -2,6 +2,8 @@ from libqtile import layout
 from libqtile.config import Match
 from qtile_bonsai import Bonsai
 
+from .theme import colors
+
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
@@ -11,8 +13,8 @@ layouts = [
             "window.border_size": 0,
             "window.margin": [0, 3, 6, 3],
             "window.default_add_mode": "tab",
-            "container_select_mode.border_color": "ff00ff",
-            "container_select_mode.borser_size": 1,
+            "container_select_mode.border_color": colors["fg"],
+            "container_select_mode.border_size": 2,
             "L1.tab_bar.hide_when": "always",
             "tab_bar.height": 6,
             "tab_bar.margin": [0, 3, 0, 3],

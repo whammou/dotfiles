@@ -18,14 +18,14 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("meteor.jpg"),
+        wallpaper=select_wallpaper("meteor_flipped.png"),
         wallpaper_mode="fill",
         right=bar.Bar(
             [],
             1,
             margin=[0, -1, 0, 7],
         ),
-        left=bar.Bar([], 6),
+        left=bar.Bar([], 1, margin=[0, 7, 0, -1]),
         top=status_bar(widgets, margin=[6, 12, 12, 12]),
     )
 ]
