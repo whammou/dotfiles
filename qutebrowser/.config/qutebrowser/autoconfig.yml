@@ -6,8 +6,13 @@
 
 config_version: 2
 settings:
+  colors.webpage.bg:
+    global: '#1a212e'
   content.desktop_capture:
     https://meet.google.com: true
+  content.headers.user_agent:
+    global: Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko)
+      {upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}
   content.javascript.clipboard:
     https://chatgpt.com: access-paste
     https://github.com: access-paste
