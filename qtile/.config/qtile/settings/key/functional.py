@@ -25,7 +25,8 @@ functional_keys = [
     Key([alt], "F12", lazy.group["scratchpad"].dropdown_toggle("adapter")),
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
     Key([alt], "Delete", lazy.group["scratchpad"].dropdown_toggle("powermenu")),
-    Key([alt], "Escape", lazy.spawn("dunstctl close-all")),
+    Key([alt], "Escape", lazy.spawn("dunstctl close")),
+    Key([alt, "Shift"], "Escape", lazy.spawn("dunstctl close-all")),
     KeyChord(
         [mod, "shift"],
         "s",
