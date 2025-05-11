@@ -1,0 +1,10 @@
+[Unit]
+Description=Resume battery on suspend/hibernate
+ConditionACPower=false
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/systemctl start battery.target
+
+[Install]
+WantedBy=sleep.target

@@ -4,7 +4,8 @@ if status is-interactive
     starship init fish | source
     # echo; neofetch --ascii_distro arch_small --ascii_colors 6 6 --colors 5 8 10 6 8 8
     echo
-    fastfetch
+    # fastfetch
+    colorscript --random
     set fish_greeting
 
     #    if string match -q -- '*' $TERM

@@ -1,11 +1,12 @@
 [Unit]
 Description=system power up
+ConditionACPower=true
 
 [Service]
 Type=oneshot
-ExecStartPre=/usr/local/bin/ac-plugin
-ExecStart=/sbin/sleep 5
-ExecStartPost=undervolt --verbose --core 0 --uncore 0 --cache 0 --gpu 0 --analogio 0
+ExecStartPre=battery-stop
+ExecStart=undervolt --verbose --core 0 --uncore 0 --cache 0 --gpu 0 --analogio 0
+ExecStartPost=/sbin/tlp ac
 
 [Install]
 WantedBy=ac.target

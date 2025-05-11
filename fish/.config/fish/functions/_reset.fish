@@ -1,4 +1,6 @@
 function _reset
-    reset; echo ;fastfetch; echo \n
-    commandline --function repaint
+    reset
+    colorscript --random &&
+        echo &&
+        commandline --function repaint
 end

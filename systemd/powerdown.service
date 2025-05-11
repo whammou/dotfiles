@@ -3,7 +3,9 @@ Description=system powerdown
 
 [Service]
 Type=oneshot
-ExecStart=undervolt --verbose --core -121 --uncore -121 --cache -121 --gpu -100 --analogio -100
+ExecStartPre=battery-start
+ExecStart=/sbin/tlp bat
+ExecStartPost=undervolt --verbose --core -121 --uncore -121 --cache -121 --gpu -100 --analogio -100
 
 [Install]
 WantedBy=battery.target
