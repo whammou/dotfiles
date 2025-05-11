@@ -1,19 +1,19 @@
 [global]
 monitor = 0
 follow = mouse
-width = 375
-height = 150
-offset = 20x55
+width = 425
+height = (0, 300)
+offset = (25,55)
 indicate_hidden = yes
 shrink = no
 separator_height = 0
 separator_color = auto
-padding = 40
-horizontal_padding = 40
-frame_width = 2
+padding = 30
+horizontal_padding = 30
+frame_width = 3
 sort = no
 idle_threshold = 120
-font = SauceCodeProNerdFont 12
+font = SauceCodeProNerdFontMono 13
 line_height = 0
 markup = full
 format = %s\n%b
@@ -26,11 +26,12 @@ hide_duplicate_count = yes
 show_indicators = no
 icon_theme = AdwaitaLegacy
 enable_recursive_icon_lookup = true
+enable_posix_regex = true
 icon_position = left
-max_icon_size = 96
+max_icon_size = 48
 sticky_history = yes
 history_length = 20
-browser = x-www-browser -new-tab
+browser = /sbin/xdg-open
 always_run_script = true
 title = Dunst
 class = Dunst
@@ -43,14 +44,14 @@ progress_bar_max_width = 400
 
 
 [urgency_low]
-timeout = 6
+timeout = 10
 background = "#1a212e"
 foreground = "#93a4c3"
 frame_color = "#34bfd0"
 highlight = "#34bdd0"
 
 [urgency_normal]
-timeout = 6
+timeout = 10
 background = "#1a212e"
 foreground = "#93a4c3"
 frame_color = "#8bcd5b"
@@ -62,3 +63,7 @@ background = "#1a212e"
 foreground = "#93a4c3"
 frame_color = "#f65866"
 highlight = "#f65866"
+
+[orgmode]
+appname = orgmode
+timeout = 0
