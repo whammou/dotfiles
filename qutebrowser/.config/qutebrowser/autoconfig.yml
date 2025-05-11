@@ -6,41 +6,5 @@
 
 config_version: 2
 settings:
-  colors.webpage.bg:
-    global: '#1a212e'
-  content.desktop_capture:
-    https://meet.google.com: true
-  content.headers.user_agent:
-    global: Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko)
-      {upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}
-  content.javascript.clipboard:
-    https://chatgpt.com: access-paste
-    https://github.com: access-paste
-    https://nvim-orgmode.github.io: access-paste
-  content.media.audio_capture:
-    https://meet.google.com: true
-  content.media.audio_video_capture:
-    https://meet.google.com: true
-  content.media.video_capture:
-    https://meet.google.com: true
-  content.notifications.enabled:
-    https://meet.google.com: true
-    https://old.reddit.com: true
   content.user_stylesheets:
     global: ~/.config/qutebrowser/css/custom.css
-  input.links_included_in_focus_chain:
-    global: false
-  new_instance_open_target:
-    global: tab-bg
-  new_instance_open_target_window:
-    global: last-focused
-  scrolling.smooth:
-    global: false
-  statusbar.show:
-    global: never
-  tabs.select_on_remove:
-    global: prev
-  tabs.show:
-    global: multiple
-  tabs.tabs_are_windows:
-    global: true
