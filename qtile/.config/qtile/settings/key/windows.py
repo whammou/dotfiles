@@ -3,19 +3,27 @@ from libqtile.lazy import lazy
 
 
 @lazy.window.function
-def toggle_floating_center(window):
+def toggle_floating(window):
     window.toggle_floating()
     window.center()
 
 
 @lazy.function
-def float_focus(qtile):
-    #    logging.info("bring floating windows to front")
+def floats_to_front(qtile):
     for group in qtile.groups:
         for window in group.windows:
             if window.floating:
                 window.focus()
                 window.bring_to_front()
+
+
+@lazy.window.function
+def float_to_front(window):
+    if window.floating:
+        window.bring_to_front()
+        window.center()
+    else:
+        window.disable_floating()
 
 
 windows_keys = [
@@ -36,13 +44,14 @@ windows_keys = [
     EzKey("M-o", lazy.layout.select_container_outer()),
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
-    EzKey("M-S-f", lazy.window.toggle_fullscreen()),
+    EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
+    EzKey("M-S-f", toggle_floating()),
     # Floating Windows
-    EzKey("M-C-f", toggle_floating_center()),
-    EzKey("M-A-f", float_focus()),
-    EzKey("M-z", lazy.window.move_up()),
-    EzKey("M-S-z", lazy.window.move_down()),
-    EzKey("A-z", lazy.window.keep_below()),
+    EzKey("M-<Tab>", floats_to_front()),
+    EzKey("C-A-f", lazy.window.move_up().when(when_floating=True)),
+    EzKey("C-A-b", lazy.window.move_down().when(when_floating=True)),
+    EzKey("M-d", lazy.group.prev_window()),
+    EzKey("M-f", lazy.group.next_window()),
     # Container select mode
     KeyChord(
         ["mod4"],

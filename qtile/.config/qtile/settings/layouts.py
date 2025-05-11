@@ -1,8 +1,21 @@
 from libqtile import layout
 from libqtile.config import Match
 from qtile_bonsai import Bonsai
+from libqtile import hook
 
 from .theme import colors
+
+
+@hook.subscribe.client_new
+def center_floating_win(window):
+    if window._wm_class[0] == "mpv-preview":
+        window.keep_below(enable=True)
+
+
+@hook.subscribe.client_new
+def prevent_focus_steal(client):
+    client.__class__.can_steal_focus = property(lambda self: False)
+
 
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),

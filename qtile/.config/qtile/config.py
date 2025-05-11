@@ -17,18 +17,6 @@ def autostart():
     subprocess.call([path.join(qtile_path, "autostart.sh")])
 
 
-@hook.subscribe.client_new
-def prevent_focus_steal(client):
-    client.__class__.can_steal_focus = property(lambda self: False)
-
-
-@hook.subscribe.client_new
-def center_floating_win(window):
-    wm_class = window.inspect()["wm_class"]
-    if wm_class == "mpv-preview":
-        window.keep_below()
-
-
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
