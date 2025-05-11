@@ -6,7 +6,10 @@ local opt = vim.opt
 
 -- Vim
 opt.autochdir = true
+
 opt.foldmethod = "indent"
+opt.foldtext = ""
+
 vim.o.shell = "fish"
 -- opts.rocks.hererocks = false
 
