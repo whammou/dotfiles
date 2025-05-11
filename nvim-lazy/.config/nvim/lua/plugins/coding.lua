@@ -11,13 +11,18 @@ return {
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
         per_filetype = {
-          org = { "lsp", "path", "snippets" },
+          org = { "lsp", "path", "snippets", "orgmode" },
           markdown = { "lsp", "path", "snippets" },
         },
         providers = {
           snippets = {
             name = "luasnip",
             enabled = true,
+          },
+          orgmode = {
+            name = "Orgmode",
+            module = "orgmode.org.autocompletion.blink",
+            -- fallbacks = { "buffer" },
           },
         },
       },

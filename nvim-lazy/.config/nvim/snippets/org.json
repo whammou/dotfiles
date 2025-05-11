@@ -1,4 +1,20 @@
 {
+  "@URL": {
+    "prefix": "@u",
+    "body": " @URL"
+  },
+  "@Overflow": {
+    "prefix": "@o",
+    "body": " @Overflow"
+  },
+  "@Reddit": {
+    "prefix": "@r",
+    "body": " @Reddit"
+  },
+  "@Github": {
+    "prefix": "@g",
+    "body": " @Github"
+  },
   "Goal": {
     "prefix": "gl",
     "body": "*Goal:* /$1/$0"
