@@ -124,12 +124,15 @@ widgets = [
     widget.Systray(
         background=colors["bg0"], padding=10, icon_size=15, width=100, **powerline
     ),
-    widget.TextBox(
-        fmt="{}",
-        # width = 30,
-        foreground="ff7600",
-        background=colors["bg0"],
-        fontsize=14,
+    # widget.TextBox(
+    #     fmt="{}",
+    #     # width = 30,
+    #     foreground="ff7600",
+    #     background=colors["bg0"],
+    #     fontsize=14,
+    # ),
+    widget.Sep(
+        background=colors["bg0"], foreground=colors["fg"], linewidth=3, padding=2
     ),
 ]
 

@@ -23,7 +23,10 @@ layouts = [
     Bonsai(
         **{
             "auto_cwd_for_terminals": False,
-            "window.border_size": 0,
+            "window.border_size": 2,
+            "window.single.border_size": 2,
+            "window.border_color": colors["bg0"],
+            "window.active.border_color": colors["cyan"],
             "window.margin": [0, 3, 6, 3],
             "window.default_add_mode": "tab",
             "container_select_mode.border_color": colors["fg"],
@@ -43,6 +46,9 @@ layouts = [
 ]
 
 floating_layout = layout.Floating(
+    border_width=2,
+    border_focus=colors["cyan"],
+    border_normal=colors["bg0"],
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -54,5 +60,5 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="vimiv"),
         Match(wm_class="mpv-preview"),
-    ]
+    ],
 )
