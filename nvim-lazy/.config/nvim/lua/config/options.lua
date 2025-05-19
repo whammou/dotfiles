@@ -7,8 +7,12 @@ local opt = vim.opt
 -- Vim
 opt.autochdir = true
 
-opt.foldmethod = "indent"
-opt.foldtext = ""
+--opt.foldmethod = "indent"
+--opt.foldtext = ""
+
+opt.foldmethod = "expr"
+opt.foldexpr = "v:vim.treesitter.foldexpr()"
+opt.foldlevel = 99
 
 vim.o.shell = "fish"
 -- opts.rocks.hererocks = false
