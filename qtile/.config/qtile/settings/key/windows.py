@@ -26,19 +26,32 @@ def float_to_front(window):
         window.disable_floating()
 
 
+@lazy.window.function
+def resize_floating_window(window, width: int = 0, height: int = 0):
+    window.set_size_floating(window.width + width, window.height + height)
+
+
+@lazy.window.function
+def move_floating_window(window, x: int = 0, y: int = 0):
+    window.set_position_floating(window.float_x + x, window.float_y + y)
+
+
 windows_keys = [
     # Resize windows
     EzKey("M-C-h", lazy.layout.resize("left", 100)),
     EzKey("M-C-l", lazy.layout.resize("right", 100)),
     EzKey("M-C-k", lazy.layout.resize("up", 100)),
     EzKey("M-C-j", lazy.layout.resize("down", 100)),
+    # Select next/prev windows
+    EzKey("M-b", lazy.group.prev_window()),
+    EzKey("M-f", lazy.group.next_window()),
     # Swap Windows
     EzKey("M-S-h", lazy.layout.swap("left")),
     EzKey("M-S-l", lazy.layout.swap("right")),
     EzKey("M-S-k", lazy.layout.swap("up")),
     EzKey("M-S-j", lazy.layout.swap("down")),
     # Swap tabs
-    EzKey("A-S-d", lazy.layout.swap_tabs("previous")),
+    EzKey("A-S-b", lazy.layout.swap_tabs("previous")),
     EzKey("A-S-f", lazy.layout.swap_tabs("next")),
     # Select containers
     EzKey("M-o", lazy.layout.select_container_outer()),
@@ -47,11 +60,11 @@ windows_keys = [
     EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     EzKey("M-S-f", toggle_floating()),
     # Floating Windows
-    EzKey("M-<Tab>", floats_to_front()),
-    EzKey("C-A-f", lazy.window.move_up().when(when_floating=True)),
-    EzKey("C-A-b", lazy.window.move_down().when(when_floating=True)),
-    EzKey("M-d", lazy.group.prev_window()),
-    EzKey("M-f", lazy.group.next_window()),
+    EzKey("A-0", floats_to_front()),
+    EzKey("M-S-u", lazy.window.keep_below().when(when_floating=True)),
+    EzKey("M-S-d", lazy.window.bring_to_front().when(when_floating=True)),
+    EzKey("M-C-u", resize_floating_window(width=-100, height=-100)),
+    EzKey("M-C-d", resize_floating_window(width=100, height=100)),
     # Container select mode
     KeyChord(
         ["mod4"],

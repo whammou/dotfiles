@@ -47,6 +47,11 @@ keymap = [
         "cmd": [
             ["p", in_terminal("btm"), "pad_large"],
             ["b", in_terminal("monitor-battery"), "pad_list"],
+            [
+                "S-b",
+                in_terminal("sudo tlp recalibrate", parameters="--hold"),
+                "pad_list",
+            ],
             ["v", in_terminal("monitor-voltage"), "pad_list"],
             ["c", in_terminal("watch-cpu"), "pad_list"],
             ["g", in_terminal("sudo intel_gpu_top"), "pad_list"],
