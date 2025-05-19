@@ -16,11 +16,19 @@
     "body": " @Github"
   },
   "Goal": {
-    "prefix": "gl",
+    "prefix": "Go",
     "body": "*Goal:* /$1/$0"
   },
   "Visit": {
-    "prefix": "vi",
+    "prefix": "Vi",
     "body": "*Visit:* $0"
+  },
+  "References": {
+    "prefix": "Re",
+    "body": "*References:* $0"
+  },
+  "Orgmode-hyperlink": {
+    "prefix": "Li",
+    "body": "[[${1:links/URLs}][${2:Description}]]$0"
   }
 }
