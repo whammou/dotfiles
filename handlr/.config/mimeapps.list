@@ -8,6 +8,7 @@ image/jpeg=vimiv.desktop;
 image/png=vimiv.desktop;
 image/svg+xml=vimiv.desktop;
 notes/capture.org=nvim.desktop;
+text/markdown=nvim.desktop;
 text/org=nvim.desktop;
 text/plain=nvim.desktop;
 x-scheme-handler/beeper=beepertexts.desktop;
