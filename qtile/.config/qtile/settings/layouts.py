@@ -17,10 +17,26 @@ def prevent_focus_steal(client):
     client.__class__.can_steal_focus = property(lambda self: False)
 
 
+@hook.subscribe.client_focus
+def set_hint(window):
+    window.window.set_property(
+        "IS_FLOATING", str(window.floating), type="STRING", format=8
+    )
+
+
+class MyCustomBonsai(Bonsai):
+    def add_client(self, window):
+        prev_window = self.focused_window
+        super().add_client(window)
+        if prev_window is not None:
+            # Lord forgive me.
+            self.group.qtile.call_soon(lambda: self.group.focus(prev_window))
+
+
 layouts = [
     # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     # layout.Max(),
-    Bonsai(
+    MyCustomBonsai(
         **{
             "auto_cwd_for_terminals": False,
             "window.border_size": 2,
