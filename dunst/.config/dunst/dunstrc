@@ -55,15 +55,15 @@ progress_bar_max_width = 400
 timeout = 10
 background = "#1a212e"
 foreground = "#93a4c3"
-frame_color = "#34bfd0"
-highlight = "#34bdd0"
+frame_color = "#efbd5d"
+highlight = "#efbd5d"
 
 [urgency_normal]
 timeout = 10
 background = "#1a212e"
 foreground = "#93a4c3"
-frame_color = "#8bcd5b"
-highlight = "#8bcd5b"
+frame_color = "#34bfd0"
+highlight = "#34bfd0"
 
 [urgency_critical]
 timeout = 0
