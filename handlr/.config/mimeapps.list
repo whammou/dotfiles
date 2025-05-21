@@ -11,6 +11,7 @@ notes/capture.org=nvim.desktop;
 text/markdown=nvim.desktop;
 text/org=nvim.desktop;
 text/plain=nvim.desktop;
+text/x-python=nvim.desktop;
 x-scheme-handler/beeper=beepertexts.desktop;
 x-scheme-handler/http=qutebrowser.quick.desktop;
 x-scheme-handler/https=qutebrowser.quick.desktop;
