@@ -69,6 +69,8 @@ c.fonts.web.size.default = 19
 c.aliases["split"] = "spawn _qtile_spawn_split_y"
 c.aliases["vsplit"] = "spawn _qtile_spawn_split_x"
 c.aliases["tab"] = "spawn _qtile_spawn_tab"
+c.aliases["tab_new"] = "spawn _qtile_spawn_new_tab"
+c.aliases["screen"] = "spawn _qtile_spawn_screen"
 # Medias
 
 config.bind("M", "hint links spawn mpv --x11-name='mpv-preview' {hint-url}")
@@ -87,15 +89,21 @@ config.bind(
 )
 config.bind(
     "st",
-    "hint links spawn qtile cmd-obj -o layout -f spawn_tab -a 'qb {hint-url}' new_level=False",
+    "hint links spawn qtile cmd-obj -o layout -f spawn_tab -a 'qb {hint-url}'",
 )
 config.bind(
     "sT",
-    "hint links spawn qtile cmd-obj -o layout -f spawn_tab -a 'qb {hint-url}' new_level=True",
+    "hint links spawn _qtile_spawn_new_tab {hint-url}",
+)
+config.bind(
+    "ss",
+    "hint links spawn qtile cmd-obj -o root -f spawn -a 'qb {hint-url}'",
 )
 config.bind("Y", "cmd-set-text -s :split")
 config.bind("X", "cmd-set-text -s :vsplit")
 config.bind("T", "cmd-set-text -s :tab")
+config.bind("<Ctrl-T>", "cmd-set-text -s :tab_new")
+config.bind("S", "cmd-set-text -s :screen")
 
 # Settings
 config.bind("xb", "config-cycle statusbar.show never always")
