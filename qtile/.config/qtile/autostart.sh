@@ -15,7 +15,7 @@ tmux-session
 
 # Modify keyboard behaviours
 xinput disable TPPS\/2\ IBM\ TrackPoint
-setxkbmap -option caps:swapescape &
+setxkbmap -option caps:swapescape
 xinput disable "Synaptics TM3075-002" &
 (
   sleep 2
