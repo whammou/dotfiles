@@ -51,24 +51,48 @@
         "#C75AE8",
         "#C75AE8"
     ],
+    "purple_dimmed": [
+        "#661280",
+        "#661280"
+    ],
     "red": [
         "#F65866",
         "#F65866"
+    ],
+    "red_dimmed": [
+        "#830712",
+        "#830712"
     ],
     "blue": [
         "#41A7FC",
         "#41A7FC"
     ],
+    "blue_dimmed": [
+        "#024c8a",
+        "#024c8a"
+    ],
     "green": [
         "#8BCD5B",
         "#8BCD5B"
+    ],
+    "green_dimmed": [
+        "#406b20",
+        "#406b20"
     ],
     "yellow": [
         "#efbd5d",
         "#efbd5d"
     ],
+    "yellow_dimmed": [
+        "#8f610d",
+        "#8f610d"
+    ],
     "cyan": [
         "#34bfd0",
         "#34bfd0"
+    ],
+    "cyan_dimmed": [
+        "#1b6a74",
+        "#1b6a74"
     ]
 }

@@ -26,10 +26,10 @@ def workspaces():
     return [
         BonsaiBar(
             **{
-                "tab.bg_color": colors["blue"],
-                "tab.fg_color": colors["grey"],
-                "tab.active.fg_color": colors["bg0"],
+                "tab.bg_color": colors["blue_dimmed"],
+                "tab.fg_color": colors["bg0"],
                 "tab.active.bg_color": colors["blue"],
+                "tab.active.fg_color": colors["bg0"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
                 "tab.padding": [-5, 10, 10, 10],
