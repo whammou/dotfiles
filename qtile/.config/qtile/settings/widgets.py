@@ -7,7 +7,7 @@ from .theme import colors
 
 
 def base(fg="text", bg="bg0"):
-    return {"foreground": colors[fg], "background": colors[bg], **powerline}
+    return {"foreground": colors[fg], "background": colors[bg]}
 
 
 def separator():
@@ -26,10 +26,10 @@ def workspaces():
     return [
         BonsaiBar(
             **{
-                "tab.bg_color": colors["bg0"],
+                "tab.bg_color": colors["blue"],
                 "tab.fg_color": colors["grey"],
-                "tab.active.fg_color": colors["blue"],
-                "tab.active.bg_color": colors["bg1"],
+                "tab.active.fg_color": colors["bg0"],
+                "tab.active.bg_color": colors["blue"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
                 "tab.padding": [-5, 10, 10, 10],
@@ -46,14 +46,13 @@ def workspaces():
 
 def checkupdate(command="checkupdates"):
     return widget.CheckUpdates(
-        background=colors["green"],
-        colour_have_updates=colors["text"],
-        colour_no_updates=colors["text"],
+        background=colors["bg0"],
+        colour_have_updates=colors["yellow"],
+        colour_no_updates=colors["yellow"],
         no_update_string="0",
-        display_format="{updates} ",
+        display_format="   {updates} ",
         update_interval=1800,
         custom_command=command,
-        **powerline,
     )
 
 
@@ -66,7 +65,7 @@ def battery(bat):
         charge_char=" ",
         full_char="󰁹 ",
         empty_char="󱟩 ",
-        format="{char}{percent:2.0%}",
+        format=" {char}{percent:2.0%} ",
         show_short_text=False,
         low_percentage=0.05,
         low_foreground=colors["red"],
@@ -77,9 +76,9 @@ def battery(bat):
 
 def disk_free():
     return widget.DF(
-        **base(fg="purple"),
+        **base(fg="cyan"),
         partition="/",
-        format="{uf}{m}",
+        format="{uf}{m} ",
         # format = "{r: 0.0f}",
         fmt=" {}",
         visible_on_warn=False,
@@ -89,17 +88,17 @@ def disk_free():
 
 def net():
     return widget.Net(
-        **base(bg="blue"),
+        **base(bg="bg0", fg="blue"),
         interface="wlan0",
-        format=" {down:6.1f}{down_suffix:<2} {up:6.1f}{up_suffix:<2}",
+        format="  {down:6.1f}{down_suffix:<2} {up:6.1f}{up_suffix:<2}",
         update_interval=60,
     )
 
 
 def wlan():
     return widget.Wlan(
-        **base(bg="red"),
-        format="{percent:2.0%} ",
+        **base(bg="bg0", fg="red"),
+        format="  󰤨 {percent:2.0%} ",
         update_interval=60,
     )
 
@@ -109,18 +108,25 @@ powerline = {"decorations": [PowerLineDecoration(path="arrow_right")]}
 widgets = [
     *workspaces(),
     disk_free(),
-    text_separator(),
+    widget.Sep(**base(bg="bg0", fg="cyan"), linewidth=4),
     battery(0),
     battery(1),
+    widget.Sep(**base(bg="bg0", fg="green"), linewidth=4),
     separator(),
-    icon(bg="green", text=" "),  # Icon: nf-fa-download
+    # icon(bg="green", text=" "),  # Icon: nf-fa-download
     checkupdate(),
+    widget.Sep(**base(bg="bg0", fg="yellow"), linewidth=4),
     net(),
+    widget.Sep(**base(bg="bg0", fg="blue"), linewidth=4),
     # widget.CurrentLayout(**base(bg='red'), padding=5),
-    icon(bg="red", text=" 󰤨"),  # Icon: nf-fa-feed
+    # icon(bg="red", text=" 󰤨"),  # Icon: nf-fa-feed
     wlan(),
-    icon(bg="purple", fontsize=17, text=" 󰸘"),  # Icon: nf-mdi-calendar_clock
-    widget.Clock(**base(bg="purple"), format="%d/%m/%Y - %H:%M "),
+    widget.Sep(**base(bg="bg0", fg="red"), linewidth=4),
+    # icon(bg="purple", fontsize=17, text=" 󰸘"),  # Icon: nf-mdi-calendar_clock
+    widget.Clock(
+        **base(bg="bg0", fg="purple"), format="%d/%m/%Y - %H:%M ", fmt="  󰸘 {}"
+    ),
+    widget.Sep(**base(bg="bg0", fg="purple"), linewidth=4),
     widget.Systray(
         background=colors["bg0"], padding=10, icon_size=15, width=100, **powerline
     ),

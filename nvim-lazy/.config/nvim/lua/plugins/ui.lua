@@ -22,10 +22,13 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    opts = {
-      sections = {
-        lualine_z = { "filesize" },
-      },
-    },
+    config = function()
+      require("config.ui")
+    end,
+    -- opts = {
+    --   sections = {
+    --     lualine_z = { "filesize" },
+    --   },
+    -- },
   },
 }
