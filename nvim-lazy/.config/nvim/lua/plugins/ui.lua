@@ -22,6 +22,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
+    lazy = true,
     config = function()
       require("config.ui")
     end,

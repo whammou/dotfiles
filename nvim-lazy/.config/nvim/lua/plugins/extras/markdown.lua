@@ -28,6 +28,10 @@ return {
     ft = "markdown",
     opts = {
       completions = { blink = { enabled = true } },
+      paragraph = {
+        enabled = false,
+        indent = 1,
+      },
       heading = {
         position = "overlay",
         border = true,
@@ -36,6 +40,8 @@ return {
       indent = {
         enabled = true,
         skip_heading = true,
+        per_level = 1,
+        skip_level = 0,
         icon = "│ ",
       },
 
