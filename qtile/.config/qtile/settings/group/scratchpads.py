@@ -67,7 +67,13 @@ def dropdowns(keymap):
     for package in keymap:
         for c in package["cmd"]:
             dropdowns.append(
-                DropDown(c[1], c[1], opacity=1.0, **scratchpad_layout(preset=c[2]))
+                DropDown(
+                    c[1],
+                    c[1],
+                    opacity=1.0,
+                    on_focus_lost_hide=False,
+                    **scratchpad_layout(preset=c[2]),
+                )
             )
     return dropdowns
 
