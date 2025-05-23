@@ -5,14 +5,14 @@ local lualine = require("lualine")
 local colors = {
   bg       = '#283347',
   fg       = '#93a4c3',
-  yellow   = '#f2cc81',
+  yellow   = '#efbd5d',
   cyan     = '#34bfd0',
   darkblue = '#081633',
   green    = '#8bcd5b',
   orange   = '#dd9046',
   violet   = '#c75ae8',
   magenta  = '#c678dd',
-  blue     = '#54b0fd',
+  blue     = '#41a7fc',
   red      = '#f65866',
 }
 
@@ -126,7 +126,7 @@ ins_left({
 ins_left({
   "filename",
   cond = conditions.buffer_not_empty,
-  color = { fg = colors.magenta, gui = "bold" },
+  color = { fg = colors.green, gui = "bold" },
 })
 
 ins_left({ "location" })
@@ -176,21 +176,23 @@ ins_left({
 -- Add components to right sections
 ins_right({
   "o:encoding", -- option component same as &encoding in viml
-  fmt = string.upper, -- I'm not sure why it's upper case either ;)
+  fmt = string.lower, -- I'm not sure why it's upper case either ;)
   cond = conditions.hide_in_width,
-  color = { fg = colors.green, gui = "bold" },
+  icon = "",
+  color = { fg = colors.yellow, gui = "bold" },
 })
 
 ins_right({
   "fileformat",
-  fmt = string.upper,
+  fmt = string.lower,
+  -- icon = "󰻀",
   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = { fg = colors.green, gui = "bold" },
+  color = { fg = colors.blue, gui = "bold" },
 })
 
 ins_right({
   "branch",
-  icon = "",
+  icon = "",
   color = { fg = colors.violet, gui = "bold" },
 })
 
