@@ -28,3 +28,7 @@ opt.foldlevel = 0
 opt.foldmethod = "expr"
 opt.foldexpr = "v:lua.markdown_foldexpr()"
 -- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
+vim.o.breakindent = true
+vim.o.breakindentopt = "list:-1"
+-- vim.o.formatlistpat = "-"
