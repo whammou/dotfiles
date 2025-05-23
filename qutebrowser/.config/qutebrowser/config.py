@@ -77,6 +77,7 @@ c.aliases["tab_new"] = "spawn _qtile_spawn_new_tab"
 c.aliases["screen"] = "spawn _qtile_spawn_screen"
 # Medias
 
+config.unbind("d")
 config.bind("M", "hint links spawn mpv --x11-name='mpv-preview' {hint-url}")
 
 # Navigation
