@@ -76,5 +76,6 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="vimiv"),
         Match(wm_class="mpv-preview"),
+        Match(wm_class="matplotlib"),
     ],
 )
