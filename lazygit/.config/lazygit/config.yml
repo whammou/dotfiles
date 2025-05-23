@@ -1,6 +1,7 @@
 git:
   merging:
     manualCommit: true
+  autoFetch: false
 gui:
   showBottomLine : false
   border: "single"
