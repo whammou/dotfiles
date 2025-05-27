@@ -17,6 +17,14 @@ def floats_to_front(qtile):
                 window.bring_to_front()
 
 
+@lazy.function
+def floats_keep_below(qtile):
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.keep_below()
+
+
 @lazy.window.function
 def float_to_front(window):
     if window.floating:
@@ -42,9 +50,6 @@ windows_keys = [
     EzKey("M-C-l", lazy.layout.resize("right", 100)),
     EzKey("M-C-k", lazy.layout.resize("up", 100)),
     EzKey("M-C-j", lazy.layout.resize("down", 100)),
-    # Select next/prev windows
-    EzKey("M-b", lazy.group.prev_window()),
-    EzKey("M-f", lazy.group.next_window()),
     # Swap Windows
     EzKey("M-S-h", lazy.layout.swap("left")),
     EzKey("M-S-l", lazy.layout.swap("right")),
@@ -59,11 +64,20 @@ windows_keys = [
     # Windows States
     EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     EzKey("M-<Escape>", lazy.group["scratchpad"].hide_all()),
+    EzKey("M-S-<Escape>", floats_keep_below()),
     EzKey("M-S-f", toggle_floating()),
     # Floating Windows
     EzKey("A-0", floats_to_front()),
-    EzKey("M-S-u", lazy.window.keep_below().when(when_floating=True)),
-    EzKey("M-S-d", lazy.window.bring_to_front().when(when_floating=True)),
+    EzKey(
+        "M-u",
+        lazy.group.prev_window(),
+        lazy.window.bring_to_front().when(when_floating=True),
+    ),
+    EzKey(
+        "M-d",
+        lazy.group.next_window(),
+        lazy.window.bring_to_front().when(when_floating=True),
+    ),
     EzKey("M-C-u", resize_floating_window(width=-100, height=-100)),
     EzKey("M-C-d", resize_floating_window(width=100, height=100)),
     # Container select mode

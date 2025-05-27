@@ -16,6 +16,14 @@ dropdown = [
         y=0.1,
     ),
     DropDown(
+        "a2ln",
+        "kitty -e a2ln pair",
+        width=0.6,
+        height=0.8,
+        x=0.2,
+        y=0.1,
+    ),
+    DropDown(
         "adapter",
         "kitty --class=pwd_prompt -o font.size=10 -e adapter-switch",
         width=0.45,
@@ -30,6 +38,22 @@ dropdown = [
         height=0.4,
         x=0.4,
         y=0.2,
+    ),
+    DropDown(
+        "calendar",
+        "kitty --hold --title=calendar -e 'khal calendar | less'",
+        width=0.3,
+        height=0.4,
+        x=0.7,
+        y=0,
+    ),
+    DropDown(
+        "samba",
+        "kitty --title='Toggle samba-drive' -e smb-toggle",
+        width=0.45,
+        height=0.04,
+        x=0.275,
+        y=0.48,
     ),
 ]
 dropdown.extend(dropdowns(keymap))

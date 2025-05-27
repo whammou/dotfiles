@@ -14,6 +14,7 @@ keymap = [
                 "pad_large",
             ],
             ["p", "qb-url", "pad_large"],
+            ["b", "qb chat.beeper.com", "pad_large"],
         ],
     },
     {
@@ -32,8 +33,6 @@ keymap = [
         "cmd": [
             ["h", in_terminal("yazi $HOME"), "pad_medium"],
             ["s", in_terminal("yazi /server/"), "pad_medium"],
-            ["S-s", in_terminal("smb-mount"), "pad_prompt"],
-            ["S-h", in_terminal("smb-umount"), "pad_prompt"],
         ],
     },
     {
@@ -54,7 +53,7 @@ keymap = [
             ],
             ["v", in_terminal("monitor-voltage"), "pad_list"],
             ["c", in_terminal("watch-cpu"), "pad_list"],
-            ["g", in_terminal("sudo intel_gpu_top"), "pad_list"],
+            ["g", in_terminal("sudo intel_gpu_top"), "pad_small"],
         ],
     },
     {
@@ -84,19 +83,14 @@ keymap = [
                 "pad_large",
             ],
             [
+                "m",
+                in_terminal("sh magic-tape.sh", parameters="--hold"),
+                "pad_large",
+            ],
+            [
                 "S-y",
                 "firefox 'https://youtube.com/account'",
                 "pad_small",
-            ],
-            [
-                "S-s",
-                in_terminal("sh smb-mount", parameters="-o font.size=10"),
-                "pad_prompt",
-            ],
-            [
-                "S-h",
-                in_terminal("sh smb-umount", parameters="-o font.size=10"),
-                "pad_prompt",
             ],
         ],
     },
