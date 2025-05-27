@@ -8,6 +8,11 @@ require("orgmode").cron({
   org_agenda_files = "~/notes/**/*",
   org_default_notes_file = "~/notes/capture.org",
   notifications = {
+    cron_enabled = true,
     reminder_time = { 0, 10 },
+    repeater_reminder_time = false,
+    deadline_warning_reminder_time = false,
+    deadline_reminder = true,
+    scheduled_reminder = true,
   },
 })
