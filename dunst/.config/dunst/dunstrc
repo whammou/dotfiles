@@ -7,33 +7,33 @@ height = (0, 300)
 offset = (25,55)
 
 indicate_hidden = yes
-shrink = no
+shrink = yes
 separator_height = 0
 separator_color = auto
 
-padding = 30
-horizontal_padding = 30
+padding = 20
+horizontal_padding = 20
 frame_width = 2
 
 sort = no
 idle_threshold = 120
+show_age_threshold = 60
+
 font = SauceCodeProNerdFontMono 13
 line_height = 0
 markup = full
-format = %s\n%b
-alignment = left
-show_age_threshold = 60
-
+format = <b>%s</b>\n%b
 word_wrap = yes
 ignore_newline = no
-stack_duplicates = false
-hide_duplicate_count = yes
-show_indicators = no
+alignment = left
 
-icon_theme = AdwaitaLegacy
+stack_duplicates = true
+hide_duplicate_count = false
+show_indicators = true
+
+icon_theme = Suru++-Asprómauros
 icon_position = left
 max_icon_size = 48
-
 enable_recursive_icon_lookup = true
 enable_posix_regex = true
 
@@ -79,6 +79,9 @@ timeout = 0
 [media]
 appname = Media
 timeout = 5
+
+[al2n]
+appname = "Android 2 Linux Notifications"
 
 [system]
 appname = System
