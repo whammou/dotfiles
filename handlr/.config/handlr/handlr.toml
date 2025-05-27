@@ -1,6 +1,6 @@
 enable_selector = false
 selector = "rofi -dmenu -i -p 'Open With: '"
-term_exec_args = ''
+term_exec_args = 'tmux -c'
 expand_wildcards = true
 
 [[handlers]]
