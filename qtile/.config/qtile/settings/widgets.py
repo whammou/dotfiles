@@ -33,7 +33,13 @@ def workspaces():
         ),
         separator(),
         widget.TextBox(**base(fg="blue"), fmt=" []="),
-        widget.Prompt(**base(fg="blue"), cursor=False, fmt="{}", prompt=""),
+        widget.Prompt(
+            **base(fg="blue"),
+            font="Sauce Code Pro Nerd Medium",
+            cursor=False,
+            fmt="{}",
+            prompt="",
+        ),
         separator(),
         widget.WindowName(
             **base(fg="fg"),
@@ -66,7 +72,7 @@ def battery(bat):
         charge_char=" ",
         full_char="󰁹 ",
         empty_char="󱟩 ",
-        format=" {char}{percent:2.0%} ",
+        format="{char}{percent:2.0%} ",
         show_short_text=False,
         low_percentage=0.05,
         low_foreground=colors["red"],
@@ -91,7 +97,7 @@ def net():
     return widget.Net(
         **base(bg="bg2", fg="blue"),
         interface="wlan0",
-        format="  {down:6.1f}{down_suffix:<2} {up:6.1f}{up_suffix:<2}",
+        format="  {down:6.1f}{down_suffix:<2} {up:6.1f}{up_suffix:<2} ",
         update_interval=60,
     )
 
@@ -110,6 +116,7 @@ widgets = [
     *workspaces(),
     disk_free(),
     widget.Sep(**base(bg="bg2", fg="red"), linewidth=4),
+    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=20),
     battery(0),
     battery(1),
     widget.Sep(**base(bg="bg2", fg="green"), linewidth=4),
@@ -121,9 +128,12 @@ widgets = [
     widget.Sep(**base(bg="bg2", fg="purple"), linewidth=4),
     widget.Clock(**base(bg="bg2", fg="cyan"), format="%d/%m/%Y - %H:%M ", fmt="  󰸘 {}"),
     widget.Sep(**base(bg="bg2", fg="cyan"), linewidth=4),
-    widget.Systray(
-        background=colors["bg2"], padding=10, icon_size=15, width=100, **powerline
-    ),
+    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=4),
+    widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
+    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
+    widget.TextBox(**base(bg="bg2", fg="fg"), text="󰤳 "),
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.Sep(
         background=colors["bg2"], foreground=colors["fg"], linewidth=4, padding=2
     ),
