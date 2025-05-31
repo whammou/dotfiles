@@ -63,8 +63,6 @@ layouts = [
             "L6.tab_bar.tab.active.bg_color": colors["green"],
             "L7.tab_bar.tab.bg_color": colors["red_dimmed"],
             "L7.tab_bar.tab.active.bg_color": colors["red"],
-            # "L4.tab_bar.tab.bg_color": "76002a",
-            # "L4.tab_bar.tab.active.bg_color": "ff005c",
         }
     ),
 ]

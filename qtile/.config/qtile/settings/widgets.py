@@ -56,8 +56,8 @@ def checkupdate(command="checkupdates"):
         background=colors["bg2"],
         colour_have_updates=colors["yellow"],
         colour_no_updates=colors["yellow"],
-        no_update_string="0",
         display_format="   {updates} ",
+        no_update_string="   0 ",
         update_interval=1800,
         custom_command=command,
     )
@@ -97,7 +97,7 @@ def net():
     return widget.Net(
         **base(bg="bg2", fg="blue"),
         interface="wlan0",
-        format="  {down:6.1f}{down_suffix:<2} {up:6.1f}{up_suffix:<2} ",
+        format="   {down:03.0f}{down_suffix:<2} {up:03.0f}{up_suffix:<2}",
         update_interval=60,
     )
 
