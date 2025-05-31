@@ -4,7 +4,10 @@
 
 local opt = vim.opt
 
--- Vim
+vim.opt.title = true
+vim.opt.titlelen = 0 -- do not shorten title
+vim.opt.titlestring = "%t - "
+
 opt.autochdir = true
 
 --opt.foldmethod = "indent"
