@@ -69,17 +69,19 @@ windows_keys = [
     # Floating Windows
     EzKey("A-0", floats_to_front()),
     EzKey(
-        "M-u",
+        "M-d",
         lazy.group.prev_window(),
         lazy.window.bring_to_front().when(when_floating=True),
     ),
     EzKey(
-        "M-d",
+        "M-u",
         lazy.group.next_window(),
         lazy.window.bring_to_front().when(when_floating=True),
     ),
     EzKey("M-C-u", resize_floating_window(width=-100, height=-100)),
     EzKey("M-C-d", resize_floating_window(width=100, height=100)),
+    # Rofi menu
+    EzKey("M-S-w", lazy.spawn("rofi -show window")),
     # Container select mode
     KeyChord(
         ["mod4"],
@@ -101,6 +103,26 @@ windows_keys = [
                     EzKey("k", lazy.layout.merge_to_subtab("up")),
                     EzKey("S-h", lazy.layout.merge_tabs("previous", "x")),
                     EzKey("S-l", lazy.layout.merge_tabs("next", "x")),
+                    EzKey(
+                        "C-h",
+                        lazy.layout.merge_tabs("previous", "x"),
+                        lazy.layout.push_in("right", wrap=True),
+                    ),
+                    EzKey(
+                        "A-h",
+                        lazy.layout.merge_tabs("previous", "x"),
+                        lazy.layout.push_in("left"),
+                    ),
+                    EzKey(
+                        "C-l",
+                        lazy.layout.merge_tabs("next", "x"),
+                        lazy.layout.push_in("right", wrap=True),
+                    ),
+                    EzKey(
+                        "A-l",
+                        lazy.layout.merge_tabs("next", "x"),
+                        lazy.layout.push_in("left"),
+                    ),
                 ],
             ),
             # Push window in

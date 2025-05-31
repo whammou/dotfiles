@@ -23,11 +23,11 @@ keys = list(
         change_tab_layer([mod], range(1, 10), range(1, 10)),
         spawn_new([mod], "s", keymap),
         scratchpad_keys([mod], "p", keymap),
-        spawn_position([mod], "x", keymap, "x", position="next"),
-        spawn_position([mod], "y", keymap, "y", position="next"),
-        spawn_position([mod, "shift"], "x", keymap, "x", position="previous"),
-        spawn_position([mod, "shift"], "y", keymap, "y", position="previous"),
+        spawn_position([mod], "v", keymap, "x", position="next"),
+        spawn_position([mod], "x", keymap, "y", position="next"),
+        spawn_position([mod, "shift"], "v", keymap, "x", position="previous"),
+        spawn_position([mod, "shift"], "x", keymap, "y", position="previous"),
         spawn_tab([mod], "t", keymap, new_level=False),
-        spawn_tab([mod, "shift"], "t", keymap, new_level=True),
+        spawn_tab([mod, "control"], "t", keymap, new_level=True),
     )
 )
