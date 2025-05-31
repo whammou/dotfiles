@@ -27,9 +27,21 @@ functional_keys = [
     Key([alt], "F11", lazy.spawn("vktablet")),
     Key([alt], "F12", lazy.group["scratchpad"].dropdown_toggle("adapter")),
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
-    Key([alt], "Delete", lazy.group["scratchpad"].dropdown_toggle("powermenu")),
+    # Key([alt], "Delete", lazy.group["scratchpad"].dropdown_toggle("powermenu")),
+    Key(
+        [alt],
+        "Delete",
+        lazy.spawn("rofi -show power-menu -modi power-menu:/sbin/rofi-power-menu"),
+    ),
     Key([alt], "Escape", lazy.spawn("dunstctl close")),
     Key([alt, "Shift"], "Escape", lazy.spawn("dunstctl close-all")),
+    Key(
+        [alt, "Control"],
+        "v",
+        lazy.spawn(
+            "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
+        ),
+    ),
     KeyChord(
         [mod, "shift"],
         "s",
