@@ -92,11 +92,11 @@ config.bind("m", "mode-enter set_mark")
 # Qtile
 config.unbind("F")
 config.bind(
-    "Fx",
+    "Fv",
     "hint links spawn qtile cmd-obj -o layout -f spawn_split -a 'qb {hint-url}' x",
 )
 config.bind(
-    "Fy",
+    "Fx",
     "hint links spawn qtile cmd-obj -o layout -f spawn_split -a 'qb {hint-url}' y",
 )
 config.bind(
@@ -111,8 +111,8 @@ config.bind(
     "Ff",
     "hint links spawn qtile cmd-obj -o root -f spawn -a 'qb {hint-url}'",
 )
-config.bind("Y", "cmd-set-text -s :split")
-config.bind("X", "cmd-set-text -s :vsplit")
+config.bind("X", "cmd-set-text -s :split")
+config.bind("V", "cmd-set-text -s :vsplit", mode="normal")
 config.bind("T", "cmd-set-text -s :tab")
 config.bind("<Ctrl-T>", "cmd-set-text -s :tab_new")
 
