@@ -31,6 +31,7 @@ stack_duplicates = true
 hide_duplicate_count = false
 show_indicators = true
 
+default_icon = /usr/share/icons/Suru++-Asprómauros/actions/16/dialog-information.svg
 icon_theme = Suru++-Asprómauros
 icon_position = left
 max_icon_size = 48
