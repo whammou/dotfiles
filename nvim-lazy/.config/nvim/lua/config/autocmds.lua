@@ -4,6 +4,7 @@
 -- Add any additional autocmds here
 -- with `vim.api.nvim_create_autocmd`
 
+-- Binding org-meta-return
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "org",
   callback = function()
@@ -14,5 +15,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Disable tree-sitter for larg file
+vim.api.nvim_create_autocmd({ "InsertLeave", "InsertEnter" }, {
+  pattern = "*",
+  callback = function()
+    if vim.api.nvim_buf_line_count(0) > 0 then
+      vim.cmd("TSToggle highlight")
+    end
+  end,
+})
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
