@@ -12,4 +12,7 @@ return {
     event = "VeryLazy",
     opts = {},
   },
+  {
+    "LunarVim/bigfile.nvim",
+  },
 }
