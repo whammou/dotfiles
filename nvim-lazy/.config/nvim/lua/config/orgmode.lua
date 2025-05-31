@@ -14,9 +14,11 @@ local capture_templates = {
 }
 
 local todo_keyword_faces = {
-  ABORTED = ":foreground #f65866 :weight bold",
-  DOING = ":foreground #34bfd0 :weight bold",
-  PENDING = ":foreground #93a4c3 :weight bold",
+  TODO = ":foreground #c75ae8 :weight bold :underline on",
+  DOING = ":foreground #34bfd0 :weight bold :underline on",
+  PENDING = ":foreground #93a4c3 :weight bold :underline on",
+  ABORTED = ":foreground #f65866 :weight bold :underline on",
+  DONE = ":foreground #8bcd5b :weight bold :underline on",
 }
 
 local mappings = {
