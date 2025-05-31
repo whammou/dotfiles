@@ -29,8 +29,9 @@ return {
     opts = {
       completions = { blink = { enabled = true } },
       paragraph = {
-        enabled = false,
-        indent = 1,
+        enabled = true,
+        left_margin = 0,
+        indent = 0,
       },
       heading = {
         position = "overlay",
@@ -42,7 +43,7 @@ return {
         skip_heading = true,
         per_level = 1,
         skip_level = 0,
-        icon = "│ ",
+        icon = "",
       },
 
       latex = {
