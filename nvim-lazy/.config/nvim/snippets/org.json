@@ -19,6 +19,10 @@
     "prefix": "Go",
     "body": "*Goal:* /$1/$0"
   },
+  "Idea": {
+    "prefix": "Id",
+    "body": "*Idea:* /$1/$0"
+  },
   "Visit": {
     "prefix": "Vi",
     "body": "*Visit:* $0"
