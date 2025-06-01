@@ -84,7 +84,7 @@ def battery(bat):
 def disk_free():
     return widget.DF(
         **base(fg="red"),
-        partition="/",
+        partition="/home",
         format="{uf}{m} ",
         # format = "{r: 0.0f}",
         fmt=" {}",
