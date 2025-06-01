@@ -64,6 +64,7 @@ c.url.searchengines = {
     "DEFAULT": "https://opnxng.com/search?q={}",
     "gs": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=",
     "g": "https://www.google.com/search?q={}",
+    "b": "https://search.brave.com/search?q={}",
     "y": "https://www.youtube.com/results?search_query={}",
     "wa": "https://wiki.archlinux.org/?search={}",
     "lg": "https://libgen.li/index.php?req={}",

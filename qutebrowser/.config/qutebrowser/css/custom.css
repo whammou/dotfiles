@@ -14,13 +14,12 @@ body {
   font-size: 1.083rem !important; /* 1rem is equivalent to 16px */
 }
 
-} /* This somehow fix github not showing colors
 
 /* Override background colors for common elements that may have their own background */
-button, input, select, textarea {
+button, input, select {
   background-color: #1a212e !important;
-  color: #93a4c3 !important;
-  border: 1px solid #93a4c3; /* Optional: make sure form elements are visible */
+  color: #6c7d9c !important;
+  border: 1px solid #455574; /* Optional: make sure form elements are visible */
 }
 
 /* Optional: Fix for white backgrounds on certain elements */
