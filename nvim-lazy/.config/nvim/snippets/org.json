@@ -31,6 +31,14 @@
     "prefix": "Re",
     "body": "*References:* $0"
   },
+  "Implemented": {
+    "prefix": "Im",
+    "body": "*Implemented:* $0"
+  },
+  "Checkout": {
+    "prefix": "Ch",
+    "body": "*Checkout:* $0"
+  },
   "Orgmode-hyperlink": {
     "prefix": "Li",
     "body": "[[${1:links/URLs}][${2:Description}]]$0"
