@@ -17,6 +17,7 @@ local todo_keyword_faces = {
   TODO = ":foreground #c75ae8 :weight bold :underline on",
   DOING = ":foreground #34bfd0 :weight bold :underline on",
   PENDING = ":foreground #93a4c3 :weight bold :underline on",
+  PARTIAL = ":foreground #efbd5d :weight bold :underline on",
   ABORTED = ":foreground #f65866 :weight bold :underline on",
   DONE = ":foreground #8bcd5b :weight bold :underline on",
 }
@@ -69,7 +70,7 @@ orgmode.setup({
   org_cycle_separator_lines = 0,
   org_blank_before_new_entry = { heading = false, plain_list_item = false },
 
-  org_todo_keywords = { "TODO(t)", "DOING(d)", "|", "PENDING(p)", "DONE(f)", "ABORTED(a)" },
+  org_todo_keywords = { "TODO(t)", "DOING(d)", "|", "PENDING(p)", "PARTIAL(r)", "DONE(f)", "ABORTED(a)" },
   org_priority_highest = "A",
   org_priority_default = "B",
   org_priority_lowest = "F",
