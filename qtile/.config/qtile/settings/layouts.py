@@ -83,5 +83,6 @@ floating_layout = layout.Floating(
         Match(wm_class="vimiv"),
         Match(wm_class="mpv-preview"),
         Match(wm_class="matplotlib"),
+        Match(wm_class="feh"),
     ],
 )
