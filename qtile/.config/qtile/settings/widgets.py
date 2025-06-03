@@ -97,7 +97,8 @@ def net():
     return widget.Net(
         **base(bg="bg2", fg="blue"),
         interface="wlan0",
-        format="   {down:03.0f}{down_suffix:<2} {up:03.0f}{up_suffix:<2}",
+        format="   {down:03.0f}{down_suffix:<2}  {up:03.0f}{up_suffix:<2} ",
+        prefix="k",
         update_interval=60,
     )
 
@@ -132,6 +133,8 @@ widgets = [
     widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
     widget.TextBox(**base(bg="bg2", fg="fg"), text="󰤳 "),
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.Sep(

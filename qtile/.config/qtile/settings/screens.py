@@ -18,7 +18,7 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("meteor_flipped.png"),
+        wallpaper=select_wallpaper("od_abstract.png"),
         wallpaper_mode="fill",
         right=bar.Bar(
             [],
