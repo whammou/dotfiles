@@ -20,7 +20,9 @@ vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "*",
 --   callback = function()
 --     if vim.api.nvim_buf_line_count(0) > 0 then
---       vim.cmd("TSToggle highlight")
+--       vim.cmd(
+--         "TSToggle highlight autotag indent textobjects.swap textobjects.move textobjects.select increment_selection"
+--       )
 --     end
 --   end,
 -- })
