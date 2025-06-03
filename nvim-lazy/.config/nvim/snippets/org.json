@@ -39,6 +39,26 @@
     "prefix": "Ch",
     "body": "*Checkout:* $0"
   },
+  "Keypoint": {
+    "prefix": "Ke",
+    "body": "*Keypoint:* $0"
+  },
+  "Workaround": {
+    "prefix": "Wo",
+    "body": "*Workaround:* $0"
+  },
+  "For more information": {
+    "prefix": "FM",
+    "body": "*FMI:* $0"
+  },
+  "Note": {
+    "prefix": "No",
+    "body": "[NOTE] taken on [$datetime]:\n  $0"
+  },
+  "Check-list": {
+    "prefix": "Oc",
+    "body": "- [ ] $0"
+  },
   "Orgmode-hyperlink": {
     "prefix": "Li",
     "body": "[[${1:links/URLs}][${2:Description}]]$0"
