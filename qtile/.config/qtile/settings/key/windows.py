@@ -62,7 +62,7 @@ windows_keys = [
     EzKey("M-o", lazy.layout.select_container_outer()),
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
-    EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
+    # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     EzKey("M-<Escape>", lazy.group["scratchpad"].hide_all()),
     EzKey("M-S-<Escape>", floats_keep_below()),
     EzKey("M-S-f", toggle_floating()),
