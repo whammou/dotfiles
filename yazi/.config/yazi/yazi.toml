@@ -19,11 +19,11 @@ prepend_rules = [
 
 # Disable preloaders and previewer for /server
 [[plugin.prepend_previewers]]
-name = "~/Documents/Homelab/**"
+name = "~/documents/homelab/**"
 run = "noop"
 
 [[plugin.prepend_previewers]]
-name = "~/Documents/gdrive/**"
+name = "~/documents/gdrive/**"
 run = "noop"
 
 # Git change indicators
