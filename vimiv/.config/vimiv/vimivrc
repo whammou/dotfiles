@@ -28,7 +28,7 @@ border_width: 0
 markup: <span foreground="#875FFF">
 show_hidden: no
 desktop_start_dir: .
-file_check_amount: 30
+file_check_amount: 0
 tilde_in_statusbar: yes
 
 [EDIT] #########################################################################
