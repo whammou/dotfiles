@@ -43,7 +43,7 @@ config.set(
     "file:///home/whammou/.local/share/qutebrowser/userscripts/*",
 )
 c.content.user_stylesheets = "~/.config/qutebrowser/css/custom.css"
-c.downloads.location.directory = "/home/whammou/Downloads/"
+c.downloads.location.directory = "/home/whammou/downloads/"
 c.completion.open_categories = [
     "searchengines",
     "quickmarks",
