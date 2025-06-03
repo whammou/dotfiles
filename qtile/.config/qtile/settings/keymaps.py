@@ -14,7 +14,43 @@ keymap = [
                 "pad_large",
             ],
             ["p", "qb-url", "pad_large"],
-            ["b", "qb chat.beeper.com", "pad_large"],
+        ],
+    },
+    {
+        "name": "chat",
+        "prefix": "c",
+        "cmd": [
+            [
+                "b",
+                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py chat.beeper.com",
+                "pad_large",
+            ],
+            [
+                "g",
+                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py chatgpt.com",
+                "pad_large",
+            ],
+        ],
+    },
+    {
+        "name": "google-suit",
+        "prefix": "g",
+        "cmd": [
+            [
+                "d",
+                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py https://docs.google.com/document/",
+                "pad_large",
+            ],
+            [
+                "p",
+                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py https://docs.google.com/presentation/",
+                "pad_large",
+            ],
+            [
+                "s",
+                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py https://docs.google.com/spreadsheets/",
+                "pad_large",
+            ],
         ],
     },
     {
