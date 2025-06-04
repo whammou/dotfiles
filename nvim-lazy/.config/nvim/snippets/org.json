@@ -1,23 +1,7 @@
 {
-  "@URL": {
-    "prefix": "@u",
-    "body": " @URL"
-  },
-  "@Overflow": {
-    "prefix": "@o",
-    "body": " @Overflow"
-  },
-  "@Reddit": {
-    "prefix": "@r",
-    "body": " @Reddit"
-  },
-  "@Github": {
-    "prefix": "@g",
-    "body": " @Github"
-  },
-  "Goal": {
-    "prefix": "Go",
-    "body": "*Goal:* /$1/$0"
+  "Objective": {
+    "prefix": "Ob",
+    "body": "/*Objective:* $1/$0"
   },
   "Idea": {
     "prefix": "Id",
@@ -29,7 +13,7 @@
   },
   "References": {
     "prefix": "Re",
-    "body": "*References:* $0"
+    "body": "*Reference:* $0"
   },
   "Implemented": {
     "prefix": "Im",
@@ -45,7 +29,19 @@
   },
   "Workaround": {
     "prefix": "Wo",
-    "body": "*Workaround:* $0"
+    "body": "Workaround - $0"
+  },
+  "Solution": {
+    "prefix": "So",
+    "body": "*Solution:* $0"
+  },
+  "Complication": {
+    "prefix": "Co",
+    "body": "*Complication:* $0"
+  },
+  "Checkpoint": {
+    "prefix": "Cp",
+    "body": "*Checkpoint:* $0"
   },
   "For more information": {
     "prefix": "FM",
