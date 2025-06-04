@@ -1,5 +1,7 @@
-from libqtile.config import EzKey, KeyChord
+from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
+
+mod = "mod4"
 
 
 @lazy.window.function
@@ -44,7 +46,75 @@ def move_floating_window(window, x: int = 0, y: int = 0):
     window.set_position_floating(window.float_x + x, window.float_y + y)
 
 
+@lazy.function
+def focus_next_floating_and_front(qtile):
+    group = qtile.current_group
+    floating_windows = [w for w in group.windows if w.floating]
+
+    if not floating_windows:
+        return
+
+    current_focused = qtile.current_window
+    window_to_focus = None
+
+    if current_focused and current_focused.floating:
+        try:
+            current_index = floating_windows.index(current_focused)
+            next_index = (current_index + 1) % len(floating_windows)
+            window_to_focus = floating_windows[next_index]
+        except ValueError:
+            # Current window not in floating_windows (e.g., it was just made floating)
+            window_to_focus = floating_windows[0]
+    elif floating_windows:
+        # If currently focused is tiled, focus the first floating window
+        window_to_focus = floating_windows[0]
+
+    if window_to_focus:
+        window_to_focus.group.focus(window_to_focus)
+        window_to_focus.cmd_bring_to_front()  # Bring to front
+
+
+@lazy.function
+def focus_prev_floating_and_front(qtile):
+    group = qtile.current_group
+    floating_windows = [w for w in group.windows if w.floating]
+
+    if not floating_windows:
+        return
+
+    current_focused = qtile.current_window
+    window_to_focus = None
+
+    if current_focused and current_focused.floating:
+        try:
+            current_index = floating_windows.index(current_focused)
+            prev_index = (current_index - 1 + len(floating_windows)) % len(
+                floating_windows
+            )
+            window_to_focus = floating_windows[prev_index]
+        except ValueError:
+            window_to_focus = floating_windows[-1]
+    elif floating_windows:
+        window_to_focus = floating_windows[-1]
+
+    if window_to_focus:
+        window_to_focus.group.focus(window_to_focus)
+        window_to_focus.cmd_bring_to_front()  # Bring to front
+
+
 windows_keys = [
+    Key(
+        [mod],
+        "period",
+        focus_next_floating_and_front(),
+        desc="Focus next floating window",
+    ),
+    Key(
+        [mod],
+        "comma",
+        focus_prev_floating_and_front(),
+        desc="Focus previous floating window",
+    ),
     # Resize windows
     EzKey("M-C-h", lazy.layout.resize("left", 100)),
     EzKey("M-C-l", lazy.layout.resize("right", 100)),
@@ -69,19 +139,21 @@ windows_keys = [
     # Floating Windows
     EzKey("A-0", floats_to_front()),
     EzKey(
-        "M-d",
-        lazy.group.prev_window(),
-        lazy.window.bring_to_front().when(when_floating=True),
+        "M-C-u", resize_floating_window(width=-100, height=-100), lazy.window.center()
     ),
-    EzKey(
-        "M-u",
-        lazy.group.next_window(),
-        lazy.window.bring_to_front().when(when_floating=True),
-    ),
-    EzKey("M-C-u", resize_floating_window(width=-100, height=-100)),
-    EzKey("M-C-d", resize_floating_window(width=100, height=100)),
+    EzKey("M-C-d", resize_floating_window(width=100, height=100), lazy.window.center()),
     # Rofi menu
     EzKey("M-S-w", lazy.spawn("rofi -show window")),
+    #    EzKey(
+    #        "M-d",
+    #        lazy.group.prev_window(),
+    #        lazy.window.bring_to_front().when(when_floating=True),
+    #    ),
+    #    EzKey(
+    #        "M-u",
+    #        lazy.group.next_window(),
+    #        lazy.window.bring_to_front().when(when_floating=True),
+    #    ),
     # Container select mode
     KeyChord(
         ["mod4"],
