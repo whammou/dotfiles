@@ -22,12 +22,29 @@ keymap = [
         "cmd": [
             [
                 "b",
-                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py chat.beeper.com",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chat.beeper.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                chat.beeper.com",
+                "pad_large",
+            ],
+        ],
+    },
+    {
+        "name": "ai",
+        "prefix": "a",
+        "cmd": [
+            [
+                "g",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chatgpt.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                chatgpt.com",
                 "pad_large",
             ],
             [
-                "g",
-                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py chatgpt.com",
+                "e",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/gemini.google.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                gemini.google.com",
                 "pad_large",
             ],
         ],
@@ -38,17 +55,30 @@ keymap = [
         "cmd": [
             [
                 "d",
-                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py https://docs.google.com/document/",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/docs.google.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                docs.google.com",
                 "pad_large",
             ],
             [
                 "p",
-                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py https://docs.google.com/presentation/",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/presentation.google.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                docs.google.com/presentation",
                 "pad_large",
             ],
             [
                 "s",
-                "qutebrowser --basedir=local/ --config-py=.config/qutebrowser/config.py https://docs.google.com/spreadsheets/",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/spreadsheets.google.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                docs.google.com/spreadsheets",
+                "pad_large",
+            ],
+            [
+                "m",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/meet.google.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                meet.google.com",
                 "pad_large",
             ],
         ],
