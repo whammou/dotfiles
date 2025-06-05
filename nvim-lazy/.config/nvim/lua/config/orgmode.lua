@@ -70,7 +70,7 @@ orgmode.setup({
   org_cycle_separator_lines = 0,
   org_blank_before_new_entry = { heading = false, plain_list_item = false },
 
-  org_todo_keywords = { "TODO(t)", "DOING(d)", "|", "PENDING(p)", "PARTIAL(r)", "DONE(f)", "ABORTED(a)" },
+  org_todo_keywords = { "TODO(t)", "DOING(d)", "PENDING(p)", "|", "PARTIAL(r)", "DONE(f)", "ABORTED(a)" },
   org_priority_highest = "A",
   org_priority_default = "B",
   org_priority_lowest = "F",
