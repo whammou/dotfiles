@@ -1,31 +1,30 @@
 return {
   {
-    "willchao612/vim-diagon",
-    lazy = true,
-    ft = "markdown",
-  },
-  {
-    "whammou/vim-grip",
-    lazy = true,
-    ft = "markdown",
-    keys = {
-      { "<leader>mr", "<cmd>GripStart<cr>", desc = "Render markdown" },
-    },
-  },
-  {
-    "tadmccorkle/markdown.nvim",
-    lazy = true,
-    ft = "markdown",
-    opts = {
-      mappings = {
-        link_follow = "gm",
-      },
-    },
-  },
-  {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = true,
     ft = "markdown",
+    dependencies = {
+      {
+        "willchao612/vim-diagon",
+        lazy = true,
+      },
+      {
+        "whammou/vim-grip",
+        lazy = true,
+        keys = {
+          { "<leader>mr", "<cmd>GripStart<cr>", desc = "Render markdown" },
+        },
+      },
+      {
+        "tadmccorkle/markdown.nvim",
+        lazy = true,
+        opts = {
+          mappings = {
+            link_follow = "gm",
+          },
+        },
+      },
+    },
     opts = {
       completions = { blink = { enabled = true } },
       paragraph = {
