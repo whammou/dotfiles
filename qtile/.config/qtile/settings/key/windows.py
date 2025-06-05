@@ -36,14 +36,35 @@ def float_to_front(window):
         window.disable_floating()
 
 
-@lazy.window.function
-def resize_floating_window(window, width: int = 0, height: int = 0):
-    window.set_size_floating(window.width + width, window.height + height)
+def grow_window_maintain_aspect_ratio(qtile, factor):
+    win = qtile.current_window
+    w, h = (
+        win.info()["width"],
+        win.info()["height"],
+    )
+
+    new_w = int(w * factor)
+    new_h = int(h * factor)
+
+    win.set_size_floating(new_w, new_h)
 
 
-@lazy.window.function
-def move_floating_window(window, x: int = 0, y: int = 0):
-    window.set_position_floating(window.float_x + x, window.float_y + y)
+def move_floating_window(qtile, x_increment, y_increment):
+    win = qtile.current_window
+    x, y = (
+        win.info()["x"],
+        win.info()["y"],
+    )
+
+    new_x = int(x + x_increment)
+    new_y = int(y + y_increment)
+
+    win.set_position_floating(new_x, new_y)
+
+
+# @lazy.window.function
+# def move_floating_window(window, x: int = 0, y: int = 0):
+#    window.set_position_floating(window.float_x + x, window.float_y + y)
 
 
 @lazy.function
@@ -71,7 +92,7 @@ def focus_next_floating_and_front(qtile):
 
     if window_to_focus:
         window_to_focus.group.focus(window_to_focus)
-        window_to_focus.cmd_bring_to_front()  # Bring to front
+        window_to_focus.bring_to_front()  # Bring to front
 
 
 @lazy.function
@@ -103,6 +124,36 @@ def focus_prev_floating_and_front(qtile):
 
 
 windows_keys = [
+    EzKey("M-h", lazy.function(move_floating_window, -32, 0).when(when_floating=True)),
+    EzKey("M-l", lazy.function(move_floating_window, +32, 0).when(when_floating=True)),
+    EzKey("M-k", lazy.function(move_floating_window, 0, -18).when(when_floating=True)),
+    EzKey("M-j", lazy.function(move_floating_window, 0, +18).when(when_floating=True)),
+    Key(
+        ["mod4", "control"],
+        "equal",
+        lazy.function(grow_window_maintain_aspect_ratio, 1.05).when(when_floating=True),
+        lazy.window.center(),
+        desc="Grow floating window maintaining aspect ratio",
+    ),
+    Key(
+        ["mod4", "control"],
+        "minus",
+        lazy.function(grow_window_maintain_aspect_ratio, 0.95).when(when_floating=True),
+        lazy.window.center(),
+        desc="Shrink floating window maintaining aspect ratio",
+    ),
+    Key(
+        ["mod4"],
+        "equal",
+        lazy.function(grow_window_maintain_aspect_ratio, 1.1).when(when_floating=True),
+        desc="Grow floating window maintaining aspect ratio",
+    ),
+    Key(
+        ["mod4"],
+        "minus",
+        lazy.function(grow_window_maintain_aspect_ratio, 0.9).when(when_floating=True),
+        desc="Shrink floating window maintaining aspect ratio",
+    ),
     Key(
         [mod],
         "period",
@@ -133,15 +184,13 @@ windows_keys = [
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
-    EzKey("M-<Escape>", lazy.group["scratchpad"].hide_all()),
-    EzKey("M-S-<Escape>", floats_keep_below()),
+    EzKey("M-S-<Escape>", lazy.group["scratchpad"].hide_all()),
+    EzKey("M-<Escape>", floats_keep_below()),
     EzKey("M-S-f", toggle_floating()),
     # Floating Windows
     EzKey("A-0", floats_to_front()),
-    EzKey(
-        "M-C-u", resize_floating_window(width=-100, height=-100), lazy.window.center()
-    ),
-    EzKey("M-C-d", resize_floating_window(width=100, height=100), lazy.window.center()),
+    # EzKey("M-C-u", resize_floating_window(width=-10, height=-10), lazy.window.center()),
+    # EzKey("M-C-d", resize_floating_window(width=10, height=10), lazy.window.center()),
     # Rofi menu
     EzKey("M-S-w", lazy.spawn("rofi -show window")),
     #    EzKey(
