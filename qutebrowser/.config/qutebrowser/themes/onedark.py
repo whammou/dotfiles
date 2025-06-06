@@ -1,310 +1,126 @@
-# credits to theova/base16-qutebrowser for the original template
-
-##########
-# COLORS #
-##########
+# pylint: disable=C0111
+c = c  # noqa: F821 pylint: disable=E0602,C0103
+config = config  # noqa: F821 pylint: disable=E0602,C0103
 
 # base16 colors but with variable names that
 # reflect what the color is mainly used for
 
-bg_default = "#1a212e"  # main shade darkest
-bg_lighter = "#21283b"
-bg_selection = "#283347"
-# "#545862"
-fg_disabled = "#455574"
-fg_default = "#93a4c3"
-# "#b6bdca"
-bg_lightest = "#c8ccd4"  # main shade lightest
-fg_error = "#f65866"  # red
-# "#d19a66"                     # orange
-bg_hint = "#efbd5c"  # yellow
-fg_matched_text = "#8bcd5b"  # green
-bg_passthrough_mode = "#34bfd0"  # teal
-bg_insert_mode = "#41a7fc"  # blue
-bg_warning = "#c75ae8"  # purple
-# "#be5046"                     # dark red
+bg0 = "#1a212e"
+bg1 = "#21283b"
+bg2 = "#283347"
+bg3 = "#2a324a"
+grey = "#455574"
+fg = "#93a4c3"
+red = "#f65866"
+yellow = "#efbd5c"
+bg_yellow = "#f2cc81"
+green = "#8bcd5b"
+orange = "#dd9046"
+cyan = "#34bfd0"
+blue = "#41a7fc"
+purple = "#c75ae8"
 
-############
-# SETTINGS #
-############
+
+c.hints.border = "0px"
+c.hints.radius = 0
 
 c.fonts.default_size = "13pt"
+c.fonts.web.size.default = 19
 c.colors.webpage.preferred_color_scheme = "dark"
 
 # Text color of the completion widget. May be a single color to use for
 # all columns or a list of three colors, one for each column.
-c.colors.completion.fg = fg_default
-
-# Background color of the completion widget for odd rows.
-c.colors.completion.odd.bg = bg_lighter
-
-# Background color of the completion widget for even rows.
-c.colors.completion.even.bg = bg_default
-
-# Foreground color of completion widget category headers.
-c.colors.completion.category.fg = bg_hint
-
-# Background color of the completion widget category headers.
-c.colors.completion.category.bg = bg_default
-
-# Top border color of the completion widget category headers.
-c.colors.completion.category.border.top = bg_default
-
-# Bottom border color of the completion widget category headers.
-c.colors.completion.category.border.bottom = bg_default
-
-# Foreground color of the selected completion item.
-c.colors.completion.item.selected.fg = fg_default
-
-# Background color of the selected completion item.
-c.colors.completion.item.selected.bg = bg_selection
-
-# Top border color of the selected completion item.
-c.colors.completion.item.selected.border.top = bg_selection
-
-# Bottom border color of the selected completion item.
-c.colors.completion.item.selected.border.bottom = bg_selection
-
-# Foreground color of the matched text in the selected completion item.
-c.colors.completion.item.selected.match.fg = fg_matched_text
-
-# Foreground color of the matched text in the completion.
-c.colors.completion.match.fg = fg_matched_text
-
-# Color of the scrollbar handle in the completion view.
-c.colors.completion.scrollbar.fg = fg_default
-
-# Color of the scrollbar in the completion view.
-c.colors.completion.scrollbar.bg = bg_default
-
-# Background color of disabled items in the context menu.
-c.colors.contextmenu.disabled.bg = bg_lighter
-
-# Foreground color of disabled items in the context menu.
-c.colors.contextmenu.disabled.fg = fg_disabled
-
-# Background color of the context menu. If set to null, the Qt default is used.
-c.colors.contextmenu.menu.bg = bg_default
-
-# Foreground color of the context menu. If set to null, the Qt default is used.
-c.colors.contextmenu.menu.fg = fg_default
-
-# Background color of the context menu’s selected item. If set to null, the Qt default is used.
-c.colors.contextmenu.selected.bg = bg_selection
-
-# Foreground color of the context menu’s selected item. If set to null, the Qt default is used.
-c.colors.contextmenu.selected.fg = fg_default
-
-# Background color for the download bar.
-c.colors.downloads.bar.bg = bg_default
-
-# Color gradient start for download text.
-c.colors.downloads.start.fg = bg_default
-
-# Color gradient start for download backgrounds.
-c.colors.downloads.start.bg = bg_insert_mode
-
-# Color gradient end for download text.
-c.colors.downloads.stop.fg = bg_default
-
-# Color gradient stop for download backgrounds.
-c.colors.downloads.stop.bg = bg_passthrough_mode
-
-# Foreground color for downloads with errors.
-c.colors.downloads.error.fg = fg_error
-
-# Font color for hints.
-c.colors.hints.fg = fg_default
+c.colors.completion.fg = fg
+c.colors.completion.odd.bg = bg1
+c.colors.completion.even.bg = bg0
+c.colors.completion.category.fg = yellow
+c.colors.completion.category.bg = bg0
+c.colors.completion.category.border.top = bg0
+c.colors.completion.category.border.bottom = bg0
+c.colors.completion.item.selected.fg = fg
+c.colors.completion.item.selected.bg = bg2
+c.colors.completion.item.selected.border.top = bg2
+c.colors.completion.item.selected.border.bottom = bg2
+c.colors.completion.item.selected.match.fg = green
+c.colors.completion.match.fg = green
+c.colors.completion.scrollbar.fg = fg
+c.colors.completion.scrollbar.bg = bg0
+c.colors.contextmenu.disabled.bg = bg1
+c.colors.contextmenu.disabled.fg = grey
+c.colors.contextmenu.menu.bg = bg0
+c.colors.contextmenu.menu.fg = fg
+c.colors.contextmenu.selected.bg = bg2
+c.colors.contextmenu.selected.fg = fg
+c.colors.downloads.bar.bg = bg0
+c.colors.downloads.start.fg = bg0
+c.colors.downloads.start.bg = blue
+c.colors.downloads.stop.fg = bg0
+c.colors.downloads.stop.bg = cyan
+c.colors.downloads.error.fg = red
+c.colors.hints.fg = grey
 
 # Background color for hints. Note that you can use a `rgba(...)` value
 # for transparency.
-c.colors.hints.bg = bg_selection
-
-# Font color for the matched part of hints.
-c.colors.hints.match.fg = bg_insert_mode
-
-# Text color for the keyhint widget.
-c.colors.keyhint.fg = fg_default
-
-# Highlight color for keys to complete the current keychain.
-c.colors.keyhint.suffix.fg = fg_default
-
-# Background color of the keyhint widget.
-c.colors.keyhint.bg = bg_default
-
-# Foreground color of an error message.
-c.colors.messages.error.fg = bg_default
-
-# Background color of an error message.
-c.colors.messages.error.bg = fg_error
-
-# Border color of an error message.
-c.colors.messages.error.border = fg_error
-
-# Foreground color of a warning message.
-c.colors.messages.warning.fg = bg_default
-
-# Background color of a warning message.
-c.colors.messages.warning.bg = bg_warning
-
-# Border color of a warning message.
-c.colors.messages.warning.border = bg_warning
-
-# Foreground color of an info message.
-c.colors.messages.info.fg = fg_default
-
-# Background color of an info message.
-c.colors.messages.info.bg = bg_default
-
-# Border color of an info message.
-c.colors.messages.info.border = bg_default
-
-# Foreground color for prompts.
-c.colors.prompts.fg = fg_default
-
-# Border used around UI elements in prompts.
-c.colors.prompts.border = bg_default
-
-# Background color for prompts.
-c.colors.prompts.bg = bg_default
-
-# Background color for the selected item in filename prompts.
-c.colors.prompts.selected.bg = bg_selection
-
-# Foreground color for the selected item in filename prompts.
-c.colors.prompts.selected.fg = fg_default
-
-# Foreground color of the statusbar.
-c.colors.statusbar.normal.fg = fg_matched_text
-
-# Background color of the statusbar.
-c.colors.statusbar.normal.bg = bg_default
-
-# Foreground color of the statusbar in insert mode.
-c.colors.statusbar.insert.fg = bg_default
-
-# Background color of the statusbar in insert mode.
-c.colors.statusbar.insert.bg = bg_insert_mode
-
-# Foreground color of the statusbar in passthrough mode.
-c.colors.statusbar.passthrough.fg = bg_default
-
-# Background color of the statusbar in passthrough mode.
-c.colors.statusbar.passthrough.bg = bg_passthrough_mode
-
-# Foreground color of the statusbar in private browsing mode.
-c.colors.statusbar.private.fg = bg_default
-
-# Background color of the statusbar in private browsing mode.
-c.colors.statusbar.private.bg = bg_lighter
-
-# Foreground color of the statusbar in command mode.
-c.colors.statusbar.command.fg = fg_default
-
-# Background color of the statusbar in command mode.
-c.colors.statusbar.command.bg = bg_default
-
-# Foreground color of the statusbar in private browsing + command mode.
-c.colors.statusbar.command.private.fg = fg_default
-
-# Background color of the statusbar in private browsing + command mode.
-c.colors.statusbar.command.private.bg = bg_default
-
-# Foreground color of the statusbar in caret mode.
-c.colors.statusbar.caret.fg = bg_default
-
-# Background color of the statusbar in caret mode.
-c.colors.statusbar.caret.bg = bg_warning
-
-# Foreground color of the statusbar in caret mode with a selection.
-c.colors.statusbar.caret.selection.fg = bg_default
-
-# Background color of the statusbar in caret mode with a selection.
-c.colors.statusbar.caret.selection.bg = bg_insert_mode
-
-# Background color of the progress bar.
-c.colors.statusbar.progress.bg = bg_insert_mode
-
-# Default foreground color of the URL in the statusbar.
-c.colors.statusbar.url.fg = fg_default
-
-# Foreground color of the URL in the statusbar on error.
-c.colors.statusbar.url.error.fg = fg_error
-
-# Foreground color of the URL in the statusbar for hovered links.
-c.colors.statusbar.url.hover.fg = fg_default
-
-# Foreground color of the URL in the statusbar on successful load
-# (http).
-c.colors.statusbar.url.success.http.fg = bg_passthrough_mode
-
-# Foreground color of the URL in the statusbar on successful load
-# (https).
-c.colors.statusbar.url.success.https.fg = fg_matched_text
-
-# Foreground color of the URL in the statusbar when there's a warning.
-c.colors.statusbar.url.warn.fg = bg_warning
-
-# Background color of the tab bar.
-c.colors.tabs.bar.bg = bg_default
-
-# Color gradient start for the tab indicator.
-c.colors.tabs.indicator.start = bg_insert_mode
-
-# Color gradient end for the tab indicator.
-c.colors.tabs.indicator.stop = bg_passthrough_mode
-
-# Color for the tab indicator on errors.
-c.colors.tabs.indicator.error = fg_error
-
-# Foreground color of unselected odd tabs.
-c.colors.tabs.odd.fg = fg_default
-
-# Background color of unselected odd tabs.
-c.colors.tabs.odd.bg = bg_lighter
-
-# Foreground color of unselected even tabs.
-c.colors.tabs.even.fg = fg_default
-
-# Background color of unselected even tabs.
-c.colors.tabs.even.bg = bg_default
-
-# Background color of pinned unselected even tabs.
-c.colors.tabs.pinned.even.bg = bg_passthrough_mode
-
-# Foreground color of pinned unselected even tabs.
-c.colors.tabs.pinned.even.fg = bg_lightest
-
-# Background color of pinned unselected odd tabs.
-c.colors.tabs.pinned.odd.bg = fg_matched_text
-
-# Foreground color of pinned unselected odd tabs.
-c.colors.tabs.pinned.odd.fg = bg_lightest
-
-# Background color of pinned selected even tabs.
-c.colors.tabs.pinned.selected.even.bg = bg_selection
-
-# Foreground color of pinned selected even tabs.
-c.colors.tabs.pinned.selected.even.fg = fg_default
-
-# Background color of pinned selected odd tabs.
-c.colors.tabs.pinned.selected.odd.bg = bg_selection
-
-# Foreground color of pinned selected odd tabs.
-c.colors.tabs.pinned.selected.odd.fg = fg_default
-
-# Foreground color of selected odd tabs.
-c.colors.tabs.selected.odd.fg = fg_default
-
-# Background color of selected odd tabs.
-c.colors.tabs.selected.odd.bg = bg_selection
-
-# Foreground color of selected even tabs.
-c.colors.tabs.selected.even.fg = fg_default
-
-# Background color of selected even tabs.
-c.colors.tabs.selected.even.bg = bg_selection
-
-# Background color for webpages if unset (or empty to use the theme's
-# color).
-# c.colors.webpage.bg = bg_default
+c.colors.hints.bg = green
+c.colors.hints.match.fg = blue
+c.colors.keyhint.fg = grey
+c.colors.keyhint.suffix.fg = fg
+c.colors.keyhint.bg = bg0
+c.colors.messages.error.fg = bg0
+c.colors.messages.error.bg = red
+c.colors.messages.error.border = red
+c.colors.messages.warning.fg = bg0
+c.colors.messages.warning.bg = purple
+c.colors.messages.warning.border = purple
+c.colors.messages.info.fg = fg
+c.colors.messages.info.bg = bg0
+c.colors.messages.info.border = bg0
+c.colors.prompts.fg = fg
+c.colors.prompts.border = bg0
+c.colors.prompts.bg = bg0
+c.colors.prompts.selected.bg = bg2
+c.colors.prompts.selected.fg = fg
+c.colors.statusbar.normal.fg = green
+c.colors.statusbar.normal.bg = bg0
+c.colors.statusbar.insert.fg = bg0
+c.colors.statusbar.insert.bg = blue
+c.colors.statusbar.passthrough.fg = bg0
+c.colors.statusbar.passthrough.bg = cyan
+c.colors.statusbar.private.fg = bg0
+c.colors.statusbar.private.bg = bg1
+c.colors.statusbar.command.fg = fg
+c.colors.statusbar.command.bg = bg0
+c.colors.statusbar.command.private.fg = fg
+c.colors.statusbar.command.private.bg = bg0
+c.colors.statusbar.caret.fg = bg0
+c.colors.statusbar.caret.bg = purple
+c.colors.statusbar.caret.selection.fg = bg0
+c.colors.statusbar.caret.selection.bg = blue
+c.colors.statusbar.progress.bg = blue
+c.colors.statusbar.url.fg = fg
+c.colors.statusbar.url.error.fg = red
+c.colors.statusbar.url.hover.fg = fg
+c.colors.statusbar.url.success.http.fg = cyan
+c.colors.statusbar.url.success.https.fg = green
+c.colors.statusbar.url.warn.fg = purple
+c.colors.tabs.bar.bg = bg0
+c.colors.tabs.indicator.start = blue
+c.colors.tabs.indicator.stop = cyan
+c.colors.tabs.indicator.error = red
+c.colors.tabs.odd.fg = fg
+c.colors.tabs.odd.bg = bg1
+c.colors.tabs.even.fg = fg
+c.colors.tabs.even.bg = bg0
+c.colors.tabs.pinned.even.bg = cyan
+c.colors.tabs.pinned.even.fg = bg3
+c.colors.tabs.pinned.odd.bg = green
+c.colors.tabs.pinned.odd.fg = bg3
+c.colors.tabs.pinned.selected.even.bg = bg2
+c.colors.tabs.pinned.selected.even.fg = fg
+c.colors.tabs.pinned.selected.odd.bg = bg2
+c.colors.tabs.pinned.selected.odd.fg = fg
+c.colors.tabs.selected.odd.fg = fg
+c.colors.tabs.selected.odd.bg = bg2
+c.colors.tabs.selected.even.fg = fg
+c.colors.tabs.selected.even.bg = bg2
+# c.colors.webpage.bg = bg0
