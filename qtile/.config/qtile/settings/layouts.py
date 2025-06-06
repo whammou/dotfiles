@@ -10,6 +10,8 @@ from .theme import colors
 def center_floating_win(window):
     if window._wm_class[0] == "mpv-preview":
         window.keep_below(enable=True)
+    if window._wm_class[0] == "feh":
+        window.focus()
 
 
 @hook.subscribe.client_new

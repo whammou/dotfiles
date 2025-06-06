@@ -63,11 +63,6 @@ def move_floating_window(qtile, x_increment, y_increment):
     win.set_position_floating(new_x, new_y)
 
 
-# @lazy.window.function
-# def move_floating_window(window, x: int = 0, y: int = 0):
-#    window.set_position_floating(window.float_x + x, window.float_y + y)
-
-
 @lazy.function
 def focus_next_floating_and_front(qtile):
     group = qtile.current_group
@@ -122,43 +117,29 @@ def focus_prev_floating_and_front(qtile):
         window_to_focus.group.focus(window_to_focus)
 
 
+def focus_latest_focused_floating_window(qtile):
+    current_group = qtile.current_group
+    if not current_group:
+        return
+
+    target_window = None
+    for window_client in reversed(current_group.focus_history):
+        if window_client in current_group.windows and window_client.floating:
+            target_window = window_client
+            break  # Found the most recent, valid, floating window
+
+    if target_window:
+        if qtile.current_window != target_window:
+            current_group.focus(target_window)
+            target_window.cmd_bring_to_front()
+
+
 windows_keys = [
-    KeyChord(
+    Key(
         [alt],
-        "0",
-        [
-            EzKey("1", focus_next_floating_and_front(), lazy.window.bring_to_front()),
-            EzKey(
-                "2",
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                lazy.window.bring_to_front(),
-            ),
-            EzKey(
-                "3",
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                lazy.window.bring_to_front(),
-            ),
-            EzKey(
-                "4",
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                lazy.window.bring_to_front(),
-            ),
-            EzKey(
-                "5",
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                focus_next_floating_and_front(),
-                lazy.window.bring_to_front(),
-            ),
-        ],
+        "Tab",
+        lazy.function(focus_latest_focused_floating_window),
+        desc="Focus latest focused floating window",
     ),
     EzKey("M-h", lazy.function(move_floating_window, -32, 0).when(when_floating=True)),
     EzKey("M-l", lazy.function(move_floating_window, +32, 0).when(when_floating=True)),
@@ -169,6 +150,7 @@ windows_keys = [
         "equal",
         lazy.function(grow_window_maintain_aspect_ratio, 1.05).when(when_floating=True),
         lazy.window.center(),
+        lazy.window.bring_to_front(),
         desc="Grow floating window maintaining aspect ratio",
     ),
     Key(
@@ -176,6 +158,7 @@ windows_keys = [
         "minus",
         lazy.function(grow_window_maintain_aspect_ratio, 0.95).when(when_floating=True),
         lazy.window.center(),
+        lazy.window.bring_to_front(),
         desc="Shrink floating window maintaining aspect ratio",
     ),
     Key(
@@ -222,8 +205,11 @@ windows_keys = [
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
-    EzKey("M-S-<Escape>", lazy.group["scratchpad"].hide_all()),
-    EzKey("M-<Escape>", floats_keep_below()),
+    EzKey("M-<Escape>", lazy.window.keep_below().when(when_floating=True)),
+    EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all()),
+    EzKey("M-S-<Escape>", floats_keep_below()),
+    EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_keep_below()),
+    # EzKey("M-<Escape>", floats_keep_below()),
     EzKey("M-S-f", toggle_floating()),
     # Floating Windows
     EzKey("A-S-0", floats_to_front()),

@@ -3,7 +3,7 @@ import itertools
 from .keymaps import keymap
 from .key.qtile import qtile_keys
 from .key.functional import functional_keys
-from .key.layers import focus_visible_window, change_tab_layer
+from .key.layers import focus_visible_window, change_tab_layer, focus_nth_floating
 from .key.windows import windows_keys
 from .key.spawn import spawn_position, spawn_new, spawn_tab
 from .group.scratchpads import scratchpad_keys
@@ -20,6 +20,7 @@ keys = list(
         focus_visible_window(
             [meta], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
         ),
+        focus_nth_floating([mod], range(0, 9)),
         change_tab_layer([mod], range(1, 10), range(1, 10)),
         spawn_new([mod], "s", keymap),
         scratchpad_keys([mod], "p", keymap),
