@@ -10,9 +10,6 @@
 #export COLORTERM=truecolor
 #export FZF_DEFAULT_OPTS_FILE="/home/whammou/.config/fzf/shell.conf"
 
-# Tmux daemon
-tmux-session
-
 # Modify keyboard behaviours
 xinput disable TPPS\/2\ IBM\ TrackPoint
 setxkbmap -option caps:swapescape
@@ -23,11 +20,14 @@ xinput disable "Synaptics TM3075-002" &
 ) &
 
 # Window Composers
-# picom -b &>/dev/null &
+picom -b &>/dev/null &
 unclutter a --start-hidden &
 
 # Pre-start input methods
 fcitx5 -d &
+
+# Tmux daemon
+tmux-session
 
 # Greenclip daemon
 greenclip daemon &

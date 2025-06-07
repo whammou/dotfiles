@@ -26,6 +26,7 @@ def floats_keep_below(qtile):
         for window in group.windows:
             if window.floating:
                 window.keep_below()
+                window.set_opacity(0)
 
 
 @lazy.window.function
@@ -117,28 +118,53 @@ def focus_prev_floating_and_front(qtile):
         window_to_focus.group.focus(window_to_focus)
 
 
-def focus_latest_focused_floating_window(qtile):
+def toggle_tiling_floating_focus(qtile):
     current_group = qtile.current_group
     if not current_group:
         return
 
-    target_window = None
-    for window_client in reversed(current_group.focus_history):
-        if window_client in current_group.windows and window_client.floating:
-            target_window = window_client
-            break  # Found the most recent, valid, floating window
+    last_tiling = None
+    last_floating = None
 
-    if target_window:
-        if qtile.current_window != target_window:
-            current_group.focus(target_window)
-            target_window.cmd_bring_to_front()
+    # Iterate through the focus history to find the most recent of each type
+    for window in reversed(current_group.focus_history):
+        if window not in current_group.windows:
+            continue
+        if window.floating and not last_floating:
+            last_floating = window
+        elif not window.floating and not last_tiling:
+            last_tiling = window
+        # Stop searching once both are found
+        if last_tiling and last_floating:
+            break
+
+    # Decide which window to focus
+    if not last_tiling and not last_floating:
+        return  # No valid windows to switch between
+
+    target_window = None
+    # If currently on the last tiling window, switch to floating
+    if qtile.current_window == last_tiling and last_floating:
+        target_window = last_floating
+    # Otherwise, switch to the last tiling window (or if it's the only one available)
+    elif last_tiling:
+        target_window = last_tiling
+    # Fallback to floating if tiling doesn't exist
+    elif last_floating:
+        target_window = last_floating
+
+    # Focus the target window if it's not already focused
+    if target_window and qtile.current_window != target_window:
+        current_group.focus(target_window)
+        target_window.bring_to_front()
 
 
 windows_keys = [
     Key(
         [alt],
         "Tab",
-        lazy.function(focus_latest_focused_floating_window),
+        lazy.function(toggle_tiling_floating_focus),
+        lazy.window.set_opacity(1),
         desc="Focus latest focused floating window",
     ),
     EzKey("M-h", lazy.function(move_floating_window, -32, 0).when(when_floating=True)),
@@ -205,9 +231,17 @@ windows_keys = [
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
-    EzKey("M-<Escape>", lazy.window.keep_below().when(when_floating=True)),
+    EzKey(
+        "M-<Escape>",
+        lazy.window.keep_below().when(when_floating=True),
+        lazy.window.set_opacity(0.0).when(when_floating=True),
+    ),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all()),
-    EzKey("M-S-<Escape>", floats_keep_below()),
+    EzKey(
+        "M-S-<Escape>",
+        floats_keep_below(),
+        lazy.window.set_opacity(0).when(when_floating=True),
+    ),
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_keep_below()),
     # EzKey("M-<Escape>", floats_keep_below()),
     EzKey("M-S-f", toggle_floating()),

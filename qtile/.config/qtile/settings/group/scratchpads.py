@@ -86,7 +86,11 @@ def scratchpad_keys(mod, trigger, keymap):
             key_bind = []
             for c in package["cmd"]:
                 key_bind.append(
-                    EzKey(c[0], lazy.group["scratchpad"].dropdown_toggle(c[1]))
+                    EzKey(
+                        c[0],
+                        lazy.group["scratchpad"].dropdown_toggle(c[1]),
+                        lazy.window.set_opacity(1),
+                    )
                 )
             cmd_bind.append(KeyChord([], p, key_bind))
         prefix_bind.extend(cmd_bind)

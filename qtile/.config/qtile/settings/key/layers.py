@@ -46,5 +46,9 @@ def focus_nth_floating_window(qtile, index):
 def focus_nth_floating(mod, index):
     key_list = []
     for i in index:
-        key_list.append(Key([], str(i + 1), focus_nth_floating_window(i)))
+        key_list.append(
+            Key(
+                [], str(i + 1), focus_nth_floating_window(i), lazy.window.set_opacity(1)
+            )
+        )
     return [KeyChord(mod, "0", key_list)]
