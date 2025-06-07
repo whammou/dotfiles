@@ -43,7 +43,7 @@ config.bind(
 )
 
 # Medias
-config.bind("M", "hint links spawn mpv --x11-name='mpv-preview' {hint-url}")
+config.bind("M", "hint all spawn mpv --x11-name='mpv-preview' {hint-url}")
 # Navigation
 config.bind("m", "mode-enter set_mark")
 
