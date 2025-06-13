@@ -1,5 +1,6 @@
 from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
+from libqtile import hook
 
 mod = "mod4"
 alt = "mod1"
@@ -49,19 +50,6 @@ def grow_window_maintain_aspect_ratio(qtile, factor):
     new_h = int(h * factor)
 
     win.set_size_floating(new_w, new_h)
-
-
-def move_floating_window(qtile, x_increment, y_increment):
-    win = qtile.current_window
-    x, y = (
-        win.info()["x"],
-        win.info()["y"],
-    )
-
-    new_x = int(x + x_increment)
-    new_y = int(y + y_increment)
-
-    win.set_position_floating(new_x, new_y)
 
 
 @lazy.function
@@ -159,6 +147,22 @@ def toggle_tiling_floating_focus(qtile):
         target_window.bring_to_front()
 
 
+@lazy.group.function
+def focus_back(group):
+    history = group.focus_history
+    target_window = history[-2]
+
+    if target_window.floating:
+        group.focus(target_window)
+        target_window.bring_to_front()
+
+    elif not target_window.floating:
+        for window in group.windows:
+            if not window.floating:
+                group.focus(target_window)
+                window.bring_to_front()
+
+
 windows_keys = [
     Key(
         [alt],
@@ -167,10 +171,10 @@ windows_keys = [
         lazy.window.set_opacity(1),
         desc="Focus latest focused floating window",
     ),
-    EzKey("M-h", lazy.function(move_floating_window, -32, 0).when(when_floating=True)),
-    EzKey("M-l", lazy.function(move_floating_window, +32, 0).when(when_floating=True)),
-    EzKey("M-k", lazy.function(move_floating_window, 0, -18).when(when_floating=True)),
-    EzKey("M-j", lazy.function(move_floating_window, 0, +18).when(when_floating=True)),
+    EzKey("M-h", lazy.window.move_floating(-32, 0).when(when_floating=True)),
+    EzKey("M-l", lazy.window.move_floating(+32, 0).when(when_floating=True)),
+    EzKey("M-k", lazy.window.move_floating(0, -18).when(when_floating=True)),
+    EzKey("M-j", lazy.window.move_floating(0, +18).when(when_floating=True)),
     Key(
         ["mod4", "control"],
         "equal",
@@ -203,6 +207,7 @@ windows_keys = [
         [mod],
         "period",
         focus_next_floating_and_front(),
+        lazy.window.set_opacity(1),
         lazy.window.bring_to_front(),
         desc="Focus next floating window",
     ),
@@ -210,6 +215,7 @@ windows_keys = [
         [mod],
         "comma",
         focus_prev_floating_and_front(),
+        lazy.window.set_opacity(1),
         lazy.window.bring_to_front(),
         desc="Focus previous floating window",
     ),
@@ -233,8 +239,8 @@ windows_keys = [
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     EzKey(
         "M-<Escape>",
-        lazy.window.keep_below().when(when_floating=True),
         lazy.window.set_opacity(0.0).when(when_floating=True),
+        focus_back().when(when_floating=True),
     ),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all()),
     EzKey(
@@ -243,24 +249,12 @@ windows_keys = [
         lazy.window.set_opacity(0).when(when_floating=True),
     ),
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_keep_below()),
-    # EzKey("M-<Escape>", floats_keep_below()),
+    EzKey("M-f", lazy.window.toggle_fullscreen()),
     EzKey("M-S-f", toggle_floating()),
     # Floating Windows
     EzKey("A-S-0", floats_to_front()),
-    # EzKey("M-C-u", resize_floating_window(width=-10, height=-10), lazy.window.center()),
-    # EzKey("M-C-d", resize_floating_window(width=10, height=10), lazy.window.center()),
     # Rofi menu
     EzKey("M-S-w", lazy.spawn("rofi -show window")),
-    #    EzKey(
-    #        "M-d",
-    #        lazy.group.prev_window(),
-    #        lazy.window.bring_to_front().when(when_floating=True),
-    #    ),
-    #    EzKey(
-    #        "M-u",
-    #        lazy.group.next_window(),
-    #        lazy.window.bring_to_front().when(when_floating=True),
-    #    ),
     # Container select mode
     KeyChord(
         ["mod4"],
