@@ -26,18 +26,46 @@ def set_hint(window):
     )
 
 
+@hook.subscribe.group_window_add
+def hide_floating(group, window):
+    if window.floating:
+        window.set_opacity(0)
+
+
+# @hook.subscribe.group_window_add
+# def maintain_focus(group, window):
+#    history = group.focus_history
+#    prev_floating = history[-1]
+#    prev_window = history[-2]
+#
+#    if group.current_window.floating and len(history) > 1:
+#        group.qtile.call_soon(lambda: group.focus(prev_window))
+#    group.qtile.call_soon(lambda: group.focus(prev_floating))
+
+
 class MyCustomBonsai(Bonsai):
-    def add_client(self, window):
-        prev_window = self.focused_window
-        super().add_client(window)
-        if prev_window is not None:
-            # Lord forgive me.
-            self.group.qtile.call_soon(lambda: self.group.focus(prev_window))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.last_focused_window = None
+
+    def focus(self, window):
+        if self.focused_window:
+            self.last_focused_window = self.focused_window
+        super().focus(window)
+
+
+@hook.subscribe.group_window_add
+def maintain_focus(group, window):
+    prev_window = group.current_window
+    if prev_window is not None:
+        # If we're about to refocus a floating win, also take care of the required
+        # refocus in the background layout.
+        if prev_window.floating:
+            group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
+        group.qtile.call_soon(lambda: group.focus(prev_window))
 
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    # layout.Max(),
     MyCustomBonsai(
         **{
             "auto_cwd_for_terminals": False,
@@ -49,10 +77,11 @@ layouts = [
             "window.default_add_mode": "tab",
             "container_select_mode.border_color": colors["fg"],
             "container_select_mode.border_size": 2,
-            "L1.tab_bar.hide_when": "always",
             "tab_bar.height": 6,
             "tab_bar.margin": [0, 3, 0, 3],
+            "tab_bar.bg_color": colors["bg0"],
             "tab_bar.tab.font_size": 1,
+            "L1.tab_bar.hide_when": "always",
             "L2.tab_bar.tab.bg_color": colors["cyan_dimmed"],
             "L2.tab_bar.tab.active.bg_color": colors["cyan"],
             "L3.tab_bar.tab.bg_color": colors["purple_dimmed"],
@@ -86,5 +115,7 @@ floating_layout = layout.Floating(
         Match(wm_class="mpv-preview"),
         Match(wm_class="matplotlib"),
         Match(wm_class="feh"),
+        Match(wm_class="fileselect"),
+        Match(wm_class="discord"),
     ],
 )

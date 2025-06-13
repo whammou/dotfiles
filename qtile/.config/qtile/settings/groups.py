@@ -14,6 +14,8 @@ dropdown = [
         height=0.8,
         x=0.2,
         y=0.1,
+        opacity=1.0,
+        on_focus_lost_hide=False,
     ),
     DropDown(
         "a2ln",
@@ -22,6 +24,8 @@ dropdown = [
         height=0.8,
         x=0.2,
         y=0.1,
+        opacity=1.0,
+        on_focus_lost_hide=False,
     ),
     DropDown(
         "adapter",
@@ -30,6 +34,8 @@ dropdown = [
         height=0.04,
         x=0.275,
         y=0.48,
+        opacity=1.0,
+        on_focus_lost_hide=False,
     ),
     DropDown(
         "powermenu",
@@ -38,6 +44,8 @@ dropdown = [
         height=0.4,
         x=0.4,
         y=0.2,
+        opacity=1.0,
+        on_focus_lost_hide=False,
     ),
     DropDown(
         "calendar",
@@ -46,6 +54,8 @@ dropdown = [
         height=0.4,
         x=0.7,
         y=0,
+        opacity=1.0,
+        on_focus_lost_hide=False,
     ),
     DropDown(
         "samba",
@@ -54,6 +64,8 @@ dropdown = [
         height=0.04,
         x=0.275,
         y=0.48,
+        opacity=1.0,
+        on_focus_lost_hide=False,
     ),
 ]
 dropdown.extend(dropdowns(keymap))
