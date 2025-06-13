@@ -27,6 +27,21 @@ keymap = [
                 chat.beeper.com",
                 "pad_large",
             ],
+            [
+                "d",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/discord.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                discord.com/app",
+                "pad_large",
+            ],
+            ["S-d", "discord", "pad_large"],
+            [
+                "z",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chat.zalo.me \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                chat.zalo.me/",
+                "pad_large",
+            ],
         ],
     },
     {
@@ -81,6 +96,13 @@ keymap = [
                 meet.google.com",
                 "pad_large",
             ],
+            [
+                "f",
+                "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/simplepdf.com \
+                --config-py=/home/whammou/.config/qutebrowser/config.py \
+                simplepdf.com/editor",
+                "pad_large",
+            ],
         ],
     },
     {
@@ -127,7 +149,6 @@ keymap = [
         "prefix": "u",
         "cmd": [
             ["a", in_terminal("anifzf"), "pad_small"],
-            ["d", "discord", "pad_large"],
             [
                 "t",
                 in_terminal(
