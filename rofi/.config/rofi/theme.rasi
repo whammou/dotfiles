@@ -21,7 +21,7 @@
 
 window {
     location:   north;
-    width:      98.8%;
+    width:      98.75%;
     y-offset:   0.6%;
     background-color:   @bg2;
 }
