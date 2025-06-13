@@ -1,6 +1,7 @@
 function _reset
     reset
-    colorscript --random &&
-        echo &&
-        commandline --function repaint
+    echo
+    fastfetch
+    echo \n
+    commandline --function repaint
 end
