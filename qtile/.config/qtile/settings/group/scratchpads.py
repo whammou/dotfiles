@@ -13,10 +13,10 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
             }
         case "pad_large":
             return {
-                "width": 0.8,
-                "height": 0.8,
-                "x": 0.1,
-                "y": 0.1,
+                "width": 0.7,
+                "height": 0.7,
+                "x": 0.15,
+                "y": 0.15,
             }
         case "pad_medium":
             return {
@@ -51,7 +51,7 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
                 "width": 0.995,
                 "height": 0.25,
                 "x": 0.0025,
-                "y": 0.739,
+                "y": 0,
             }
         case "power_menu":
             return {
