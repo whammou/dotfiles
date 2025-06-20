@@ -1,9 +1,16 @@
 return {
   {
-    "nvim-orgmode/orgmode",
+    "chipsenkbeil/org-roam.nvim",
     lazy = true,
     ft = "org",
     dependencies = {
+      {
+        "nvim-orgmode/orgmode",
+        lazy = true,
+        config = function()
+          require("config.extras.orgroam")
+        end,
+      },
       {
         "BartSte/nvim-khalorg",
         lazy = true,
@@ -30,8 +37,9 @@ return {
         },
       },
     },
+
     config = function()
-      require("config.orgmode")
+      require("config.extras.orgroam")
     end,
   },
 }
