@@ -20,12 +20,12 @@ screens = [
     Screen(
         wallpaper=select_wallpaper("od_abstract_recolor.png"),
         wallpaper_mode="fill",
+        top=status_bar(widgets, margin=[6, 12, 12, 12]),
         right=bar.Bar(
             [],
             1,
             margin=[0, -1, 0, 7],
         ),
         left=bar.Bar([], 1, margin=[0, 7, 0, -1]),
-        top=status_bar(widgets, margin=[6, 12, 12, 12]),
     )
 ]
