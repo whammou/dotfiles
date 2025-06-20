@@ -63,8 +63,8 @@ highlight = "#efbd5d"
 timeout = 10
 background = "#1a212e"
 foreground = "#93a4c3"
-frame_color = "#34bfd0"
-highlight = "#34bfd0"
+frame_color = "#54b0fd"
+highlight = "#54b0fd"
 
 [urgency_critical]
 timeout = 0
