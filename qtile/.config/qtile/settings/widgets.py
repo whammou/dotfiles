@@ -115,6 +115,7 @@ powerline = {"decorations": [PowerLineDecoration(path="arrow_right")]}
 
 widgets = [
     *workspaces(),
+    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=4),
     disk_free(),
     widget.Sep(**base(bg="bg2", fg="red"), linewidth=4),
     widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=20),
