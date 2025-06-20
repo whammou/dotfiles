@@ -24,7 +24,7 @@ config.bind(
 )
 
 config.bind(
-    "<Shift-i>", "spawn fcitx5-remote -s unikey ;; mode-enter insert", mode="normal"
+    "<Control-i>", "spawn fcitx5-remote -s unikey ;; mode-enter insert", mode="normal"
 )
 
 # Settings
