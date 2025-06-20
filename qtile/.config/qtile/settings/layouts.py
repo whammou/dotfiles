@@ -19,11 +19,11 @@ def prevent_focus_steal(client):
     client.__class__.can_steal_focus = property(lambda self: False)
 
 
-@hook.subscribe.client_focus
-def set_hint(window):
-    window.window.set_property(
-        "IS_FLOATING", str(window.floating), type="STRING", format=8
-    )
+# @hook.subscribe.client_focus
+# def set_hint(window):
+#    window.window.set_property(
+#        "IS_FLOATING", str(window.floating), type="STRING", format=8
+#    )
 
 
 @hook.subscribe.group_window_add
