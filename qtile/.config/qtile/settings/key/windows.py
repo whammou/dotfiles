@@ -143,6 +143,8 @@ def toggle_tiling_floating_focus(qtile):
 
     # Focus the target window if it's not already focused
     if target_window and qtile.current_window != target_window:
+        last_floating.keep_below()
+        last_floating.set_opacity(0)
         current_group.focus(target_window)
         target_window.bring_to_front()
 
@@ -151,16 +153,22 @@ def toggle_tiling_floating_focus(qtile):
 def focus_back(group):
     history = group.focus_history
     target_window = history[-2]
+    current_window = history[-1]
 
     if target_window.floating:
         group.focus(target_window)
         target_window.bring_to_front()
+        target_window.set_opacity(1)
 
     elif not target_window.floating:
-        for window in group.windows:
-            if not window.floating:
-                group.focus(target_window)
-                window.bring_to_front()
+        group.focus(target_window)
+        current_window.keep_below()
+        # window.bring_to_front()
+
+
+@lazy.group.function
+def focus_titling(group):
+    group.focus(group.layout.last_focused_window)
 
 
 windows_keys = [
@@ -242,11 +250,11 @@ windows_keys = [
         lazy.window.set_opacity(0.0).when(when_floating=True),
         focus_back().when(when_floating=True),
     ),
-    EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all()),
+    EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
     EzKey(
         "M-S-<Escape>",
-        floats_keep_below(),
         lazy.window.set_opacity(0).when(when_floating=True),
+        floats_keep_below().when(when_floating=False),
     ),
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_keep_below()),
     EzKey("M-f", lazy.window.toggle_fullscreen()),
