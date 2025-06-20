@@ -1,7 +1,7 @@
 {
   "Objective": {
-    "prefix": "Ob",
-    "body": "/*Objective:* $1/$0"
+    "prefix": "OB",
+    "body": "*OBJECTIVE:* $0"
   },
   "Idea": {
     "prefix": "Id",
