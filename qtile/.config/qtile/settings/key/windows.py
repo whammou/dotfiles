@@ -18,22 +18,22 @@ def floats_to_front(qtile):
         for window in group.windows:
             if window.floating:
                 window.focus()
-                window.bring_to_front()
+                window.move_to_top()
 
 
 @lazy.function
-def floats_keep_below(qtile):
+def floats_to_bottom(qtile):
     for group in qtile.groups:
         for window in group.windows:
             if window.floating:
-                window.keep_below()
+                window.move_to_bottom()
                 window.set_opacity(0)
 
 
 @lazy.window.function
 def float_to_front(window):
     if window.floating:
-        window.bring_to_front()
+        window.move_to_top()
         window.center()
     else:
         window.disable_floating()
@@ -143,7 +143,7 @@ def toggle_tiling_floating_focus(qtile):
 
     # Focus the target window if it's not already focused
     if target_window and qtile.current_window != target_window:
-        last_floating.keep_below()
+        last_floating.move_to_bottom()
         last_floating.set_opacity(0)
         current_group.focus(target_window)
         target_window.bring_to_front()
@@ -156,14 +156,19 @@ def focus_back(group):
     current_window = history[-1]
 
     if target_window.floating:
-        group.focus(target_window)
-        target_window.bring_to_front()
-        target_window.set_opacity(1)
+        if not current_window.floating:
+            group.focus(target_window)
+            target_window.move_to_top()
+            target_window.set_opacity(1)
+        if current_window.floating:
+            target_window.set_opacity(1)
+            group.focus(target_window)
+            current_window.set_opacity(0)
 
     elif not target_window.floating:
         group.focus(target_window)
-        current_window.keep_below()
-        # window.bring_to_front()
+        # current_window.keep_below()
+        # current_window.move_to_bottom()
 
 
 @lazy.group.function
@@ -172,13 +177,7 @@ def focus_titling(group):
 
 
 windows_keys = [
-    Key(
-        [alt],
-        "Tab",
-        lazy.function(toggle_tiling_floating_focus),
-        lazy.window.set_opacity(1),
-        desc="Focus latest focused floating window",
-    ),
+    EzKey("M-z", lazy.window.move_to_bottom()),
     EzKey("M-h", lazy.window.move_floating(-32, 0).when(when_floating=True)),
     EzKey("M-l", lazy.window.move_floating(+32, 0).when(when_floating=True)),
     EzKey("M-k", lazy.window.move_floating(0, -18).when(when_floating=True)),
@@ -188,7 +187,6 @@ windows_keys = [
         "equal",
         lazy.function(grow_window_maintain_aspect_ratio, 1.05).when(when_floating=True),
         lazy.window.center(),
-        lazy.window.bring_to_front(),
         desc="Grow floating window maintaining aspect ratio",
     ),
     Key(
@@ -196,19 +194,18 @@ windows_keys = [
         "minus",
         lazy.function(grow_window_maintain_aspect_ratio, 0.95).when(when_floating=True),
         lazy.window.center(),
-        lazy.window.bring_to_front(),
         desc="Shrink floating window maintaining aspect ratio",
     ),
     Key(
         ["mod4"],
         "equal",
-        lazy.function(grow_window_maintain_aspect_ratio, 1.1).when(when_floating=True),
+        lazy.function(grow_window_maintain_aspect_ratio, 1.05).when(when_floating=True),
         desc="Grow floating window maintaining aspect ratio",
     ),
     Key(
         ["mod4"],
         "minus",
-        lazy.function(grow_window_maintain_aspect_ratio, 0.9).when(when_floating=True),
+        lazy.function(grow_window_maintain_aspect_ratio, 0.95).when(when_floating=True),
         desc="Shrink floating window maintaining aspect ratio",
     ),
     Key(
@@ -216,7 +213,7 @@ windows_keys = [
         "period",
         focus_next_floating_and_front(),
         lazy.window.set_opacity(1),
-        lazy.window.bring_to_front(),
+        lazy.window.move_to_top(),
         desc="Focus next floating window",
     ),
     Key(
@@ -224,7 +221,7 @@ windows_keys = [
         "comma",
         focus_prev_floating_and_front(),
         lazy.window.set_opacity(1),
-        lazy.window.bring_to_front(),
+        lazy.window.move_to_top(),
         desc="Focus previous floating window",
     ),
     # Resize windows
@@ -246,17 +243,23 @@ windows_keys = [
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     EzKey(
-        "M-<Escape>",
+        "M-<Tab>",
         lazy.window.set_opacity(0.0).when(when_floating=True),
-        focus_back().when(when_floating=True),
+        focus_back(),
+    ),
+    EzKey(
+        "M-<Escape>",
+        lazy.function(toggle_tiling_floating_focus),
+        lazy.window.set_opacity(1),
     ),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
     EzKey(
         "M-S-<Escape>",
         lazy.window.set_opacity(0).when(when_floating=True),
-        floats_keep_below().when(when_floating=False),
+        lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
+        floats_to_bottom(),
     ),
-    EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_keep_below()),
+    EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
     EzKey("M-f", lazy.window.toggle_fullscreen()),
     EzKey("M-S-f", toggle_floating()),
     # Floating Windows

@@ -10,7 +10,7 @@ def focus_visible_window(mod, window_index, **spawn):
                 mod,
                 str(i),
                 lazy.layout.focus_nth_window(i, **spawn),
-                lazy.window.bring_to_front(),
+                lazy.window.move_to_top(),
             )
         )
     return keymaps
@@ -25,7 +25,7 @@ def change_tab_layer(mod, tab_layer, tab_index):
                 EzKey(
                     str(index),
                     lazy.layout.focus_nth_tab(index, level=tab),
-                    lazy.window.bring_to_front(),
+                    lazy.window.move_to_top(),
                 )
             )
         keymaps.append(KeyChord(mod, str(tab), index_list))

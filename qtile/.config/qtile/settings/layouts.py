@@ -7,16 +7,16 @@ from .theme import colors
 
 
 @hook.subscribe.client_new
-def center_floating_win(window):
-    if window._wm_class[0] == "mpv-preview":
-        window.keep_below(enable=True)
-    if window._wm_class[0] == "feh":
-        window.focus()
+def prevent_focus_steal(client):
+    client.__class__.can_steal_focus = property(lambda self: False)
 
 
 @hook.subscribe.client_new
-def prevent_focus_steal(client):
-    client.__class__.can_steal_focus = property(lambda self: False)
+def blur_floating(window):
+    floating_rules = ["mpv-preview", "feh"]
+    for wm_class in floating_rules:
+        if wm_class == window._wm_class[0]:
+            window.set_opacity(0)
 
 
 # @hook.subscribe.client_focus
