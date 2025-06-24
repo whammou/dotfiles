@@ -8,6 +8,7 @@ alt = "mod1"
 
 @lazy.window.function
 def toggle_floating(window):
+    window.disable_fullscreen()
     window.toggle_floating()
     window.center()
 
@@ -149,6 +150,11 @@ def toggle_tiling_floating_focus(qtile):
         target_window.bring_to_front()
 
 
+# @hook.subscribe.client_killed
+# def killed_fallback(qtile):
+#    toggle_tiling_floating_focus(qtile)
+
+
 @lazy.group.function
 def focus_back(group):
     history = group.focus_history
@@ -156,14 +162,14 @@ def focus_back(group):
     current_window = history[-1]
 
     if target_window.floating:
-        if not current_window.floating:
-            group.focus(target_window)
-            target_window.move_to_top()
-            target_window.set_opacity(1)
         if current_window.floating:
             target_window.set_opacity(1)
             group.focus(target_window)
             current_window.set_opacity(0)
+        elif not current_window.floating:
+            group.focus(target_window)
+            target_window.move_to_top()
+            target_window.set_opacity(1)
 
     elif not target_window.floating:
         group.focus(target_window)
@@ -177,7 +183,6 @@ def focus_titling(group):
 
 
 windows_keys = [
-    EzKey("M-z", lazy.window.move_to_bottom()),
     EzKey("M-h", lazy.window.move_floating(-32, 0).when(when_floating=True)),
     EzKey("M-l", lazy.window.move_floating(+32, 0).when(when_floating=True)),
     EzKey("M-k", lazy.window.move_floating(0, -18).when(when_floating=True)),
