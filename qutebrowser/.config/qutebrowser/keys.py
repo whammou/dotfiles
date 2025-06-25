@@ -66,7 +66,7 @@ config.bind(
     "Ff",
     "hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
 )
-
+config.bind(";a", "hint all yank")
 # Medias
 config.bind("M", "hint all spawn mpv --x11-name='mpv-preview' {hint-url}")
 # Navigation
