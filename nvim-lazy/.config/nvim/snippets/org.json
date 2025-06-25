@@ -35,9 +35,9 @@
     "prefix": "So",
     "body": "*Solution:* $0"
   },
-  "Complication": {
-    "prefix": "Co",
-    "body": "*Complication:* $0"
+  "issues": {
+    "prefix": "Is",
+    "body": "*Issue:* $0"
   },
   "Checkpoint": {
     "prefix": "Cp",
@@ -49,7 +49,7 @@
   },
   "Note": {
     "prefix": "No",
-    "body": "[NOTE] taken on [$datetime]:\n  $0"
+    "body": "*[NOTE]* taken on [$datetime]:\n  $0"
   },
   "Check-list": {
     "prefix": "Oc",

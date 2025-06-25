@@ -28,7 +28,7 @@ vimcmd_symbol = "[|](bold purple)"
 
 [directory]
 read_only = " 󰌾"
-format = "[ $path ]($style)[❯  ](blue)"
+format = "[ $path ]($style)"
 style = 'fg:bold blue'
 home_symbol = "HOME"
 
