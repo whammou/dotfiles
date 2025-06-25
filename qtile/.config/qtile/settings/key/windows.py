@@ -161,17 +161,6 @@ def toggle_tiling_floating_focus(qtile):
 #        group.qtile.call_soon(lambda: window.move_to_top())
 
 
-@hook.subscribe.client_killed
-def after_kill_fallback(window):
-    group = window.group
-    if group and len(group.focus_history) > 1:
-        target_window = group.focus_history[-1]
-        group.focus(target_window)
-        if target_window.floating:
-            group.qtile.call_soon(target_window.set_opacity, 1)
-            group.qtile.call_soon(target_window.bring_to_front)
-
-
 @lazy.group.function
 def focus_back(group):
     history = group.focus_history

@@ -65,6 +65,19 @@ def maintain_focus(group, window):
         group.qtile.call_soon(lambda: group.focus(prev_window))
 
 
+@hook.subscribe.client_killed
+def after_kill_fallback(window):
+    group = window.group
+    if group and len(group.focus_history) > 1:
+        current_window = group.current_window
+
+        group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
+        if current_window.floating:
+            group.qtile.call_soon(lambda: group.focus(current_window))
+            group.qtile.call_soon(current_window.set_opacity, 1)
+            group.qtile.call_soon(current_window.move_to_top)
+
+
 layouts = [
     MyCustomBonsai(
         **{
