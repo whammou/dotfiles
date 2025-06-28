@@ -40,7 +40,7 @@ def focus_nth_floating_window(qtile, index):
     window_to_focus = floating_windows[index]
 
     window_to_focus.group.focus(window_to_focus)
-    window_to_focus.bring_to_front()
+    window_to_focus.move_to_top()
 
 
 def focus_nth_floating(mod, index):

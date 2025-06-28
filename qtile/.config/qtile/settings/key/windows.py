@@ -147,7 +147,7 @@ def toggle_tiling_floating_focus(qtile):
         last_floating.move_to_bottom()
         last_floating.set_opacity(0)
         current_group.focus(target_window)
-        target_window.bring_to_front()
+        target_window.move_to_top()
 
 
 # @hook.subscribe.client_killed

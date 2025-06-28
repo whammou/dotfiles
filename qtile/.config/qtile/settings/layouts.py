@@ -69,7 +69,7 @@ def maintain_focus(group, window):
 def after_kill_fallback(window):
     group = window.group
     if group and len(group.focus_history) > 1:
-        current_window = group.current_window
+        current_window = group.focus_history[-2]
 
         group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
         if current_window.floating:
