@@ -41,6 +41,11 @@ local ui = {
   folds = {
     colored = true,
   },
+  agenda = {
+    preview_window = {
+      border = "single",
+    },
+  },
 }
 
 khalorg.setup({
@@ -55,6 +60,13 @@ orgroam.setup({
     persist = true,
     update_on_save = true,
   },
+  ui = {
+    node_buffer = {
+      show_keybindings = false,
+      focus_on_toggle = false,
+      highlight_previews = true,
+    },
+  },
 })
 
 orgmode.setup({
@@ -64,7 +76,6 @@ orgmode.setup({
   org_todo_keyword_faces = todo_keyword_faces,
   org_capture_templates = capture_templates,
   org_agenda_files = { "~/notes/**/*" },
-  org_agenda_text_search_extra_files = { "agenda-archives" },
   org_default_notes_file = "~/notes/capture.org",
   org_archive_location = "./log.org::ARCHIVED",
   org_log_into_drawer = "LOGBOOK",
