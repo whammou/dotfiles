@@ -148,6 +148,7 @@ keymap = [
         "name": "utility",
         "prefix": "u",
         "cmd": [
+            ["d", "rnote", "pad_extra_large"],
             ["a", in_terminal("anifzf"), "pad_small"],
             [
                 "t",
@@ -157,8 +158,8 @@ keymap = [
                 ),
                 "pad_typing",
             ],
-            ["l", in_terminal("lobsterfzf"), "pad_small"],
-            ["S-l", in_terminal("lobsterfzf_trending"), "pad_small"],
+            ["l", in_terminal("lobster"), "pad_small"],
+            ["S-l", in_terminal("lobster -c"), "pad_small"],
             [
                 "c",
                 in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"),
