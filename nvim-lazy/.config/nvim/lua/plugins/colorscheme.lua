@@ -58,6 +58,11 @@ return {
   },
 
   {
+    "ellisonleao/gruvbox.nvim",
+    opts = {},
+  },
+
+  {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "onedark",

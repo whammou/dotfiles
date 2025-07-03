@@ -31,7 +31,7 @@ config.bind(
 config.bind("xb", "config-cycle statusbar.show never always")
 config.bind(
     "xc",
-    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom.css",
+    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom-onedark.css",
 )
 config.bind("xt", "config-cycle tabs.show multiple always")
 # Qtile
