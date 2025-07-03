@@ -1,6 +1,6 @@
 local orgmode = require("orgmode")
 local khalorg = require("khalorg")
-local orgroam = require("org-roam")
+local roam = require("org-roam")
 
 local custom_exports = {
   n = { label = "Add a new khal item", action = khalorg.new },
@@ -9,9 +9,45 @@ local custom_exports = {
   E = { label = "Edit properties & dates of a khal item", action = khalorg.edit_all },
 }
 
+local note_topics =
+  "~/notes/%^{Topic|system|academic|academic/teaching|coding|finance|language|platform|read|routine|system|system/packages|travel|university|work}/tasks.org"
 local capture_templates = {
   d = { description = "Document", template = "* %? [%]" },
-  t = { description = "Task", template = "\n* TODO %?" },
+  t = {
+    description = "Task",
+    subtemplates = {
+      o = {
+        description = "One-off",
+        template = "** %?",
+        target = note_topics,
+        headline = "One-off",
+      },
+      i = {
+        description = "Incidental",
+        template = "** %?",
+        target = note_topics,
+        headline = "Incidental",
+      },
+      c = {
+        description = "Coordinated",
+        template = "** %?",
+        target = note_topics,
+        headline = "Coordinated",
+      },
+      u = {
+        description = "Urgent",
+        template = "** %?",
+        target = note_topics,
+        headline = "Urgent",
+      },
+      r = {
+        description = "Recurring",
+        template = "** %?",
+        target = note_topics,
+        headline = "Recurring",
+      },
+    },
+  },
 }
 
 local todo_keyword_faces = {
@@ -52,7 +88,7 @@ khalorg.setup({
   calendar = "private",
 })
 
-orgroam.setup({
+roam.setup({
   directory = "~/orgroam/",
   org_files = { "~/orgroam/**/*", "~/notes/**/*" },
   database = {
@@ -81,7 +117,7 @@ orgmode.setup({
   org_log_into_drawer = "LOGBOOK",
 
   org_ellipsis = "",
-  win_split_mode = { "float", 0.9 },
+  win_split_mode = "horizontal",
   org_split_mode = { "auto" },
 
   org_hide_leading_stars = false,

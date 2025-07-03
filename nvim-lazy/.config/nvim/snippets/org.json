@@ -58,5 +58,9 @@
   "Orgmode-hyperlink": {
     "prefix": "Li",
     "body": "[[${1:links/URLs}][${2:Description}]]$0"
+  },
+  "html-center-image": {
+    "prefix": "Hia",
+    "body": "#+name: ${4:title}\n#+begin_html html\n<p align='${2:center}'>\n<IMG src='${3:image}' alt='${4:title}' width=${5:50%}/>\n</p>\n#+end_html\n$0"
   }
 }

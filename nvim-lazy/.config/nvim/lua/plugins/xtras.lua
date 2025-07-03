@@ -12,4 +12,9 @@ return {
     event = "VeryLazy",
     opts = {},
   },
+  {
+    "tpope/vim-eunuch",
+    lazy = true,
+    event = "VeryLazy",
+  },
 }
