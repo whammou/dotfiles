@@ -8,4 +8,4 @@ config.source("./keys.py")
 config.source("./chromium.py")
 config.source("./settings.py")
 
-config.load_autoconfig(False)
+config.load_autoconfig(True)
