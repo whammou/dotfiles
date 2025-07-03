@@ -11,6 +11,13 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
                 "x": layout[2],
                 "y": layout[3],
             }
+        case "pad_extra_large":
+            return {
+                "width": 0.8,
+                "height": 0.8,
+                "x": 0.1,
+                "y": 0.1,
+            }
         case "pad_large":
             return {
                 "width": 0.7,
