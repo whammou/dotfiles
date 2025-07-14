@@ -13,6 +13,7 @@ local note_topics =
   "~/notes/%^{Topic|system|academic|academic/teaching|coding|finance|language|platform|read|routine|system|system/packages|travel|university|work}/tasks.org"
 local capture_templates = {
   d = { description = "Document", template = "* %? [%]" },
+  c = { description = "Capture", template = "* %?", target = "~/notes/capture.org" },
   t = {
     description = "Task",
     subtemplates = {
@@ -47,6 +48,39 @@ local capture_templates = {
         headline = "Recurring",
       },
     },
+  },
+}
+
+local task_agenda = {
+  {
+    type = "agenda",
+    org_agenda_tag_filter_preset = "TASK",
+    org_agenda_overriding_header = "Daily Tasks",
+    org_agenda_span = "week",
+  },
+}
+
+local doc_agenda = {
+  {
+    type = "agenda",
+    org_agenda_tag_filter_preset = "DOC",
+    org_agenda_overriding_header = "Document Tasks",
+    org_agenda_span = "week",
+  },
+}
+
+local task_doc_agenda = {
+  {
+    type = "agenda",
+    org_agenda_tag_filter_preset = "TASK",
+    org_agenda_overriding_header = "Daily Tasks",
+    org_agenda_span = "day",
+  },
+  {
+    type = "agenda",
+    org_agenda_tag_filter_preset = "DOC",
+    org_agenda_overriding_header = "Document Tasks",
+    org_agenda_span = "day",
   },
 }
 
@@ -108,6 +142,8 @@ roam.setup({
 orgmode.setup({
   ui = ui,
   mappings = mappings,
+  org_highlight_latex_and_related = "entities",
+
   org_custom_exports = custom_exports,
   org_todo_keyword_faces = todo_keyword_faces,
   org_capture_templates = capture_templates,
@@ -118,7 +154,6 @@ orgmode.setup({
 
   org_ellipsis = "",
   win_split_mode = "horizontal",
-  org_split_mode = { "auto" },
 
   org_hide_leading_stars = false,
   org_adapt_indentaion = false,
@@ -129,9 +164,24 @@ orgmode.setup({
   org_cycle_separator_lines = 0,
   org_blank_before_new_entry = { heading = false, plain_list_item = false },
 
-  org_todo_keywords = { "TODO(t)", "DOING(d)", "PENDING(p)", "|", "PARTIAL(r)", "DONE(f)", "ABORTED(a)" },
+  org_todo_keywords = { "TODO(t)", "DOING(d)", "(e)", "PENDING(p)", "|", "PARTIAL(r)", "DONE(f)", "ABORTED(a)" },
   org_priority_highest = "A",
   org_priority_default = "B",
   org_priority_lowest = "F",
   org_deadline_warning_days = 0,
+
+  org_agenda_custom_commands = {
+    k = {
+      description = "Task Agenda",
+      types = task_agenda,
+    },
+    c = {
+      description = "Document Agenda",
+      types = doc_agenda,
+    },
+    A = {
+      description = "Combined View",
+      types = task_doc_agenda,
+    },
+  },
 })
