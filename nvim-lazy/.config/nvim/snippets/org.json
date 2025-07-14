@@ -49,7 +49,7 @@
   },
   "Note": {
     "prefix": "No",
-    "body": "*[NOTE]* taken on [$datetime]:\n  $0"
+    "body": "*[NOTE]* taken on <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE>:\n  $0"
   },
   "Check-list": {
     "prefix": "Oc",
@@ -59,8 +59,20 @@
     "prefix": "Li",
     "body": "[[${1:links/URLs}][${2:Description}]]$0"
   },
+  "Orgmode-schedule": {
+    "prefix": "Sc",
+    "body": "SCHEDULED: <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE>"
+  },
+  "Orgmode-deadline": {
+    "prefix": "Dl",
+    "body": "DEADLINE: <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE>"
+  },
   "html-center-image": {
     "prefix": "Hia",
     "body": "#+name: ${4:title}\n#+begin_html html\n<p align='${2:center}'>\n<IMG src='${3:image}' alt='${4:title}' width=${5:50%}/>\n</p>\n#+end_html\n$0"
+  },
+  "latex-inline-math": {
+    "prefix": "mi",
+    "body": "\\$$1\\$$0"
   }
 }
