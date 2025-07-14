@@ -24,7 +24,7 @@ functional_keys = [
     Key([alt, "Shift"], "F8", lazy.group["scratchpad"].dropdown_toggle("a2ln")),
     # Key([alt], "F9", lazy.group["scratchpad"].dropdown_toggle("samba")),
     Key([alt], "F9", lazy.spawn("rofi-mount")),
-    Key([alt], "F10", lazy.group["scratchpad"].dropdown_toggle("calendar")),
+    Key([alt], "F10", lazy.spawn("rofi-playerctl")),
     Key([alt], "F11", lazy.spawn("vktablet")),
     Key([alt], "F12", lazy.group["scratchpad"].dropdown_toggle("adapter")),
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
