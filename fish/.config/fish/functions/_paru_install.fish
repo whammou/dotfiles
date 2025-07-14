@@ -4,13 +4,13 @@ function _paru_install
     _fzf_wrapper \
         --multi \
         --ansi \
-        --prompt="AUR> " \
+        --prompt="AUR > " \
         --preview 'paru -Si {1}'
     )
     if test $status -eq 0
         commandline --replace -- 'paru -S '$listed_packages
     end
 
-commandline --function repaint
+    commandline --function repaint
 
 end

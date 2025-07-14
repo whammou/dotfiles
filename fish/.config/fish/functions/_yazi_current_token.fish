@@ -12,4 +12,5 @@ function _yazi_current_token -d "List contents of token under the cursor if it i
         end
     end
     __fish_echo $cmd
+    commandline -f repaint
 end

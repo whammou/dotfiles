@@ -27,6 +27,6 @@ function _bat_preview_current_file --description "Open the file at the cursor in
 
     if set -q files[1] && test -f $files[1]
         $pager $files
-        commandline -f repaint
+        #commandline -f repaint
     end
 end

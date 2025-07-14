@@ -4,7 +4,7 @@ function _nvim_current_token --description "Open the file at the cursor in a edi
     end
 
     #    set -l pager (__fish_anypager)
-    set pager nvim
+    set pager sudoedit
 
     # commandline -t will never return an empty list. However, the token
     # could comprise multiple lines, so join them into a single string.
@@ -28,6 +28,6 @@ function _nvim_current_token --description "Open the file at the cursor in a edi
 
     if set -q files[1] && test -f $files[1]
         $pager $files
-        commandline -f repaint
+        #commandline -f repaint
     end
 end
