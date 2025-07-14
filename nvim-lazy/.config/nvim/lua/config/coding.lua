@@ -1,4 +1,5 @@
 local blink = require("blink.cmp")
+local luasnip = require("luasnip")
 
 blink.setup({
   --enabled = function()
@@ -31,4 +32,8 @@ blink.setup({
     preset = "default",
     -- ["<C-Cr>"] = { "select_and_accept" },
   },
+})
+
+luasnip.setup({
+  luasnip.filetype_extend("org", { "html", "tex" }),
 })

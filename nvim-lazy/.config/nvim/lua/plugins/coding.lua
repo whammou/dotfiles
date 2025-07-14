@@ -5,6 +5,9 @@ return {
     dependencies = {
       "L3MON4D3/LuaSnip",
       lazy = true,
+      config = function()
+        require("config.coding")
+      end,
     },
     config = function()
       require("config.coding")
