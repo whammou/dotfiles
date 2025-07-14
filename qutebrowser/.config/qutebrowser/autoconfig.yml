@@ -6,11 +6,5 @@
 
 config_version: 2
 settings:
-  backend:
-    global: webengine
-  content.notifications.enabled:
-    global: ask
-  content.notifications.presenter:
-    global: auto
   content.user_stylesheets:
     global: ~/.config/qutebrowser/css/custom-onedark.css
