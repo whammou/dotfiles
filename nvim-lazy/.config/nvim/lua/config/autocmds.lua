@@ -28,3 +28,64 @@ vim.api.nvim_create_autocmd("FileType", {
 -- })
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+
+-- Function to find the project root.
+-- It looks for common markers like .git, .svn, or specific files.
+local function find_project_root()
+  -- You can customize these markers
+  local markers = { ".git", "init.lua", "package.json", "pyproject.toml", "Cargo.toml", "go.mod" }
+
+  -- Get the directory of the current file
+  local current_file_path = vim.fn.expand("%:p")
+  if current_file_path == "" then
+    return nil
+  end -- No file open
+  local current_dir = vim.fn.fnamemodify(current_file_path, ":h")
+
+  -- Traverse up the directory tree
+  return vim.fs.find(markers, { path = current_dir, upward = true, type = "directory" })[1]
+    or vim.fs.find(markers, { path = current_dir, upward = true, type = "file" })[1]
+end
+
+-- Function to copy the relative path
+--function CopyRelativePath()
+--  local root_marker_path = find_project_root()
+--
+--  if not root_marker_path then
+--    print("Error: Project root not found.")
+--    return
+--  end
+--
+--  -- The root is the directory containing the marker
+--  local project_root = vim.fn.fnamemodify(root_marker_path, ":h")
+--  local file_path = vim.fn.expand("%:p")
+--
+--  -- Make the file path relative to the project root
+--  local relative_path = vim.fn.fnamemodify(file_path, ":~:.")
+--
+--  -- On Windows, vim.fn.fnamemodify can be inconsistent, so we can do a string replacement
+--  if vim.fn.has("win32") == 1 then
+--    relative_path = file_path:sub(#project_root + 2) -- +2 for the trailing slash
+--    relative_path = relative_path:gsub("\\", "/") -- Optional: convert to forward slashes
+--  else
+--    relative_path = file_path:sub(#project_root + 2)
+--  end
+--
+--  if relative_path and relative_path ~= "" then
+--    vim.fn.setreg("+", relative_path)
+--    print("Copied to clipboard: " .. relative_path)
+--  else
+--    print("Error: Could not determine relative path.")
+--  end
+--end
+
+-- Create a user command
+--vim.api.nvim_create_user_command("CopyRelativePath", CopyRelativePath, {})
+--
+---- Create a keymap. <leader>yr stands for "yank relative"
+---- Use 'n' for normal mode.
+--vim.keymap.set("n", "<leader>yr", "<Cmd>CopyRelativePath<CR>", {
+--  noremap = true,
+--  silent = true,
+--  desc = "Copy relative path to project root",
+--})
