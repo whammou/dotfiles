@@ -18,7 +18,7 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("od_abstract_recolor.png"),
+        wallpaper=select_wallpaper("od_abstract_recolor_light.png"),
         wallpaper_mode="fill",
         top=status_bar(widgets, margin=[6, 12, 12, 12]),
         right=bar.Bar(

@@ -142,6 +142,7 @@ keymap = [
             ["v", in_terminal("monitor-voltage"), "pad_list"],
             ["c", in_terminal("watch-cpu"), "pad_list"],
             ["g", in_terminal("sudo intel_gpu_top"), "pad_small"],
+            ["d", in_terminal("ncdu --color dark"), "pad_small"],
         ],
     },
     {
@@ -154,7 +155,7 @@ keymap = [
                 "t",
                 in_terminal(
                     "tt --theme=mine --multi --nohighlight",
-                    parameters="-o font_size=20",
+                    parameters="--title='Typing - tt' -o font_size=20",
                 ),
                 "pad_typing",
             ],
@@ -167,12 +168,16 @@ keymap = [
             ],
             [
                 "y",
-                in_terminal("magic-tape.sh", parameters="--hold"),
+                in_terminal(
+                    "magic-tape.sh", parameters="--title='Youtube - magic-tape'"
+                ),
                 "pad_large",
             ],
             [
                 "m",
-                in_terminal("sh magic-tape.sh", parameters="--hold"),
+                in_terminal(
+                    "sh magic-tape.sh", parameters="--title='Youtube-Music magic-tape'"
+                ),
                 "pad_large",
             ],
             [
