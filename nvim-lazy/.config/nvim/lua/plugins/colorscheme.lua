@@ -53,6 +53,8 @@ return {
         ["SnacksDashBoardDesc"] = { fg = "$fg" },
         ["SnacksDashBoardIcon"] = { fg = "$fg" },
         ["SnacksDashBoardKey"] = { fg = "$fg" },
+
+        ["Conceal"] = { bg = "$bg0", fg = "$red" },
       },
     },
   },

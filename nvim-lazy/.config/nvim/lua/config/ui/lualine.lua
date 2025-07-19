@@ -176,7 +176,7 @@ ins_left({
 -- Add components to right sections
 ins_right({
   "o:encoding", -- option component same as &encoding in viml
-  fmt = string.lower, -- I'm not sure why it's upper case either ;)
+  fmt = string.upper, -- I'm not sure why it's upper case either ;)
   cond = conditions.hide_in_width,
   icon = "",
   color = { fg = colors.yellow, gui = "bold" },
@@ -184,7 +184,15 @@ ins_right({
 
 ins_right({
   "fileformat",
-  fmt = string.lower,
+  fmt = string.upper,
+  -- icon = "󰻀",
+  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
+  color = { fg = colors.blue, gui = "bold" },
+})
+
+ins_right({
+  "fileformat",
+  fmt = string.upper,
   -- icon = "󰻀",
   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
   color = { fg = colors.blue, gui = "bold" },

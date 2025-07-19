@@ -26,7 +26,7 @@ return {
     },
     opts = {
       open_for_directories = true,
-      yazi_floating_window_border = "single",
+      yazi_floating_window_border = "none",
 
       keymaps = {
         show_help = "<f1>",

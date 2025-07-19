@@ -2,6 +2,9 @@ return {
   {
     "saghen/blink.cmp",
     lazy = true,
+    config = function()
+      require("config.coding")
+    end,
     dependencies = {
       "L3MON4D3/LuaSnip",
       lazy = true,
@@ -9,8 +12,5 @@ return {
         require("config.coding")
       end,
     },
-    config = function()
-      require("config.coding")
-    end,
   },
 }
