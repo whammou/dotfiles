@@ -32,6 +32,7 @@ def change_tab_layer(mod, tab_layer, tab_index):
     return keymaps
 
 
+# FOCUS FLOATING WINDOW
 @lazy.function
 def focus_nth_floating_window(qtile, index):
     group = qtile.current_group

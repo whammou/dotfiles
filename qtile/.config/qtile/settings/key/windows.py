@@ -1,6 +1,6 @@
 from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
-from libqtile import hook
+# from libqtile import hook
 
 mod = "mod4"
 alt = "mod1"
