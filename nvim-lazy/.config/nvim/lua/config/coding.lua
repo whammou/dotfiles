@@ -9,14 +9,16 @@ blink.setup({
   --  end
   --  -- ... handling other conditions
   --end,
+  cmdline = { enabled = false },
   snippets = { preset = "luasnip" },
   sources = {
-    default = { "lsp", "path", "snippets", "buffer" },
-    per_filetype = {
-      org = { "lsp", "path", "snippets", "orgmode" },
-      markdown = { "lsp", "path", "snippets" },
-    },
     providers = {
+      path = {
+        module = "blink.cmp.sources.path",
+        opts = {
+          -- ignore_root_slash = true,
+        },
+      },
       snippets = {
         name = "luasnip",
         enabled = true,
@@ -26,6 +28,11 @@ blink.setup({
         module = "orgmode.org.autocompletion.blink",
         -- fallbacks = { "buffer" },
       },
+    },
+    default = { "lsp", "path", "snippets", "buffer" },
+    per_filetype = {
+      org = { "lsp", "path", "snippets", "orgmode" },
+      markdown = { "lsp", "path", "snippets" },
     },
   },
   keymap = {
