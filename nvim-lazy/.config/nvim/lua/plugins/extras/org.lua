@@ -3,6 +3,9 @@ return {
     "chipsenkbeil/org-roam.nvim",
     lazy = true,
     ft = { "org", "org-roam-node-buffer" },
+    keys = {
+      { "<leader>nu", "<Cmd>RoamUpdate<CR>", desc = "Update Roam database" },
+    },
     dependencies = {
       {
         "nvim-orgmode/orgmode",
@@ -29,8 +32,10 @@ return {
           win_split_mode = "horizontal",
 
           org_hide_leading_stars = false,
-          org_adapt_indentaion = false,
-          org_startup_indented = true,
+          org_hide_emphasis_markers = true,
+          org_adapt_indentation = false,
+          org_startup_indented = false,
+
           org_id_link_to_org_use_id = true,
           org_use_tag_inheritance = true,
           org_tags_column = 0,
@@ -75,7 +80,12 @@ return {
       {
         "nvim-orgmode/org-bullets.nvim",
         lazy = true,
-        config = true,
+        opts = {
+          concealcursor = false,
+          symbols = {
+            list = "◆",
+          },
+        },
       },
       {
         "lukas-reineke/headlines.nvim",
@@ -96,7 +106,7 @@ return {
     },
 
     config = function()
-      require("config.extras.orgroam")
+      require("config.extras.org")
     end,
   },
 }

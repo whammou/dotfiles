@@ -85,12 +85,19 @@ local task_doc_agenda = {
 }
 
 roam.setup({
-  directory = "~/orgroam/",
-  org_files = { "~/orgroam/**/*", "~/notes/**/*" },
+  directory = "~/notes/vault/",
+  org_files = { "~/notes/**/*" },
   database = {
-    path = "/home/whammou/org-db",
+    path = "/home/whammou/notes/.roamdb.json",
     persist = true,
-    update_on_save = true,
+    update_on_save = false,
+  },
+  templates = {
+    t = {
+      description = "zettel",
+      template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n",
+      target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}",
+    },
   },
   ui = {
     node_buffer = {
