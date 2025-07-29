@@ -3,17 +3,18 @@ return {
     "akinsho/bufferline.nvim",
     opts = {
       options = {
+        buffer_close_icon = " ",
         always_show_bufferline = true,
         hover = {
-          enabled = true,
+          enabled = false,
           delay = 200,
           reveal = { "close" },
         },
       },
       highlights = {
-        close_button_selected = {
-          fg = "#1a212e",
-        },
+        --close_button_selected = {
+        --  fg = "#1a212e",
+        --},
         fill = {
           bg = "#283347",
         },

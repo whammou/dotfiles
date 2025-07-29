@@ -38,7 +38,7 @@ return {
         border_virtual = true,
       },
       indent = {
-        enabled = true,
+        enabled = false,
         skip_heading = true,
         per_level = 1,
         skip_level = 0,

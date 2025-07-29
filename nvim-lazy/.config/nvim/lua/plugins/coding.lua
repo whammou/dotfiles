@@ -13,4 +13,7 @@ return {
       end,
     },
   },
+  {
+    "bfredl/nvim-luadev",
+  },
 }

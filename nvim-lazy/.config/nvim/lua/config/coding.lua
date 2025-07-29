@@ -2,13 +2,6 @@ local blink = require("blink.cmp")
 local luasnip = require("luasnip")
 
 blink.setup({
-  --enabled = function()
-  --  local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
-  --  if buftype == "nofile" then
-  --    return false
-  --  end
-  --  -- ... handling other conditions
-  --end,
   cmdline = { enabled = false },
   snippets = { preset = "luasnip" },
   sources = {

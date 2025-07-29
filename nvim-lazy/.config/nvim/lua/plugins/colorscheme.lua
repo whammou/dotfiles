@@ -37,7 +37,7 @@ return {
         ["RenderMarkdownH6Bg"] = { bg = "$bg1" },
 
         -- Orgmode headlines
-        ["@org.tag.org"] = { fg = "$fg", fmt = "italic" },
+        ["@org.tag.org"] = { fg = "$grey", fmt = "italic" },
 
         ["@org.headline.level1"] = { fg = "$cyan", fmt = "bold" },
         ["@org.headline.level2"] = { fg = "$purple", fmt = "bold" },
