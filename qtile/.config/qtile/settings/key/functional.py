@@ -7,48 +7,43 @@ alt = "mod1"
 
 functional_keys = [
     Key(
-        [alt],
-        "F1",
+        [],
+        "XF86AudioMute",
         lazy.spawn(
             "pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle"
         ),
     ),
-    Key([alt], "F2", lazy.spawn("volume 1%-")),
-    Key([alt], "F3", lazy.spawn("volume 1%+")),
-    Key([alt], "F4", lazy.spawn("pactl set-source-mute 0 toggle")),
-    Key([alt, "Shift"], "F4", lazy.spawn("noise-supression")),
-    Key([alt], "F5", lazy.spawn("brightness 1%-")),
-    Key([alt], "F6", lazy.spawn("brightness 1%+")),
-    Key([alt], "F7", lazy.spawn("uptime-notification")),
-    Key([alt], "F8", lazy.group["scratchpad"].dropdown_toggle("nmfzf")),
-    Key([alt, "Shift"], "F8", lazy.group["scratchpad"].dropdown_toggle("a2ln")),
-    # Key([alt], "F9", lazy.group["scratchpad"].dropdown_toggle("samba")),
-    Key([alt], "F9", lazy.spawn("rofi-mount")),
-    Key([alt], "F10", lazy.spawn("rofi-playerctl")),
-    Key([alt], "F11", lazy.spawn("vktablet")),
-    Key([alt], "F12", lazy.group["scratchpad"].dropdown_toggle("adapter")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("volume 1%-")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("volume 1%+")),
+    Key([], "XF86AudioMicMute", lazy.spawn("pactl set-source-mute 0 toggle")),
+    Key(["Shift"], "XF86AudioMicMute", lazy.spawn("noise-supression")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightness 1%-")),
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightness 1%+")),
+    Key([], "XF86Display", lazy.spawn("uptime-notification")),
+    Key([], "F8", lazy.group["scratchpad"].dropdown_toggle("nmfzf")),
+    Key(["Control"], "F8", lazy.group["scratchpad"].dropdown_toggle("a2ln")),
+    Key([], "XF86Tools", lazy.spawn("rofi-mount")),
+    Key([], "XF86Search", lazy.spawn("rofi-playerctl")),
+    Key([], "XF86LaunchA", lazy.spawn("vktablet")),
+    Key([], "XF86Explorer", lazy.group["scratchpad"].dropdown_toggle("adapter")),
+    Key([mod], "Print", lazy.spawn("flameshot screen")),
+    Key([mod, "Shift"], "Print", lazy.spawn("flameshot gui")),
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
-    # Key([alt], "Delete", lazy.group["scratchpad"].dropdown_toggle("powermenu")),
     Key(
-        [alt],
-        "Delete",
+        [],
+        "Insert",
         lazy.spawn("rofi -show power-menu -modi power-menu:/sbin/rofi-power-menu"),
     ),
-    Key([alt], "Escape", lazy.spawn("dunstctl close")),
-    Key([alt, "Shift"], "Escape", lazy.spawn("dunstctl close-all")),
+    Key([mod], "Home", lazy.spawn("dunstctl history-pop")),
+    Key([mod, "Shift"], "Home", lazy.spawn("dunstctl context")),
+    Key([mod], "End", lazy.spawn("dunstctl close")),
+    Key([mod, "Shift"], "Delete", lazy.spawn("dunstctl history-clear")),
+    Key([mod], "Delete", lazy.spawn("dunstctl close-all")),
     Key(
         [alt, "Control"],
         "v",
         lazy.spawn(
-            "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
+            "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{xclip -o}'"
         ),
-    ),
-    KeyChord(
-        [mod, "shift"],
-        "s",
-        [
-            Key([], "s", lazy.spawn("flameshot screen")),
-            Key([], "c", lazy.spawn("flameshot gui")),
-        ],
     ),
 ]

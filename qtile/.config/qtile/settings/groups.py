@@ -19,7 +19,7 @@ dropdown = [
     ),
     DropDown(
         "a2ln",
-        "kitty -e a2ln pair",
+        "kitty --hold a2ln pair",
         width=0.6,
         height=0.8,
         x=0.2,

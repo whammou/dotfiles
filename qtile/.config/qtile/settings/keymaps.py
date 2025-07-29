@@ -5,7 +5,7 @@ from .path import in_terminal
 keymap = [
     {
         "name": "qutebrowser",
-        "prefix": "q",
+        "prefix": "b",
         "cmd": [
             ["t", "qutebrowser_tabbed", "pad_large"],
             [
@@ -110,9 +110,11 @@ keymap = [
         "prefix": "o",
         "cmd": [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
+            ["g", in_terminal("lazygit"), "pad_large"],
+            ["S-a", in_terminal("orgmode-combine"), "pad_large"],
             ["n", in_terminal("orgmode-notes"), "pad_large"],
             ["c", in_terminal("orgmode-capture"), "pad_large"],
-            ["t", in_terminal("orgmode-todo"), "pad_large"],
+            # ["t", in_terminal("orgmode-todo"), "pad_large"],
         ],
     },
     {
@@ -141,7 +143,7 @@ keymap = [
             ],
             ["v", in_terminal("monitor-voltage"), "pad_list"],
             ["c", in_terminal("watch-cpu"), "pad_list"],
-            ["g", in_terminal("sudo intel_gpu_top"), "pad_small"],
+            ["g", in_terminal("nvtop"), "pad_small"],
             ["d", in_terminal("ncdu --color dark"), "pad_small"],
         ],
     },
