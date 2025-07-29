@@ -1,3 +1,3 @@
 function viewmd
-    nvim +":setfiletype markdown"
+    nvim -c "setfiletype markdown" -c "set wrap" -c "0read ~/.input.md"
 end
