@@ -45,31 +45,31 @@ always_run_script = true
 title = Dunst
 class = Dunst
 
+dmenu = /sbin/rofi -dmenu -i -p dunst
+mouse_left_click=context
+context = ctrl+period
+
 progress_bar = true
 progress_bar_height = 10
 progress_bar_frame_width = 1
 progress_bar_min_width = 150
 progress_bar_max_width = 400
 
+background = "#21283b"
+foreground = "#93a4c3"
 
 [urgency_low]
 timeout = 10
-background = "#1a212e"
-foreground = "#93a4c3"
 frame_color = "#efbd5d"
 highlight = "#efbd5d"
 
 [urgency_normal]
 timeout = 10
-background = "#1a212e"
-foreground = "#93a4c3"
 frame_color = "#54b0fd"
 highlight = "#54b0fd"
 
 [urgency_critical]
 timeout = 0
-background = "#1a212e"
-foreground = "#93a4c3"
 frame_color = "#f65866"
 highlight = "#f65866"
 
