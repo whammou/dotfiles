@@ -1,4 +1,3 @@
-/* Apply background color to the entire body */
 body {
   background-color: #1a212e !important;
   color: #93a4c3 !important;
@@ -14,34 +13,22 @@ body {
   font-size: 1.083rem !important; /* 1rem is equivalent to 16px */
 }
 
-
-/* Override background colors for common elements that may have their own background */
 button, input, select {
   background-color: #1a212e !important;
   color: #6c7d9c !important;
   border: 1px solid #455574; /* Optional: make sure form elements are visible */
 }
 
-/* Optional: Fix for white backgrounds on certain elements */
+/* This rule makes everything transparent, which hides the HR */
 * {
   background-color: transparent !important;
 }
 
-
-/*p, h1, h2, h3, h4, h5, h6, a, span, div, li {
-  font-size: 1rem !important;
+/* --- ADDED / MODIFIED SECTION --- */
+/* Override the universal transparent background for horizontal rules */
+hr {
+  height: 1px !important; /* Give it a visible height */
+  background-color: #455574 !important; /* Use a visible color, consistent with your border */
+  border: none !important; /* Remove any default borders that might interfere */
+  margin: 1em 0 !important; /* Add some vertical spacing for better readability */
 }
-
-/* Override text color for various elements that may have their own color styles */
-/* p, h1, h2, h3, h4, h5, h6, a, li, span, div, footer, header {
-/*   color: #93a4c3 !important;
-/* }
-
-/* Ensure links (anchor tags) retain a default style */
-/*a {
-/*  color: #93a4c3 !important;
-/*  text-decoration: none; /* Optional: removes underline from links */
-/*}
-/*
-/*a:hover {
-/*  color: #abc4e1 !important; /* Lighter shade for hover effect */
