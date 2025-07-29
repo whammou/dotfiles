@@ -7,14 +7,26 @@ url_opener = [
     { run = 'open-url "$@"', block = false, for = 'unix' },
 ]
 open = [
-    { run = 'xdg-open "$@"' ,block = false, for = 'unix' }
+    { run = 'xdg-open "$@"' ,block = false, for = 'unix' },
+]
+mpv-audio = [
+    { run = 'mpv --no-video "$@"' ,block = true, for = 'unix' }
 ]
 
 [open]
 prepend_rules = [
     { name = "*.url", use = 'url_opener' },
     { name = "*.html", use = 'open' },
+    { name = "*.mp3", use = 'mpv-audio' }
 ]
+
+[[plugin.prepend_previewers]]
+name = "*/"
+run  = 'piper -- eza -TL=2 --color=always --icons=always --group-directories-first --no-quotes "$1"'
+
+[[plugin.append_previewers]]
+name = "*"
+run  = 'piper -- hexyl --border=none --terminal-width=$w "$1"'
 
 
 # Disable preloaders and previewer for /server
@@ -26,7 +38,7 @@ run = "noop"
 name = "~/documents/gdrive/*/**"
 run = "noop"
 
-[[plugin.prepend_previewers]]
+[[plugin.prepend_preloaders]]
 name = "~/documents/mega/*/**"
 run = "noop"
 
