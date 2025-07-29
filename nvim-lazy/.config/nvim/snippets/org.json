@@ -49,11 +49,15 @@
   },
   "Note": {
     "prefix": "No",
-    "body": "*[NOTE]* taken on <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE>:\n  $0"
+    "body": "${1:-----\n}- *[NOTE]* taken on <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE>:\n  $0\n${2:-----}"
   },
   "Check-list": {
     "prefix": "Oc",
     "body": "- [ ] $0"
+  },
+  "Orgmode-horizontal-line": {
+    "prefix": "HL",
+    "body": "-----"
   },
   "Orgmode-hyperlink": {
     "prefix": "Li",
@@ -70,6 +74,19 @@
   "html-center-image": {
     "prefix": "Hia",
     "body": "#+name: ${4:title}\n#+begin_html html\n<p align='${2:center}'>\n<IMG src='${3:image}' alt='${4:title}' width=${5:50%}/>\n</p>\n#+end_html\n$0"
+  },
+  "orgmode-quote-block": {
+    "prefix": "quote",
+    "body": "#+BEGIN_QUOTE:\n$1\n#+END_QUOTE:\n$0"
+  },
+  "zettelkasten-header": {
+    "prefix": "zh",
+    "body": [
+      "#+TITLE: $1",
+      "#+HTML:<details>",
+      "* $1",
+      "#+HTML:</details>$0"
+    ]
   },
   "latex-inline-math": {
     "prefix": "mi",
