@@ -9,8 +9,17 @@ local custom_exports = {
   E = { label = "Edit properties & dates of a khal item", action = khalorg.edit_all },
 }
 
-local note_topics =
-  "~/notes/%^{Topic|system|academic|academic/teaching|coding|finance|language|platform|read|routine|system|system/packages|travel|university|work}/tasks.org"
+local cmd = 'find "' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p") .. "\" -name tasks.org | paste -s -d '|'"
+local result = vim.fn.system(cmd)
+-- system() often includes a trailing newline, remove it
+result = result:gsub("\n$", "")
+-- print(result)
+
+--local note_topics =
+--  "~/notes/%^{Topic|system|academic|academic/teaching|coding|finance|language|platform|read|routine|system|system/packages|travel|university|work}/tasks.org"
+
+local note_topics = "%^{Topic|system|" .. result .. "}"
+
 local capture_templates = {
   d = { description = "Document", template = "* %? [%]" },
   c = { description = "Capture", template = "* %?", target = "~/notes/capture.org" },
@@ -95,7 +104,7 @@ roam.setup({
   templates = {
     t = {
       description = "zettel",
-      template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n",
+      template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n%?",
       target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}",
     },
   },
