@@ -93,9 +93,15 @@ local task_doc_agenda = {
   },
 }
 
+roam.database:find_nodes_by_tag("ZK"):next(function(nodes)
+  for _, node in ipairs(nodes) do
+    print("Got node " .. node.id)
+  end
+end)
+
 roam.setup({
   directory = "~/notes/vault/",
-  org_files = { "~/notes/**/*" },
+  org_files = { "~/notes/**/*.org" },
   database = {
     path = "/home/whammou/notes/.roamdb.json",
     persist = true,
@@ -104,7 +110,7 @@ roam.setup({
   templates = {
     t = {
       description = "zettel",
-      template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n%?",
+      template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n%?",
       target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}",
     },
   },

@@ -11,7 +11,7 @@ return {
         "nvim-orgmode/orgmode",
         lazy = true,
         opts = {
-          org_agenda_files = { "~/notes/**/*" },
+          org_agenda_files = { "~/notes/**/*.org" },
           org_default_notes_file = "~/notes/capture.org",
           org_archive_location = "./log.org::ARCHIVED",
           org_log_into_drawer = "LOGBOOK",
