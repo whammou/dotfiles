@@ -110,8 +110,6 @@ keymap = [
         "prefix": "o",
         "cmd": [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
-            ["g", in_terminal("lazygit"), "pad_large"],
-            ["S-a", in_terminal("orgmode-combine"), "pad_large"],
             ["n", in_terminal("orgmode-notes"), "pad_large"],
             ["c", in_terminal("orgmode-capture"), "pad_large"],
             # ["t", in_terminal("orgmode-todo"), "pad_large"],
