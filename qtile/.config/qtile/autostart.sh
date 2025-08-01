@@ -33,4 +33,5 @@ tmux-session
 greenclip daemon &
 
 # Pre-start browsers
-qutebrowser -R --nowindow &
+#qutebrowser -R --nowindow &
+daemon qutebrowser-daemon --name=qutebrowser-daemon -r &
