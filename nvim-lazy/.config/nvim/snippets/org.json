@@ -84,7 +84,7 @@
     "body": [
       "#+TITLE: $1",
       "#+HTML:<details>",
-      "* $1",
+      "* $1 :ZK:",
       "#+HTML:</details>$0"
     ]
   },
