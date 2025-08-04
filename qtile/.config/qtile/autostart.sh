@@ -1,37 +1,14 @@
 #!/usr/bin/bash
 
-# Variables for current session
-#export QT_IM_MODULE=fcitx
-#export GTK_IM_MODULE=fcitx
-#export GLFW_IM_MODULE=ibus
-#export XMODIFIERS=@im=fcitx
-#
-## Pre-start tmux sessions
-#export COLORTERM=truecolor
-#export FZF_DEFAULT_OPTS_FILE="/home/whammou/.config/fzf/shell.conf"
-
-# Modify keyboard behaviours
+# Disable mouse and rebind keys
 xinput disable TPPS\/2\ IBM\ TrackPoint
 setxkbmap -option caps:swapescape
 xinput disable "Synaptics TM3075-002" &
-(
-  sleep 2
-  xmodmap $HOME/.Xmodmap 2>/tmp/xmodmap.errors
-) &
+xmodmap $HOME/.Xmodmap 2>/tmp/xmodmap.errors
 
-# Window Composers
-picom -b &>/dev/null &
-unclutter a --start-hidden &
-
-# Pre-start input methods
-fcitx5 -d &
-
-# Tmux daemon
-tmux-session
-
-# Greenclip daemon
-greenclip daemon &
-
-# Pre-start browsers
-#qutebrowser -R --nowindow &
-daemon qutebrowser-daemon --name=qutebrowser-daemon -r &
+picom -b &>/dev/null &                                   # Window compositor
+unclutter a --start-hidden &                             # Hide cursor
+fcitx5 -d &                                              # Input method
+tmux-session                                             # Tmux sessions
+greenclip daemon &                                       # Clipboard daemon
+daemon qutebrowser-daemon --name=qutebrowser-daemon -r & #Browser daemon
