@@ -112,6 +112,7 @@ keymap = [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
             ["n", in_terminal("orgmode-notes"), "pad_large"],
             ["c", in_terminal("orgmode-capture"), "pad_large"],
+            ["S-c", in_terminal("orgroam-capture"), "pad_large"],
             # ["t", in_terminal("orgmode-todo"), "pad_large"],
         ],
     },
