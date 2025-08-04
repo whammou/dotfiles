@@ -2,7 +2,7 @@ return {
   {
     "chipsenkbeil/org-roam.nvim",
     lazy = true,
-    ft = { "org", "org-roam-node-buffer" },
+    ft = "org",
     keys = {
       { "<leader>nu", "<Cmd>RoamUpdate<CR>", desc = "Update Roam database" },
     },

@@ -2,12 +2,22 @@ local orgmode = require("orgmode")
 local khalorg = require("khalorg")
 local roam = require("org-roam")
 
-local custom_exports = {
-  n = { label = "Add a new khal item", action = khalorg.new },
-  d = { label = "Delete a khal item", action = khalorg.delete },
-  e = { label = "Edit properties of a khal item", action = khalorg.edit },
-  E = { label = "Edit properties & dates of a khal item", action = khalorg.edit_all },
-}
+local zettel_dir = "~/notes/vault"
+
+local zettel = table.concat(
+  vim.tbl_map(
+    function(path)
+      -- Get the filename from the full path (e.g., "/home/user/doc.org" -> "doc.org")
+      local filename = vim.fn.fnamemodify(path, ":t")
+      -- Remove the ".org" extension from the end of the filename
+      return string.gsub(filename, "%.org$", "")
+    end,
+    -- Get a list of all .org files in the current working directory, separated by newlines
+    -- Then split this string into a Lua table of individual file paths
+    vim.split(vim.fn.globpath(zettel_dir, "*.org"), "\n", { trimempty = true })
+  ),
+  "|"
+)
 
 local cmd = 'find "' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p") .. "\" -name tasks.org | paste -s -d '|'"
 local result = vim.fn.system(cmd)
@@ -93,11 +103,12 @@ local task_doc_agenda = {
   },
 }
 
-roam.database:find_nodes_by_tag("ZK"):next(function(nodes)
-  for _, node in ipairs(nodes) do
-    print("Got node " .. node.id)
-  end
-end)
+local custom_exports = {
+  n = { label = "Add a new khal item", action = khalorg.new },
+  d = { label = "Delete a khal item", action = khalorg.delete },
+  e = { label = "Edit properties of a khal item", action = khalorg.edit },
+  E = { label = "Edit properties & dates of a khal item", action = khalorg.edit_all },
+}
 
 roam.setup({
   directory = "~/notes/vault/",
@@ -111,7 +122,7 @@ roam.setup({
     t = {
       description = "zettel",
       template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n%?",
-      target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}",
+      target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. zettel .. "}",
     },
   },
   ui = {
