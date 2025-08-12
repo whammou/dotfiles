@@ -49,7 +49,7 @@
   },
   "Note": {
     "prefix": "No",
-    "body": "${1:-----\n}- *[NOTE]* taken on <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE>:\n  $0\n${2:-----}"
+    "body": "${1:-----\n}- *[NOTE]* taken on [$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE]: \\\\\\\n  $0\n${2:-----}"
   },
   "Check-list": {
     "prefix": "Oc",
@@ -77,19 +77,60 @@
   },
   "orgmode-quote-block": {
     "prefix": "quote",
-    "body": "#+BEGIN_QUOTE:\n$1\n#+END_QUOTE:\n$0"
+    "body": "#+BEGIN_QUOTE\n$1\n#+END_QUOTE\n$0"
   },
   "zettelkasten-header": {
     "prefix": "zh",
     "body": [
       "#+TITLE: $1",
-      "#+HTML:<details>",
+      "#+HTML:<details>\n",
       "* $1 :ZK:",
-      "#+HTML:</details>$0"
+      "#+HTML:</details>",
+      "$0"
     ]
   },
   "latex-inline-math": {
     "prefix": "mi",
     "body": "\\$$1\\$$0"
+  },
+  "github-special-block-note": {
+    "prefix": "GN",
+    "body": [
+      "\n#+NAME:${1:Github Note Block}",
+      "#+BEGIN_QUOTE",
+      "[!NOTE]",
+      "$2",
+      "#+END_QUOTE\n\n$0"
+    ]
+  },
+  "github-special-block-warning": {
+    "prefix": "GW",
+    "body": [
+      "\n#+NAME:${1:Github Warning Block}",
+      "#+BEGIN_QUOTE",
+      "[!WARNING]",
+      "$2",
+      "#+END_QUOTE\n\n$0"
+    ]
+  },
+  "github-special-block-important": {
+    "prefix": "GI",
+    "body": [
+      "\n#+NAME:${1:Github Important Block}",
+      "#+BEGIN_QUOTE",
+      "[!IMPORTANT]",
+      "$2",
+      "#+END_QUOTE\n\n$0"
+    ]
+  },
+  "github-special-block-tip": {
+    "prefix": "GT",
+    "body": [
+      "\n#+NAME:${1:Github tip Block}",
+      "#+BEGIN_QUOTE",
+      "[!TIP]",
+      "$2",
+      "#+END_QUOTE\n\n$0"
+    ]
   }
 }
