@@ -150,6 +150,8 @@ keymap = [
         "name": "utility",
         "prefix": "u",
         "cmd": [
+            # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
+            ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["d", "rnote", "pad_extra_large"],
             ["a", in_terminal("anifzf"), "pad_small"],
             [

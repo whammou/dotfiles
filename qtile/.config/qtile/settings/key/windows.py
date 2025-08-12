@@ -6,6 +6,16 @@ mod = "mod4"
 alt = "mod1"
 
 
+def hide_all_floating(qtile):
+    group = qtile.current_group
+    for window in group.windows:
+        if window.floating:
+            # logger.warning(f"Hiding window: {window.name}")
+            window.set_opacity(0)
+            # Optional: move the window to the bottom of the stack
+            window.move_to_bottom()
+
+
 @lazy.window.function
 def toggle_floating(window):
     window.disable_fullscreen()
@@ -235,6 +245,14 @@ windows_keys = [
         lazy.window.move_to_top(),
         desc="Focus previous floating window",
     ),
+    Key(
+        [mod, "Shift"],
+        "comma",
+        focus_prev_floating_and_front(),
+        lazy.window.set_opacity(0),
+        lazy.window.move_to_bottom(),
+        desc="Focus previous floating window",
+    ),
     # Resize windows
     EzKey("M-C-h", lazy.layout.resize("left", 100)),
     EzKey("M-C-l", lazy.layout.resize("right", 100)),
@@ -259,13 +277,13 @@ windows_keys = [
         focus_back(),
     ),
     EzKey(
-        "M-<Escape>",
+        "M-S-<Escape>",
         lazy.function(toggle_tiling_floating_focus),
         lazy.window.set_opacity(1),
     ),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
     EzKey(
-        "M-S-<Escape>",
+        "M-<Escape>",
         lazy.window.set_opacity(0).when(when_floating=True),
         lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
         floats_to_bottom(),

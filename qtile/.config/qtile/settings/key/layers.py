@@ -1,5 +1,6 @@
 from libqtile.config import KeyChord, Key, EzKey
 from libqtile.lazy import lazy
+from .windows import hide_all_floating
 
 
 def focus_visible_window(mod, window_index, **spawn):
@@ -11,6 +12,7 @@ def focus_visible_window(mod, window_index, **spawn):
                 str(i),
                 lazy.layout.focus_nth_window(i, **spawn),
                 lazy.window.move_to_top(),
+                lazy.function(hide_all_floating),
             )
         )
     return keymaps
@@ -26,6 +28,7 @@ def change_tab_layer(mod, tab_layer, tab_index):
                     str(index),
                     lazy.layout.focus_nth_tab(index, level=tab),
                     lazy.window.move_to_top(),
+                    lazy.function(hide_all_floating),
                 )
             )
         keymaps.append(KeyChord(mod, str(tab), index_list))
@@ -38,10 +41,14 @@ def focus_nth_floating_window(qtile, index):
     group = qtile.current_group
     floating_windows = [w for w in group.windows if w.floating]
 
-    window_to_focus = floating_windows[index]
-
-    window_to_focus.group.focus(window_to_focus)
-    window_to_focus.move_to_top()
+    try:
+        window_to_focus = floating_windows[index]
+        window_to_focus.group.focus(window_to_focus)
+        window_to_focus.move_to_top()
+    except IndexError:
+        # This block runs only if the index is out of range.
+        # 'pass' means "do nothing".
+        pass
 
 
 def focus_nth_floating(mod, index):
