@@ -4,6 +4,7 @@ from qtile_extras.widget.decorations import PowerLineDecoration
 from qtile_bonsai import BonsaiBar
 
 from .theme import colors
+from .widget.floating_count import FloatCount
 
 
 def base(fg="text", bg="bg2"):
@@ -56,8 +57,8 @@ def checkupdate(command="checkupdates"):
         background=colors["bg2"],
         colour_have_updates=colors["yellow"],
         colour_no_updates=colors["yellow"],
-        display_format="   {updates} ",
-        no_update_string="   0 ",
+        display_format="  PKGS: {updates} ",
+        no_update_string="  PKGS: 0 ",
         update_interval=1800,
         custom_command=command,
     )
@@ -67,12 +68,12 @@ def battery(bat):
     return widget.Battery(
         **base(fg="green"),
         battery=bat,
-        discharge_char="󰁿 ",
-        not_charging_char="󱧥 ",
-        charge_char=" ",
-        full_char="󰁹 ",
-        empty_char="󱟩 ",
-        format="{char}{percent:2.0%} ",
+        discharge_char="󰁿",
+        not_charging_char="󱧥",
+        charge_char="",
+        full_char="󰁹",
+        empty_char="󱟩",
+        format="{char} {percent:2.0%} ",
         show_short_text=False,
         low_percentage=0.05,
         low_foreground=colors["red"],
@@ -85,9 +86,9 @@ def disk_free():
     return widget.DF(
         **base(fg="red"),
         partition="/home",
-        format="{uf}{m} ",
+        format="{uf}{m}",
         # format = "{r: 0.0f}",
-        fmt=" {}",
+        fmt=" FREE: {}  ",
         visible_on_warn=False,
         update_interval=600,
     )
@@ -97,7 +98,7 @@ def net():
     return widget.Net(
         **base(bg="bg2", fg="blue"),
         interface="wlan0",
-        format="   {down:03.0f}{down_suffix:<2}  {up:03.0f}{up_suffix:<2} ",
+        format="  {down:03.0f}{down_suffix:<2}  {up:03.0f}{up_suffix:<2} ",
         prefix="k",
         update_interval=60,
     )
@@ -106,7 +107,7 @@ def net():
 def wlan():
     return widget.Wlan(
         **base(bg="bg2", fg="purple"),
-        format="  󰤨 {percent:2.0%} ",
+        format=" 󰤨 STRG: {percent:2.0%} ",
         update_interval=60,
     )
 
@@ -115,32 +116,23 @@ powerline = {"decorations": [PowerLineDecoration(path="arrow_right")]}
 
 widgets = [
     *workspaces(),
-    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=4),
+    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=16),
     disk_free(),
-    widget.Sep(**base(bg="bg2", fg="red"), linewidth=4),
-    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=20),
     battery(0),
     battery(1),
-    widget.Sep(**base(bg="bg2", fg="green"), linewidth=4),
     checkupdate(),
-    widget.Sep(**base(bg="bg2", fg="yellow"), linewidth=4),
-    net(),
-    widget.Sep(**base(bg="bg2", fg="blue"), linewidth=4),
+    FloatCount(**base(bg="bg2", fg="blue"), format="  FLTW: {count} "),
+    # net(),
     wlan(),
-    widget.Sep(**base(bg="bg2", fg="purple"), linewidth=4),
-    widget.Clock(**base(bg="bg2", fg="cyan"), format="%d/%m/%Y - %H:%M ", fmt="  󰸘 {}"),
-    widget.Sep(**base(bg="bg2", fg="cyan"), linewidth=4),
-    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=4),
-    widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
-    widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
+    widget.Clock(**base(bg="bg2", fg="cyan"), format="%d/%m/%Y - %H:%M", fmt=" 󰸘 {} "),
+    # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
+    # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
     widget.TextBox(**base(bg="bg2", fg="fg"), text="󰤳 "),
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
-    widget.Sep(
-        background=colors["bg2"], foreground=colors["fg"], linewidth=4, padding=2
-    ),
+    widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=2),
 ]
 
 widget_defaults = dict(

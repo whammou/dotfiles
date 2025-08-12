@@ -13,7 +13,7 @@ def prevent_focus_steal(client):
 
 @hook.subscribe.client_new
 def blur_floating(window):
-    floating_rules = ["mpv-preview", "feh"]
+    floating_rules = ["mpv-float", "feh"]
     for wm_class in floating_rules:
         if wm_class == window._wm_class[0]:
             window.set_opacity(0)
