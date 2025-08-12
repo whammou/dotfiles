@@ -19,7 +19,7 @@ button, input, select {
   border: 1px solid #455574; /* Optional: make sure form elements are visible */
 }
 
-/* This rule makes everything transparent, which hides the HR */
+/* This rule makes everything transparent, which hides the HR and code blocks */
 * {
   background-color: transparent !important;
 }
@@ -31,4 +31,28 @@ hr {
   background-color: #455574 !important; /* Use a visible color, consistent with your border */
   border: none !important; /* Remove any default borders that might interfere */
   margin: 1em 0 !important; /* Add some vertical spacing for better readability */
+}
+
+/* --- NEW ADDITION FOR CODE HIGHLIGHTING --- */
+/* Override the universal transparent background for code elements (inline and blocks) */
+code, pre {
+  background-color: #283142 !important; /* A slightly lighter dark color for contrast, common in dark themes */
+  color: #93a4c3 !important; /* Ensure text color is readable inside code blocks */
+}
+
+/* Specific styling for inline code (emphasis) */
+code {
+  padding: 0.2em 0.4em !important; /* Add some padding around inline code */
+  border-radius: 3px !important; /* Slightly rounded corners for inline code */
+  font-family: 'SauceCodeProNerdFont', monospace !important; /* Ensure monospace for code */
+  font-size: 0.9em !important; /* Make it slightly smaller than body text */
+}
+
+/* Specific styling for preformatted blocks (like code blocks) */
+pre {
+  padding: 1em !important; /* More padding for code blocks */
+  overflow: auto !important; /* Handle long lines with a scrollbar */
+  white-space: pre-wrap !important; /* Ensure wrapping for long lines if needed */
+  border-radius: 5px !important; /* Slightly rounded corners for code blocks */
+  line-height: 1.5 !important; /* Improve readability of code lines */
 }
