@@ -1,3 +1,6 @@
 --write-subs
 --write-auto-subs
 --sub-langs "en.*"
+
+--sponsorblock-mark all
+-S res:1080,vcodec:avc1,acodec:m4a
