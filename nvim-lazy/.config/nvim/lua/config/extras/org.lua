@@ -5,28 +5,16 @@ local roam = require("org-roam")
 local zettel_dir = "~/notes/vault"
 
 local zettel = table.concat(
-  vim.tbl_map(
-    function(path)
-      -- Get the filename from the full path (e.g., "/home/user/doc.org" -> "doc.org")
-      local filename = vim.fn.fnamemodify(path, ":t")
-      -- Remove the ".org" extension from the end of the filename
-      return string.gsub(filename, "%.org$", "")
-    end,
-    -- Get a list of all .org files in the current working directory, separated by newlines
-    -- Then split this string into a Lua table of individual file paths
-    vim.split(vim.fn.globpath(zettel_dir, "*.org"), "\n", { trimempty = true })
-  ),
+  vim.tbl_map(function(path)
+    local filename = vim.fn.fnamemodify(path, ":t")
+    return string.gsub(filename, "%.org$", "")
+  end, vim.split(vim.fn.globpath(zettel_dir, "*.org"), "\n", { trimempty = true })),
   "|"
 )
 
 local cmd = 'find "' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p") .. "\" -name tasks.org | paste -s -d '|'"
 local result = vim.fn.system(cmd)
--- system() often includes a trailing newline, remove it
 result = result:gsub("\n$", "")
--- print(result)
-
---local note_topics =
---  "~/notes/%^{Topic|system|academic|academic/teaching|coding|finance|language|platform|read|routine|system|system/packages|travel|university|work}/tasks.org"
 
 local note_topics = "%^{Topic|system|" .. result .. "}"
 
@@ -73,7 +61,7 @@ local capture_templates = {
 local task_agenda = {
   {
     type = "agenda",
-    org_agenda_tag_filter_preset = "TASK",
+    org_agenda_tag_filter_preset = { "ONEOFF", "INCIDENTAL", "COORDINATED", "URGENT" },
     org_agenda_overriding_header = "Daily Tasks",
     org_agenda_span = "week",
   },
@@ -91,7 +79,7 @@ local doc_agenda = {
 local task_doc_agenda = {
   {
     type = "agenda",
-    org_agenda_tag_filter_preset = "TASK",
+    org_agenda_tag_filter_preset = "TASK-RECURRING",
     org_agenda_overriding_header = "Daily Tasks",
     org_agenda_span = "day",
   },
@@ -121,7 +109,9 @@ roam.setup({
   templates = {
     t = {
       description = "zettel",
-      template = "#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t\n#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}\n%?",
+      template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
+#+LATEX_HEADER: \\renewcommand\\maketitle{} \\usepackage[scaled]{helvet} \\renewcommand\\familydefault{\\sfdefault}
+%?]],
       target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. zettel .. "}",
     },
   },
