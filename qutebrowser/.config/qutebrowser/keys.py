@@ -16,7 +16,12 @@ config.unbind("F")
 
 # Bind Escape in insert mode to switch Fcitx5 and then leave insert mode
 # This might require two presses or careful timing, as qutebrowser's own
-# Escape handling might still fire.
+# Escape handling might still fire.config.bind('o', 'set statusbar.show always;; set-cmd-text -s :open')
+config.bind(
+    "<Escape>", "mode-enter normal;; set statusbar.show in-mode", mode="command"
+)
+config.bind("<Return>", "command-accept;; set statusbar.show in-mode", mode="command")
+
 config.bind(
     "<Escape>",
     "spawn fcitx5-remote -s keyboard-us ;; mode-leave",
@@ -25,6 +30,10 @@ config.bind(
 
 config.bind(
     "<Control-i>", "spawn fcitx5-remote -s unikey ;; mode-enter insert", mode="normal"
+)
+config.bind("/", "cmd-set-text -s :search ;; set statusbar.show always", mode="normal")
+config.bind(
+    "?", "cmd-set-text -s :search -r;; set statusbar.show always", mode="normal"
 )
 
 # Settings
@@ -41,10 +50,11 @@ c.aliases["tab"] = "spawn _qtile_spawn_tab"
 c.aliases["tab_new"] = "spawn _qtile_spawn_new_tab"
 c.aliases["screen"] = "spawn _qtile_spawn_screen"
 
-config.bind("X", "cmd-set-text -s :split")
-config.bind("V", "cmd-set-text -s :vsplit", mode="normal")
-config.bind("T", "cmd-set-text -s :tab")
-config.bind("<Ctrl-T>", "cmd-set-text -s :tab_new")
+config.bind("o", "set statusbar.show always ;; cmd-set-text -s :open")
+config.bind("X", "set statusbar.show always ;; cmd-set-text -s :split")
+config.bind("V", "set statusbar.show always ;; cmd-set-text -s :vsplit", mode="normal")
+config.bind("T", "set statusbar.show always ;; cmd-set-text -s :tab")
+config.bind("<Ctrl-T>", "set statusbar.show always ;; cmd-set-text -s :tab_new")
 
 config.bind(
     "Fv",
