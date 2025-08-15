@@ -132,5 +132,24 @@
       "$2",
       "#+END_QUOTE\n\n$0"
     ]
+  },
+  "github-special-block-caution": {
+    "prefix": "GC",
+    "body": [
+      "\n#+NAME:${1:Github caution Block}",
+      "#+BEGIN_QUOTE",
+      "[!CAUTION]",
+      "$2",
+      "#+END_QUOTE\n\n$0"
+    ]
+  },
+  "Github-hidden-section": {
+    "prefix": "hcode",
+    "body": [
+      "#+NAME:${1:Details}",
+      "#+html:<details>",
+      "#+html:<summary><b>${1:Details}</b></summary>\n$2",
+      "#+html:</details>\n$0"
+    ]
   }
 }
