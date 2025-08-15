@@ -30,7 +30,7 @@ return {
           },
 
           org_ellipsis = "",
-          win_split_mode = "horizontal",
+          win_split_mode = "auto",
 
           org_hide_leading_stars = false,
           org_hide_emphasis_markers = true,

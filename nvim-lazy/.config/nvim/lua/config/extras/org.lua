@@ -7,51 +7,58 @@ local zettel_dir = "~/notes/vault"
 local zettel = table.concat(
   vim.tbl_map(function(path)
     local filename = vim.fn.fnamemodify(path, ":t")
-    return string.gsub(filename, "%.org$", "")
+    return (string.gsub(filename, "%.org$", ""))
   end, vim.split(vim.fn.globpath(zettel_dir, "*.org"), "\n", { trimempty = true })),
   "|"
 )
+local function _get_dir_path(filename)
+  local cmd = 'find "' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p") .. '" -name ' .. filename .. " | paste -s -d '|'"
+  local result = vim.fn.system(cmd)
+  return result:gsub("\n$", "")
+end
 
-local cmd = 'find "' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p") .. "\" -name tasks.org | paste -s -d '|'"
-local result = vim.fn.system(cmd)
-result = result:gsub("\n$", "")
-
-local note_topics = "%^{Topic|system|" .. result .. "}"
+local org_tasks = "%^{Topic|system|" .. _get_dir_path("tasks.org") .. "}"
+local org_docs = "%^{Topic|system|" .. _get_dir_path("doc.org") .. "}"
 
 local capture_templates = {
-  d = { description = "Document", template = "* %? [%]" },
   c = { description = "Capture", template = "* %?", target = "~/notes/capture.org" },
+  d = {
+    description = "Document",
+    template = "** %?",
+    target = org_docs,
+    headline = "Documents",
+  },
   t = {
     description = "Task",
     subtemplates = {
       o = {
         description = "One-off",
         template = "** %?",
-        target = note_topics,
+        target = org_tasks,
         headline = "One-off",
       },
       i = {
         description = "Incidental",
         template = "** %?",
-        target = note_topics,
+        target = org_tasks,
         headline = "Incidental",
       },
       c = {
         description = "Coordinated",
         template = "** %?",
-        target = note_topics,
+        target = org_tasks,
         headline = "Coordinated",
       },
       u = {
         description = "Urgent",
         template = "** %?",
-        target = note_topics,
+        target = org_tasks,
         headline = "Urgent",
       },
       r = {
         description = "Recurring",
         template = "** %?",
-        target = note_topics,
+        target = org_tasks,
         headline = "Recurring",
       },
     },
