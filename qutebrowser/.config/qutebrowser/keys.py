@@ -51,6 +51,7 @@ c.aliases["tab_new"] = "spawn _qtile_spawn_new_tab"
 c.aliases["screen"] = "spawn _qtile_spawn_screen"
 
 config.bind("o", "set statusbar.show always ;; cmd-set-text -s :open")
+config.bind("O", "set statusbar.show always ;; cmd-set-text -s :open -t")
 config.bind("X", "set statusbar.show always ;; cmd-set-text -s :split")
 config.bind("V", "set statusbar.show always ;; cmd-set-text -s :vsplit", mode="normal")
 config.bind("T", "set statusbar.show always ;; cmd-set-text -s :tab")
