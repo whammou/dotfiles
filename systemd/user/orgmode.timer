@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer to run orgmode notification every minute
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1min
+Unit=orgmode.service
+
+[Install]
+WantedBy=timers.target
+

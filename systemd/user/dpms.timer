@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer to check for display screen off
+
+[Timer]
+OnBootSec=5
+OnUnitActiveSec=1min
+Unit=dpms.service
+
+[Install]
+WantedBy=timers.target

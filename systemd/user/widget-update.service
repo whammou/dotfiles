@@ -1,0 +1,9 @@
+[Unit]
+Description=Update qtile widget
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/widget-update
+
+[Install]
+WantedBy=battery.target ac.target

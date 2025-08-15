@@ -1,0 +1,6 @@
+[Unit]
+Description=A dmps checker for media files
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/dpms-media
