@@ -7,6 +7,7 @@ keymap = [
         "name": "qutebrowser",
         "prefix": "b",
         "cmd": [
+            ["s", "qutebrowser_search", "pad_large"],
             ["t", "qutebrowser_tabbed", "pad_large"],
             [
                 "i",
