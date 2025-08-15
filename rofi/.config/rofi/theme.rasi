@@ -30,7 +30,7 @@ inputbar {
     spacing:    8px;
     padding:    0px 0px 0px 0px;
 
-    background-color:   @bg0;
+    background-color:   @bg2;
 }
 
 prompt, entry, element-icon, element-text {
