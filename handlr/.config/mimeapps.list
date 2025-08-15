@@ -3,6 +3,7 @@ application/epub+zip=org.pwmt.zathura.desktop;
 application/pdf=org.pwmt.zathura.desktop;
 application/vnd.oasis.opendocument.spreadsheet=zaread.desktop;
 application/vnd.oasis.opendocument.text=zaread.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.presentation=zaread.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=zaread.desktop;
 audio/mpeg=mpv-audio.desktop;
 image/jpeg=mpv-image.desktop;
