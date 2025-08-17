@@ -83,8 +83,9 @@
     "prefix": "zh",
     "body": [
       "#+TITLE: $1",
+      "#+FILETAGS: :ZK:${2:Tags}",
       "#+HTML:<details>\n",
-      "* $1 :ZK:",
+      "* $1 :ZK:$2",
       "#+HTML:</details>",
       "$0"
     ]

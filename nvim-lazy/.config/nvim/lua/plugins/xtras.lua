@@ -17,4 +17,9 @@ return {
     lazy = true,
     event = "VeryLazy",
   },
+  {
+    "jalvesaq/zotcite",
+    lazy = true,
+    ft = "org",
+  },
 }
