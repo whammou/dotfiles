@@ -1,6 +1,5 @@
 from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
-# from libqtile import hook
 
 mod = "mod4"
 alt = "mod1"
@@ -158,17 +157,6 @@ def toggle_tiling_floating_focus(qtile):
         last_floating.set_opacity(0)
         current_group.focus(target_window)
         target_window.move_to_top()
-
-
-# @hook.subscribe.client_killed
-# def after_kill_fallback(group, window):
-#    history = group.focus_history
-#    target_window = history[-2]
-#
-#    group.qtile.call_soon(lambda: group.focus(target_window))
-#    if target_window.floating:
-#        group.qtile.call_soon(lambda: window.set_opacity(1))
-#        group.qtile.call_soon(lambda: window.move_to_top())
 
 
 @lazy.group.function

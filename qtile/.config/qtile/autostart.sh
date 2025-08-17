@@ -11,6 +11,8 @@ unclutter a --start-hidden & # Hide cursor
 fcitx5 -d &                  # Input method
 tmux-session                 # Tmux sessions
 greenclip daemon &           # Clipboard daemon
+#xscreensaver --no-splash &
 #daemon qutebrowser-daemon --name=qutebrowser-daemon -r & #Browser daemon
+xset -display :0.0 dpms 0 0 0 &
 daemon qutebrowser-daemon --name=qutebrowser-daemon --attempts=3 --delay=10 --safe -r &
 #qutebrowser -R --nowindow &

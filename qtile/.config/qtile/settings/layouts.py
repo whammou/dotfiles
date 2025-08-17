@@ -63,6 +63,7 @@ def maintain_focus(group, window):
         if prev_window.floating:
             group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
         group.qtile.call_soon(lambda: group.focus(prev_window))
+        group.qtile.call_soon(lambda: group.current_window.move_to_top())
 
 
 @hook.subscribe.client_killed
