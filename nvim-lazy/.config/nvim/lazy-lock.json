@@ -54,5 +54,6 @@
   "vim-grip": { "branch": "master", "commit": "f3dace7ce161e8aa7446eacd5a85fedf253033a2" },
   "vimtex": { "branch": "master", "commit": "2b1ca6635dd419d485162c9debd4866fab662cad" },
   "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" },
-  "yazi.nvim": { "branch": "main", "commit": "74460dc4533bde424983702f1257df420455eebe" }
+  "yazi.nvim": { "branch": "main", "commit": "74460dc4533bde424983702f1257df420455eebe" },
+  "zotcite": { "branch": "master", "commit": "80dbb95ef85e9e48a3804c5732c6144ed0ec6386" }
 }
