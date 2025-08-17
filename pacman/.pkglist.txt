@@ -54,6 +54,7 @@ cblas
 cdparanoia
 cfitsio
 chafa
+chessterm
 clucene
 cmake
 containerd
@@ -73,6 +74,7 @@ debugedit
 default-cursors
 desktop-file-utils
 device-mapper
+dict
 diffutils
 docker
 double-conversion
@@ -652,6 +654,7 @@ sqlite
 sratom
 srt
 starship
+stockfish
 stow
 sudo
 suru-plus-aspromauros-git
@@ -751,6 +754,7 @@ xorg-xrandr
 xorg-xrdb
 xorg-xset
 xorgproto
+xscreensaver
 xvidcore
 xxhash
 xz
