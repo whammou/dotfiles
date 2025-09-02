@@ -14,7 +14,7 @@ return {
           org_agenda_files = { "~/notes/**/*.org" },
           --org_agenda_skip_scheduled_if_done = true,
           org_default_notes_file = "~/notes/capture.org",
-          org_archive_location = "./log.org::ARCHIVED",
+          org_archive_location = "log/archive_%s",
           org_log_into_drawer = "LOGBOOK",
           org_highlight_latex_and_related = "entities",
 
@@ -39,6 +39,7 @@ return {
 
           org_id_link_to_org_use_id = true,
           org_use_tag_inheritance = true,
+          org_tags_exclude_from_inheritance = { "PROJECT" },
           org_tags_column = 0,
           org_cycle_separator_lines = 0,
           org_blank_before_new_entry = { heading = false, plain_list_item = false },
@@ -102,6 +103,97 @@ return {
         },
       },
       {
+        "hamidi-dev/org-super-agenda.nvim",
+        lazy = true,
+        opts = {
+          org_directories = { "/home/whammou/notes/" },
+          show_filename = false,
+          window = {
+            border = "single",
+          },
+          todo_states = {
+            { name = "TODO", color = "#c75ae8" },
+            { name = "DOING", color = "#34bfd0" },
+            { name = "PENDING", color = "#93a4c3" },
+            { name = "OUTLINE", color = "#93a4c3" },
+            { name = "IDEA", color = "#93a4c3" },
+            { name = "WAITING", color = "#dd9046" },
+            { name = "RESEARCH", color = "#dd9046" },
+            { name = "FEEDBACK", color = "#dd9046" },
+            { name = "NEXT", color = "#54b0fd" },
+            { name = "REVIEW", color = "#efbd5d" },
+            { name = "PARTIAL", color = "#efbd5d" },
+            { name = "ABORTED", color = "#f65866", strike_through = true },
+            { name = "DONE", color = "#8bcd5b", strike_through = true },
+          },
+          groups = {
+            {
+              name = " Today",
+              matcher = function(i)
+                return i.scheduled and i.scheduled:is_today()
+              end,
+              sort = { by = "priority", order = "desc" },
+            },
+            {
+              name = " Tomorrow",
+              matcher = function(i)
+                return i.scheduled and i.scheduled:days_from_today() == 1
+              end,
+            },
+            {
+              name = "󱓇 Deadlines",
+              matcher = function(i)
+                return i.deadline
+                  and i.todo_state ~= "ABORTED"
+                  and i.todo_state ~= "DONE"
+                  and i.todo_state ~= "PARTIAL"
+                  and i.todo_state ~= "REVIEW"
+              end,
+              sort = { by = "deadline", order = "asc" },
+            },
+            {
+              name = " Important",
+              matcher = function(i)
+                return i.priority == "A" and (i.deadline or i.scheduled)
+              end,
+              sort = { by = "date_nearest", order = "asc" },
+            },
+            {
+              name = "󰔟 Overdue",
+              matcher = function(i)
+                return i.todo_state ~= "DONE"
+                  and i.todo_state ~= "PARTIAL"
+                  and i.todo_state ~= "ABORTED"
+                  and ((i.deadline and i.deadline:is_past()) or (i.scheduled and i.scheduled:is_past()))
+              end,
+              sort = { by = "date_nearest", order = "asc" },
+            },
+            {
+              name = " Personal",
+              matcher = function(i)
+                return i:has_tag("personal")
+              end,
+            },
+            {
+              name = "󰃖 Work",
+              matcher = function(i)
+                return i:has_tag("work")
+              end,
+            },
+            {
+              name = "📆 Upcoming",
+              matcher = function(i)
+                local days = require("org-super-agenda.config").get().upcoming_days or 10
+                local d1 = i.deadline and i.deadline:days_from_today()
+                local d2 = i.scheduled and i.scheduled:days_from_today()
+                return (d1 and d1 >= 0 and d1 <= days) or (d2 and d2 >= 0 and d2 <= days)
+              end,
+              sort = { by = "date_nearest", order = "asc" },
+            },
+          },
+        },
+      },
+      {
         "nvim-orgmode/org-bullets.nvim",
         lazy = true,
         opts = {
@@ -128,7 +220,6 @@ return {
         },
       },
     },
-
     config = function()
       require("config.extras.org")
     end,

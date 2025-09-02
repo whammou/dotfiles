@@ -2,64 +2,70 @@ local orgmode = require("orgmode")
 local khalorg = require("khalorg")
 local roam = require("org-roam")
 
-local zettel_dir = "~/notes/vault"
+local base_dir = vim.fn.expand("~/notes/")
+local zettel_dir = base_dir .. "vault/"
+local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
-local zettel = table.concat(
-  vim.tbl_map(function(path)
-    local filename = vim.fn.fnamemodify(path, ":t")
-    return (string.gsub(filename, "%.org$", ""))
-  end, vim.split(vim.fn.globpath(zettel_dir, "*.org"), "\n", { trimempty = true })),
-  "|"
-)
-local function _get_dir_path(filename)
-  local cmd = 'find "' .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p") .. '" -name ' .. filename .. " | paste -s -d '|'"
-  local result = vim.fn.system(cmd)
-  return result:gsub("\n$", "")
+local function _get_filename(directory)
+  local filename = table.concat(
+    vim.tbl_map(function(path)
+      local filename = vim.fn.fnamemodify(path, ":t")
+      return (string.gsub(filename, "%.org$", ""))
+    end, vim.split(vim.fn.globpath(directory, "*.org"), "\n", { trimempty = true })),
+    "|"
+  )
+  return filename
 end
 
-local org_tasks = "%^{Topic|system|" .. _get_dir_path("tasks.org") .. "}"
-local org_docs = "%^{Topic|system|" .. _get_dir_path("doc.org") .. "}"
+local function _get_file_path(directory, filename)
+  local cmd = 'find "' .. vim.fn.fnamemodify(directory, ":p") .. '" -name ' .. filename .. " | paste -s -d '|'"
+  local result = vim.fn.system(cmd)
+  return string.gsub(string.gsub(result:gsub("\n$", ""), base_dir, ""), filename, "")
+end
+
+local function _get_dir_path(directory, filename)
+  local cmd = 'find "' .. vim.fn.fnamemodify(directory, ":p") .. '" -type d -name ' .. filename .. " | paste -s -d '|'"
+  local result = vim.fn.system(cmd)
+  return string.gsub(result:gsub("\n$", ""), base_dir, "")
+end
+
+local org_tasks = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "tasks") .. "}"
+local org_doc_dirs = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}"
 
 local capture_templates = {
   c = { description = "Capture", template = "* %?", target = "~/notes/capture.org" },
-  d = {
-    description = "Document",
-    template = "** %?",
-    target = org_docs,
-    headline = "Documents",
-  },
   t = {
     description = "Task",
     subtemplates = {
       o = {
-        description = "One-off",
+        description = "Oneoff Tasks",
         template = "** %?",
-        target = org_tasks,
-        headline = "One-off",
+        target = org_tasks .. "/tasks/oneoff.org",
+        headline = "List of Oneoff Tasks",
       },
       i = {
-        description = "Incidental",
+        description = "Incidental Tasks",
         template = "** %?",
-        target = org_tasks,
-        headline = "Incidental",
+        target = org_tasks .. "/tasks/incidental.org",
+        headline = "List of Incidental Tasks",
       },
       c = {
-        description = "Coordinated",
+        description = "Coordinated Tasks",
         template = "** %?",
-        target = org_tasks,
-        headline = "Coordinated",
+        target = org_tasks .. "/tasks/coordinated.org",
+        headline = "List of Coordinated Tasks",
       },
-      u = {
-        description = "Urgent",
+      p = {
+        description = "Planned Tasks",
         template = "** %?",
-        target = org_tasks,
-        headline = "Urgent",
+        target = org_tasks .. "/tasks/planned.org",
+        headline = "List of Planned Tasks",
       },
       r = {
-        description = "Recurring",
+        description = "Recurring Tasks",
         template = "** %?",
-        target = org_tasks,
-        headline = "Recurring",
+        target = org_tasks .. "/tasks/recurring.org",
+        headline = "List of Recurring Tasks",
       },
     },
   },
@@ -125,7 +131,7 @@ local custom_exports = {
 }
 
 roam.setup({
-  directory = "~/notes/vault/",
+  directory = base_dir,
   org_files = { "~/notes/**/*.org" },
   extensions = { dailies = { directory = zettel_dir .. "/" .. ".daily" } },
   database = {
@@ -135,11 +141,29 @@ roam.setup({
   },
   templates = {
     t = {
-      description = "zettel",
+      description = "Zettelkasten",
       template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 %?]],
-      target = "%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. zettel .. "}",
+      target = "vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. _get_filename(zettel_dir) .. "}.org",
+    },
+    n = {
+      description = "New Document",
+      template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
+#+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
+#+TODO: TODO(t) (e) DOING(d) PENDING(p) OUTLINE(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
+%?]],
+      target = org_doc_dirs .. "/%[slug].org",
+    },
+    d = {
+      description = "Documents",
+      subtemplates = {
+        c = {
+          description = "Capture Document",
+          templates = "%s",
+          target = relative_dir .. "/%^{File|" .. _get_filename(vim.fn.getcwd()) .. "}.org",
+        },
+      },
     },
   },
   ui = {
@@ -152,6 +176,7 @@ roam.setup({
 })
 
 orgmode.setup({
+  org_agenda_text_search_extra_files = { "agenda-archives" },
   org_custom_exports = custom_exports,
   org_capture_templates = capture_templates,
   org_agenda_custom_commands = {
