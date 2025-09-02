@@ -74,7 +74,6 @@ debugedit
 default-cursors
 desktop-file-utils
 device-mapper
-dict
 diffutils
 docker
 double-conversion
@@ -428,7 +427,6 @@ llhttp
 llvm-libs
 lm_sensors
 lmdb
-lobster-git
 lpsolve
 lua
 lua51-lpeg
@@ -617,6 +615,7 @@ rclone
 re2
 readline
 redland
+reflector
 rhash
 ripgrep
 ripgrep-all
@@ -624,7 +623,6 @@ rnote
 rofi-dmenu
 rofi-greenclip
 rofi-playerctl-git
-rofi-power-menu-git
 rubberband
 ruff
 runc
@@ -663,6 +661,7 @@ systemd
 systemd-libs
 systemd-sysvcompat
 tar
+terminus-font
 tesseract
 tesseract-data-eng
 tesseract-data-osd
@@ -754,7 +753,6 @@ xorg-xrandr
 xorg-xrdb
 xorg-xset
 xorgproto
-xscreensaver
 xvidcore
 xxhash
 xz
