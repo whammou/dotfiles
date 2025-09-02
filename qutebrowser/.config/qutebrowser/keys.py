@@ -28,8 +28,11 @@ config.bind(
     mode="insert",
 )
 
+config.bind("i", "set statusbar.show in-mode ;; mode-enter insert", mode="normal")
 config.bind(
-    "<Control-i>", "spawn fcitx5-remote -s unikey ;; mode-enter insert", mode="normal"
+    "<Control-i>",
+    "set statusbar.show in-mode ;; spawn fcitx5-remote -s unikey ;; mode-enter insert",
+    mode="normal",
 )
 config.bind("/", "cmd-set-text -s :search ;; set statusbar.show always", mode="normal")
 config.bind(
@@ -37,7 +40,7 @@ config.bind(
 )
 
 # Settings
-config.bind("xb", "config-cycle statusbar.show never always")
+config.bind("xb", "set statusbar.show never")
 config.bind(
     "xc",
     "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom-onedark.css",
@@ -57,28 +60,32 @@ config.bind("V", "set statusbar.show always ;; cmd-set-text -s :vsplit", mode="n
 config.bind("T", "set statusbar.show always ;; cmd-set-text -s :tab")
 config.bind("<Ctrl-T>", "set statusbar.show always ;; cmd-set-text -s :tab_new")
 
+config.bind("f", "set statusbar.show never ;; hint all")
 config.bind(
     "Fv",
-    "hint all spawn qtile cmd-obj -o layout -f spawn_split -a 'xdg-open {hint-url}' x",
+    "set statusbar.show never ;; hint all spawn qtile cmd-obj -o layout -f spawn_split -a 'xdg-open {hint-url}' x",
 )
 config.bind(
     "Fx",
-    "hint all spawn qtile cmd-obj -o layout -f spawn_split -a 'xdg-open {hint-url}' y",
+    "set statusbar.show never ;; hint all spawn qtile cmd-obj -o layout -f spawn_split -a 'xdg-open {hint-url}' y",
 )
 config.bind(
     "Ft",
-    "hint all spawn qtile cmd-obj -o layout -f spawn_tab -a 'xdg-open {hint-url}'",
+    "set statusbar.show never ;; hint all spawn qtile cmd-obj -o layout -f spawn_tab -a 'xdg-open {hint-url}'",
 )
 config.bind(
     "FT",
-    "hint all spawn _qtile_spawn_new_tab '{hint-url}'",
+    "set statusbar.show never ;; hint all spawn _qtile_spawn_new_tab '{hint-url}'",
 )
 config.bind(
     "Ff",
-    "hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
+    "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
 )
-config.bind(";a", "hint all yank")
+config.bind(";a", "set statusbar.show never ;; hint all yank")
 # Medias
-config.bind("M", "hint all spawn mpv --x11-name='mpv-float' {hint-url}")
+config.bind(
+    "M",
+    "set statusbar.show never ;; hint all spawn mpv --x11-name='mpv-float' {hint-url}",
+)
 # Navigation
-config.bind("m", "mode-enter set_mark")
+config.bind("m", "mode-enter set_mark ;; message-info 'Set Scroll Mark:'")
