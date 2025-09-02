@@ -20,7 +20,7 @@ keys = list(
         focus_visible_window(
             [meta], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
         ),
-        focus_nth_floating([mod], range(0, 9)),
+        focus_nth_floating([mod], range(1, 10)),
         change_tab_layer([mod], range(1, 10), range(1, 10)),
         spawn_new([mod], "s", keymap),
         scratchpad_keys([mod], "p", keymap),
