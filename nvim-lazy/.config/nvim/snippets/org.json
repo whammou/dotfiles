@@ -85,7 +85,17 @@
       "#+TITLE: $1",
       "#+FILETAGS: :ZK:${2:Tags}",
       "#+HTML:<details>\n",
-      "* $1 :ZK:$2",
+      "* $1 :ZK:$2:",
+      "#+HTML:</details>",
+      "$0"
+    ]
+  },
+  "doc-header": {
+    "prefix": "dh",
+    "body": [
+      "#+FILETAGS: :DOC:PROJECT:${2:Tags}:",
+      "#+HTML:<details>\n",
+      "* $1 :DOC:PROJECT:$2:",
       "#+HTML:</details>",
       "$0"
     ]
