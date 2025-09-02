@@ -1,8 +1,10 @@
 function _reset_color
     reset
-    echo
-    #fastfetch
-    colorscript --random
-    echo \n
+    if not set -q NVIM
+        echo
+        #fastfetch
+        colorscript --random
+        echo \n
+    end
     commandline --function repaint
 end
