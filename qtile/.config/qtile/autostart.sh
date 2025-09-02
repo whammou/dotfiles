@@ -13,6 +13,6 @@ tmux-session                 # Tmux sessions
 greenclip daemon &           # Clipboard daemon
 #xscreensaver --no-splash &
 #daemon qutebrowser-daemon --name=qutebrowser-daemon -r & #Browser daemon
-xset -display :0.0 dpms 0 0 0 &
+#xset s off && xset -dpms &
 daemon qutebrowser-daemon --name=qutebrowser-daemon --attempts=3 --delay=10 --safe -r &
 #qutebrowser -R --nowindow &
