@@ -49,6 +49,7 @@ keymap = [
         "name": "ai",
         "prefix": "a",
         "cmd": [
+            ["p", in_terminal("_ai_prompt", parameters="--hold"), "pad_small"],
             [
                 "g",
                 "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chatgpt.com \
@@ -111,6 +112,7 @@ keymap = [
         "prefix": "o",
         "cmd": [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
+            ["S-a", in_terminal("orgmode-super-agenda"), "pad_large"],
             ["n", in_terminal("orgmode-notes"), "pad_large"],
             ["c", in_terminal("orgmode-capture"), "pad_large"],
             ["S-c", in_terminal("orgroam-capture"), "pad_large"],
@@ -144,7 +146,8 @@ keymap = [
             ["v", in_terminal("monitor-voltage"), "pad_list"],
             ["c", in_terminal("watch-cpu"), "pad_list"],
             ["g", in_terminal("nvtop"), "pad_small"],
-            ["d", in_terminal("ncdu --color dark"), "pad_small"],
+            ["d", in_terminal("ncdu --color dark /"), "pad_small"],
+            ["m", in_terminal("watch -n 1 xset q"), "pad_small"],
         ],
     },
     {
@@ -153,7 +156,8 @@ keymap = [
         "cmd": [
             # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
-            ["d", "rnote", "pad_extra_large"],
+            ["n", "rnote", "pad_extra_large"],
+            ["d", in_terminal("dict"), "pad_small"],
             ["a", in_terminal("anifzf"), "pad_small"],
             [
                 "t",
