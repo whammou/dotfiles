@@ -1,0 +1,10 @@
+[Unit]
+Description=Start user battery.target
+After=powerdown.service
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/systemctl --user --machine=%i@ start battery.target
+
+[Install]
+WantedBy=battery.target

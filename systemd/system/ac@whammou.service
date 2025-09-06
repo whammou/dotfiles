@@ -1,0 +1,10 @@
+[Unit]
+Description=Start user ac.target
+After=powerup.service
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/systemctl --user --machine=%i@ start ac.target
+
+[Install]
+WantedBy=ac.target
