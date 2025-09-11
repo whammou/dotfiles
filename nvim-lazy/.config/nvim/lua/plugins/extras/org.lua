@@ -184,6 +184,13 @@ return {
                   or (i.scheduled and i.scheduled:is_today())
               end,
             },
+            {
+              name = "󱔗 Documents",
+              matcher = function(i)
+                return i:has_tag("doc") and (i.deadline and i.deadline:is_today())
+                  or (i.scheduled and i.scheduled:is_today())
+              end,
+            },
           },
         },
       },
