@@ -5,6 +5,7 @@ return {
     ft = "org",
     keys = {
       { "<leader>nu", "<Cmd>RoamUpdate<CR>", desc = "Update Roam database" },
+      { "<leader>nU", "<Cmd>RoamUpdate!<CR>", desc = "Force update Roam database" },
     },
     dependencies = {
       {
@@ -30,16 +31,16 @@ return {
           },
 
           org_ellipsis = "",
-          win_split_mode = "auto",
 
           org_hide_leading_stars = false,
           org_hide_emphasis_markers = true,
           org_adapt_indentation = false,
           org_startup_indented = false,
+          org_startup_folded = "inherit",
 
           org_id_link_to_org_use_id = true,
           org_use_tag_inheritance = true,
-          org_tags_exclude_from_inheritance = { "PROJECT" },
+          org_tags_exclude_from_inheritance = { "META" },
           org_tags_column = 0,
           org_cycle_separator_lines = 0,
           org_blank_before_new_entry = { heading = false, plain_list_item = false },
@@ -93,6 +94,14 @@ return {
               border = "single",
             },
           },
+          ui = {
+            agenda = {
+              preview_window = {
+                wrap = true,
+                border = "single",
+              },
+            },
+          },
         },
       },
       {
@@ -108,87 +117,72 @@ return {
         opts = {
           org_directories = { "/home/whammou/notes/" },
           show_filename = false,
+          keep_order = true,
           window = {
-            border = "single",
+            width = 0.8,
+            height = 0.8,
+            border = "none",
           },
           todo_states = {
-            { name = "TODO", color = "#c75ae8" },
-            { name = "DOING", color = "#34bfd0" },
-            { name = "PENDING", color = "#93a4c3" },
-            { name = "OUTLINE", color = "#93a4c3" },
-            { name = "IDEA", color = "#93a4c3" },
-            { name = "WAITING", color = "#dd9046" },
-            { name = "RESEARCH", color = "#dd9046" },
-            { name = "FEEDBACK", color = "#dd9046" },
-            { name = "NEXT", color = "#54b0fd" },
-            { name = "REVIEW", color = "#efbd5d" },
-            { name = "PARTIAL", color = "#efbd5d" },
-            { name = "ABORTED", color = "#f65866", strike_through = true },
-            { name = "DONE", color = "#8bcd5b", strike_through = true },
+            { name = "TODO", keymap = "ot", color = "#c75ae8" },
+            { name = "DOING", keymap = "od", color = "#34bfd0" },
+            { name = "PENDING", keymap = "op", color = "#93a4c3" },
+            { name = "OUTLINE", keymap = "oo", color = "#93a4c3" },
+            { name = "IDEA", keymap = "oi", color = "#93a4c3" },
+            { name = "WAITING", keymap = "ow", color = "#dd9046" },
+            { name = "RESEARCH", keymap = "os", color = "#dd9046" },
+            { name = "FEEDBACK", keymap = "ob", color = "#dd9046" },
+            { name = "NEXT", keymap = "on", color = "#54b0fd" },
+            { name = "REVIEW", keymap = "ov", color = "#efbd5d" },
+            { name = "PARTIAL", keymap = "or", color = "#efbd5d" },
+            { name = "ABORTED", keymap = "oa", color = "#f65866", strike_through = true },
+            { name = "DONE", keymap = "of", color = "#8bcd5b", strike_through = true },
           },
+          keymaps = {
+            toggle_other = "oO",
+            cycle_view = "oV",
+            filter = "oF",
+            filter_fuzzy = "oZ",
+            filter_query = "oQ",
+            filter_reset = "oA",
+          },
+          upcoming_days = 7,
+          group_format = "* /%s/",
           groups = {
             {
-              name = " Today",
+              name = " Oneoff",
               matcher = function(i)
-                return i.scheduled and i.scheduled:is_today()
-              end,
-              sort = { by = "priority", order = "desc" },
-            },
-            {
-              name = " Tomorrow",
-              matcher = function(i)
-                return i.scheduled and i.scheduled:days_from_today() == 1
+                return i:has_tag("oneoff") and (i.deadline and i.deadline:is_today())
+                  or (i.scheduled and i.scheduled:is_today())
               end,
             },
             {
-              name = "󱓇 Deadlines",
+              name = " Recurring",
               matcher = function(i)
-                return i.deadline
-                  and i.todo_state ~= "ABORTED"
-                  and i.todo_state ~= "DONE"
-                  and i.todo_state ~= "PARTIAL"
-                  and i.todo_state ~= "REVIEW"
-              end,
-              sort = { by = "deadline", order = "asc" },
-            },
-            {
-              name = " Important",
-              matcher = function(i)
-                return i.priority == "A" and (i.deadline or i.scheduled)
-              end,
-              sort = { by = "date_nearest", order = "asc" },
-            },
-            {
-              name = "󰔟 Overdue",
-              matcher = function(i)
-                return i.todo_state ~= "DONE"
-                  and i.todo_state ~= "PARTIAL"
-                  and i.todo_state ~= "ABORTED"
-                  and ((i.deadline and i.deadline:is_past()) or (i.scheduled and i.scheduled:is_past()))
-              end,
-              sort = { by = "date_nearest", order = "asc" },
-            },
-            {
-              name = " Personal",
-              matcher = function(i)
-                return i:has_tag("personal")
+                return i:has_tag("recurring") and (i.deadline and i.deadline:is_today())
+                  or (i.scheduled and i.scheduled:is_today())
               end,
             },
             {
-              name = "󰃖 Work",
+              name = " Incidental",
               matcher = function(i)
-                return i:has_tag("work")
+                return i:has_tag("incidental") and (i.deadline and i.deadline:is_today())
+                  or (i.scheduled and i.scheduled:is_today())
               end,
             },
             {
-              name = "📆 Upcoming",
+              name = " Coordinated",
               matcher = function(i)
-                local days = require("org-super-agenda.config").get().upcoming_days or 10
-                local d1 = i.deadline and i.deadline:days_from_today()
-                local d2 = i.scheduled and i.scheduled:days_from_today()
-                return (d1 and d1 >= 0 and d1 <= days) or (d2 and d2 >= 0 and d2 <= days)
+                return i:has_tag("coordinated") and (i.deadline and i.deadline:is_today())
+                  or (i.scheduled and i.scheduled:is_today())
               end,
-              sort = { by = "date_nearest", order = "asc" },
+            },
+            {
+              name = " Planned",
+              matcher = function(i)
+                return i:has_tag("planned") and (i.deadline and i.deadline:is_today())
+                  or (i.scheduled and i.scheduled:is_today())
+              end,
             },
           },
         },
@@ -219,6 +213,46 @@ return {
           },
         },
       },
+      {
+        "0xzhzh/fzf-org.nvim",
+        lazy = true,
+        keys = {
+          -- example keybindings
+          {
+            "<leader>ozg",
+            function()
+              require("fzf-org").orgmode()
+            end,
+            desc = "org-browse",
+          },
+          {
+            "<leader>ozf",
+            function()
+              require("fzf-org").files()
+            end,
+            desc = "org-files",
+          },
+          {
+            "<leader>ozr",
+            function()
+              require("fzf-org").refile_to_file()
+            end,
+            desc = "org-refile",
+          },
+        },
+        opts = {},
+      },
+      --{
+      --  "mrshmllow/orgmode-babel.nvim",
+      --  cmd = { "OrgExecute", "OrgTangle" },
+      --  opts = {
+      --    -- by default, none are enabled
+      --    langs = { "python", "lua", ... },
+
+      --    -- paths to emacs packages to additionally load
+      --    load_paths = {},
+      --  },
+      --},
     },
     config = function()
       require("config.extras.org")
