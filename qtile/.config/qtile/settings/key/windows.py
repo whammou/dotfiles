@@ -288,7 +288,7 @@ windows_keys = [
         ["mod4"],
         "w",
         [
-            EzKey("C-v", lazy.layout.toggle_container_select_mode()),
+            EzKey("v", lazy.layout.toggle_container_select_mode()),
             # Pull window out
             EzKey("o", lazy.layout.pull_out(position="next")),
             EzKey("S-o", lazy.layout.pull_out(position="previous")),

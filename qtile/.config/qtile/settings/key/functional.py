@@ -29,6 +29,7 @@ functional_keys = [
     Key([mod], "Print", lazy.spawn("flameshot screen")),
     Key([mod, "Shift"], "Print", lazy.spawn("flameshot gui")),
     Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
+    Key([mod, "Shift"], "Space", lazy.spawn("sh /usr/local/bin/_keyboard_toggle 10")),
     Key(
         [mod],
         "Delete",
