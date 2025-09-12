@@ -82,12 +82,14 @@ dunst
 dvisvgm
 e2fsprogs
 ell
+emacs
 enchant
 expat
 eza
 fabric-ai-bin
 fakeroot
 fastfetch
+fava
 fcitx5
 fcitx5-configtool
 fcitx5-gtk
@@ -427,6 +429,7 @@ llhttp
 llvm-libs
 lm_sensors
 lmdb
+lobster-git
 lpsolve
 lua
 lua51-lpeg
@@ -459,6 +462,7 @@ mypy
 nano
 ncdu
 ncurses
+neomutt
 neon
 neovim
 nettle
@@ -562,6 +566,7 @@ python-mypy_extensions
 python-orjson
 python-packaging
 python-pillow
+python-pip
 python-pipx
 python-platformdirs
 python-psutil
