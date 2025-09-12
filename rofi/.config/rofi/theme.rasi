@@ -21,8 +21,8 @@
 
 window {
     location:   north;
-    width:      98.75%;
-    y-offset:   0.6%;
+    width:      99.6%;
+    y-offset:   4px;
     background-color:   @bg2;
 }
 
@@ -39,7 +39,7 @@ prompt, entry, element-icon, element-text {
 
 prompt {
     text-color: @bg0;
-    padding: 2px 4px;
+    padding: 3px 4px;
     background-color: @accent-color;
     highlight: bold;
 }
