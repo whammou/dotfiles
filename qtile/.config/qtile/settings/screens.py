@@ -7,8 +7,12 @@ from .path import wallpaper_path
 from os import path
 
 
+GAP = 1
+OFFSET = 1
+
+
 def status_bar(widgets, **kargs):
-    return bar.Bar(widgets, 26, **kargs)
+    return bar.Bar(widgets, 28, **kargs)
 
 
 def select_wallpaper(wallpaper):
@@ -20,12 +24,20 @@ screens = [
     Screen(
         wallpaper=select_wallpaper("od_abstract_recolor_light.png"),
         wallpaper_mode="fill",
-        top=status_bar(widgets, margin=[6, 12, 12, 12]),
+        top=status_bar(
+            widgets,
+            margin=[
+                GAP * 4,  # TOP
+                GAP * 4,  # RIGHT
+                GAP * 4,  # BOTTOM
+                GAP * 4,  # LEFT
+            ],
+        ),
         right=bar.Bar(
             [],
             1,
-            margin=[0, -1, 0, 7],
+            margin=[0, int(-OFFSET), 0, GAP + OFFSET],
         ),
-        left=bar.Bar([], 1, margin=[0, 7, 0, -1]),
+        left=bar.Bar([], 1, margin=[0, GAP + OFFSET, 0, int(-OFFSET)]),
     )
 ]

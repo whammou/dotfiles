@@ -4,6 +4,7 @@ from qtile_bonsai import Bonsai
 from libqtile import hook
 
 from .theme import colors
+from .screens import GAP, OFFSET
 
 
 @hook.subscribe.client_new
@@ -79,20 +80,23 @@ def after_kill_fallback(window):
             group.qtile.call_soon(current_window.move_to_top)
 
 
+BORDER_WIDTH = 3
+BORDER_COLOR = colors["cyan"]
+
 layouts = [
     MyCustomBonsai(
         **{
             "auto_cwd_for_terminals": False,
-            "window.border_size": 2,
-            "window.single.border_size": 2,
+            "window.border_size": BORDER_WIDTH,
+            "window.single.border_size": BORDER_WIDTH,
             "window.border_color": colors["bg0"],
-            "window.active.border_color": colors["cyan"],
-            "window.margin": [0, 3, 6, 3],
+            "window.active.border_color": BORDER_COLOR,
+            "window.margin": [0, GAP, GAP * 2, GAP],
             "window.default_add_mode": "tab",
-            "container_select_mode.border_color": colors["fg"],
-            "container_select_mode.border_size": 2,
-            "tab_bar.height": 6,
-            "tab_bar.margin": [0, 3, 0, 3],
+            "container_select_mode.border_color": colors["orange"],
+            "container_select_mode.border_size": BORDER_WIDTH,
+            "tab_bar.height": BORDER_WIDTH * 2,
+            "tab_bar.margin": [0, GAP, 0, GAP],
             "tab_bar.bg_color": colors["bg0"],
             "tab_bar.tab.font_size": 1,
             "L1.tab_bar.hide_when": "always",
@@ -113,8 +117,8 @@ layouts = [
 ]
 
 floating_layout = layout.Floating(
-    border_width=2,
-    border_focus=colors["cyan"],
+    border_width=BORDER_WIDTH,
+    border_focus=BORDER_COLOR,
     border_normal=colors["bg0"],
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
