@@ -136,7 +136,7 @@ return {
             { name = "REVIEW", keymap = "ov", color = "#efbd5d" },
             { name = "PARTIAL", keymap = "or", color = "#efbd5d" },
             { name = "ABORTED", keymap = "oa", color = "#f65866", strike_through = true },
-            { name = "DONE", keymap = "of", color = "#8bcd5b", strike_through = true },
+            { name = "DONE", keymap = "of", color = "#8bcd5b" },
           },
           keymaps = {
             toggle_other = "oO",
