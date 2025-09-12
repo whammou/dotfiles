@@ -11,7 +11,7 @@ keymap = [
             ["t", "qutebrowser_tabbed", "pad_large"],
             [
                 "i",
-                "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py",
+                "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py --set tabs.tabs_are_windows false",
                 "pad_large",
             ],
             ["p", "qb-url", "pad_large"],
@@ -112,11 +112,13 @@ keymap = [
         "prefix": "o",
         "cmd": [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
-            ["S-a", in_terminal("orgmode-super-agenda"), "pad_large"],
+            ["l", in_terminal("orgmode-backlog"), "pad_large"],
+            ["o", in_terminal("orgmode-super-agenda"), "pad_large"],
             ["n", in_terminal("orgmode-notes"), "pad_large"],
-            ["c", in_terminal("orgmode-capture"), "pad_large"],
-            ["S-c", in_terminal("orgroam-capture"), "pad_large"],
-            # ["t", in_terminal("orgmode-todo"), "pad_large"],
+            ["g", in_terminal("lazygit -p /home/whammou/notes"), "pad_large"],
+            ["t", in_terminal("orgmode-capture"), "pad_small"],
+            ["d", in_terminal("orgroam-capture"), "pad_small"],
+            ["m", in_terminal("orgmode-search"), "pad_large"],
         ],
     },
     {

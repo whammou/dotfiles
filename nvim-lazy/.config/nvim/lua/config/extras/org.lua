@@ -103,6 +103,14 @@ local task_doc_agenda = {
     org_agenda_span = "day",
   },
 }
+local backlog = {
+  {
+    type = "tags",
+    match = "/PENDING|OUTLINE",
+    org_agenda_overriding_header = "Document Tasks",
+    org_agenda_span = "week",
+  },
+}
 
 local rtf_export = {
   label = "Export to RTF format",
@@ -140,7 +148,7 @@ roam.setup({
     update_on_save = false,
   },
   templates = {
-    t = {
+    z = {
       description = "Zettelkasten",
       template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
@@ -160,8 +168,9 @@ roam.setup({
       subtemplates = {
         c = {
           description = "Capture Document",
-          templates = "%s",
-          target = relative_dir .. "/%^{File|" .. _get_filename(vim.fn.getcwd()) .. "}.org",
+          template = "** %?",
+          target = base_dir .. "/%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
+          headline = "Document Drafts",
         },
       },
     },
@@ -176,6 +185,7 @@ roam.setup({
 })
 
 orgmode.setup({
+  win_split_mode = "tabnew",
   org_agenda_text_search_extra_files = { "agenda-archives" },
   org_custom_exports = custom_exports,
   org_capture_templates = capture_templates,
@@ -191,6 +201,10 @@ orgmode.setup({
     A = {
       description = "Combined View",
       types = task_doc_agenda,
+    },
+    l = {
+      description = "Backlog",
+      types = backlog,
     },
   },
 })
