@@ -93,9 +93,9 @@
   "doc-header": {
     "prefix": "dh",
     "body": [
-      "#+FILETAGS: :DOC:PROJECT:${2:Tags}:",
+      "#+FILETAGS: :DOC:META:${2:Tags}:",
       "#+HTML:<details>\n",
-      "* $1 :DOC:PROJECT:$2:",
+      "* $1 :DOC:META:$2:",
       "#+HTML:</details>",
       "$0"
     ]
