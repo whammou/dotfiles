@@ -1,3 +1,7 @@
+vim.opt.foldlevel = 1
+vim.opt.wrap = true
+vim.opt.spell = true
+
 vim.opt.breakindent = true
 vim.opt.linebreak = true -- Remap for dealing with word wrap
 vim.opt.breakindentopt = "list:-1"
