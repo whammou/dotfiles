@@ -81,6 +81,10 @@ config.bind(
     "Ff",
     "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
 )
+config.bind(
+    "FF",
+    "set statusbar.show never ;; hint all tab-bg",
+)
 config.bind(";a", "set statusbar.show never ;; hint all yank")
 # Medias
 config.bind(
