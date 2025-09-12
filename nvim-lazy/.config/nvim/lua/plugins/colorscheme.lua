@@ -5,6 +5,8 @@ return {
     lazy = true,
     opts = {
       style = "deep",
+      transparent = false,
+      term_colors = false,
       lualine = {
         transparent = false,
       },
