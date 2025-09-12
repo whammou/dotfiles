@@ -20,7 +20,7 @@ frame_width = 2
 sort = no
 idle_threshold = 120
 show_age_threshold = 60
-notification_limit = 8
+notification_limit = 7
 
 font = SauceCodeProNerdFontMono 13
 line_height = 0
@@ -62,12 +62,12 @@ background = "#21283b"
 foreground = "#93a4c3"
 
 [urgency_low]
-timeout = 30
+timeout = 10
 frame_color = "#efbd5d"
 highlight = "#efbd5d"
 
 [urgency_normal]
-timeout = 30
+timeout = 10
 frame_color = "#54b0fd"
 highlight = "#54b0fd"
 
