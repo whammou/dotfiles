@@ -49,7 +49,7 @@ keymap = [
         "name": "ai",
         "prefix": "a",
         "cmd": [
-            ["p", in_terminal("_ai_prompt", parameters="--hold"), "pad_small"],
+            ["p", in_terminal("_ai_prompt"), "pad_small"],
             [
                 "g",
                 "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chatgpt.com \
