@@ -13,8 +13,8 @@ opt.autochdir = true
 --opt.foldmethod = "indent"
 --opt.foldtext = ""
 
-opt.foldmethod = "expr"
-opt.foldexpr = "v:vim.treesitter.foldexpr()"
+--opt.foldmethod = "expr"
+--opt.foldexpr = "v:vim.treesitter.foldexpr()"
 opt.foldlevel = 99
 
 vim.o.shell = "fish"
