@@ -49,6 +49,7 @@ ca-certificates
 ca-certificates-mozilla
 ca-certificates-utils
 cairo
+calibre-bin
 cantarell-fonts
 cblas
 cdparanoia
@@ -75,7 +76,6 @@ default-cursors
 desktop-file-utils
 device-mapper
 diffutils
-docker
 double-conversion
 duktape
 dunst
@@ -657,6 +657,7 @@ sqlite
 sratom
 srt
 starship
+steam
 stockfish
 stow
 sudo
