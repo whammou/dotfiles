@@ -31,6 +31,7 @@ end
 
 local org_tasks = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "tasks") .. "}"
 local org_doc_dirs = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}"
+local org_lists = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "lists") .. "}"
 
 local capture_templates = {
   c = { description = "Capture", template = "* %?", target = "~/notes/capture.org" },
@@ -66,6 +67,43 @@ local capture_templates = {
         template = "** %?",
         target = org_tasks .. "/tasks/recurring.org",
         headline = "List of Recurring Tasks",
+      },
+    },
+  },
+  i = {
+    description = "List",
+    subtemplates = {
+      S = {
+        description = "New Shopping List",
+        template = [[#+TODO: TODO(t) (e) DOING(d) PENDING(p) OUTLINE(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
+#+LATEX_HEADER: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
+#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+HTML:<details>
+
+* Shopping Lists :LIST:SHOPPING:META:]],
+        target = org_lists .. "/lists/shopping.org",
+      },
+      s = {
+        description = "Capture Shopping List",
+        template = "** To Buy Lists - %<%Y%m%d>\n%?",
+        target = org_lists .. "/lists/shopping.org",
+        headline = "Shopping Lists",
+      },
+      L = {
+        description = "New Location List",
+        template = [[#+TODO: TODO(t) (e) DOING(d) PENDING(p) OUTLINE(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
+#+LATEX_HEADER: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
+#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+HTML:<details>
+
+* Location List :LIST:LOCATION:META:]],
+        target = org_lists .. "/lists/location.org",
+      },
+      l = {
+        description = "Capture Location List",
+        template = "** %^{Enter Location Name}",
+        target = org_lists .. "/lists/location.org",
+        headline = "Location List",
       },
     },
   },
