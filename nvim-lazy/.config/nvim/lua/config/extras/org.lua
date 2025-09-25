@@ -70,37 +70,17 @@ local capture_templates = {
       },
     },
   },
-  i = {
+  l = {
     description = "List",
     subtemplates = {
-      S = {
-        description = "New Shopping List",
-        template = [[#+TODO: TODO(t) (e) DOING(d) PENDING(p) OUTLINE(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
-#+LATEX_HEADER: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
-#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+HTML:<details>
-
-* Shopping Lists :LIST:SHOPPING:META:]],
-        target = org_lists .. "/lists/shopping.org",
-      },
-      s = {
-        description = "Capture Shopping List",
-        template = "** To Buy Lists - %<%Y%m%d>\n%?",
-        target = org_lists .. "/lists/shopping.org",
-        headline = "Shopping Lists",
-      },
-      L = {
-        description = "New Location List",
-        template = [[#+TODO: TODO(t) (e) DOING(d) PENDING(p) OUTLINE(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
-#+LATEX_HEADER: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
-#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+HTML:<details>
-
-* Location List :LIST:LOCATION:META:]],
-        target = org_lists .. "/lists/location.org",
+      p = {
+        description = "Purchase List",
+        template = "** %<%Y%m%d> - %^{List Title}\n:PROPERTIES:\n:CREATED_ON: %<%y%m%d>\n:END:\n%?",
+        target = org_lists .. "/lists/purchase.org",
+        headline = "Purchase Lists",
       },
       l = {
-        description = "Capture Location List",
+        description = "Location List",
         template = "** %^{Enter Location Name}",
         target = org_lists .. "/lists/location.org",
         headline = "Location List",
@@ -223,7 +203,7 @@ roam.setup({
 })
 
 orgmode.setup({
-  win_split_mode = "tabnew",
+  win_split_mode = "99new",
   org_agenda_text_search_extra_files = { "agenda-archives" },
   org_custom_exports = custom_exports,
   org_capture_templates = capture_templates,

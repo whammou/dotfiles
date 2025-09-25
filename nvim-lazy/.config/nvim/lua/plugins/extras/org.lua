@@ -11,6 +11,9 @@ return {
       {
         "nvim-orgmode/orgmode",
         lazy = true,
+        keys = {
+          { "<leader>oR", "<cmd>Lazy reload orgmode<CR>", desc = "Org reload" },
+        },
         opts = {
           org_agenda_files = { "~/notes/**/*.org" },
           --org_agenda_skip_scheduled_if_done = true,
@@ -60,6 +63,7 @@ return {
             "RESEARCH(s)",
             "FEEDBACK(b)",
             "NEXT(n)",
+            "TARGET(g)",
             "|",
             "IDEA(i)",
             "PARTIAL(r)",
@@ -77,6 +81,7 @@ return {
             RESEARCH = ":foreground #dd9046 :weight bold :slant italic",
             FEEDBACK = ":foreground #dd9046 :weight bold :slant italic",
             NEXT = ":foreground #54b0fd :weight bold :slant italic",
+            TARGET = ":foreground #c75ae8 :weight bold :slant italic",
             REVIEW = ":foreground #efbd5d :weight bold :slant italic",
             PARTIAL = ":foreground #efbd5d :weight bold :slant italic",
             ABORTED = ":foreground #f65866 :weight bold :slant italic",
