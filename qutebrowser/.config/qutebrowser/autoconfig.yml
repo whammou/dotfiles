@@ -15,6 +15,6 @@ settings:
   scrolling.bar:
     global: when-searching
   statusbar.show:
-    global: in-mode
+    global: never
   tabs.show:
     global: multiple
