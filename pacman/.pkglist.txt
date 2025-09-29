@@ -54,7 +54,6 @@ cantarell-fonts
 cblas
 cdparanoia
 cfitsio
-chafa
 chessterm
 clucene
 cmake
@@ -125,6 +124,7 @@ gettext
 ghostscript
 giflib
 git
+github-cli
 glib-networking
 glib2
 glibc
@@ -702,7 +702,7 @@ ttf-noto-emoji-monochrome
 ttf-sourcecodepro-nerd
 tzdata
 uchardet
-ueberzugpp
+udisks2-btrfs
 unclutter
 unibilium
 unzip
