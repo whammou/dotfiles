@@ -2,6 +2,22 @@ git:
   merging:
     manualCommit: true
   autoFetch: false
+customCommands:
+  - key: "<c-p>"
+    command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} pull --no-edit --verbose"
+    description: "Pull submodules recursively"
+    context: "global"
+    loadingText: "Pulling submodules"
+  - key: "<c-u>"
+    command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} push --verbose"
+    description: "Push submodules to main"
+    context: "global"
+    loadingText: "Pushing submodules"
+  - key: "<c-v>"
+    command: "git submodule foreach 'git diff --quiet || git commit -am 'auto-commit''"
+    description: "Auto commit submodules"
+    context: "global"
+    loadingText: "Generating auto-commits"
 gui:
   showBottomLine : false
   border: "single"
