@@ -1,6 +1,7 @@
 set recolor true
 set guioptions None
 set selection-clipboard clipboard
+set font "saucecodepro 12"
 
 map <C-c> set recolor
 
@@ -17,12 +18,12 @@ set completion-group-fg		"#54b0fd"
 set statusbar-fg		    "#93a4c3"
 set statusbar-bg		    "#1a212e"
 
-set notification-bg		    "#1a212e"
-set notification-fg		    "#93a4c3"
-set notification-error-bg	"#1a212e"
-set notification-error-fg	"#f65866"
-set notification-warning-bg	"#1a212e"
-set notification-warning-fg	"#efbd5d"
+set notification-fg		    "#1a212e"
+set notification-bg		    "#54b0fd"
+set notification-error-fg	"#1a212e"
+set notification-error-bg	"#f65866"
+set notification-warning-fg	"#1a212e"
+set notification-warning-bg	"#efbd5d"
 
 set inputbar-fg			    "#93a4c3"
 set inputbar-bg 		    "#1a212e"
@@ -33,7 +34,7 @@ set recolor-darkcolor		"#93a4c3"
 set index-fg			    "#93a4c3"
 set index-bg			    "#1a212e"
 set index-active-fg		    "#93a4c3"
-set index-active-bg		    "#1a212e"
+set index-active-bg		    "#21283b"
 
 set render-loading-bg		"#1a212e"
 set render-loading-fg		"#93a4c3"
