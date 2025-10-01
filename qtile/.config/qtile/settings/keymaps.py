@@ -157,6 +157,7 @@ keymap = [
         "prefix": "u",
         "cmd": [
             # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
+            ["u", in_terminal("paru -Syu", parameters="--hold"), "pad_large"],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["n", "rnote", "pad_extra_large"],
             ["d", in_terminal("dict"), "pad_small"],
