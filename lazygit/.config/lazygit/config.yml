@@ -4,25 +4,45 @@ git:
   autoFetch: false
 customCommands:
   - key: "<c-p>"
-    command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} pull --no-edit --verbose"
-    description: "Pulling submodules"
-    context: "global"
-    loadingText: "Pulling submodules"
-  - key: "F"
-    command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} fetch --verbose"
-    description: "Fetching submodules"
-    context: "global"
-    loadingText: "Fetching submodules"
-  - key: "<c-u>"
-    command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} push --verbose"
-    description: "Push submodules to main"
-    context: "global"
-    loadingText: "Pushing submodules"
-  - key: "<c-v>"
-    command: "git submodule foreach 'git diff --quiet || git commit -am 'auto-commit''"
-    description: "Auto commit submodules"
-    context: "global"
-    loadingText: "Generating auto-commits"
+    description: "Push/Pull Submodules"
+    commandMenu:
+      - key: u
+        command: "git pull --no-edit && git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} pull --no-edit --verbose && git submodule -q foreach git status"
+        context: "global"
+        description: "Pull include submodules"
+        loadingText: "Pulling"
+        output: "popup"
+      - key: U
+        command: "git push && git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} push --verbose && git submodule -q foreach git status"
+        context: "global"
+        description: "Push include submodules"
+        loadingText: "Pushing"
+        output: "popup"
+  - key: F
+    description: "Fetch Submodules"
+    commandMenu:
+      - key: s
+        command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} fetch --verbose && git submodule -q foreach git status"
+        context: files
+        description: 'Only Submodules'
+        loadingText: "Fetching"
+        output: "popup"
+      - key: i
+        command: "git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} fetch --verbose && git fetch && git submodule -q foreach git status"
+        context: files
+        description: 'Include Submodules'
+        loadingText: "Fetching"
+        output: "popup"
+  - key: C
+    context: files
+    prompts:
+      - type: 'input'
+        title: "Commit summary"
+        key: 'commitMessage'
+        initialValue: ''
+    command: "git submodule -q foreach 'git diff --quiet || git commit -am {{.Form.commitMessage}}' && git submodule -q foreach git status"
+    output: "popup"
+  
 gui:
   showBottomLine : false
   border: "single"
