@@ -75,10 +75,6 @@
     "prefix": "Dl",
     "body": "DEADLINE: <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE>"
   },
-  "html-center-image": {
-    "prefix": "Hia",
-    "body": "#+name: ${4:title}\n#+begin_html html\n<p align='${2:center}'>\n<IMG src='${3:image}' alt='${4:title}' width=${5:50%}/>\n</p>\n#+end_html\n$0"
-  },
   "orgmode-quote-block": {
     "prefix": "quote",
     "body": "#+BEGIN_QUOTE\n$1\n#+END_QUOTE\n$0"
@@ -87,7 +83,7 @@
     "prefix": "zh",
     "body": [
       "#+TITLE: $1",
-      "#+FILETAGS: :ZK:${2:Tags}",
+      "#+FILETAGS: :ZK:${2:Tags}:",
       "#+HTML:<details>\n",
       "* $1 :ZK:$2:",
       "#+HTML:</details>",
@@ -112,7 +108,7 @@
     "prefix": "GN",
     "body": [
       "\n#+NAME:${1:Github Note Block}",
-      "#+BEGIN_QUOTE",
+      "#+BEGIN_QUOTE markdown",
       "[!NOTE]",
       "$2",
       "#+END_QUOTE\n\n$0"
@@ -122,7 +118,7 @@
     "prefix": "GW",
     "body": [
       "\n#+NAME:${1:Github Warning Block}",
-      "#+BEGIN_QUOTE",
+      "#+BEGIN_QUOTE markdown",
       "[!WARNING]",
       "$2",
       "#+END_QUOTE\n\n$0"
@@ -132,7 +128,7 @@
     "prefix": "GI",
     "body": [
       "\n#+NAME:${1:Github Important Block}",
-      "#+BEGIN_QUOTE",
+      "#+BEGIN_QUOTE markdown",
       "[!IMPORTANT]",
       "$2",
       "#+END_QUOTE\n\n$0"
@@ -142,7 +138,7 @@
     "prefix": "GT",
     "body": [
       "\n#+NAME:${1:Github tip Block}",
-      "#+BEGIN_QUOTE",
+      "#+BEGIN_QUOTE markdown",
       "[!TIP]",
       "$2",
       "#+END_QUOTE\n\n$0"
@@ -152,7 +148,7 @@
     "prefix": "GC",
     "body": [
       "\n#+NAME:${1:Github caution Block}",
-      "#+BEGIN_QUOTE",
+      "#+BEGIN_QUOTE markdown",
       "[!CAUTION]",
       "$2",
       "#+END_QUOTE\n\n$0"
