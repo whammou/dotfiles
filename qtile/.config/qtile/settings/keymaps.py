@@ -179,16 +179,12 @@ keymap = [
             ],
             [
                 "y",
-                in_terminal(
-                    "magic-tape.sh", parameters="--title='Youtube - magic-tape'"
-                ),
+                in_terminal("yt-x", parameters="--title='Youtube - yt-x'"),
                 "pad_large",
             ],
             [
                 "m",
-                in_terminal(
-                    "sh magic-tape.sh", parameters="--title='Youtube-Music magic-tape'"
-                ),
+                in_terminal("yt-x", parameters="--title='Youtube-Music yt-x'"),
                 "pad_large",
             ],
             [

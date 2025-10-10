@@ -36,7 +36,7 @@ def workspaces():
         widget.TextBox(**base(fg="blue"), fmt=" []="),
         widget.Prompt(
             **base(fg="blue"),
-            font="Sauce Code Pro Nerd Medium",
+            font="HasklugNerdFont",
             cursor=False,
             fmt="{}",
             prompt="",
@@ -44,7 +44,7 @@ def workspaces():
         separator(),
         widget.WindowName(
             **base(fg="fg"),
-            font="Sauce Code Pro Nerd Font Medium",
+            font="HasklugNerdFont",
             fontsize=15,
             padding=5,
         ),
@@ -136,7 +136,7 @@ widgets = [
 ]
 
 widget_defaults = dict(
-    font="Sauce Code Pro Nerd Font Bold",
+    font="HasklugNerdFont Bold",
     fontsize=16,
     padding=3,
 )
