@@ -2,7 +2,7 @@ local orgmode = require("orgmode")
 local khalorg = require("khalorg")
 local roam = require("org-roam")
 
-local base_dir = vim.fn.expand("~/notes/")
+local base_dir = vim.fn.expand("~/notes/.modules/")
 local zettel_dir = base_dir .. "vault/"
 local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
@@ -124,7 +124,7 @@ local task_doc_agenda = {
 local backlog = {
   {
     type = "tags",
-    match = "/PENDING|OUTLINE",
+    match = "/PEND|OUTL",
     org_agenda_overriding_header = "Document Tasks",
     org_agenda_span = "week",
   },
@@ -158,7 +158,7 @@ local custom_exports = {
 
 roam.setup({
   directory = base_dir,
-  org_files = { "~/notes/**/*.org" },
+  org_files = { "~/notes/.modules/**/*.org" },
   extensions = { dailies = { directory = zettel_dir .. "/" .. ".daily" } },
   database = {
     path = "/home/whammou/notes/.roamdb.json",
@@ -177,7 +177,7 @@ roam.setup({
       description = "New Document",
       template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
-#+TODO: TODO(t) (e) DOING(d) PENDING(p) OUTLINE(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
+#+TODO: TODO(t) (e) DOING(d) PEND(p) OUTL(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
 %?]],
       target = org_doc_dirs .. "/%[slug].org",
     },
