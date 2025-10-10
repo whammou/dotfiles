@@ -4,11 +4,13 @@
 add_newline = true
 command_timeout = 3000
 
-# Use custom format
-format = '[┌─ ](cyan)$jobs$all[└─](cyan)$character'
-#right_format = '$battery[ ](bright-green)$hostname'
+format = '$jobs$all $character'
 
-# Custom style
+[character]
+success_symbol = "[](bold green)"
+vimcmd_symbol = "[](bold red)"
+error_symbol = "[](bold red)"
+
 [cmd_duration]
 disabled = true
 format = ' [ $duration ]($style)'
@@ -16,21 +18,16 @@ style = 'bg:yellow fg:black'
 show_milliseconds = false
 
 [time]
+disabled = true
 format = "[ $time ]($style)"
 time_format = "%R"
 style = 'bg:#00FF00 fg:#000000'
-disabled = true
-
-[character]
-success_symbol = "[❯](bold purple)"
-error_symbol = "[x](bold red)"
-vimcmd_symbol = "[|](bold purple)"
 
 [directory]
 read_only = " 󰌾"
 format = "[ $path ]($style)"
 style = 'fg:bold blue'
-home_symbol = "HOME"
+home_symbol = " "
 
 [battery]
 disabled = true
@@ -39,11 +36,16 @@ disabled = true
 tag_symbol = " tag "
 
 [git_status]
-ahead = ">"
-behind = "<"
-diverged = "<>"
-renamed = "r"
-deleted = "x"
+conflicted = '='
+ahead = '⇡'
+behind = '⇣'
+diverged = '⇕'
+untracked = '?'
+stashed = '$'
+modified = '!'
+staged = '+'
+renamed = '»'
+deleted = '✘'
 
 [aws]
 symbol = "  "
