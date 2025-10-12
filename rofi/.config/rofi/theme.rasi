@@ -2,7 +2,7 @@
 /* Author: Newman Sanchez (https://github.com/newmanls) */
 
 * {
-    font:   "Sauce Code Pro Nerd Font 13";
+    font:   "HasklugNerdFont 13";
 
     bg0:     #1a212e;
     bg2:     #283347;
