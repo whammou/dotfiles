@@ -35,5 +35,5 @@ blink.setup({
 })
 
 luasnip.setup({
-  luasnip.filetype_extend("org", { "html", "tex" }),
+  luasnip.filetype_extend("org", { "tex" }),
 })
