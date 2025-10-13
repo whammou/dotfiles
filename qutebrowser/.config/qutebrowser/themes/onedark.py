@@ -23,6 +23,7 @@ purple = "#c75ae8"
 
 c.hints.border = "0px"
 c.hints.radius = 0
+c.fonts.hints = "default_size default_family"
 
 c.fonts.default_size = "13pt"
 c.fonts.web.size.default = 19
@@ -62,7 +63,7 @@ c.colors.hints.fg = grey
 # Background color for hints. Note that you can use a `rgba(...)` value
 # for transparency.
 c.colors.hints.bg = green
-c.colors.hints.match.fg = blue
+c.colors.hints.match.fg = green
 c.colors.keyhint.fg = grey
 c.colors.keyhint.suffix.fg = fg
 c.colors.keyhint.bg = bg0

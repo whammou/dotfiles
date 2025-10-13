@@ -47,7 +47,7 @@
 /* Apply the main background and foreground to the entire page */
 
 * {
-  background-color: transparent !important;
+  background-color: var(--od-bg0) !important;
 }
 
 html, body {
@@ -91,10 +91,13 @@ div, section, article, main, header, footer, nav, aside {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold !important;
-  background-color: var(--od-bg1) !important;
 }
 h2, h3, h4, h5, h6 {
-  padding: 1em 1.5em !important;
+  background-color: var(--od-bg1) !important;
+  padding: 0.25em 0.5em !important;
+}
+h1 {
+  color: var(--od-cyan) !important;
 }
 h2 {
   color: var(--od-purple) !important;
@@ -116,7 +119,12 @@ li::marker {
   color: var(--od-red);
 }
 
+span, a {
+  background-color: var(--od-bg1) !important;
+}
+
 p {
+  color: var(--od-fg) !important;
   margin-bottom: 1em;
 }
 
@@ -144,8 +152,9 @@ em, i {
 
 hr {
   border: 0;
-  border-top: 1px solid var(--od-fg);
+  border-top: 1px solid var(--od-bg3) !important;
   margin: 1.5em 0;
+  background-color: var(--od-bg0);
 }
 
 blockquote {
