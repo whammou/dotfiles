@@ -163,6 +163,7 @@ keymap = [
             ["n", "rnote", "pad_extra_large"],
             ["d", in_terminal("dict"), "pad_small"],
             ["a", in_terminal("anifzf"), "pad_small"],
+            ["S-a", in_terminal("ani-cli -c"), "pad_small"],
             [
                 "t",
                 in_terminal(
