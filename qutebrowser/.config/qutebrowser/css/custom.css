@@ -58,7 +58,7 @@ html, body {
 
 /* Ensure all common block elements inherit the base background */
 div, section, article, main, header, footer, nav, aside {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 /* Themed Scrollbars (for Firefox and Webkit browsers) */
@@ -120,11 +120,10 @@ li::marker {
 }
 
 span, a {
-  background-color: var(--od-bg1) !important;
+  background-color: transparent !important;
 }
 
 p {
-  color: var(--od-fg) !important;
   margin-bottom: 1em;
 }
 
