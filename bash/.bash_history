@@ -571,3 +571,16 @@ mega-sync
 mega-sync /samba/ Linux/Documents_cloud/
 mega-transfers --show-syncs
 ls /samba/
+mega-webdav --port=443 --public organizer/
+sudo mega-webdav --port=443 --public organizer/
+sudo mega-webdav --port=443 --public /organizer/
+sudo mega-webdav --port=443 --public Linux
+ls
+mega-ls
+mega-cd organizer/
+mega-pwd
+sudo mega-webdav --port=443 --public .
+sudo mega-webdav --port=443 --public 
+sudo mega-webdav --port=443 --public ./
+sudo mega-webdav --port=443 --public $(mega-pwd)
+fish
