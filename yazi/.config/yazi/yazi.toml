@@ -30,16 +30,23 @@ run  = 'piper -- hexyl --border=none --terminal-width=$w "$1"'
 
 
 # Disable preloaders and previewer for /server
+
+[[plugin.prepend_fetchers]]
+id   = "mime"
+name = "*"
+run  = "mime-ext"
+prio = "high"
+
 [[plugin.prepend_preloaders]]
-name = "~/documents/homelab//*/**"
+name = "/home/whammou/documents/homelab/**"
 run = "noop"
 
 [[plugin.prepend_preloaders]]
-name = "~/documents/gdrive/*/**"
+name = "/home/whammou/documents/gdrive/**"
 run = "noop"
 
 [[plugin.prepend_preloaders]]
-name = "~/documents/mega/*/**"
+name = "/home/whammou/documents/mega/**"
 run = "noop"
 
 # Git change indicators
