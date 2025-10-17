@@ -29,6 +29,10 @@ format = "[ $path ]($style)"
 style = 'fg:bold blue'
 home_symbol = " "
 
+[username]
+style_user = "bold cyan"
+format = " [$user]($style) in "
+
 [battery]
 disabled = true
 
@@ -82,6 +86,7 @@ symbol = " "
 
 [git_branch]
 symbol = " "
+style = "bold green"
 
 [golang]
 symbol = " "
@@ -100,6 +105,8 @@ symbol = " "
 
 [hostname]
 ssh_symbol = " "
+format = "[$ssh_symbol$hostname]($style) in"
+style = "bold purple"
 
 [java]
 symbol = " "
