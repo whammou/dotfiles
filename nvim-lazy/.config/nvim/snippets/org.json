@@ -49,11 +49,15 @@
   },
   "Note": {
     "prefix": "No",
-    "body": "${1:-----\n}- *[NOTE]* taken on [$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE]: \\\\\\\n  $0\n${2:-----}"
+    "body": "${1:-----\n}- Note taken on [$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE]: \\\\\\\n  $0\n${2:-----}"
   },
   "Recurring Tasks": {
     "prefix": "TS",
     "body": "${1:Title}\n- *OBJECTIVE:* $2\n- ${3:*Reference:*}$4\n-----\n#+NAME:LOGBOOK\n#+HTML:<details>\n#+HTML:<summary>LOGBOOK</summary>\n:LOGBOOK:\n:END:\n#+HTML:</details>\n-----\n$0"
+  },
+  "LOGBOOK": {
+    "prefix": "LOG",
+    "body": "#+name:LOGBOOK\n#+html:<details><summary>LOGBOOK</summary>\n:LOGBOOK:\n:END:\n#+html:</details>"
   },
   "Check-list": {
     "prefix": "Oc",

@@ -23,6 +23,7 @@ return {
         ["@org.agenda.day"] = { fg = "none", fmt = "bold" },
         ["@org.agenda.today"] = { fg = "$yellow", fmt = "bold" },
         ["@org.agenda.weekend"] = { fg = "$red", fmt = "bold" },
+        ["@org.agenda.deadline"] = { fg = "$cyan" },
 
         -- Markdown headlines
         ["@markup.heading.1.markdown"] = { fg = "$cyan" },
