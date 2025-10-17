@@ -53,12 +53,29 @@
 html, body {
   font-family: "HasklugNerdFont" !important;
   background-color: var(--od-bg0) !important;
+  background-image: none !important;
   color: var(--od-fg) !important;
 }
 
 /* Ensure all common block elements inherit the base background */
-div, section, article, main, header, footer, nav, aside {
-  background-color: transparent !important;
+section.dashboard-break-word.comment-body.markdown-body.m-0.p-3.color-bg-subtle.mb-0.rounded-1,
+aside.feed-left-sidebar.col-md-4.col-lg-3.color-border-muted.border-bottom.hide-md.hide-sm.border-right.color-bg-default,
+div.d-md-flex,
+div.cm-content.cm-lineWrapping,
+div#repos-file-tree.Box-sc-g0xbh4-0.bNhwaa,
+div#selectPanel,
+div#main.w3-col.l10.m12,
+div.Box-sc-g0xbh4-0.jodZGf,
+div.Box-sc-g0xbh4-0.dhuhek.BlobViewHeader-module__Box_1--PPihg,
+section, article, main, header, footer, nav, aside {
+  background-color: var(--od-bg0) !important;
+}
+
+input#query-builder-test.FormControl-input.QueryBuilder-Input.FormControl-medium,
+textarea#read-only-cursor-text-area.react-blob-textarea.react-blob-print-hide,
+textarea#copilot-chat-textarea.ChatInput-module__input--HalEQ,
+div, canvas, svg {
+  background-color: initial !important;
 }
 
 /* Themed Scrollbars (for Firefox and Webkit browsers) */
@@ -75,7 +92,6 @@ div, section, article, main, header, footer, nav, aside {
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--od-grey);
-  border-radius: 6px;
   border: 2px solid var(--od-bg1);
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -115,8 +131,20 @@ h6 {
   color: var(--od-red) !important;
 }
 
+article.markdown-body.entry-content.container-lg details ul li {
+  color: var(--od-cyan);
+}
+
 li::marker {
   color: var(--od-red);
+}
+
+summary, summary::marker {
+  color: var(--od-cyan);
+}
+
+math-renderer.js-inline-math math {
+  color: var(--od-orange);
 }
 
 span, a {
@@ -125,6 +153,7 @@ span, a {
 
 p {
   margin-bottom: 1em;
+  color: var(--od-fg);
 }
 
 a {
