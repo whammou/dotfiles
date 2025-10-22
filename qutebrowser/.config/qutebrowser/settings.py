@@ -16,7 +16,7 @@ c.tabs.select_on_remove = "prev"
 c.tabs.show = "multiple"
 c.tabs.tabs_are_windows = True
 c.colors.webpage.preferred_color_scheme = "dark"
-c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.enabled = False
 c.input.insert_mode.auto_enter = False
 
 c.content.user_stylesheets = "~/.config/qutebrowser/css/custom-onedark.css"

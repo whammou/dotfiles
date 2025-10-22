@@ -50,6 +50,12 @@
   background-color: var(--od-bg0) !important;
 }
 
+span#marketing-card-callout-text.cfc-text-title-3.cfc-space-first.cfc-space-last.ng-star-inserted,
+span.marketing-card-note.cfc-text-title-5.cfc-space-first.cfc-space-last.ng-star-inserted,
+div.rFY7Pc,
+div.mMsbvc,
+div.md ol li,
+div.md ul li,
 html, body {
   font-family: "HasklugNerdFont" !important;
   background-color: var(--od-bg0) !important;
@@ -66,7 +72,9 @@ div#repos-file-tree.Box-sc-g0xbh4-0.bNhwaa,
 div#selectPanel,
 div#main.w3-col.l10.m12,
 div.Box-sc-g0xbh4-0.jodZGf,
+div.Box-sc-62in7e-0.kXOSfr,
 div.Box-sc-g0xbh4-0.dhuhek.BlobViewHeader-module__Box_1--PPihg,
+div.Box-sc-62in7e-0.jQLyEs.BlobViewHeader-module__Box_1--PPihg,
 section, article, main, header, footer, nav, aside {
   background-color: var(--od-bg0) !important;
 }
@@ -143,21 +151,33 @@ summary, summary::marker {
   color: var(--od-cyan);
 }
 
+span.hljs-subst,
 math-renderer.js-inline-math math {
-  color: var(--od-orange);
+  color: var(--od-orange) !important;
 }
 
 span, a {
   background-color: transparent !important;
 }
 
-p {
-  margin-bottom: 1em;
-  color: var(--od-fg);
+span.cfc-switcher-button-label-text.ng-tns-c3831740024-2.ng-star-inserted,
+span.jNZqle,
+div.s-post-summary--stats-item.s-post-summary--stats-item__emphasized,
+span.-link--channel-name.pl8 {
+  color: var(--od-grey) !important;
 }
 
+section.mt-content-container p,
+p {
+  margin-bottom: 1em;
+  color: var(--od-fg) !important;
+}
+
+
+div.page-title,
+a.s-tag.post-tag.js-gps-track,
 a {
-  color: var(--od-blue);
+  color: var(--od-blue) !important;
   text-decoration: none;
   transition: color 0.2s ease-in-out;
 }
@@ -198,7 +218,13 @@ blockquote {
  ,*  Code & Preformatted Text
  ,* ===================================================================
  ,*/
-
+div.s-prose.js-post-body h1 code,
+div.s-prose.js-post-body ul li code,
+div.rh-generic--component p code {
+  color: var(--od-green) !important;
+}
+div.s-prose.js-post-body p code,
+div.s-prose.js-post-body pre code,
 code, pre, kbd, samp {
   border-radius: 0px !important; /* Slightly rounded corners for inline code */
   font-family: monospace !important; /* Ensure monospace for code */
