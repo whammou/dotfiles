@@ -19,3 +19,4 @@ fish/.config/fish/functions/_fzf_search_variables.fish
 fish/.config/fish/functions/_fzf_wrapper.fish
 fish/.config/fish/functions/fzf_configure_bindings.fish
 fish/.config/fish/conf.d/fzf.fish
+yazi/.config/yazi/plugins
