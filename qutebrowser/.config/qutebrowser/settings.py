@@ -20,7 +20,7 @@ c.colors.webpage.darkmode.enabled = False
 c.input.insert_mode.auto_enter = False
 
 c.content.user_stylesheets = "~/.config/qutebrowser/css/custom-onedark.css"
-c.downloads.location.directory = "/home/whammou/downloads/"
+c.downloads.location.directory = "/home/whammou/Downloads/"
 
 c.fileselect.handler = "external"
 c.fileselect.single_file.command = [
