@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Zacloud
+Comment=A zathura wrapper for working with cloud files
+Exec=zacloud %U
+Terminal=false
+Type=Application
+MimeType=application/vnd.oasis.opendocument.text
+Categories=Viewer

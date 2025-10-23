@@ -1,4 +1,4 @@
-from .key.spawn import tmux_session_attach
+from .key.spawn import tmux_session, ssh_session
 from .path import in_terminal
 
 
@@ -132,7 +132,12 @@ keymap = [
     {
         "name": "tmux",
         "prefix": "t",
-        "cmd": tmux_session_attach(range(0, 10)),
+        "cmd": tmux_session(range(0, 10), "kitty -e tmux-session-attach"),
+    },
+    {
+        "name": "ssh",
+        "prefix": "s",
+        "cmd": ssh_session(range(0, 10)),
     },
     {
         "name": "monitor",

@@ -2,11 +2,22 @@ from libqtile.config import EzKey, KeyChord
 from libqtile.lazy import lazy
 
 
-def tmux_session_attach(session_range):
+def tmux_session(session_range, cmd):
+    session_bind = []
+    for i in session_range:
+        session_bind.append([str(i), " ".join([cmd, str(i)]), "pad_large"])
+    return session_bind
+
+
+def ssh_session(session_range):
     session_bind = []
     for i in session_range:
         session_bind.append(
-            [str(i), " ".join(["kitty -e tmux-session-attach", str(i)]), "pad_large"]
+            [
+                str(i),
+                f"kitty -e ssh homelab -o RemoteCommand=none \"exec $SHELL -lc 'tmux new -A -s {i}'\"",
+                "pad_large",
+            ]
         )
     return session_bind
 

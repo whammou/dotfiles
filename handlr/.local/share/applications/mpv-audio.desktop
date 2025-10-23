@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Mpv-audio
+Comment=Start mpv in audio mode
+Exec=mpv --no-video %U
+Terminal=yes
+Type=Application
+MimeType=audio/mpeg
