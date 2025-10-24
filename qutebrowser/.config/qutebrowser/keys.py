@@ -47,7 +47,7 @@ config.bind(
 config.bind("xb", "set statusbar.show never")
 config.bind(
     "xc",
-    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/onedark-app.css ~/.config/qutebrowser/css/custom-onedark.css",
+    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom-onedark.css",
 )
 config.bind("xt", "config-cycle tabs.show multiple always")
 # Qtile
