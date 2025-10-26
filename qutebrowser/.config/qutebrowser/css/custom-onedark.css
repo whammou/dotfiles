@@ -57,7 +57,7 @@ div.rFY7Pc,
 div.mMsbvc,
 div.md ol li,
 div.md ul li,
-html, body {
+html, body ,li {
   font-family: "HasklugNerdFont" !important;
   background-color: var(--od-bg0) !important;
   background-image: none !important;
@@ -168,13 +168,17 @@ span.-link--channel-name.pl8 {
   color: var(--od-grey) !important;
 }
 
-section.mt-content-container p,
+section.mt-content-container p {
+  color: var(--od-fg) !important;
+}
 p {
   margin-bottom: 1em;
   color: var(--od-fg) !important;
 }
 
 
+div.accordion-label.texts,
+button.accordion-button.align-items-start.shadow-none.rounded-0 span,
 span.highlight,
 div.page-title,
 a.s-tag.post-tag.js-gps-track,
