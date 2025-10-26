@@ -3,6 +3,7 @@ from libqtile.lazy import lazy
 
 mod = "mod4"
 alt = "mod1"
+rofi_run_cmd = "rofi -show drun -m -1"
 
 
 def hide_all_floating(qtile):
@@ -288,7 +289,11 @@ windows_keys = [
         ["mod4"],
         "w",
         [
-            EzKey("v", lazy.layout.toggle_container_select_mode()),
+            EzKey("v", lazy.layout.spawn_split(rofi_run_cmd, "x")),
+            EzKey("x", lazy.layout.spawn_split(rofi_run_cmd, "y")),
+            EzKey("t", lazy.layout.spawn_tab(rofi_run_cmd)),
+            EzKey("S-t", lazy.layout.spawn_tab(rofi_run_cmd, new_level=True)),
+            EzKey("C-v", lazy.layout.toggle_container_select_mode()),
             # Pull window out
             EzKey("o", lazy.layout.pull_out(position="next")),
             EzKey("S-o", lazy.layout.pull_out(position="previous")),
