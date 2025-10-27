@@ -115,6 +115,7 @@ div, canvas, svg {
  ,*/
 
 h1, h2, h3, h4, h5, h6 {
+  color-scheme: only light !important;
   font-weight: bold !important;
 }
 h2, h3, h4, h5, h6 {
@@ -173,7 +174,7 @@ section.mt-content-container p {
 }
 p {
   margin-bottom: 1em;
-  color: var(--od-fg) !important;
+  color: var(--od-fg);
 }
 
 

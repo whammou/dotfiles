@@ -49,6 +49,7 @@ config.bind(
     "xc",
     "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom-onedark.css",
 )
+config.bind("xd", "config-cycle colors.webpage.darkmode.enabled True False")
 config.bind("xt", "config-cycle tabs.show multiple always")
 # Qtile
 c.aliases["split"] = "spawn _qtile_spawn_split_y"
