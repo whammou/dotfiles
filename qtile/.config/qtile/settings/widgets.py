@@ -33,10 +33,11 @@ def workspaces():
             }
         ),
         separator(),
-        widget.TextBox(**base(fg="blue"), fmt=" []="),
+        widget.TextBox(**base(fg="blue"), fmt="::=>"),
         widget.Prompt(
             **base(fg="blue"),
             font="HasklugNerdFont",
+            fontsize=13,
             cursor=False,
             fmt="{}",
             prompt="",
@@ -45,7 +46,7 @@ def workspaces():
         widget.WindowName(
             **base(fg="fg"),
             font="HasklugNerdFont",
-            fontsize=15,
+            fontsize=13,
             padding=5,
         ),
         separator(),
