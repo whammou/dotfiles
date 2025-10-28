@@ -20,6 +20,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- via an autocmd
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "org-roam-select",
+  callback = function()
+    vim.b.completion = false
+  end,
+})
+
 -- Disable tree-sitter for larg file
 -- vim.api.nvim_create_autocmd({ "InsertLeave", "InsertEnter" }, {
 --   pattern = "*",
