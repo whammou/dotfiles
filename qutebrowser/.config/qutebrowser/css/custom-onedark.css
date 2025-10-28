@@ -29,9 +29,11 @@
   --od-grey: #455574;
   --od-light_grey: #6c7d9c;
   --od-dark_cyan: #1b6a73;
+  --od-dark_blue: #024c8a;
   --od-dark_red: #992525;
   --od-dark_yellow: #8f610d;
-  --od-dark_purple: #862aa1;
+  --od-dark_purple: #661280;
+  --od-dark_green: #406b20;
   --od-diff_add: #27341c;
   --od-diff_delete: #331c1e;
   --od-diff_change: #102b40;
@@ -65,6 +67,8 @@ html, body ,li {
 }
 
 /* Ensure all common block elements inherit the base background */
+div#home-page.container-fluid.bg-light,
+div.sidebar_wrapper.manual_leftbar, div#home-page.container-fluid.bg-light,
 section.dashboard-break-word.comment-body.markdown-body.m-0.p-3.color-bg-subtle.mb-0.rounded-1,
 aside.feed-left-sidebar.col-md-4.col-lg-3.color-border-muted.border-bottom.hide-md.hide-sm.border-right.color-bg-default,
 div.d-md-flex,
@@ -183,19 +187,25 @@ button.accordion-button.align-items-start.shadow-none.rounded-0 span,
 span.highlight,
 div.page-title,
 a.s-tag.post-tag.js-gps-track,
-a {
-  color: var(--od-blue) !important;
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
+a:link {
+  color-scheme: only light !important
+  color: var(--od-blue);
 }
-
+a:visited {
+  color: var(--od-purple);
+}
 a:hover, a:focus {
-  color: var(--od-cyan);
+  color: var(--od-cyan) !important;
   text-decoration: underline;
+}
+a.question-hyperlink {
+  color: var(--od-cyan) !important;
 }
 
 strong, b {
   color: var(--od-fg);
+  background-color: var(--od-bg1) !important;
+  padding: 0.2em 0.4em;
   font-weight: bold;
 }
 
@@ -234,8 +244,9 @@ div.s-prose.js-post-body p code,
 div.s-prose.js-post-body pre code,
 code, pre, kbd, samp {
   border-radius: 0px !important; /* Slightly rounded corners for inline code */
+  border: none !important;
   font-family: monospace !important; /* Ensure monospace for code */
-  background-color: #283142 !important; /* A slightly lighter dark color for contrast, common in dark themes */
+  background-color: var(--od-bg3) !important; /* A slightly lighter dark color for contrast, common in dark themes */
   padding: 0.2em 0.4em;
   color: var(--od-green);
 }
@@ -247,7 +258,6 @@ pre {
 
 pre code {
   background-color: transparent;
-  border: none;
   padding: 0;
 }
 
@@ -258,9 +268,8 @@ pre code {
  ,*/
 
 input, textarea, select, button {
-  background-color: var(--od-black);
+  background-color: var(--od-bg3) !important;
   color: var(--od-fg);
-  border: 1px solid var(--od-grey);
   border-radius: 4px;
   padding: 0.5em 0.8em;
 }
