@@ -87,7 +87,7 @@ symbol = " "
 
 [git_branch]
 symbol = " "
-style = "bold green"
+style = "bold yellow"
 
 [golang]
 symbol = " "
