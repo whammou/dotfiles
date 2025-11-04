@@ -19,9 +19,9 @@
     "prefix": "Im",
     "body": "*Implemented:* $0"
   },
-  "Checkout": {
+  "Check-out": {
     "prefix": "Ch",
-    "body": "*Checkout:* $0"
+    "body": "*Check-out:* $0"
   },
   "Keypoint": {
     "prefix": "Ke",
