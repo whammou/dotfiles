@@ -26,6 +26,7 @@ audio/mpeg=mpv-audio.desktop;
 image/jpeg=mpv-image.desktop;
 image/png=mpv-image.desktop;
 image/svg+xml=mpv-image.desktop;
+image/webp=mpv-image.desktop;
 notes/capture.org=nvim.desktop;
 text/html=qutebrowser.quick.desktop;
 text/markdown=nvim.desktop;
