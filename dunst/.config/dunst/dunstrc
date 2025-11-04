@@ -17,15 +17,14 @@ padding = 20
 horizontal_padding = 20
 frame_width = 2
 
-sort = no
-idle_threshold = 120
-show_age_threshold = 60
+sort = update
+idle_threshold = 3
+show_age_threshold = -1
 notification_limit = 7
 
-font = SauceCodeProNerdFontMono 13
+font = HasklugNerdFont 13
 line_height = 0
 markup = full
-format = <b>%s</b>\n%b
 word_wrap = yes
 ignore_newline = no
 alignment = left
@@ -36,7 +35,7 @@ show_indicators = true
 
 default_icon = /usr/share/icons/Suru++-Asprómauros/actions/16/dialog-information.svg
 icon_theme = Suru++-Asprómauros
-icon_position = left
+icon_position = off
 max_icon_size = 48
 enable_recursive_icon_lookup = true
 enable_posix_regex = true
@@ -63,30 +62,54 @@ foreground = "#93a4c3"
 
 [urgency_low]
 timeout = 10
-frame_color = "#efbd5d"
-highlight = "#efbd5d"
+frame_color = "#34bfd0"
+highlight = "#34bfd0"
+format = "<b><span foreground='#34bfd0' size='13.5pt'>  %s</span></b>\n\n%b"
 
 [urgency_normal]
 timeout = 10
-frame_color = "#54b0fd"
-highlight = "#54b0fd"
+frame_color = "#efbd5d"
+highlight = "#efbd5d"
+format = "<b><span foreground='#efbd5d' size='13.5pt'>  %s</span></b>\n\n%b"
 
 [urgency_critical]
 timeout = 0
 frame_color = "#f65866"
 highlight = "#f65866"
+format = "<b><span foreground='#f65866' size='13.5pt'>  %s</span></b>\n\n%b"
 
 [orgmode]
 appname = orgmode
+format = "<b><span foreground='#8bcd5b' size='13.5pt'>󰃰  %s</span></b>\n\n%b"
+frame_color = "#8bcd5b"
+highlight = "#8bcd5b"
 timeout = 0
 
 [media]
 appname = Media
 timeout = 5
 
-[al2n]
-appname = "Android 2 Linux Notifications"
-
 [system]
 appname = System
+format = "<b><span foreground='#efbd5d' size='13.5pt'>󰒓  %s</span></b>\n\n%b"
+frame_color = "#efbd5d"
+highlight = "#efbd5d"
 timeout = 3
+
+[nfty]
+appname = ntfy
+frame_color = "#54b0fd"
+highlight = "#54b0fd"
+format = "<b><span foreground='#54b0fc' size='13.5pt'>  %s</span></b>\n\n%b"
+
+[ntfy-beeper]
+summary = Beeper
+frame_color = "#c75ae8"
+highlight = "#c75ae8"
+format = "<b><span foreground='#c75ae8' size='13.5pt'>󱧌  %s</span></b>\n\n%b"
+
+[ntfy-zalo]
+summary = Zalo
+frame_color = "#c75ae8"
+highlight = "#c75ae8"
+format = "<b><span foreground='#c75ae8' size='13.5pt'>󱧌  %s</span></b>\n\n%b"
