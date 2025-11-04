@@ -10,6 +10,12 @@ qtile_keys = [
     # Utilities keybindings
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload config"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key(
+        [mod, "shift"],
+        "q",
+        lazy.spawn("rofi -modi 'processes:rofi-process-killer' -show processes"),
+        desc="Kill focused window",
+    ),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset current column sizes"),
     Key(

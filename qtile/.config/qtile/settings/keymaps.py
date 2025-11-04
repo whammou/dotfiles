@@ -144,6 +144,7 @@ keymap = [
         "prefix": "m",
         "cmd": [
             ["p", in_terminal("btm"), "pad_large"],
+            ["S-p", in_terminal("htop"), "pad_large"],
             ["b", in_terminal("monitor-battery"), "pad_list"],
             [
                 "S-b",

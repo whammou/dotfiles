@@ -15,7 +15,7 @@ def ssh_session(session_range):
         session_bind.append(
             [
                 str(i),
-                f"kitty -e ssh homelab -o RemoteCommand=none \"exec $SHELL -lc 'tmux new -A -s {i}'\"",
+                f"kitty -e ssh homelab-fs -o RemoteCommand=none \"exec $SHELL -lc 'tmux new -A -s {i}'\"",
                 "pad_large",
             ]
         )
