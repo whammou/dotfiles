@@ -7,12 +7,12 @@ customCommands:
     description: "Push/Pull Submodules"
     commandMenu:
       - key: u
-        command: git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} pull --no-edit --verbose
+        command: git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} pull --no-edit --quiet
         context: "global"
         description: Pull include submodules
         loadingText: Pulling
       - key: U
-        command: git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} push --verbose
+        command: git submodule -q foreach pwd | xargs -I{} --max-procs=$(git submodule -q foreach pwd | wc -l) git -C {} push --quiet
         context: global
         description: Push include submodules
         loadingText: Pushing
@@ -35,12 +35,12 @@ customCommands:
       - type: input
         title: Commit summary
         key: commitMessage
-        initialValue: ''
+        initialValue: ""
     command: git submodule -q foreach 'git diff --quiet || git commit -am "{{.Form.commitMessage}}"' && git submodule -q foreach git status
     output: log
-  
+
 gui:
-  showBottomLine : false
+  showBottomLine: false
   border: "single"
   nerdFontsVersion: "3"
   theme:
