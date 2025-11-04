@@ -48,7 +48,7 @@
 
 /* Apply the main background and foreground to the entire page */
 
-* {
+:not(td) {
   background-color: var(--od-bg0) !important;
 }
 
@@ -67,6 +67,8 @@ html, body ,li {
 }
 
 /* Ensure all common block elements inherit the base background */
+div#issue-viewer-sticky-header.Box-sc-62in7e-0.jBGwUN.HeaderMetadata-module__stickyContainer--JBJvS,
+div#sticky-header-backdrop.sticky-header-shadow.color-shadow-small.is-stuck,
 div#home-page.container-fluid.bg-light,
 div.sidebar_wrapper.manual_leftbar, div#home-page.container-fluid.bg-light,
 section.dashboard-break-word.comment-body.markdown-body.m-0.p-3.color-bg-subtle.mb-0.rounded-1,
@@ -126,22 +128,22 @@ h2, h3, h4, h5, h6 {
   background-color: var(--od-bg1) !important;
   padding: 0.25em 0.5em !important;
 }
-h1 {
+h1::before, h1 {
   color: var(--od-cyan) !important;
 }
-h2 {
+h2::before, h2 {
   color: var(--od-purple) !important;
 }
-h3 {
+h3::before, h3 {
   color: var(--od-blue) !important;
 }
-h4 {
+h4::before, h4 {
   color: var(--od-yellow) !important;
 }
-h5 {
+h5::before, h5 {
   color: var(--od-green) !important;
 }
-h6 {
+h6::before, h6 {
   color: var(--od-red) !important;
 }
 
@@ -188,14 +190,14 @@ span.highlight,
 div.page-title,
 a.s-tag.post-tag.js-gps-track,
 a:link {
-  color-scheme: only light !important
+  color-scheme: only light !important;
   color: var(--od-blue);
 }
 a:visited {
-  color: var(--od-purple);
+  color: var(--od-cyan);
 }
 a:hover, a:focus {
-  color: var(--od-cyan) !important;
+  color: var(--od--purple) !important;
   text-decoration: underline;
 }
 a.question-hyperlink {
@@ -316,10 +318,14 @@ table {
   margin: 1.5em 0;
 }
 
-th, td {
+th {
   color: var(--od-fg) !important;
   border: 1px solid var(--od-bg1);
   text-align: left;
+}
+
+td {
+  color: intial !important;
 }
 
 thead, th {
