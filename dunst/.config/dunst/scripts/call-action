@@ -7,7 +7,8 @@ dunst_action=$(
     -A "accept, Accept incoming call" \
     -A "reject, Reject incoming call" \
     -h "string:x-dunst-stack-tag:call" \
-    "$DUNST_SUMMARY Call" "$DUNST_BODY!"
+    -c "call.request" \
+    "$DUNST_SUMMARY" "$DUNST_BODY!"
 )
 
 # Define Actions

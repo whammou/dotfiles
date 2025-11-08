@@ -84,6 +84,7 @@ format = "<b><span foreground='#455574' size='13.5pt'>󰒓  %s</span></b>\n\n%b"
 frame_color = "#455574"
 highlight = "#455575"
 history_ignore = yes
+set_transient = yes
 timeout = 3
 
 [nfty_notification]
@@ -133,6 +134,13 @@ frame_color = "#8bcd5b"
 highlight = "#8bcd5b"
 format = "<b><span foreground='#8bcd5b' size='13.5pt'>  %s</span></b>\n\n%b"
 
+[terminal-warning]
+appname = ntfy
+summary = Remote Warning
+frame_color = "#efbd5d"
+highlight = "#efbd5d"
+format = "<b><span foreground='#efbd5d' size='13.5pt'>  %s</span></b>\n\n%b"
+
 [mail]
 appname = ntfy
 summary = Spark
@@ -142,7 +150,7 @@ format = "<b><span foreground='#dd9046' size='13.5pt'>  %s</span></b>\n\n%b"
 
 [conversation]
 appname = ntfy
-summary = Beeper$|Zalo$
+summary = Beeper$|Zalo$|Fabric$
 frame_color = "#c75ae8"
 highlight = "#c75ae8"
 format = "<b><span foreground='#c75ae8' size='13.5pt'>󰭻  %s</span></b>\n\n%b"
@@ -151,14 +159,37 @@ format = "<b><span foreground='#c75ae8' size='13.5pt'>󰭻  %s</span></b>\n\n%b"
 appname = ntfy
 summary = Zalo$|Phone$
 body = ".* Incoming( voice| video|)? call$"
+set_category = call.request
 set_stack_tag = string:x-dunst-stack-tag:call
 script = ~/.config/dunst/scripts/call-action
 [call-action]
-stack_tag = call
-set_stack_tag = string:x-dunst-stack-tag:call
+category = "call.request"
 frame_color = "#54b0fd"
 highlight = "#54b0fd"
 format = "<b><span foreground='#54b0fc' size='13.5pt'>󰏷  %s</span></b>\n\n%b"
+set_stack_tag = string:x-dunst-stack-tag:call
+[call-missed]
+summary = Zalo$|Phone$
+body = ^(\[Missed (audio|video) call\]|Missed call): (.+)$
+set_category = "call.missed"
+frame_color = "#f65866"
+highlight = "#f65866"
+format = "<b><span foreground='#f65866' size='13.5pt'>󰏺  %s</span></b>\n\n%b"
+timeout = 0
+[call-accept]
+summary = Zalo$|Phone$
+body = "^:$"
+format = ""
+set_category = call.accept
+set_stack_tag = string:x-dunst-stack-tag:call
+script = ~/.config/dunst/scripts/confirm-pickup
+[call-accept-format]
+sumary = Zalo$|Phone$
+body = ^Call in progress$
+frame_color = "#8bcd5b"
+highlight = "#8bcd5b"
+format = "<b><span foreground='#8bcd5b' size='13.5pt'>󰏶  %s</span></b>\n\n%b"
+set_stack_tag = string:x-dunst-stack-tag:call
 
 [hidden]
 summary = Phone Action
