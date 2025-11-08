@@ -41,15 +41,15 @@ enable_recursive_icon_lookup = true
 enable_posix_regex = true
 
 sticky_history = yes
-history_length = 20
+history_length = 0
 browser = /sbin/xdg-open
 always_run_script = true
 title = Dunst
 class = Dunst
 
 dmenu = /sbin/rofi -dmenu -i -p dunst
-mouse_left_click=context
-context = ctrl+period
+mouse_left_click=view
+#context = ctrl+period
 
 progress_bar = true
 progress_bar_height = 10
@@ -61,16 +61,16 @@ background = "#21283b"
 foreground = "#93a4c3"
 
 [urgency_low]
-timeout = 10
-frame_color = "#34bfd0"
-highlight = "#34bfd0"
-format = "<b><span foreground='#34bfd0' size='13.5pt'>  %s</span></b>\n\n%b"
-
-[urgency_normal]
-timeout = 10
+timeout = 21
 frame_color = "#efbd5d"
 highlight = "#efbd5d"
 format = "<b><span foreground='#efbd5d' size='13.5pt'>  %s</span></b>\n\n%b"
+
+[urgency_normal]
+timeout = 21
+frame_color = "#34bfd0"
+highlight = "#34bfd0"
+format = "<b><span foreground='#34bfd0' size='13.5pt'>  %s</span></b>\n\n%b"
 
 [urgency_critical]
 timeout = 0
@@ -78,38 +78,72 @@ frame_color = "#f65866"
 highlight = "#f65866"
 format = "<b><span foreground='#f65866' size='13.5pt'>  %s</span></b>\n\n%b"
 
-[orgmode]
-appname = orgmode
-format = "<b><span foreground='#8bcd5b' size='13.5pt'>󰃰  %s</span></b>\n\n%b"
-frame_color = "#8bcd5b"
-highlight = "#8bcd5b"
-timeout = 0
-
-[media]
-appname = Media
-timeout = 5
-
 [system]
 appname = System
-format = "<b><span foreground='#efbd5d' size='13.5pt'>󰒓  %s</span></b>\n\n%b"
-frame_color = "#efbd5d"
-highlight = "#efbd5d"
+format = "<b><span foreground='#455574' size='13.5pt'>󰒓  %s</span></b>\n\n%b"
+frame_color = "#455574"
+highlight = "#455575"
+history_ignore = yes
 timeout = 3
 
-[nfty]
+[nfty_notification]
 appname = ntfy
 frame_color = "#54b0fd"
 highlight = "#54b0fd"
-format = "<b><span foreground='#54b0fc' size='13.5pt'>  %s</span></b>\n\n%b"
+format = "<b><span foreground='#54b0fc' size='13.5pt'>  %s</span></b>\n\n%b"
 
-[ntfy-beeper]
-summary = Beeper
+[clipboard]
+appname = ntfy
+summary = clipboard
+set_stack_tag = string:x-dunst-stack-tag:clipboard
+script = ~/.config/dunst/scripts/clipboard-action
+[clipboard-action]
+summary = Clipboard
+format = "<b><span foreground='#54b0fc' size='13.5pt'>󰛈  %s</span></b>\n\n%b"
+set_stack_tag = string:x-dunst-stack-tag:clipboard
+
+[media]
+summary = Mpv|SimpMusic|NewPipe
+frame_color = "#efbd5d"
+highlight = "#efbd5d"
+format = "<b><span foreground='#efbd5d' size='13.5pt'>󰨜  %s</span></b>\n\n%b"
+timeout = 7
+set_stack_tag = string:x-dunst-stack-tag:media
+history_ignore = yes
+
+[reminder]
+appname = ntfy|Orgmode
+summary = Orgzly Revived
+format = "<b><span foreground='#34bfd0' size='13.5pt'>  %s</span></b>\n\n%b"
+frame_color = "#34bfd0"
+highlight = "#34bfd0"
+timeout = 0
+
+[update]
+appname = ntfy
+summary = Google Play Store
+format = "<b><span foreground='#8bcd5b' size='13.5pt'>󰚰  %s</span></b>\n\n%b"
+frame_color = "#8bcd5b"
+highlight = "#8bcd5b"
+
+[terminal]
+appname = ntfy
+summary = RemoteSession|Terminal
+frame_color = "#8bcd5b"
+highlight = "#8bcd5b"
+format = "<b><span foreground='#8bcd5b' size='13.5pt'>  %s</span></b>\n\n%b"
+
+[mail]
+appname = ntfy
+summary = Spark
+frame_color = "#dd9046"
+highlight = "#dd9046"
+format = "<b><span foreground='#dd9046' size='13.5pt'>  %s</span></b>\n\n%b"
+
+[conversation]
+appname = ntfy
+summary = Beeper$|Zalo$
 frame_color = "#c75ae8"
 highlight = "#c75ae8"
-format = "<b><span foreground='#c75ae8' size='13.5pt'>󱧌  %s</span></b>\n\n%b"
+format = "<b><span foreground='#c75ae8' size='13.5pt'>󰭻  %s</span></b>\n\n%b"
 
-[ntfy-zalo]
-summary = Zalo
-frame_color = "#c75ae8"
-highlight = "#c75ae8"
-format = "<b><span foreground='#c75ae8' size='13.5pt'>󱧌  %s</span></b>\n\n%b"
