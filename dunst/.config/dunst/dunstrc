@@ -147,3 +147,19 @@ frame_color = "#c75ae8"
 highlight = "#c75ae8"
 format = "<b><span foreground='#c75ae8' size='13.5pt'>󰭻  %s</span></b>\n\n%b"
 
+[call]
+appname = ntfy
+summary = Zalo$|Phone$
+body = ".* Incoming( voice| video|)? call$"
+set_stack_tag = string:x-dunst-stack-tag:call
+script = ~/.config/dunst/scripts/call-action
+[call-action]
+stack_tag = call
+set_stack_tag = string:x-dunst-stack-tag:call
+frame_color = "#54b0fd"
+highlight = "#54b0fd"
+format = "<b><span foreground='#54b0fc' size='13.5pt'>󰏷  %s</span></b>\n\n%b"
+
+[hidden]
+summary = Phone Action
+format = ""
