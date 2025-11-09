@@ -8,11 +8,35 @@ require("orgmode").cron({
   org_agenda_files = "~/notes/**/*",
   org_default_notes_file = "~/notes/capture.org",
   notifications = {
+    enabled = true,
     cron_enabled = true,
     reminder_time = { 0, 10 },
     repeater_reminder_time = false,
     deadline_warning_reminder_time = false,
     deadline_reminder = true,
     scheduled_reminder = true,
+    cron_notifier = function(tasks)
+      for _, task in ipairs(tasks) do
+        local subtitle = string.format("<b>%s</b> %s [%s]", task.todo, task.title, tostring(task.level))
+        local date = string.format("<b>%s</b>: %s", task.type, task.time:to_string())
+        local title = string.format("%s (%s)", task.category, task.humanized_duration)
+
+        --if vim.fn.executable("notify-send") == 1 then
+        --  vim.system({
+        --    "notify-send",
+        --    "--icon=/path/to/orgmode/assets/nvim-orgmode-small.png",
+        --    "--app-name=orgmode",
+        --    title,
+        --    string.format("%s\n%s", subtitle, date),
+        --  })
+        --end
+
+        vim.system({
+          "notify-send",
+          "orgmode",
+          string.format("%s\n%s\n%s", subtitle, date, title),
+        })
+      end
+    end,
   },
 })
