@@ -2,8 +2,8 @@
   "extras": [
     "lazyvim.plugins.extras.coding.luasnip",
     "lazyvim.plugins.extras.coding.mini-surround",
-    "lazyvim.plugins.extras.lang.python",
-    "plugins.extras.citation"
+    "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.lang.python"
   ],
   "install_version": 7,
   "news": {
