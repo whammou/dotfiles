@@ -114,6 +114,7 @@ history_ignore = yes
 
 [reminder]
 summary = orgmode
+set_transient = yes
 format = ""
 script = ~/.config/dunst/scripts/orgmode
 [orgmmode]
