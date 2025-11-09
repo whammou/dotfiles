@@ -67,6 +67,7 @@ html, body ,li {
 }
 
 /* Ensure all common block elements inherit the base background */
+div.OverviewRepoFiles-module__Box_3--Bi2jM,
 div#issue-viewer-sticky-header.Box-sc-62in7e-0.jBGwUN.HeaderMetadata-module__stickyContainer--JBJvS,
 div#sticky-header-backdrop.sticky-header-shadow.color-shadow-small.is-stuck,
 div#home-page.container-fluid.bg-light,
