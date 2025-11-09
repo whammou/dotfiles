@@ -2,8 +2,8 @@ local orgmode = require("orgmode")
 local khalorg = require("khalorg")
 local roam = require("org-roam")
 
-local base_dir = vim.fn.expand("~/notes/.modules/")
-local zettel_dir = base_dir .. "vault/"
+local base_dir = vim.fn.expand("~/notes/")
+local zettel_dir = base_dir .. "modules/vault/"
 local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
 local function _get_filename(directory)
@@ -158,7 +158,7 @@ local custom_exports = {
 
 roam.setup({
   directory = base_dir,
-  org_files = { "~/notes/.modules/**/*.org" },
+  org_files = { "~/notes/**/*.org" },
   extensions = { dailies = { directory = zettel_dir .. "/" .. ".daily" } },
   database = {
     path = "/home/whammou/notes/.roamdb.json",

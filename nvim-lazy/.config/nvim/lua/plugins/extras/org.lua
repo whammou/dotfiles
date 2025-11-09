@@ -15,7 +15,7 @@ return {
           { "<leader>oR", "<cmd>Lazy reload orgmode<CR>", desc = "Org reload" },
         },
         opts = {
-          org_agenda_files = { "~/notes/.modules/**/*.org" },
+          org_agenda_files = { "~/notes/**/*.org" },
           --org_agenda_skip_scheduled_if_done = true,
           org_default_notes_file = "~/notes/capture.org",
           org_archive_location = "log/archive_%s",
@@ -123,7 +123,7 @@ return {
         "hamidi-dev/org-super-agenda.nvim",
         lazy = true,
         opts = {
-          org_directories = { "/home/whammou/notes/.modules/" },
+          org_directories = { "/home/whammou/notes/" },
           show_filename = false,
           keep_order = true,
           window = {
