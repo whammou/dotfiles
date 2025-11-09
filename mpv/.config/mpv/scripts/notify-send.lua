@@ -33,9 +33,10 @@ function escape_pango_markup(str)
 end
 
 function notify_media(title, origin, thumbnail)
-	return notify(escape_pango_markup(title), origin, {
+	--return notify(escape_pango_markup(title), origin, {
+	return notify("Mpv", escape_pango_markup(title), {
 		urgency = "low",
-		["app-name"] = "Media",
+		["app-name"] = "mpv-media",
 		hint = "string:desktop-entry:mpv",
 		icon = thumbnail or "mpv",
 	})
