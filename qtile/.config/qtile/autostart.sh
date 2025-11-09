@@ -14,6 +14,12 @@ greenclip daemon &           # Clipboard daemon
 #xscreensaver --no-splash &
 #daemon qutebrowser-daemon --name=qutebrowser-daemon -r & #Browser daemon
 #xset s off && xset -dpms &
-daemon qutebrowser-daemon --name=qutebrowser-daemon --attempts=3 --delay=10 --safe -r &
+#daemon qutebrowser-daemon \
+#  --name=qutebrowser-daemon \
+#  --attempts=3 \
+#  --delay=10 \
+#  --limit=1 --safe \
+#  --nocore \
+#  --i -r &
 #ntfyDesktop --desktopfile /home/whammou/ntfy &
 #qutebrowser -R --nowindow &
