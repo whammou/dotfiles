@@ -33,7 +33,7 @@ def workspaces():
             }
         ),
         separator(),
-        widget.TextBox(**base(fg="blue"), fmt="::=>"),
+        widget.TextBox(**base(fg="blue"), fmt="->"),
         widget.Prompt(
             **base(fg="blue"),
             font="HasklugNerdFont",
@@ -125,7 +125,9 @@ widgets = [
     FloatCount(**base(bg="bg2", fg="blue"), format="  FLTW: {count} "),
     # net(),
     wlan(),
-    widget.Clock(**base(bg="bg2", fg="cyan"), format="%d/%m/%Y - %H:%M", fmt=" 󰸘 {} "),
+    widget.Clock(
+        **base(bg="bg2", fg="cyan"), format="%a, %d %b %Y :: %H:%M", fmt=" 󰸘 {} "
+    ),
     # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
     widget.TextBox(**base(bg="bg2", fg="fg"), text="󰤳 "),

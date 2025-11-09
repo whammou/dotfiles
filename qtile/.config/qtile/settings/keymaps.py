@@ -143,8 +143,8 @@ keymap = [
         "name": "monitor",
         "prefix": "m",
         "cmd": [
-            ["p", in_terminal("btm"), "pad_large"],
-            ["S-p", in_terminal("htop"), "pad_large"],
+            ["S-p", in_terminal("btm"), "pad_large"],
+            ["p", in_terminal("htop"), "pad_large"],
             ["b", in_terminal("monitor-battery"), "pad_list"],
             [
                 "S-b",
@@ -164,7 +164,7 @@ keymap = [
         "cmd": [
             # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
             ["e", in_terminal("nvim"), "pad_large"],
-            ["u", in_terminal("paru -Syu", parameters="--hold"), "pad_large"],
+            ["u", in_terminal("paru -Syu ; alert", parameters="--hold"), "pad_large"],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["n", "rnote", "pad_extra_large"],
             ["d", in_terminal("dict"), "pad_small"],
