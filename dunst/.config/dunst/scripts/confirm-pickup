@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 dunstify \
-  "Meme" \
+  "$DUNST_SUMMARY" \
   "Call in progress" \
   -c call.accept.format \
   -h string:x-dunst-stack-tag:call

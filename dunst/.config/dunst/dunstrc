@@ -113,12 +113,14 @@ set_stack_tag = string:x-dunst-stack-tag:media
 history_ignore = yes
 
 [reminder]
-appname = ntfy|Orgmode
-summary = Orgzly Revived
+summary = orgmode
+format = ""
+script = ~/.config/dunst/scripts/orgmode
+[orgmmode]
+summary = Orgmode
 format = "<b><span foreground='#34bfd0' size='13.5pt'>  %s</span></b>\n\n%b"
 frame_color = "#34bfd0"
 highlight = "#34bfd0"
-timeout = 0
 
 [update]
 appname = ntfy
@@ -150,10 +152,15 @@ format = "<b><span foreground='#dd9046' size='13.5pt'>  %s</span></b>\n\n%b"
 
 [conversation]
 appname = ntfy
-summary = Beeper$|Zalo$|Fabric$
+summary = Beeper$|Zalo$
 frame_color = "#c75ae8"
 highlight = "#c75ae8"
 format = "<b><span foreground='#c75ae8' size='13.5pt'>󰭻  %s</span></b>\n\n%b"
+[ai-conversation]
+summary = Fabric$
+frame_color = "#c75ae8"
+highlight = "#c75ae8"
+format = "<b><span foreground='#c75ae8' size='13.5pt'>󰧑  %s</span></b>\n\n%b"
 
 [call]
 appname = ntfy
@@ -168,6 +175,12 @@ frame_color = "#54b0fd"
 highlight = "#54b0fd"
 format = "<b><span foreground='#54b0fc' size='13.5pt'>󰏷  %s</span></b>\n\n%b"
 set_stack_tag = string:x-dunst-stack-tag:call
+[call-calling]
+summary = Zalo$|Phone$
+body = .* Calling\.\.\.$
+frame_color = "#54b0fd"
+highlight = "#54b0fd"
+format = "<b><span foreground='#54b0fc' size='13.5pt'>󰏻  %s</span></b>\n\n%b"
 [call-missed]
 summary = Zalo$|Phone$
 body = ^(\[Missed (audio|video) call\]|Missed call): (.+)$
