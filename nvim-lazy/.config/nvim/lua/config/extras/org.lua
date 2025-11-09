@@ -3,7 +3,7 @@ local khalorg = require("khalorg")
 local roam = require("org-roam")
 
 local base_dir = vim.fn.expand("~/notes/")
-local zettel_dir = base_dir .. "modules/vault/"
+local zettel_dir = base_dir .. "/modules/vault/"
 local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
 local function _get_filename(directory)
