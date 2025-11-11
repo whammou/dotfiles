@@ -2,7 +2,7 @@ local orgmode = require("orgmode")
 local khalorg = require("khalorg")
 local roam = require("org-roam")
 
-local base_dir = vim.fn.expand("~/notes/")
+local base_dir = vim.fn.expand("~/Journal/")
 local zettel_dir = base_dir .. "modules/vault/"
 local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
@@ -34,7 +34,7 @@ local org_doc_dirs = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}"
 local org_lists = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "lists") .. "}"
 
 local capture_templates = {
-  c = { description = "Capture", template = "* %?", target = "~/notes/capture.org" },
+  c = { description = "Capture", template = "* %?", target = "~/Journal/capture.org" },
   t = {
     description = "Task",
     subtemplates = {
@@ -158,10 +158,10 @@ local custom_exports = {
 
 roam.setup({
   directory = base_dir,
-  org_files = { "~/notes/**/*.org" },
+  org_files = { "~/Journal/**/*.org" },
   extensions = { dailies = { directory = zettel_dir .. "/" .. ".daily" } },
   database = {
-    path = "/home/whammou/notes/.roamdb.json",
+    path = "/home/whammou/.roamdb.json",
     persist = true,
     update_on_save = false,
   },
