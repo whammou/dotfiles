@@ -38,6 +38,10 @@ run  = "mime-ext"
 prio = "high"
 
 [[plugin.prepend_preloaders]]
+name = "/home/whammou/Share/nas/**"
+run = "noop"
+
+[[plugin.prepend_preloaders]]
 name = "/run/user/1000/gvfs/smb-share:server=whamlab.sytes.net,share=homelab-nas/**"
 run = "noop"
 
