@@ -29,6 +29,7 @@ def change_tab_layer(mod, tab_layer, tab_index):
                     lazy.layout.focus_nth_tab(index, level=tab),
                     lazy.window.move_to_top(),
                     lazy.function(hide_all_floating),
+                    lazy.window.focus(),
                 )
             )
         keymaps.append(KeyChord(mod, str(tab), index_list))
