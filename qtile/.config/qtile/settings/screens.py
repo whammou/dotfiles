@@ -22,7 +22,7 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("od_abstract_recolor_light.png"),
+        wallpaper=select_wallpaper("Waves Light 6016x6016.jpg"),
         wallpaper_mode="fill",
         top=status_bar(
             widgets,

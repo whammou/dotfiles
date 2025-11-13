@@ -126,7 +126,7 @@ widgets = [
     # net(),
     wlan(),
     widget.Clock(
-        **base(bg="bg2", fg="cyan"), format="%a, %d %b %Y :: %H:%M", fmt=" 󰸘 {} "
+        **base(bg="bg2", fg="cyan"), format="%a %d %b %Y :: %H:%M", fmt=" 󰸘 {} "
     ),
     # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
