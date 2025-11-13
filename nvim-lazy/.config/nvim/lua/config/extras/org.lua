@@ -1,9 +1,10 @@
 local orgmode = require("orgmode")
 local khalorg = require("khalorg")
 local roam = require("org-roam")
+local Menu = require("org-modern.menu")
 
 local base_dir = vim.fn.expand("~/Journal/")
-local zettel_dir = base_dir .. "modules/vault/"
+local zettel_dir = base_dir .. "topics/vault/"
 local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
 local function _get_filename(directory)
@@ -223,6 +224,24 @@ orgmode.setup({
     l = {
       description = "Backlog",
       types = backlog,
+    },
+  },
+  ui = {
+    menu = {
+      handler = function(data)
+        Menu:new({
+          window = {
+            margin = { 1, 0, 1, 0 },
+            padding = { 0, 1, 0, 1 },
+            title_pos = "center",
+            border = "single",
+            zindex = 1000,
+          },
+          icons = {
+            separator = "➜",
+          },
+        }):open(data)
+      end,
     },
   },
 })

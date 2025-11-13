@@ -257,6 +257,11 @@ return {
         },
         opts = {},
       },
+      {
+        "danilshvalov/org-modern.nvim",
+        lazy = true,
+      },
+
       --{
       --  "mrshmllow/orgmode-babel.nvim",
       --  cmd = { "OrgExecute", "OrgTangle" },

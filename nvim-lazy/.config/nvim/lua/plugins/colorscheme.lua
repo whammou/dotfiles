@@ -58,9 +58,16 @@ return {
         ["SnacksDashBoardKey"] = { fg = "$fg" },
 
         ["Conceal"] = { bg = "$bg0", fg = "$red" },
+
+        ["WhichKeyDesc"] = { fg = "$green" },
+        ["WhichKeySeparator"] = { fg = "$yellow" },
+
+        ["FzfLuaBorder"] = { fg = "$grey" },
+        ["FzfLuaFzfPrompt"] = { fg = "$blue" },
       },
     },
   },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
     "LazyVim/LazyVim",
     opts = {
