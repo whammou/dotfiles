@@ -55,12 +55,19 @@ require("catppuccin").setup({
   },
   color_overrides = {},
   custom_highlights = {},
+  highlight_overrides = {
+    macchiato = function(macchiato)
+      return {
+        ["@org.headline.level2"] = { fg = macchiato.overlay1 },
+      }
+    end,
+  },
   default_integrations = true,
   auto_integrations = true,
   integrations = {
     cmp = true,
     gitsigns = true,
-    nvimtree = true,
+    nvimtree = false,
     notify = false,
     mini = {
       enabled = true,
