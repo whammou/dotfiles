@@ -57,17 +57,21 @@ return {
         ["SnacksDashBoardIcon"] = { fg = "$fg" },
         ["SnacksDashBoardKey"] = { fg = "$fg" },
 
+        -- Nvim
         ["Conceal"] = { bg = "$bg0", fg = "$red" },
 
+        -- Which-key
         ["WhichKeyDesc"] = { fg = "$green" },
         ["WhichKeySeparator"] = { fg = "$yellow" },
 
+        -- Fzf-lua
         ["FzfLuaBorder"] = { fg = "$grey" },
         ["FzfLuaFzfPrompt"] = { fg = "$blue" },
+        ["FzfLuaHeaderText"] = { fg = "$purple" },
+        ["FzfLuaHeaderBind"] = { fg = "$green" },
       },
     },
   },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
     "LazyVim/LazyVim",
     opts = {
