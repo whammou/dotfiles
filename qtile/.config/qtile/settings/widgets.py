@@ -29,7 +29,7 @@ def workspaces():
                 "tab.active.fg_color": colors["bg2"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
-                "tab.padding": [0, 5, 10, 5],
+                "tab.padding": [0, 5, 15, 5],
             }
         ),
         separator(),

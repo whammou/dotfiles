@@ -7,7 +7,7 @@ from .path import wallpaper_path
 from os import path
 
 
-GAP = 1
+GAP = 2
 OFFSET = 1
 
 
@@ -22,7 +22,7 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("od_abstract_recolor_light.png"),
+        wallpaper=select_wallpaper("wavy_lines_v01_5120x2880.png"),
         wallpaper_mode="fill",
         top=status_bar(
             widgets,
