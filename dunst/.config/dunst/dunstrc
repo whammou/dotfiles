@@ -4,7 +4,7 @@ follow = mouse
 
 width = 425
 height = (0, 300)
-offset = (25,57)
+offset = (25,63)
 gap_size = 18
 transparency = 0
 
@@ -83,6 +83,7 @@ appname = System
 format = "<b><span foreground='#455574' size='13.5pt'>󰒓  %s</span></b>\n\n%b"
 frame_color = "#455574"
 highlight = "#455575"
+set_stack_tag = string:x-dunst-stack-tag:system
 history_ignore = yes
 set_transient = yes
 timeout = 3
@@ -177,12 +178,16 @@ frame_color = "#54b0fd"
 highlight = "#54b0fd"
 format = "<b><span foreground='#54b0fc' size='13.5pt'>󰏷  %s</span></b>\n\n%b"
 set_stack_tag = string:x-dunst-stack-tag:call
+history_ignore = yes
+set_transient = yes
+timeout = 10
 [call-calling]
 summary = Zalo$|Phone$
 body = .* Calling(\.\.\.| )?$
 frame_color = "#54b0fd"
 highlight = "#54b0fd"
 format = "<b><span foreground='#54b0fc' size='13.5pt'>󰏻  %s</span></b>\n\n%b"
+history_ignore = yes
 [call-missed]
 summary = Zalo$|Phone$
 body = ^(\[Missed (audio|video) call\]|Missed call): (.+)$
@@ -191,13 +196,24 @@ frame_color = "#f65866"
 highlight = "#f65866"
 format = "<b><span foreground='#f65866' size='13.5pt'>󰏺  %s</span></b>\n\n%b"
 timeout = 0
+[calls-missed]
+summary = Zalo$|Phone$
+body = ^Missed calls: (.+)$
+set_category = "call.missed"
+frame_color = "#f65866"
+highlight = "#f65866"
+format = "<b><span foreground='#f65866' size='13.5pt'>󰏺  %s</span></b>\n\n%b"
+history_ignore = yes
+set_transient = yes
+timeout = 5
 [call-accept]
 summary = Zalo$|Phone$
-body = "^:$"
+body = "^:$|^.*: Ongoing call$"
 format = ""
 set_category = call.accept
 set_stack_tag = string:x-dunst-stack-tag:call
 script = ~/.config/dunst/scripts/confirm-pickup
+history_ignore = yes
 [call-accept-format]
 sumary = Zalo$|Phone$
 body = ^Call in progress$
@@ -205,6 +221,9 @@ frame_color = "#8bcd5b"
 highlight = "#8bcd5b"
 format = "<b><span foreground='#8bcd5b' size='13.5pt'>󰏶  %s</span></b>\n\n%b"
 set_stack_tag = string:x-dunst-stack-tag:call
+history_ignore = yes
+set_transient = yes
+timeout =10
 
 [hidden]
 summary = Phone Action
