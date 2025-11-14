@@ -57,9 +57,7 @@ require("catppuccin").setup({
   custom_highlights = {},
   highlight_overrides = {
     macchiato = function(macchiato)
-      return {
-        ["@org.headline.level2"] = { fg = macchiato.overlay1 },
-      }
+      return {}
     end,
   },
   default_integrations = true,
