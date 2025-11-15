@@ -208,25 +208,16 @@ return {
         opts = {
           concealcursor = true,
           symbols = {
-            list = "◆",
+            list = "»",
           },
         },
       },
       {
         "lukas-reineke/headlines.nvim",
         lazy = true,
-        opts = {
-          markdown = {
-            headline_highlights = false,
-            bullets_highlights = false,
-            codeblock_highlight = false,
-            dash_highlight = false,
-            quote_highlight = false,
-          },
-          org = {
-            headline_highlights = { "Headline" },
-          },
-        },
+        config = function()
+          require("config.extras.headlines")
+        end,
       },
       {
         "0xzhzh/fzf-org.nvim",
