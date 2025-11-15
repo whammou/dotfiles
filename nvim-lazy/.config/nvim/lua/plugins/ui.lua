@@ -33,12 +33,35 @@ return {
     --   },
     -- },
   },
+  -- lazy.nvim
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      cmdline = {
+        opts = {
+          border = "single",
+        },
+      },
+    },
+  },
   {
     "folke/snacks.nvim",
     opts = {
+      styles = {
+        notification = {
+          border = "single",
+        },
+        notification_history = {
+          border = "single",
+        },
+      },
       dashboard = { enabled = false },
       terminal = {
         win = {},
+      },
+      notifier = {
+        timeout = 10000,
       },
     },
     keys = {
