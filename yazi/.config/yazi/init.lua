@@ -1,5 +1,10 @@
 require("starship"):setup()
 require("git"):setup()
+require("mime-ext"):setup({
+	with_exts = {
+		org = "text/org",
+	},
+})
 
 require("gvfs"):setup({
 	-- (Optional) Allowed keys to select device.
