@@ -22,6 +22,10 @@ return {
       },
       highlights = {
 
+        -- Gitsign
+        ["GitSignsChange"] = { fg = "$orange" },
+        --["GitSignsChangeLn"] = { fg = "$orange" },
+
         -- Markdown headlines
         ["@markup.heading.1.markdown"] = { fg = "$cyan" },
         ["RenderMarkdownH1Bg"] = { bg = "$bg1" },
@@ -38,6 +42,7 @@ return {
 
         -- Orgmode
         ["@org.tag.org"] = { fg = "$grey", fmt = "italic" },
+        -- Orgmode markup
         ["@org.code"] = { fg = "$green", bg = "$bg2" },
         ["@org.code.delimeter"] = { fg = "$green", bg = "$bg2" },
         ["@org.verbatim"] = { fg = "$green", bg = "$bg2" },
@@ -68,6 +73,7 @@ return {
         ["Conceal"] = { bg = "$bg0", fg = "$red" },
         ["SpellBad"] = { sp = "$orange", fmt = "underline" },
         ["CursorLineNr"] = { fg = "$orange", fmt = "bold" },
+        ["CodeBlock"] = { bg = "$bg3" },
 
         -- Which-key
         ["WhichKeyDesc"] = { fg = "$green" },

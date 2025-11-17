@@ -26,6 +26,7 @@ require("headlines").setup({
     },
     -- bullets = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
     bullets = { "󰫃", "󰫄", "󰫅", "󰫆", "󰫇", "󰫈" },
+    codeblock_highlight = "Codeblock",
     dash_highlight = "Comment",
     dash_string = "─",
     fat_headlines = true,
