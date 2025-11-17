@@ -164,7 +164,8 @@ article.markdown-body.entry-content.container-lg details ul li {
 }
 
 li::marker {
-  color: var(--od-red);
+  content: "» ";
+  color: var(--od-cyan);
 }
 
 summary, summary::marker {
