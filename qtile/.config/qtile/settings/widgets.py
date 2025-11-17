@@ -58,8 +58,8 @@ def checkupdate(command="checkupdates"):
         background=colors["bg2"],
         colour_have_updates=colors["yellow"],
         colour_no_updates=colors["yellow"],
-        display_format=" 󰓦 PKGS: {updates} ",
-        no_update_string="  PKGS: 0 ",
+        display_format=" 󰳿 PKGS: {updates} ",
+        no_update_string=" 󰪩 PKGS: 0 ",
         update_interval=1800,
         custom_command=command,
     )
