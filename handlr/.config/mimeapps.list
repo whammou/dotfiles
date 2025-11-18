@@ -38,3 +38,5 @@ x-scheme-handler/beeper=beepertexts.desktop;
 x-scheme-handler/chrome=userapp-Zotero-RVQ9B3.desktop;
 x-scheme-handler/http=qutebrowser.quick.desktop;
 x-scheme-handler/https=qutebrowser.quick.desktop;
+application/x-shellscript=nvim.desktop;
+application/x-fishscript=nvim.desktop;
