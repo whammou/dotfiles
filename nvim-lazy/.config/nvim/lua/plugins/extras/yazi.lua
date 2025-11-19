@@ -2,10 +2,6 @@ return {
   {
     "mikavilpas/yazi.nvim",
     event = "VeryLazy",
-    dependencies = {
-      "folke/snacks.nvim",
-    },
-
     keys = {
       {
         "<leader>e",
@@ -26,8 +22,12 @@ return {
     },
     opts = {
       open_for_directories = true,
-      yazi_floating_window_border = "none",
-
+      floating_window_scaling_factor = 0.7,
+      yazi_floating_window_border = "single",
+      highlights_groups = {
+        hovered_buffer = { bg = "#283347" },
+        hovered_buffer_in_same_directory = { bg = "#2a324a" },
+      },
       keymaps = {
         show_help = "<f1>",
       },

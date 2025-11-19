@@ -15,7 +15,7 @@ SETUVAR _fisher_plugins:jorgebucaran/fisher\x1e/home/whammou/dotfiles/fish/\x2ec
 SETUVAR _fisher_upgraded_to_4_4:\x1d
 SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:normal
-SETUVAR fish_color_command:cyan
+SETUVAR fish_color_command:green
 SETUVAR fish_color_comment:brblack
 SETUVAR fish_color_cwd:\x23yellow
 SETUVAR fish_color_cwd_root:800000

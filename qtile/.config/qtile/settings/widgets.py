@@ -29,7 +29,7 @@ def workspaces():
                 "tab.active.fg_color": colors["bg2"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
-                "tab.padding": [0, 5, 10, 5],
+                "tab.padding": [0, 5, 15, 5],
             }
         ),
         separator(),
@@ -58,8 +58,8 @@ def checkupdate(command="checkupdates"):
         background=colors["bg2"],
         colour_have_updates=colors["yellow"],
         colour_no_updates=colors["yellow"],
-        display_format=" 󰓦 PKGS: {updates} ",
-        no_update_string="  PKGS: 0 ",
+        display_format=" 󱧘 PKGS: {updates} ",
+        no_update_string=" 󰏗 PKGS: 0 ",
         update_interval=1800,
         custom_command=command,
     )
@@ -108,7 +108,7 @@ def net():
 def wlan():
     return widget.Wlan(
         **base(bg="bg2", fg="purple"),
-        format=" 󰤨 STRG: {percent:2.0%} ",
+        format=" 󰢾 SIGN: {percent:2.0%} ",
         update_interval=60,
     )
 
@@ -126,7 +126,7 @@ widgets = [
     # net(),
     wlan(),
     widget.Clock(
-        **base(bg="bg2", fg="cyan"), format="%a, %d %b %Y :: %H:%M", fmt=" 󰸘 {} "
+        **base(bg="bg2", fg="cyan"), format="%a %d %b %Y :: %H:%M", fmt=" 󰃰 {} "
     ),
     # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),

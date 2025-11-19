@@ -34,6 +34,12 @@
   --od-dark_yellow: #8f610d;
   --od-dark_purple: #661280;
   --od-dark_green: #406b20;
+  --od-dimmed_cyan: #1D313E;
+  --od-dimmed_blue: #1E2E43;
+  --od-dimmed_red: #302734;
+  --od-dimmed_yellow: #2F3133;
+  --od-dimmed_purple: #2B2741;
+  --od-dimeed_green: #253233;
   --od-diff_add: #27341c;
   --od-diff_delete: #331c1e;
   --od-diff_change: #102b40;
@@ -67,6 +73,8 @@ html, body ,li {
 }
 
 /* Ensure all common block elements inherit the base background */
+div.ContentPreview-module__toolbar--_XWuB,
+div.cm-content,
 div.OverviewRepoFiles-module__Box_3--Bi2jM,
 div#issue-viewer-sticky-header.Box-sc-62in7e-0.jBGwUN.HeaderMetadata-module__stickyContainer--JBJvS,
 div#sticky-header-backdrop.sticky-header-shadow.color-shadow-small.is-stuck,
@@ -126,26 +134,31 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold !important;
 }
 h2, h3, h4, h5, h6 {
-  background-color: var(--od-bg1) !important;
   padding: 0.25em 0.5em !important;
 }
 h1::before, h1 {
   color: var(--od-cyan) !important;
+  background-color: var(--od-dimmed_cyan) !important;
 }
 h2::before, h2 {
   color: var(--od-purple) !important;
+  background-color: var(--od-dimmed_purple) !important;
 }
 h3::before, h3 {
   color: var(--od-blue) !important;
+  background-color: var(--od-dimmed_blue) !important;
 }
 h4::before, h4 {
   color: var(--od-yellow) !important;
+  background-color: var(--od-dimmed_yellow) !important;
 }
 h5::before, h5 {
   color: var(--od-green) !important;
+  background-color: var(--od-dimeed_green) !important;
 }
 h6::before, h6 {
   color: var(--od-red) !important;
+  background-color: var(--od-dimmed_red) !important;
 }
 
 article.markdown-body.entry-content.container-lg details ul li {
@@ -153,7 +166,8 @@ article.markdown-body.entry-content.container-lg details ul li {
 }
 
 li::marker {
-  color: var(--od-red);
+  content: "» ";
+  color: var(--od-cyan);
 }
 
 summary, summary::marker {

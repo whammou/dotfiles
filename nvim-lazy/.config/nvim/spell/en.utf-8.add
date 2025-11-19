@@ -193,7 +193,7 @@ homelab
 ics
 org
 org2ical
-https
+#ttps
 RDP
 quicknote
 Vdirsyncer
@@ -232,3 +232,5 @@ swappiness
 Rebase
 rebasing
 ntfy
+#ttps
+Lazyvim

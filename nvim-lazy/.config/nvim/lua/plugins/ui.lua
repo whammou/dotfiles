@@ -25,7 +25,7 @@ return {
     "nvim-lualine/lualine.nvim",
     lazy = true,
     config = function()
-      require("config.ui.lualine")
+      require("config.ui.evilline")
     end,
     -- opts = {
     --   sections = {
@@ -33,12 +33,35 @@ return {
     --   },
     -- },
   },
+  -- lazy.nvim
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      cmdline = {
+        opts = {
+          border = "single",
+        },
+      },
+    },
+  },
   {
     "folke/snacks.nvim",
     opts = {
+      styles = {
+        notification = {
+          border = "single",
+        },
+        notification_history = {
+          border = "single",
+        },
+      },
       dashboard = { enabled = false },
       terminal = {
         win = {},
+      },
+      notifier = {
+        timeout = 10000,
       },
     },
     keys = {
@@ -62,5 +85,10 @@ return {
         desc = "Dismiss All Notifications",
       },
     },
+  },
+  {
+    "tpope/vim-repeat",
+    lazy = true,
+    event = "VeryLazy",
   },
 }
