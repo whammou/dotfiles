@@ -17,7 +17,15 @@ opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,w
 --opt.foldmethod = "expr"
 --opt.foldexpr = "v:vim.treesitter.foldexpr()"
 opt.foldlevel = 99
+opt.foldminlines = 0
 opt.fillchars = [[diff:╱,eob: ,fold: ,foldclose: ,foldopen:,foldsep: ]]
+
+vim.opt.wrap = true
+vim.opt.breakindent = true
+vim.opt.linebreak = true -- Remap for dealing with word wrap
+vim.opt.showbreak = "󰘍 "
+vim.opt.breakindentopt = "list:-1"
+-- vim.opt.formatlistpat = [[^\s*\%([-+*]\s\+\|\d\+\.\s\+\|[a-zA-Z]\+\.\s\+\)]]
 
 vim.o.shell = "fish"
 -- opts.rocks.hererocks = false

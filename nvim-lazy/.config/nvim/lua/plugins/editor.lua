@@ -70,21 +70,26 @@ return {
     cmd = "Commentless",
     keys = {
       {
-        "<leader>/",
+        "<leader>3",
         function()
-          require("commentless").toggle()
+          require("commentless").hide()
         end,
-        desc = "Toggle Comments",
+        desc = "Hide Comments",
+      },
+      {
+        "<leader>#",
+        function()
+          require("commentless").reveal()
+        end,
+        desc = "Reveal Comments",
       },
     },
     opts = {
       -- Customize Configuration
-      {
-        hide_following_blank_lines = true,
-        foldtext = function(folded_count)
-          return "" .. folded_count
-        end,
-      },
+      hide_following_blank_lines = true,
+      foldtext = function(folded_count)
+        return ""
+      end,
     },
   },
 }

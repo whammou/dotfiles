@@ -3,6 +3,7 @@
 --
 -- Add any additional autocmds here
 -- with `vim.api.nvim_create_autocmd`
+
 vim.api.nvim_create_user_command("Redir", function(ctx)
   local lines = vim.split(vim.api.nvim_exec(ctx.args, true), "\n", { plain = true })
   vim.cmd("new")
