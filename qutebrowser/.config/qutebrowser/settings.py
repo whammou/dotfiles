@@ -54,13 +54,15 @@ c.completion.open_categories = [
 c.url.start_pages = ["https://ascii-start.customstart.page/"]
 c.url.default_page = "https://ascii-start.customstart.page/"
 c.url.searchengines = {
-    "DEFAULT": "https://opnxng.com/search?q={}",
+    # "DEFAULT": "https://opnxng.com/search?q={}",
+    "DEFAULT": "https://duckduckgo.com/?q={}",
     "gs": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=",
-    "g": "https://www.google.com/search?q={}",
-    "b": "https://search.brave.com/search?q={}",
-    "y": "https://www.youtube.com/results?search_query={}",
+    "gg": "https://www.google.com/search?q={}",
+    "br": "https://search.brave.com/search?q={}",
+    "yt": "https://www.youtube.com/results?search_query={}",
     "wa": "https://wiki.archlinux.org/?search={}",
     "lg": "https://libgen.gs/index.php?req={}",
+    "dd": "https://duckduckgo.com/?q={}",
 }
 
 # c.fonts.default_size = "13pt"

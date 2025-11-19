@@ -17,6 +17,7 @@ opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,w
 --opt.foldmethod = "expr"
 --opt.foldexpr = "v:vim.treesitter.foldexpr()"
 opt.foldlevel = 99
+opt.fillchars = [[diff:╱,eob: ,fold: ,foldclose: ,foldopen:,foldsep: ]]
 
 vim.o.shell = "fish"
 -- opts.rocks.hererocks = false

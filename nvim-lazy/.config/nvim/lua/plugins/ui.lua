@@ -25,7 +25,7 @@ return {
     "nvim-lualine/lualine.nvim",
     lazy = true,
     config = function()
-      require("config.ui.lualine")
+      require("config.ui.evilline")
     end,
     -- opts = {
     --   sections = {
@@ -85,5 +85,10 @@ return {
         desc = "Dismiss All Notifications",
       },
     },
+  },
+  {
+    "tpope/vim-repeat",
+    lazy = true,
+    event = "VeryLazy",
   },
 }

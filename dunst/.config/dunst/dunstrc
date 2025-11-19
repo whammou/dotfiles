@@ -113,13 +113,21 @@ timeout = 7
 set_stack_tag = string:x-dunst-stack-tag:media
 history_ignore = yes
 
+[actions]
+summary = ^orgmode-actions-sync$
+script = /home/whammou/.config/dunst/scripts/webdav-sync
+format = ""
+stack_duplicates = false
+set_transient = yes
+timeout = 1
+
 [reminder]
-summary = orgmode
+summary = ^orgmode$
 set_transient = yes
 format = ""
 script = ~/.config/dunst/scripts/orgmode
 [orgmmode]
-summary = Orgmode
+summary = ^Orgmode$
 format = "<b><span foreground='#34bfd0' size='13.5pt'>  %s</span></b>\n\n%b"
 frame_color = "#34bfd0"
 highlight = "#34bfd0"

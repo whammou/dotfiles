@@ -31,7 +31,8 @@ return {
     opts = {
       foldtext = {
         lineCount = {
-          template = "󰘖 %d",
+          template = "%d",
+          hlgroup = "Comment",
         },
       },
     }, -- needed even when using default config
@@ -62,5 +63,28 @@ return {
     lazy = true,
     event = "VeryLazy",
     -- Lua
+  },
+  {
+    "soemre/commentless.nvim",
+    lazy = true,
+    cmd = "Commentless",
+    keys = {
+      {
+        "<leader>/",
+        function()
+          require("commentless").toggle()
+        end,
+        desc = "Toggle Comments",
+      },
+    },
+    opts = {
+      -- Customize Configuration
+      {
+        hide_following_blank_lines = true,
+        foldtext = function(folded_count)
+          return "" .. folded_count
+        end,
+      },
+    },
   },
 }
