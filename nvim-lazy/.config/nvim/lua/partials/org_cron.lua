@@ -5,8 +5,8 @@ vim.opt.runtimepath:append(orgmode)
 
 -- Run the orgmode cron
 require("orgmode").cron({
-  org_agenda_files = "~/notes/**/*",
-  org_default_notes_file = "~/notes/capture.org",
+  org_agenda_files = "~/Journal/**/*",
+  org_default_notes_file = "~/Journal/capture.org",
   notifications = {
     enabled = true,
     cron_enabled = true,
