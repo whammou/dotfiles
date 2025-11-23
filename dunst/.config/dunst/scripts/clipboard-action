@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Send a substitute notification that contains actions
-dunst_action=$(dunstify -a "ntfy" -A "yank,Yank Clipboard" "Clipboard" "$DUNST_BODY")
+dunst_action=$(dunstify -A "yank,Yank Clipboard" "Clipboard" "$DUNST_BODY")
 
 # Define Actions
 case $dunst_action in

@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 current_file=$DUNST_BODY
-sleep 2
+sleep 1
 
-find /run/user/1000/ -maxdepth 1 -type s -name "nvim-orgmode-*.socket" | xargs -I{} orgmode-update-flag $current_file {}
+find /run/user/1000/ -maxdepth 1 -type s -name "nvim-orgmode-[0-9].socket" | xargs -I{} orgmode-update-flag $current_file {}
+find /run/user/1000/ -maxdepth 1 -type s -name "nvim-orgmode-agenda.socket" | xargs -I{} orgmode-update-flag -a $current_file {}

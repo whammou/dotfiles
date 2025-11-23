@@ -3,7 +3,6 @@
 # Send a substitute notification that contains actions
 dunst_action=$(
   dunstify \
-    -a "ntfy" \
     -A "accept, Accept incoming call" \
     -A "reject, Reject incoming call" \
     -h "string:x-dunst-stack-tag:call" \

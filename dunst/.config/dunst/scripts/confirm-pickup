@@ -3,5 +3,5 @@
 dunstify \
   "$DUNST_SUMMARY" \
   "Call in progress" \
-  -c call.accept.format \
+  -c call.accept.notification \
   -h string:x-dunst-stack-tag:call
