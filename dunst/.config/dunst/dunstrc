@@ -123,11 +123,10 @@ set_stack_tag = string:x-dunst-stack-tag:media
 history_ignore = yes
 
 [reminder]
-category = org-cron
-summary = ^orgmode$
-set_transient = yes
-format = ""
+summary = org_cron
 script = ~/.config/dunst/scripts/orgmode
+format = ""
+set_transient = yes
 [orgmmode]
 category = ntfy
 summary = ^Orgmode$
