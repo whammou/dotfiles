@@ -125,6 +125,8 @@ history_ignore = yes
 [reminder]
 summary = org_cron
 script = ~/.config/dunst/scripts/orgmode
+format = ""
+set_transient = yes
 [orgmmode]
 category = ntfy
 summary = ^Orgmode$
