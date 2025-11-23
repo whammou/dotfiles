@@ -33,7 +33,7 @@ require("orgmode").cron({
 
         vim.system({
           "notify-send",
-          "orgmode",
+          "org_cron",
           string.format("%s\n%s\n%s", subtitle, date, title),
         })
       end
