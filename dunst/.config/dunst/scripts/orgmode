@@ -1,3 +1,5 @@
 #!/usr/bin/env sh
 
-curl -H "t:Orgmode" -d "$DUNST_BODY" whamlab.sytes.net/orgmode
+curl -H "t:Reminder" \
+  -d "$DUNST_BODY" \
+  whamlab.sytes.net/orgmode

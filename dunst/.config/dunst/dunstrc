@@ -20,7 +20,7 @@ frame_width = 2
 sort = update
 idle_threshold = 3
 show_age_threshold = -1
-notification_limit = 7
+notification_limit = 6
 
 font = HasklugNerdFont 13
 line_height = 0
@@ -112,8 +112,7 @@ highlight = "#54b0fd"
 format = "<b><span foreground='#54b0fc' >󰛈  %s</span></b>\n\n%b"
 set_stack_tag = string:x-dunst-stack-tag:clipboard
 
-[media]
-category = ntfy
+[ntfy-media]
 summary = Mpv|SimpMusic|NewPipe
 frame_color = "#efbd5d"
 highlight = "#efbd5d"
@@ -122,15 +121,22 @@ timeout = 7
 set_stack_tag = string:x-dunst-stack-tag:media
 history_ignore = yes
 
-[reminder]
+[clock]
+category = ntfy
+summary = Clock
+body = ^<b></b>:$
+format = ""
+script = /home/whammou/.config/dunst/scripts/clock-format
+
+[orgmode]
 summary = org_cron
 script = ~/.config/dunst/scripts/orgmode
 format = ""
 set_transient = yes
-[orgmmode]
-category = ntfy
-summary = ^Orgmode$
-format = "<b><span foreground='#34bfd0' >  %s</span></b>\n\n%b"
+[reminder]
+category = ^(ntfy|reminder)$
+summary = ^(Orgmode|Reminder)$
+format = "<b><span foreground='#34bfd0' >󰕪  %s</span></b>\n\n%b"
 frame_color = "#34bfd0"
 highlight = "#34bfd0"
 
@@ -210,12 +216,13 @@ body = .* Calling(\.\.\.| )?$
 frame_color = "#54b0fd"
 highlight = "#54b0fd"
 format = "<b><span foreground='#54b0fc' >󰏻  %s</span></b>\n\n%b"
+set_transient = yes
 history_ignore = yes
 
 [call-missed]
 category = ntfy
 summary = Zalo$|Phone$
-body = ^(\[Missed (audio|video) call\]|Missed call): (.+)$
+body = ^<b>(\[Missed (audio|video) call\]|Missed call)</b>: (.+)$
 set_category = "call.missed"
 frame_color = "#f65866"
 highlight = "#f65866"
@@ -225,7 +232,7 @@ timeout = 0
 [calls-missed]
 category = ntfy
 summary = Zalo$|Phone$
-body = ^Missed calls: (.+)$
+body = ^<b>Missed calls</b>: (.+)$
 set_category = "call.missed"
 frame_color = "#f65866"
 highlight = "#f65866"
@@ -237,7 +244,7 @@ timeout = 5
 [call-accept]
 category = ntfy
 summary = Zalo$|Phone$
-body = "^:$|^.*: Ongoing call$"
+body = "^<b></b>:$|^.*: Ongoing call$"
 format = ""
 set_stack_tag = string:x-dunst-stack-tag:call
 script = ~/.config/dunst/scripts/confirm-pickup
