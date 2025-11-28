@@ -125,6 +125,7 @@ history_ignore = yes
 category = ntfy
 summary = Clock
 body = ^<b></b>:$
+format = ""
 script = /home/whammou/.config/dunst/scripts/clock-format
 
 [orgmode]
@@ -133,8 +134,8 @@ script = ~/.config/dunst/scripts/orgmode
 format = ""
 set_transient = yes
 [reminder]
-category = ntfy
-summary = ^(Orgmode|Reminder|Clock)$
+category = ^(ntfy|reminder)$
+summary = ^(Orgmode|Reminder)$
 format = "<b><span foreground='#34bfd0' >󰕪  %s</span></b>\n\n%b"
 frame_color = "#34bfd0"
 highlight = "#34bfd0"
