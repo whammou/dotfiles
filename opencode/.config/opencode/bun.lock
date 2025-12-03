@@ -1,0 +1,18 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "@opencode-ai/plugin": "1.0.128",
+      },
+    },
+  },
+  "packages": {
+    "@opencode-ai/plugin": ["@opencode-ai/plugin@1.0.128", "", { "dependencies": { "@opencode-ai/sdk": "1.0.128", "zod": "4.1.8" } }, "sha512-M5vjz3I6KeoBSNduWmT5iHXRtTLCqICM5ocs+WrB3uxVorslcO3HVwcLzrERh/ntpxJ/1xhnHQaeG6Mg+P744A=="],
+
+    "@opencode-ai/sdk": ["@opencode-ai/sdk@1.0.128", "", {}, "sha512-Kow3Ivg8bR8dNRp8C0LwF9e8+woIrwFgw3ZALycwCfqS/UujDkJiBeYHdr1l/07GSHP9sZPmvJ6POuvfZ923EA=="],
+
+    "zod": ["zod@4.1.8", "", {}, "sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ=="],
+  }
+}
