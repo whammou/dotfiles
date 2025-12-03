@@ -3,6 +3,9 @@ require("git"):setup()
 require("mime-ext"):setup({
 	with_exts = {
 		org = "text/org",
+		target = "text/x-systemd-unit",
+		service = "text/x-systemd-unit",
+		timer = "text/x-systemd-unit",
 	},
 })
 
