@@ -43,23 +43,47 @@ return {
           border = "single",
         },
       },
+      cmdline_popup = {
+        opt = {
+          border = "single",
+        },
+      },
+      views = {
+        cmdline_popup = {
+          border = { style = "none" },
+        },
+        popupmenu = {
+          border = { style = "single" },
+        },
+      },
     },
   },
   {
     "folke/snacks.nvim",
     opts = {
+      picker = {
+        enabled = false,
+      },
       styles = {
+        lazygit = {
+          height = 0.5,
+          position = "bottom",
+        },
+        terminal = {
+          height = 0.3,
+          position = "bottom",
+        },
         notification = {
           border = "single",
+          wo = {
+            wrap = true,
+          },
         },
         notification_history = {
           border = "single",
         },
       },
       dashboard = { enabled = false },
-      terminal = {
-        win = {},
-      },
       notifier = {
         timeout = 10000,
       },
@@ -90,5 +114,6 @@ return {
     "tpope/vim-repeat",
     lazy = true,
     event = "VeryLazy",
+    enabled = false,
   },
 }

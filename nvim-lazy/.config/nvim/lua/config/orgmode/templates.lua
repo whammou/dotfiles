@@ -85,35 +85,23 @@ local capture_templates = {
   },
 }
 
-local task_agenda = {
-  {
-    type = "agenda",
-    org_agenda_tag_filter_preset = { "ONEOFF", "INCIDENTAL", "COORDINATED", "URGENT" },
-    org_agenda_overriding_header = "Daily Tasks",
-    org_agenda_span = "week",
-  },
-}
-
-local doc_agenda = {
-  {
-    type = "agenda",
-    org_agenda_tag_filter_preset = "DOC",
-    org_agenda_overriding_header = "Document Tasks",
-    org_agenda_span = "week",
-  },
-}
-
 local task_doc_agenda = {
   {
     type = "agenda",
     org_agenda_tag_filter_preset = "TASK-RECURRING",
-    org_agenda_overriding_header = "Daily Tasks",
+    org_agenda_overriding_header = " 󰄵 Task Agenda ",
     org_agenda_span = "day",
   },
   {
     type = "agenda",
     org_agenda_tag_filter_preset = "DOC",
-    org_agenda_overriding_header = "Document Tasks",
+    org_agenda_overriding_header = "  Document Agenda ",
+    org_agenda_span = "day",
+  },
+  {
+    type = "agenda",
+    org_agenda_tag_filter_preset = "RECURRING",
+    org_agenda_overriding_header = "  Recurring Tasks ",
     org_agenda_span = "day",
   },
 }
@@ -130,14 +118,6 @@ local function setup_org_capture_template()
   require("orgmode").setup({
     org_capture_templates = capture_templates,
     org_agenda_custom_commands = {
-      k = {
-        description = "Task Agenda",
-        types = task_agenda,
-      },
-      c = {
-        description = "Document Agenda",
-        types = doc_agenda,
-      },
       A = {
         description = "Combined View",
         types = task_doc_agenda,
@@ -181,7 +161,7 @@ local roam_template = {
         c = {
           description = "Capture Document",
           template = "** %?",
-          target = base_dir .. "/%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
+          target = "/%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
           headline = "Document Drafts",
         },
       },

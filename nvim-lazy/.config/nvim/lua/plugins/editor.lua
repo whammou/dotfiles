@@ -70,14 +70,14 @@ return {
     cmd = "Commentless",
     keys = {
       {
-        "<leader>3",
+        "z[",
         function()
           require("commentless").hide()
         end,
         desc = "Hide Comments",
       },
       {
-        "<leader>#",
+        "z]",
         function()
           require("commentless").reveal()
         end,

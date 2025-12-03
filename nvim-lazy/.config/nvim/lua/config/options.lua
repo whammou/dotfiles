@@ -9,6 +9,7 @@ vim.opt.titlelen = 0 -- do not shorten title
 vim.opt.titlestring = "%t - "
 
 opt.autochdir = true
+opt.autoread = true
 opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,winpos,terminal,localoptions,resize"
 
 --opt.foldmethod = "indent"

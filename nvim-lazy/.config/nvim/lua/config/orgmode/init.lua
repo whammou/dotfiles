@@ -5,4 +5,5 @@ return {
   require("config.orgmode.ui"),
   require("config.orgmode.options"),
   require("config.orgmode.roam"),
+  require("config.orgmode.editor"),
 }

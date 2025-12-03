@@ -55,11 +55,13 @@ return {
         ["@org.headline.level5"] = { fg = "$green", fmt = "bold" },
         ["@org.headline.level6"] = { fg = "$red", fmt = "bold" },
         -- Orgmode agenda
-        ["@org.agenda.day"] = { fg = "none", fmt = "bold" },
-        ["@org.agenda.today"] = { fg = "$yellow", fmt = "bold" },
-        ["@org.agenda.weekend"] = { fg = "$red", fmt = "bold" },
+        ["@org.agenda.day"] = { fg = "none", fmt = "bold,italic" },
+        ["@org.agenda.today"] = { fg = "$orange", fmt = "bold,italic" },
+        ["@org.agenda.weekend"] = { fg = "$red", fmt = "bold,italic" },
         ["@org.agenda.deadline"] = { fg = "$cyan" },
-        ["@org.agenda.header"] = { fg = "$blue", fmt = "bold,underline" },
+        ["@org.agenda.scheduled"] = { fg = "$green" },
+        ["@org.agenda.header"] = { fg = "$green", bg = "$dimmed_green", fmt = "bold" },
+        ["@org.agenda.time_grid"] = { fg = "$red", fmt = "bold" },
 
         --Snack dashboard
         ["SnacksDashBoardHeader"] = { fg = "$fg" },

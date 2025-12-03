@@ -7,6 +7,7 @@ vim.opt.breakindent = true
 vim.opt.linebreak = true -- Remap for dealing with word wrap
 vim.opt.breakindentopt = "list:-1"
 vim.opt.formatlistpat = [[^\s*\%([-+*]\s\+\|\d\+\.\s\+\|[a-zA-Z]\+\.\s\+\)]]
+vim.opt.showbreak = ""
 --vim.opt.formatlistpat = [[^\s*[-*+]\s*\|\^\s*\d\+[.)]\s*]]
 --vim.opt.formatlistpat = [[^\s*\%([-+*]\s\|\d\+\.\s\|[a-zA-Z]\+\.\s\)]]
 
