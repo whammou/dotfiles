@@ -21,3 +21,4 @@ fish/.config/fish/functions/fzf_configure_bindings.fish
 fish/.config/fish/conf.d/fzf.fish
 yazi/.config/yazi/plugins
 handlr/.local/share/applications/mimeinfo.cache
+opencode/.config/opencode/node_modules
