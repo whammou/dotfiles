@@ -55,9 +55,9 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
             }
         case "pad_typing":
             return {
-                "width": 0.9985,
+                "width": 0.9955,
                 "height": 0.25,
-                "x": 0.00075,
+                "x": 0.00275,
                 "y": 0,
             }
         case "power_menu":

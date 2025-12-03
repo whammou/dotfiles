@@ -49,7 +49,7 @@ keymap = [
         "name": "ai",
         "prefix": "a",
         "cmd": [
-            ["p", in_terminal("_ai_prompt"), "pad_small"],
+            ["p", in_terminal("opencode"), "pad_small"],
             [
                 "g",
                 "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chatgpt.com \
@@ -113,6 +113,7 @@ keymap = [
         "cmd": [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
             ["l", in_terminal("orgmode-backlog"), "pad_large"],
+            ["z", in_terminal("orgmode-browse"), "pad_large"],
             ["o", in_terminal("orgmode-super-agenda"), "pad_large"],
             ["n", in_terminal("yazi /home/whammou/Journal"), "pad_large"],
             ["g", in_terminal("lazygit -p /home/whammou/Journal"), "pad_large"],
@@ -163,6 +164,7 @@ keymap = [
         "prefix": "u",
         "cmd": [
             # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
+            ["g", in_terminal("lazygit -p /home/whammou/dotfiles/"), "pad_large"],
             ["e", in_terminal("nvim"), "pad_large"],
             ["u", in_terminal("paru -Syu ; alert", parameters="--hold"), "pad_large"],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
