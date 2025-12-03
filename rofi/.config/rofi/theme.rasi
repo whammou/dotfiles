@@ -1,99 +1,96 @@
-/* ROFI SQUARED THEME USING THE MATERIAL DARKER PALETTE  */
-/* Author: Newman Sanchez (https://github.com/newmanls) */
+/*
+ * ROFI color theme
+ *
+ * Based on Something Found in the Internet
+ *
+ * User: Contributors
+ * Copyright: *!
+ */
+
+configuration {
+  font: "HasklugNerdFont 13";
+
+  drun {
+    display-name: "";
+  }
+
+  run {
+    display-name: "";
+  }
+
+  window {
+    display-name: "";
+  }
+
+  timeout {
+    action: "kb-cancel";
+  }
+}
 
 * {
-    font:   "HasklugNerdFont 13";
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
 
-    bg0:     #1a212e;
-    bg2:     #283347;
-    fg0:     #93a4c3;
+  bg: #1a212e;
+	fg: #93a4c3;
+	blue: #41a7fc;
+	blue-alt: #41a7fc15;
+	red: #f65866;
+  red-alt: #f6586615;
 
-    accent-color:     #41a7fc;
-    urgent-color:     #f65866;
-
-    background-color:   transparent;
-    text-color:         @fg0;
-
-    margin:     0;
-    padding:    0;
-    spacing:    0;
+  background-color: @bg;
+  text-color: @fg;
 }
 
 window {
-    location:   north;
-    width:      99.3%;
-    y-offset:   8px;
-    background-color:   @bg2;
+  location:   north;
+  width:      1906px;
+  y-offset:   8px;
+  padding:    0px 0px 1px 0px;
+  border-color: @blue-alt;
+  transparency: "real";
+}
+
+mainbox {
+  children: [inputbar, listview];
 }
 
 inputbar {
-    spacing:    8px;
-    padding:    0px 0px 0px 0px;
-
-    background-color:   @bg2;
+  spacing:    8px;
+  padding:    0px 0px 1px 0px;
+  border: 0 0 0 4px;
+  border-color: @blue;
+  children: [entry];
 }
 
-prompt, entry, element-icon, element-text {
-    vertical-align: 0.5;
-}
-
-prompt {
-    text-color: @bg0;
-    padding: 3px 4px;
-    background-color: @accent-color;
-    highlight: bold;
-}
-
-textbox {
-    padding:            8px;
-    background-color:   @bg2;
+entry {
+  background-color: @blue-alt;
+  padding: 3px;
+  text-color: @blue;
 }
 
 listview {
-    padding:    0px 0px;
-    lines:      8;
-    columns:    1;
-
-    fixed-height:   false;
+  fixed-height: false;
+  dynamic: true;
+  reverse: false;
 }
 
 element {
-    padding:    4px;
-    spacing:    4px;
-}
-
-element normal normal {
-    text-color: @fg0;
-}
-
-element normal urgent {
-    text-color: @urgent-color;
-}
-
-element normal active {
-    text-color: @accent-color;
-}
-
-element alternate active {
-    text-color: @accent-color;
+  border: 0 0 0 4px;
+  children: [element-text];
 }
 
 element selected {
-    text-color: @bg0;
-}
-
-element selected normal, element selected active {
-    background-color:   @accent-color;
-}
-
-element selected urgent {
-    background-color:   @urgent-color;
-}
-
-element-icon {
-    size:   0.8em;
+  border-color: @red;
 }
 
 element-text {
-    text-color: inherit;
+  padding: 3px;
+}
+
+element-text selected {
+  background-color: @red-alt;
+  text-color: @red;
 }
