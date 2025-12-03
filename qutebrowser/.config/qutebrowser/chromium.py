@@ -17,7 +17,11 @@ c.qt.args = [
     "disable-gpu-sandbox",
     "content.prefers_reduced_motion",
 ]
+
 c.qt.workarounds.disable_accelerated_2d_canvas = "never"
+c.qt.workarounds.disable_hangouts_extension = True
+c.qt.workarounds.disable_accessibility = "always"
+
 c.content.autoplay = False
 config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")

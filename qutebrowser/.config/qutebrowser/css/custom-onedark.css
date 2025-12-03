@@ -183,6 +183,7 @@ span, a {
   background-color: transparent !important;
 }
 
+span.pre,
 span.cfc-switcher-button-label-text.ng-tns-c3831740024-2.ng-star-inserted,
 span.jNZqle,
 div.s-post-summary--stats-item.s-post-summary--stats-item__emphasized,
@@ -197,7 +198,10 @@ p {
   margin-bottom: 1em;
   color: var(--od-fg);
 }
-
+blockquote ul li,
+blockquote p {
+  color: var(--od-light_grey) !important;
+}
 
 div.accordion-label.texts,
 button.accordion-button.align-items-start.shadow-none.rounded-0 span,
@@ -215,6 +219,7 @@ a:hover, a:focus {
   color: var(--od--purple) !important;
   text-decoration: underline;
 }
+div.url_wrapper,
 a.question-hyperlink {
   color: var(--od-cyan) !important;
 }

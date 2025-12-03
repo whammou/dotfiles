@@ -51,18 +51,24 @@ c.completion.open_categories = [
     "filesystem",
 ]
 
+
+defaultSearxng = "https://search.hbubli.cc"
+defaultQuery = defaultSearxng + "/search?q={}"
 c.url.start_pages = ["https://ascii-start.customstart.page/"]
 c.url.default_page = "https://ascii-start.customstart.page/"
 c.url.searchengines = {
     # "DEFAULT": "https://opnxng.com/search?q={}",
-    "DEFAULT": "https://duckduckgo.com/?q={}",
-    "gs": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}&btnG=",
-    "gg": "https://www.google.com/search?q={}",
-    "br": "https://search.brave.com/search?q={}",
-    "yt": "https://www.youtube.com/results?search_query={}",
-    "wa": "https://wiki.archlinux.org/?search={}",
-    "lg": "https://libgen.gs/index.php?req={}",
-    "dd": "https://duckduckgo.com/?q={}",
+    # "DEFAULT": "https://duckduckgo.com/?q={}",
+    "DEFAULT": defaultQuery,
+    "it": defaultQuery + "&categories=it",
+    "vi": defaultQuery + "&categories=videos",
+    "im": defaultQuery + "&categories=images",
+    "ne": defaultQuery + "&categories=news",
+    "ma": defaultQuery + "&categories=map",
+    "mu": defaultQuery + "&categories=music",
+    "sc": defaultQuery + "&categories=science",
+    "fi": defaultQuery + "&categories=files",
+    "so": defaultQuery + "&categories=social%20media",
 }
 
 # c.fonts.default_size = "13pt"
