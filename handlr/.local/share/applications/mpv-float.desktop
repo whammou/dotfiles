@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=mpv Media Player - Float
+Comment=Start mpv in audio mode
+Exec=mpv --profile=mpv-float %U
+Terminal=no
+Type=Application
+MimeType=
