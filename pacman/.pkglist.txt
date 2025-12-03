@@ -1,5 +1,4 @@
 7zip
-a2ln
 abseil-cpp
 acl
 acpi
@@ -43,6 +42,7 @@ bridge-utils
 brightnessctl
 brotli
 btrfs-progs
+bustle
 bzip2
 c-ares
 ca-certificates
@@ -62,7 +62,6 @@ coreutils
 cppdap
 cryptsetup
 curl
-daemon
 dav1d
 davmail
 db5.3
@@ -75,17 +74,16 @@ default-cursors
 desktop-file-utils
 device-mapper
 diffutils
+docker
 double-conversion
 duktape
 dunst
 dvisvgm
 e2fsprogs
 ell
-emacs
 enchant
 expat
 eza
-fabric-ai-bin
 fakeroot
 fastfetch
 fava
@@ -125,6 +123,7 @@ ghostscript
 giflib
 git
 github-cli
+glib
 glib-networking
 glib2
 glibc
@@ -160,6 +159,16 @@ guile
 gumbo-parser
 gupnp
 gupnp-igd
+gvfs-afc
+gvfs-dnssd
+gvfs-goa
+gvfs-google
+gvfs-gphoto2
+gvfs-mtp
+gvfs-nfs
+gvfs-onedrive
+gvfs-smb
+gvfs-wsdd
 gzip
 harfbuzz
 harfbuzz-icu
@@ -169,7 +178,7 @@ hicolor-icon-theme
 hidapi
 highway
 html-xml-utils
-htop
+htop-vim
 hunspell
 hwdata
 hwloc
@@ -179,6 +188,7 @@ icu
 ijs
 imagemagick
 imath
+inotify-tools
 intel-gmmlib
 intel-gpu-tools
 intel-media-driver
@@ -440,7 +450,6 @@ ly
 lz4
 lzo
 m4
-magic-tape.sh-git
 make
 man-db
 md4c
@@ -467,6 +476,7 @@ neon
 neovim
 nettle
 networkmanager
+newsboat
 node-gyp
 nodejs
 nodejs-nopt
@@ -480,6 +490,7 @@ ocl-icd
 onetbb
 oniguruma
 openal
+opencode-bin
 opencore-amr
 opencv
 openexr
@@ -488,6 +499,7 @@ openssh
 openssl
 opus
 orc
+otf-hasklig-nerd
 p11-kit
 paccache-hook
 pacman
@@ -518,6 +530,7 @@ pipewire-pulse
 pixman
 pkgconf
 playerctl
+podman
 polkit
 poppler
 poppler-data
@@ -593,6 +606,7 @@ python-typing_extensions
 python-undervolt
 python-urllib3
 python-userpath
+python-weasyprint
 python-xcffib
 python-yaml
 qt5-base
@@ -628,11 +642,13 @@ rnote
 rofi-dmenu
 rofi-greenclip
 rofi-playerctl-git
+rofi-process-killer
+rsync
 rubberband
 ruff
 runc
 rust
-samba
+rustdesk-bin
 sbc
 sdl2-compat
 sdl3
@@ -699,12 +715,12 @@ tt
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-common
 ttf-noto-emoji-monochrome
-ttf-sourcecodepro-nerd
 tzdata
 uchardet
 udisks2-btrfs
 unclutter
 unibilium
+unison
 unzip
 usbutils
 util-linux
@@ -764,6 +780,7 @@ xxhash
 xz
 yazi
 yt-dlp
+yt-x-git
 yyjson
 zaread-git
 zathura
