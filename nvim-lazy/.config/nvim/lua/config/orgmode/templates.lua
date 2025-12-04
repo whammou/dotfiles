@@ -1,6 +1,7 @@
-local base_dir = vim.fn.expand("~/Journal/")
-local zettel_dir = base_dir .. "/topics/vault/"
-local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
+local dir = require("config.orgmode.directories")
+
+local base_dir = dir.base_dir
+local zettel_dir = dir.zettel_dir
 
 local function _get_filename(directory)
   local filename = table.concat(
@@ -22,7 +23,7 @@ end
 local function _get_dir_path(directory, filename)
   local cmd = 'find "' .. vim.fn.fnamemodify(directory, ":p") .. '" -type d -name ' .. filename .. " | paste -s -d '|'"
   local result = vim.fn.system(cmd)
-  return string.gsub(result:gsub("\n$", ""), base_dir, "")
+  return string.gsub(result:gsub("\n$", ""), directory, "")
 end
 
 local org_tasks = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "tasks") .. "}"
@@ -153,7 +154,7 @@ local roam_template = {
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 #+TODO: TODO(t) (e) DOING(d) PEND(p) OUTL(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
 %?]],
-      target = org_doc_dirs .. "/%[slug].org",
+      target = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
     },
     d = {
       description = "Documents",
@@ -161,7 +162,7 @@ local roam_template = {
         c = {
           description = "Capture Document",
           template = "** %?",
-          target = "/%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
+          target = "%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
           headline = "Document Drafts",
         },
       },
