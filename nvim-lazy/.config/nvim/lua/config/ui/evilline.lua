@@ -77,7 +77,8 @@ end
 
 ins_left({
   function()
-    return "▐"
+    --return "▐"
+    return "▌"
   end,
   color = { fg = colors.blue }, -- Sets highlighting of component
   padding = { left = 0, right = 1 }, -- We don't need space before this
@@ -86,7 +87,8 @@ ins_left({
 ins_left({
   -- mode component
   function()
-    return ""
+    --return ""
+    return ""
   end,
   color = function()
     -- auto change color according to neovims mode
@@ -126,10 +128,11 @@ ins_left({
 ins_left({
   "filename",
   cond = conditions.buffer_not_empty,
+  icon = "",
   color = { fg = colors.green, gui = "bold" },
 })
 
-ins_left({ "location" })
+--ins_left({ "location" })
 
 ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
 
@@ -169,8 +172,8 @@ ins_left({
     end
     return msg
   end,
-  icon = "  LSP:",
-  color = { fg = "#93a4c3", gui = "bold" },
+  icon = " ",
+  color = { fg = "#93a4c3" },
 })
 
 -- Add components to right sections
@@ -178,31 +181,29 @@ ins_right({
   "o:encoding", -- option component same as &encoding in viml
   fmt = string.upper, -- I'm not sure why it's upper case either ;)
   cond = conditions.hide_in_width,
-  icon = "",
+  icon = "",
   color = { fg = colors.yellow, gui = "bold" },
 })
 
 ins_right({
-  "fileformat",
-  fmt = string.upper,
+  "os_name", -- Renamed for clarity
+  fmt = function()
+    local sysname = vim.uv.os_uname().sysname
+    if sysname == "Linux" or sysname == "Darwin" then
+      return "UNIX"
+    else
+      return sysname:upper()
+    end
+  end,
   cond = conditions.hide_in_width,
-  -- icon = "󰻀",
-  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = { fg = colors.blue, gui = "bold" },
-})
-
-ins_right({
-  "fileformat",
-  fmt = string.upper,
-  cond = conditions.hide_in_width,
-  -- icon = "󰻀",
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+  icon = "󰌽",
+  icons_enabled = true,
   color = { fg = colors.blue, gui = "bold" },
 })
 
 ins_right({
   "branch",
-  icon = "",
+  icon = "",
   color = { fg = colors.violet, gui = "bold" },
 })
 
@@ -220,10 +221,11 @@ ins_right({
 
 ins_right({
   function()
-    return "▌"
+    --return "▌"
+    return "▐"
   end,
   color = { fg = colors.blue },
-  padding = { left = 1 },
+  padding = { left = 0 },
 })
 
 -- Now don't forget to initialize lualine
