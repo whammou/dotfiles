@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Neomutt
+GenericName=Text base email client
+Exec=neomutt -- %F
+Terminal=true
+Type=Application
+Categories=Utility;
+MimeType=x-scheme-handler/mailto
