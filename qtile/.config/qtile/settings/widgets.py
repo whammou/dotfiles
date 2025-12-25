@@ -27,13 +27,15 @@ def workspaces():
                 "tab.fg_color": colors["bg2"],
                 "tab.active.bg_color": colors["blue"],
                 "tab.active.fg_color": colors["bg2"],
+                "container_select_mode.indicator.bg_color": colors["orange"],
+                "container_select_mode.indicator.fg_color": colors["bg2"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
                 "tab.padding": [0, 5, 15, 5],
             }
         ),
         separator(),
-        widget.TextBox(**base(fg="blue"), fmt=" "),
+        widget.TextBox(**base(fg="blue"), fmt="  "),
         widget.Prompt(
             **base(fg="blue"),
             font="HasklugNerdFont",
@@ -58,8 +60,8 @@ def checkupdate(command="checkupdates"):
         background=colors["bg2"],
         colour_have_updates=colors["yellow"],
         colour_no_updates=colors["yellow"],
-        display_format=" 󱧘 PKGS: {updates} ",
-        no_update_string=" 󰏗 PKGS: 0 ",
+        display_format=" 󰮯 PKGS: {updates} ",
+        no_update_string=" 󰮯 PKGS: 0 ",
         update_interval=1800,
         custom_command=command,
     )
@@ -89,7 +91,7 @@ def disk_free():
         partition="/home",
         format="{uf}{m}",
         # format = "{r: 0.0f}",
-        fmt=" FREE: {}  ",
+        fmt="󰋊 FREE: {}  ",
         visible_on_warn=False,
         update_interval=600,
     )
@@ -122,11 +124,11 @@ widgets = [
     battery(0),
     battery(1),
     checkupdate(),
-    FloatCount(**base(bg="bg2", fg="blue"), format="  FLTW: {count} "),
+    FloatCount(**base(bg="bg2", fg="blue"), format=" 󰖲 FLTW: {count} "),
     # net(),
     wlan(),
     widget.Clock(
-        **base(bg="bg2", fg="cyan"), format="%a %d %b %Y :: %H:%M", fmt=" 󰔟 {} "
+        **base(bg="bg2", fg="cyan"), format="%a %d %b %Y :: %H:%M", fmt=" 󰞌 {} "
     ),
     # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),

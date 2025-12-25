@@ -169,6 +169,8 @@ keymap = [
             ["u", in_terminal("paru -Syu ; alert", parameters="--hold"), "pad_large"],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["n", "rnote", "pad_extra_large"],
+            ["r", in_terminal("newsboat"), "pad_large"],
+            ["S-m", in_terminal("neomutt"), "pad_large"],
             ["d", in_terminal("dict"), "pad_small"],
             ["a", in_terminal("anifzf"), "pad_small"],
             ["S-a", in_terminal("ani-cli -c"), "pad_small"],
