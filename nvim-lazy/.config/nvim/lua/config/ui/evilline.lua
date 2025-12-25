@@ -125,16 +125,21 @@ ins_left({
   cond = conditions.buffer_not_empty,
 })
 
-ins_left({
-  "filename",
-  cond = conditions.buffer_not_empty,
-  icon = "",
-  color = { fg = colors.green, gui = "bold" },
-})
+--ins_left({
+--  "filename",
+--  cond = conditions.buffer_not_empty,
+--  icon = "",
+--  color = { fg = colors.green, gui = "bold" },
+--})
 
 --ins_left({ "location" })
 
-ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
+ins_left({
+  "progress",
+  fmt = string.upper, -- I'm not sure why it's upper case either ;)
+  icon = "",
+  color = { fg = colors.green, gui = "bold" },
+})
 
 ins_left({
   "diagnostics",
@@ -158,7 +163,7 @@ ins_left({
 ins_left({
   -- Lsp server name .
   function()
-    local msg = "Inactive"
+    local msg = "inactive"
     local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
     local clients = vim.lsp.get_clients()
     if next(clients) == nil then
@@ -173,7 +178,7 @@ ins_left({
     return msg
   end,
   icon = " ",
-  color = { fg = "#93a4c3" },
+  color = { fg = colors.fg },
 })
 
 -- Add components to right sections
@@ -196,7 +201,7 @@ ins_right({
     end
   end,
   cond = conditions.hide_in_width,
-  icon = "󰌽",
+  icon = "󰻀",
   icons_enabled = true,
   color = { fg = colors.blue, gui = "bold" },
 })
