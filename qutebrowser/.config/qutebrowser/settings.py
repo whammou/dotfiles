@@ -52,7 +52,7 @@ c.completion.open_categories = [
 ]
 
 
-defaultSearxng = "https://search.hbubli.cc"
+defaultSearxng = "https://opnxng.com"
 defaultQuery = defaultSearxng + "/search?q={}"
 c.url.start_pages = ["https://ascii-start.customstart.page/"]
 c.url.default_page = "https://ascii-start.customstart.page/"
