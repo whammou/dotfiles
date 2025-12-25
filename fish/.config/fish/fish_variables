@@ -1,8 +1,12 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export BROWSER:qutebrowser
 SETUVAR CAL:/home/whammou/Documents/courses/math
 SETUVAR CLANG:/home/whammou/Documents/courses/C
 SETUVAR --export FZF_DEFAULT_OPTS_FILE:/home/whammou/\x2econfig/fzf/shell\x2econf
+SETUVAR --export LYNX_CFG:/home/whammou/\x2econfig/lynx/lynx\x2ecfg
+SETUVAR --export --path LYNX_CFG_PATH:/home/whammou/\x2econfig/lynx/
+SETUVAR --export LYNX_LSS:/home/whammou/\x2econfig/lynx/lynx\x2elss
 SETUVAR --export MANPAGER:nvim\x20\x2b\x22Man\x21\x22
 SETUVAR --export MANROFFOPT:\x2dc
 SETUVAR --export MANWIDTH:999
@@ -13,17 +17,17 @@ SETUVAR _fisher_jorgebucaran_2F_fisher_files:\x7e/\x2econfig/fish/functions/fish
 SETUVAR _fisher_patrickf1_2F_fzf_2E_fish_files:\x7e/\x2econfig/fish/functions/_fzf_configure_bindings_help\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_extract_var_info\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_preview_changed_file\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_preview_file\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_report_diff_type\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_report_file_type\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_search_directory\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_search_git_log\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_search_git_status\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_search_history\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_search_processes\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_search_variables\x2efish\x1e\x7e/\x2econfig/fish/functions/_fzf_wrapper\x2efish\x1e\x7e/\x2econfig/fish/functions/fzf_configure_bindings\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/fzf\x2efish\x1e\x7e/\x2econfig/fish/completions/fzf_configure_bindings\x2efish
 SETUVAR _fisher_plugins:jorgebucaran/fisher\x1e/home/whammou/dotfiles/fish/\x2econfig/fish/fish_plugins\x1epatrickf1/fzf\x2efish
 SETUVAR _fisher_upgraded_to_4_4:\x1d
-SETUVAR fish_color_autosuggestion:brblack
+SETUVAR fish_color_autosuggestion:brwhite
 SETUVAR fish_color_cancel:normal
 SETUVAR fish_color_command:green
-SETUVAR fish_color_comment:brblack
+SETUVAR fish_color_comment:brwhite
 SETUVAR fish_color_cwd:\x23yellow
 SETUVAR fish_color_cwd_root:800000
 SETUVAR fish_color_end:8700ff
 SETUVAR fish_color_error:red
 SETUVAR fish_color_escape:95E6CB
 SETUVAR fish_color_history_current:normal
-SETUVAR fish_color_host:brblack
+SETUVAR fish_color_host:brwhite
 SETUVAR fish_color_host_remote:yellow
 SETUVAR fish_color_match:yellow
 SETUVAR fish_color_normal:normal
