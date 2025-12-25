@@ -4,4 +4,5 @@ return {
   require("config.orgmode.options"),
   require("config.orgmode.roam"),
   require("config.orgmode.editor"),
+  require("config.orgmode.hyperlinks"),
 }

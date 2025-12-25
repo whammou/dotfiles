@@ -15,23 +15,23 @@ fzo.setup({
       default = "   ",
       TODO = "[ ]",
       NEXT = "[➔]",
-      PEND = "[󰒲]",
-      OUTL = "[]",
+      PEND = "[󱙭]",
+      OUTL = "[]",
       EXPL = "[]",
       FDBK = "[󰅽]",
       IDEA = "[]",
       RECR = "[󰑖]",
-      WAIT = "[…]",
-      DOIN = "[~]",
+      WAIT = "[]",
+      DOIN = "[󱞇]",
       DONE = "[]",
       PRTL = "[󱍻]",
       RVIW = "[]",
-      ABRT = "[⨯]",
+      ABRT = "[󰚌]",
     },
     show_tags = true, -- whether to display tags
 
     -- Other fzf-lua options (see its documentation)
-    prompt = "Orgmode ❯ ",
+    prompt = "Headlines ❯ ",
     headers = { "actions" },
     actions = {
       -- Also inherits from fzf.actions.files, e.g., file_edit, file_split, etc.
