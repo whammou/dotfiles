@@ -170,7 +170,7 @@ keymap = [
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["n", "rnote", "pad_extra_large"],
             ["r", in_terminal("newsboat"), "pad_large"],
-            ["S-m", in_terminal("neomutt"), "pad_large"],
+            ["m", in_terminal("neomutt"), "pad_large"],
             ["d", in_terminal("dict"), "pad_small"],
             ["a", in_terminal("anifzf"), "pad_small"],
             ["S-a", in_terminal("ani-cli -c"), "pad_small"],
@@ -190,7 +190,18 @@ keymap = [
                 "pad_small",
             ],
             [
-                "y",
+                "S-y",
+                "firefox 'https://youtube.com/account'",
+                "pad_small",
+            ],
+        ],
+    },
+    {
+        "name": "youtube",
+        "prefix": "y",
+        "cmd": [
+            [
+                "v",
                 in_terminal("yt-x", parameters="--title='Youtube - yt-x'"),
                 "pad_large",
             ],
@@ -198,11 +209,6 @@ keymap = [
                 "m",
                 in_terminal("yt-x", parameters="--title='Youtube-Music yt-x'"),
                 "pad_large",
-            ],
-            [
-                "S-y",
-                "firefox 'https://youtube.com/account'",
-                "pad_small",
             ],
         ],
     },
