@@ -1,6 +1,6 @@
 function _paru_install
     set -f listed_packages (
-    paru -Slq | 
+    curl -s https://aur.archlinux.org/packages.gz | gunzip | \
     _fzf_wrapper \
         --multi \
         --ansi \
