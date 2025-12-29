@@ -4,13 +4,14 @@ local base_dir = dir.base_dir
 
 require("orgmode").setup({
   org_agenda_files = { base_dir .. "**/*.org" },
+  org_agenda_text_search_extra_files = { "agenda-archives" },
+  org_agenda_current_time_string = " now ────────",
+
   org_default_notes_file = base_dir .. "capture.org",
   org_log_into_drawer = "LOGBOOK",
   org_highlight_latex_and_related = "entities",
 
   org_archive_location = "./log/archive_%s",
-  org_agenda_text_search_extra_files = { "agenda-archives" },
-  org_agenda_current_time_string = " now ────────",
   org_agenda_time_grid = {
     times = {
       0000,

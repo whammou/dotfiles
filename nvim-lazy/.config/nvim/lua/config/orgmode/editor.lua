@@ -1,5 +1,21 @@
 local fzo = require("fzf-org")
 local actions = require("fzf-org.actions")
+local trouble = require("trouble")
+
+trouble.setup({
+  modes = {
+    diagnostics = {
+      filter = {
+        ["not"] = { ft = { "org" } },
+      },
+      quickfix = {
+        filter = {
+          ["not"] = { ft = { "org" } },
+        },
+      },
+    },
+  },
+})
 
 fzo.setup({
   -- Default options for fzo.orgmode() (all other options inherit from this)
