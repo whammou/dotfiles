@@ -219,6 +219,12 @@ windows_keys = [
         desc="Shrink floating window maintaining aspect ratio",
     ),
     Key(
+        ["mod4", "Shift"],
+        "equal",
+        lazy.window.center(),
+        desc="Shrink floating window maintaining aspect ratio",
+    ),
+    Key(
         [mod],
         "period",
         focus_next_floating_and_front(),

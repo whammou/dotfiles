@@ -164,6 +164,11 @@ keymap = [
         "prefix": "u",
         "cmd": [
             # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
+            [
+                "y",
+                in_terminal("yt-x", parameters="--title='Youtube - yt-x'"),
+                "pad_large",
+            ],
             ["g", in_terminal("lazygit -p /home/whammou/dotfiles/"), "pad_large"],
             ["e", in_terminal("nvim"), "pad_large"],
             ["u", in_terminal("paru -Syu ; alert", parameters="--hold"), "pad_large"],
@@ -193,22 +198,6 @@ keymap = [
                 "S-y",
                 "firefox 'https://youtube.com/account'",
                 "pad_small",
-            ],
-        ],
-    },
-    {
-        "name": "youtube",
-        "prefix": "y",
-        "cmd": [
-            [
-                "v",
-                in_terminal("yt-x", parameters="--title='Youtube - yt-x'"),
-                "pad_large",
-            ],
-            [
-                "m",
-                in_terminal("yt-x", parameters="--title='Youtube-Music yt-x'"),
-                "pad_large",
             ],
         ],
     },
