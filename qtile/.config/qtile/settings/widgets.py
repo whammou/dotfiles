@@ -31,7 +31,7 @@ def workspaces():
                 "container_select_mode.indicator.fg_color": colors["bg2"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
-                "tab.padding": [0, 5, 15, 5],
+                "tab.padding": [15, 5, 15, 5],
             }
         ),
         separator(),
