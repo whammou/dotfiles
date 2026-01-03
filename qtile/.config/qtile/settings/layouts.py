@@ -7,9 +7,9 @@ from .theme import colors
 from .screens import GAP, OFFSET
 
 
-@hook.subscribe.client_new
-def prevent_focus_steal(client):
-    client.__class__.can_steal_focus = property(lambda self: False)
+# @hook.subscribe.client_new
+# def prevent_focus_steal(client):
+#    client.__class__.can_steal_focus = property(lambda self: False)
 
 
 @hook.subscribe.client_new
