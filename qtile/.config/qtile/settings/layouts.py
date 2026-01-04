@@ -1,4 +1,4 @@
-from libqtile import layout
+from libqtile import layout, qtile
 from libqtile.config import Match
 from qtile_bonsai import Bonsai
 from libqtile import hook
@@ -7,9 +7,17 @@ from .theme import colors
 from .screens import GAP, OFFSET
 
 
-@hook.subscribe.client_new
-def prevent_focus_steal(client):
-    client.__class__.can_steal_focus = property(lambda self: False)
+@hook.subscribe.group_window_add
+def group_window_add(group, window):
+    # disallow focus steals except if there's no focus
+    if not qtile.current_window and not group.name == "scratchpad":
+        return
+    window.can_steal_focus = False
+
+
+# @hook.subscribe.client_new
+# def prevent_focus_steal(client):
+#    client.__class__.can_steal_focus = property(lambda self: False)
 
 
 @hook.subscribe.client_new
