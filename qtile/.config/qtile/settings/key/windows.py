@@ -11,9 +11,9 @@ def hide_all_floating(qtile):
     for window in group.windows:
         if window.floating:
             # logger.warning(f"Hiding window: {window.name}")
-            window.set_opacity(0)
+            window.set_position_floating(9999, 9999)
             # Optional: move the window to the bottom of the stack
-            window.move_to_bottom()
+            window.keep_below()
 
 
 @lazy.window.function
@@ -29,7 +29,7 @@ def floats_to_front(qtile):
         for window in group.windows:
             if window.floating:
                 window.focus()
-                window.move_to_top()
+                window.bring_to_front()
 
 
 @lazy.function
@@ -37,14 +37,14 @@ def floats_to_bottom(qtile):
     for group in qtile.groups:
         for window in group.windows:
             if window.floating:
-                window.move_to_bottom()
-                window.set_opacity(0)
+                window.keep_below()
+                window.set_position_floating(9999, 9999)
 
 
 @lazy.window.function
 def float_to_front(window):
     if window.floating:
-        window.move_to_top()
+        window.bring_to_front()
         window.center()
     else:
         window.disable_floating()
@@ -154,10 +154,10 @@ def toggle_tiling_floating_focus(qtile):
 
     # Focus the target window if it's not already focused
     if target_window and qtile.current_window != target_window:
-        last_floating.move_to_bottom()
-        last_floating.set_opacity(0)
+        last_floating.keep_below()
+        last_floating.set_position_floating(9999, 9999)
         current_group.focus(target_window)
-        target_window.move_to_top()
+        target_window.bring_to_front()
 
 
 @lazy.group.function
@@ -168,18 +168,18 @@ def focus_back(group):
 
     if target_window.floating:
         if current_window.floating:
-            target_window.set_opacity(1)
+            target_window.center()
             group.focus(target_window)
-            current_window.set_opacity(0)
+            current_window.set_position_floating(9999, 9999)
         elif not current_window.floating:
             group.focus(target_window)
-            target_window.move_to_top()
-            target_window.set_opacity(1)
+            target_window.bring_to_front()
+            target_window.center()
 
     elif not target_window.floating:
         group.focus(target_window)
         # current_window.keep_below()
-        # current_window.move_to_bottom()
+        # current_window.keep_below()
 
 
 @lazy.group.function
@@ -188,6 +188,7 @@ def focus_titling(group):
 
 
 windows_keys = [
+    EzKey("M-m", lazy.window.keep_below()),
     EzKey("M-h", lazy.window.move_floating(-32, 0).when(when_floating=True)),
     EzKey("M-l", lazy.window.move_floating(+32, 0).when(when_floating=True)),
     EzKey("M-k", lazy.window.move_floating(0, -18).when(when_floating=True)),
@@ -228,24 +229,24 @@ windows_keys = [
         [mod],
         "period",
         focus_next_floating_and_front(),
-        lazy.window.set_opacity(1),
-        lazy.window.move_to_top(),
+        lazy.window.center(),
+        lazy.window.bring_to_front(),
         desc="Focus next floating window",
     ),
     Key(
         [mod],
         "comma",
         focus_prev_floating_and_front(),
-        lazy.window.set_opacity(1),
-        lazy.window.move_to_top(),
+        lazy.window.center(),
+        lazy.window.bring_to_front(),
         desc="Focus previous floating window",
     ),
     Key(
         [mod, "Shift"],
         "comma",
         focus_prev_floating_and_front(),
-        lazy.window.set_opacity(0),
-        lazy.window.move_to_bottom(),
+        lazy.window.set_position_floating(9999, 9999),
+        lazy.window.keep_below(),
         desc="Focus previous floating window",
     ),
     # Resize windows
@@ -274,12 +275,12 @@ windows_keys = [
     EzKey(
         "M-S-<Escape>",
         lazy.function(toggle_tiling_floating_focus),
-        lazy.window.set_opacity(1),
+        lazy.window.center(),
     ),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
     EzKey(
         "M-<Escape>",
-        lazy.window.set_opacity(0).when(when_floating=True),
+        lazy.window.set_position_floating(9999, 9999).when(when_floating=True),
         lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
         floats_to_bottom(),
     ),

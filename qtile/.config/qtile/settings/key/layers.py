@@ -11,7 +11,7 @@ def focus_visible_window(mod, window_index, **spawn):
                 mod,
                 str(i),
                 lazy.layout.focus_nth_window(i, **spawn),
-                lazy.window.move_to_top(),
+                # lazy.window.bring_to_front(),
                 lazy.function(hide_all_floating),
             )
         )
@@ -27,7 +27,7 @@ def change_tab_layer(mod, tab_layer, tab_index):
                 EzKey(
                     str(index),
                     lazy.layout.focus_nth_tab(index, level=tab),
-                    lazy.window.move_to_top(),
+                    # lazy.window.bring_to_front(),
                     lazy.function(hide_all_floating),
                     lazy.window.focus(),
                 )
@@ -45,7 +45,7 @@ def focus_nth_floating_window(qtile, index):
     try:
         window_to_focus = floating_windows[index]
         window_to_focus.group.focus(window_to_focus)
-        window_to_focus.move_to_top()
+        window_to_focus.bring_to_front()
     except IndexError:
         # This block runs only if the index is out of range.
         # 'pass' means "do nothing".
@@ -56,8 +56,6 @@ def focus_nth_floating(mod, index):
     key_list = []
     for i in index:
         key_list.append(
-            Key(
-                [], str(i), focus_nth_floating_window(i - 1), lazy.window.set_opacity(1)
-            )
+            Key([], str(i), focus_nth_floating_window(i - 1), lazy.window.center())
         )
     return [KeyChord(mod, "0", key_list)]

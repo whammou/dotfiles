@@ -19,10 +19,12 @@ def autostart():
 
 
 wl_input_rules = {
-    "1267:12377:ELAN1300:00 04F3:3059 Touchpad": InputConfig(
-        left_handed=True, send_events=False
+    "*": InputConfig(
+        left_handed=False,
+        pointer_accel=False,
+        send_events=False,
+        tap=False,
     ),
-    "*": InputConfig(left_handed=False, pointer_accel=False, send_events=False),
     "type:keyboard": InputConfig(kb_options="ctrl:nocaps,compose:ralt"),
 }
 

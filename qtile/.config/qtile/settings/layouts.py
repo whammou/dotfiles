@@ -12,12 +12,12 @@ from .screens import GAP, OFFSET
 #    client.__class__.can_steal_focus = property(lambda self: False)
 
 
-@hook.subscribe.client_new
-def blur_floating(window):
-    floating_rules = ["mpv-float", "feh"]
-    for wm_class in floating_rules:
-        if wm_class == window._wm_class[0]:
-            window.set_opacity(0)
+# @hook.subscribe.client_new
+# def blur_floating(window):
+#    floating_rules = ["mpv-float", "feh"]
+#    for wm_class in floating_rules:
+#        if wm_class == window.wm_class:
+#            window.set_position_floating(9999, 9999)
 
 
 # @hook.subscribe.client_focus
@@ -30,7 +30,7 @@ def blur_floating(window):
 @hook.subscribe.group_window_add
 def hide_floating(group, window):
     if window.floating:
-        window.set_opacity(0)
+        window.set_position_floating(9999, 9999)
 
 
 # @hook.subscribe.group_window_add
@@ -64,7 +64,7 @@ def maintain_focus(group, window):
         if prev_window.floating:
             group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
         group.qtile.call_soon(lambda: group.focus(prev_window))
-        group.qtile.call_soon(lambda: group.current_window.move_to_top())
+        group.qtile.call_soon(lambda: group.current_window.bring_to_front())
 
 
 @hook.subscribe.client_killed
@@ -76,8 +76,8 @@ def after_kill_fallback(window):
         group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
         if current_window.floating:
             group.qtile.call_soon(lambda: group.focus(current_window))
-            group.qtile.call_soon(current_window.set_opacity, 1)
-            group.qtile.call_soon(current_window.move_to_top)
+            group.qtile.call_soon(current_window.center)
+            group.qtile.call_soon(current_window.bring_to_front)
 
 
 BORDER_WIDTH = 3

@@ -4,7 +4,7 @@ from .group.scratchpads import dropdowns
 from .keymaps import keymap
 
 
-groups = [Group(i) for i in "1"]
+groups = [Group(i) for i in "12"]
 
 dropdown = [
     DropDown(
