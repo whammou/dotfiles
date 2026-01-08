@@ -43,8 +43,6 @@ functional_keys = [
     Key(
         [alt, "Control"],
         "v",
-        lazy.spawn(
-            "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{xclip -o}'"
-        ),
+        lazy.spawn("_cliphist-list"),
     ),
 ]

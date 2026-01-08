@@ -135,5 +135,7 @@ floating_layout = layout.Floating(
         Match(wm_class="feh"),
         Match(wm_class="fileselect"),
         Match(wm_class="discord"),
+        Match(wm_class="steam"),
+        Match(wm_class="steamwebhelper"),
     ],
 )
