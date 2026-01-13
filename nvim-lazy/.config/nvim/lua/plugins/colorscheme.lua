@@ -18,7 +18,13 @@ return {
         dimmed_purple = "#2B2741",
         dimmed_cyan = "#1D313E",
         dimmed_orange = "#2E2C30",
-        bg_orange = "#604E49",
+        tbg_red = "#883D4A",
+        tbg_green = "#537745",
+        tbg_blue = "#2E6495",
+        tbg_purple = "#713E8B",
+        tbg_cyan = "#27707F",
+        tbg_yellow = "#856F46",
+        tbg_orange = "#604E49",
       },
       highlights = {
 
@@ -63,6 +69,12 @@ return {
         ["@org.agenda.header"] = { fg = "$green", bg = "$dimmed_green", fmt = "bold" },
         ["@org.agenda.time_grid"] = { fg = "$red", fmt = "bold" },
 
+        ["@org.plan.org"] = { fg = "$tbg_cyan" },
+        ["@org.timestamp.active.org"] = { fg = "$tbg_purple" },
+        ["@org.properties.org"] = { fg = "$tbg_cyan" },
+        ["@org.properties.name.org"] = { fg = "$tbg_cyan", fmt = "bold" },
+        ["@org.drawer.org"] = { fg = "none" },
+
         --Snack dashboard
         ["SnacksDashBoardHeader"] = { fg = "$fg" },
         ["SnacksDashBoardFooter"] = { fg = "$fg" },
@@ -71,8 +83,13 @@ return {
         ["SnacksDashBoardIcon"] = { fg = "$fg" },
         ["SnacksDashBoardKey"] = { fg = "$fg" },
 
+        -- Math
+        ["texMathZoneY"] = { bg = "none", fg = "$fg" },
+        ["SnacksImageMath"] = { fg = "$fg", bg = "$bg3" },
+        ["@markup.math"] = { fg = "$tbg_blue", bg = "none", fmt = "bold" },
+
         -- Nvim
-        ["Conceal"] = { bg = "$bg0", fg = "$red" },
+        ["Conceal"] = { bg = "none", fg = "$tbg_blue", fmt = "bold" },
         ["SpellBad"] = { sp = "$orange", fmt = "underline" },
         ["CursorLineNr"] = { fg = "$orange", fmt = "bold" },
         ["CodeBlock"] = { bg = "$bg3" },
