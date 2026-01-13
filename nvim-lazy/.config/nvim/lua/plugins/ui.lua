@@ -61,6 +61,26 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
+      image = {
+        doc = {
+          inline = false,
+        },
+        math = {
+          enabled = true,
+          latex = {
+            font_size = "Large",
+            tpl = [[
+              \documentclass[preview,border=0pt,varwidth,12pt]{standalone}
+              \usepackage{${packages}}
+              \begin{document}
+              ${header}
+              { \${font_size} \selectfont
+                \color[HTML]{${color}}
+              ${content}}
+              \end{document}]],
+          },
+        },
+      },
       picker = {
         enabled = false,
       },
@@ -81,6 +101,14 @@ return {
         },
         notification_history = {
           border = "single",
+        },
+        snacks_image = {
+          relative = "cursor",
+          border = "single",
+          focusable = false,
+          backdrop = false,
+          row = 1,
+          col = 1,
         },
       },
       dashboard = { enabled = false },
@@ -110,10 +138,10 @@ return {
       },
     },
   },
-  {
-    "tpope/vim-repeat",
-    lazy = true,
-    event = "VeryLazy",
-    enabled = false,
-  },
+  --{
+  --  "tpope/vim-repeat",
+  --  lazy = true,
+  --  event = "VeryLazy",
+  --  enabled = false,
+  --},
 }
