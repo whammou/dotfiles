@@ -1,10 +1,11 @@
 # : Manager {{{
-[mgr]
+[indicator]
 cwd = { fg = "green" }  # Blue
+padding = { open = "█", close = "█" }
 
 # Hovered
-hovered = { reversed = true }  # Darkened background
-preview_hovered = { underline = true }
+current = { reversed = true }  # Darkened background
+preview = { underline = true }
 
 # Find
 find_keyword = { fg = "red", italic = true, underline = true }  # Red
@@ -34,8 +35,8 @@ border_style = { fg = "darkgray" }  # Darkened background
 
 # : Status {{{
 [status]
-sep_left =  { open = " ", close = "" }
-sep_right = { open = "", close = " " }
+sep_left =  { open = " ", close = " " }
+sep_right = { open = " ", close = " " }
 separator_style = { fg = "blue", bg = "darkgray" }  # Blue on Darkened background
 
 # Progress
@@ -127,30 +128,33 @@ title_error = { fg = "yellow" }  # Orange
 
 rules = [
     # Images
-    { mime = "image/*", fg = "yellow" , bold = true},  # Orange
+    { mime = "image/*", fg = "yellow" , bold = false},  # Orange
 
     # Media
-    { mime = "video/*", fg = "red", bold = true },  # Red
-    { mime = "audio/*", fg = "red", bold = true },  # Red
+    { mime = "video/*", fg = "red", bold = false },  # Red
+    { mime = "audio/*", fg = "red", bold = false },  # Red
 
     # Archives
-    { mime = "application/zip", fg = "magenta", bold = true },  # Magenta
-    { mime = "application/x-tar", fg = "magenta", bold = true },  # Magenta
-    { mime = "application/x-bzip*", fg = "magenta", bold = true },  # Magenta
-    { mime = "application/x-bzip2", fg = "magenta", bold = true },  # Magenta
-    { mime = "application/x-7z-compressed", fg = "magenta", bold = true },  # Magenta
-    { mime = "application/x-rar", fg = "magenta", bold = true },  # Magenta
-    { mime = "application/x-xz", fg = "magenta", bold = true },  # Magenta
+    { mime = "application/zip", fg = "magenta", bold = false },  # Magenta
+    { mime = "application/x-tar", fg = "magenta", bold = false },  # Magenta
+    { mime = "application/x-bzip*", fg = "magenta", bold = false },  # Magenta
+    { mime = "application/x-bzip2", fg = "magenta", bold = false },  # Magenta
+    { mime = "application/x-7z-compressed", fg = "magenta", bold = false },  # Magenta
+    { mime = "application/x-rar", fg = "magenta", bold = false },  # Magenta
+    { mime = "application/x-xz", fg = "magenta", bold = false },  # Magenta
 
     # Documents
-    { mime = "application/doc", fg = "green", bold = true },  # Green
-    { mime = "application/pdf", fg = "green", bold = true },  # Green
-    { mime = "application/rtf", fg = "green", bold = true },  # Green
-    { mime = "application/vnd.*", fg = "green", bold = true },  # Green
+    { mime = "application/doc", fg = "green", bold = false },  # Green
+    { mime = "application/pdf", fg = "green", bold = false },  # Green
+    { mime = "application/rtf", fg = "green", bold = false },  # Green
+    { mime = "application/vnd.*", fg = "green", bold = false },  # Green
+    { mime = "application/epub+zip", fg = "green", bold = false },  # Green
+
+    { mime = "text/*", fg = "cyan", bold = false, italic = false },  # Green
 
     # Fallback
-    { name = "*", fg = "#93a4c3", bold = true },  # Blue
-    { name = "*/", fg = "blue", bold = true }  # Blue
+    { url = "*", fg = "#93a4c3", bold = true },  # Blue
+    { url = "*/", fg = "blue", bold = true }  # Blue
 ]
 
 # : }}}
