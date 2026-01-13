@@ -2,7 +2,7 @@
 
 qtile cmd-obj -o core -f hide_cursor
 #unclutter a --start-hidden & # Hide cursor
-dunst &
+#dunst &
 fcitx5 -d &  # Input method
 tmux-session # Tmux sessions
 #greenclip daemon & # Clipboard daemon

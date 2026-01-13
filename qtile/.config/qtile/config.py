@@ -19,11 +19,14 @@ def autostart():
 
 
 wl_input_rules = {
+    "TPPS/2 IBM TrackPoint": InputConfig(events=False, dwt=True, left_handed=True),
     "*": InputConfig(
         left_handed=False,
         pointer_accel=False,
         send_events=False,
         tap=False,
+        dwt=True,
+        events=False,
     ),
     "type:keyboard": InputConfig(kb_options="ctrl:nocaps,compose:ralt"),
 }
