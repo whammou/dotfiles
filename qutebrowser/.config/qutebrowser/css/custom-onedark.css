@@ -28,12 +28,12 @@
   --od-red: #f65866;
   --od-grey: #455574;
   --od-light_grey: #6c7d9c;
-  --od-dark_cyan: #1b6a73;
-  --od-dark_blue: #024c8a;
-  --od-dark_red: #992525;
-  --od-dark_yellow: #8f610d;
-  --od-dark_purple: #661280;
-  --od-dark_green: #406b20;
+  --od-dark_cyan: #27707F;
+  --od-dark_blue: #2E6495;
+  --od-dark_red: #883D4A;
+  --od-dark_yellow: #856F46;
+  --od-dark_purple: #713E8B;
+  --od-dark_green: #547745;
   --od-dimmed_cyan: #1D313E;
   --od-dimmed_blue: #1E2E43;
   --od-dimmed_red: #302734;
@@ -175,10 +175,10 @@ summary, summary::marker {
   color: var(--od-cyan);
 }
 
-span.hljs-subst,
+/*span.hljs-subst,
 math-renderer.js-inline-math math {
   color: var(--od-orange) !important;
-}
+}*/
 
 span, a {
   background-color: transparent !important;
