@@ -10,14 +10,14 @@ require("org-roam").setup({
   database = {
     path = vim.fn.expand("~/.roamdb.json"),
     persist = true,
-    ui = {
-      node_buffer = {
-        show_keybindings = false,
-        focus_on_toggle = false,
-        highlight_previews = true,
-      },
-    },
     update_on_save = false,
+  },
+  ui = {
+    node_buffer = {
+      show_keybindings = false,
+      focus_on_toggle = false,
+      highlight_previews = true,
+    },
   },
   templates = capture.roam,
 })

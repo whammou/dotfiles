@@ -36,7 +36,8 @@ require("headlines").setup({
 require("org-bullets").setup({
   concealcursor = true,
   symbols = {
-    list = "»",
+    --list = "»",
+    list = "󰨓",
   },
 })
 
