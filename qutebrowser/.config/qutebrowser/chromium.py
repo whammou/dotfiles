@@ -9,7 +9,7 @@ c.qt.args = [
     "enable-native-gpu-memory-buffers",
     "enable-zero-copy",
     "gtk-version=4",
-    "enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,VaapiIgnoreDriverChecks,PlatformHEVCDecoderSupport,UseMultiPlaneFormatForHardwareVideo",
+    "enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,VaapiIgnoreDriverChecks,PlatformHEVCDecoderSupport,UseMultiPlaneFormatForHardwareVideo,WebRTCPipeWireCapturer",
     "num-raster-threads=4",
     "use-gl desktop",
     "enable-accelerated-2d-canvas",
