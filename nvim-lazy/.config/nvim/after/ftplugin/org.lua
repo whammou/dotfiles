@@ -1,5 +1,6 @@
 vim.opt.foldlevel = 1
 vim.opt.foldminlines = 1
+vim.opt.cmdheight = 0
 vim.opt.wrap = true
 vim.opt.spell = true
 
