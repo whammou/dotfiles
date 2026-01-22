@@ -4,6 +4,13 @@
 local map = vim.keymap.set
 local del = vim.keymap.del
 
+-- Custom keybindings for window navigation
+for i = 1, 9 do
+  vim.keymap.set("n", "<leader>" .. i, function()
+    vim.api.nvim_set_current_win(vim.api.nvim_list_wins()[i])
+  end, { desc = "which_key_ignore" })
+end
+
 map("n", "zp", "zMzvzz", { desc = "Unfold only at this level" })
 map("n", "zP", "zozczOzt", { desc = "Unfold levels below at this level" })
 map("n", "<C-g>u", "<cmd>GetCurrentBranchLink<CR>", { desc = "Get current branch link" })
