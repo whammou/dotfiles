@@ -57,7 +57,7 @@ progress_bar_frame_width = 1
 progress_bar_min_width = 150
 progress_bar_max_width = 400
 
-background = "#21283b"
+background = "#1a212e"
 foreground = "#93a4c3"
 
 [urgency_low]
