@@ -27,9 +27,9 @@ def change_tab_layer(mod, tab_layer, tab_index):
                 EzKey(
                     str(index),
                     lazy.layout.focus_nth_tab(index, level=tab),
+                    lazy.window.focus(),
                     # lazy.window.bring_to_front(),
                     lazy.function(hide_all_floating),
-                    lazy.window.focus(),
                 )
             )
         keymaps.append(KeyChord(mod, str(tab), index_list))
