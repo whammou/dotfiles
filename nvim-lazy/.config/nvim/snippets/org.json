@@ -59,6 +59,10 @@
     "prefix": "LOG",
     "body": "#+name:LOGBOOK\n#+html:<details><summary>LOGBOOK</summary>\n:LOGBOOK:\n:END:\n#+html:</details>"
   },
+  "html-image": {
+    "prefix": "him",
+    "body": "#+begin_html html\n<img src=\"${1:Image Path/URL}\" style=\"${2:width:}${3:50%};\"/>\n#+end_html\n$0"
+  },
   "Check-list": {
     "prefix": "Oc",
     "body": "- [ ] $0"
