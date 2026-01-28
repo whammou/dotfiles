@@ -51,24 +51,45 @@ function RunShellCommand:follow(link)
   return true
 end
 
+local SendMail = {}
+
+---@return string
+function SendMail:get_name()
+  return "mailto"
+end
+
+---@param link string - The current value of the link, for example: "ping:google.com"
+---@return boolean - When true, link was handled, when false, continue to the next source
+function SendMail:follow(link)
+  if not vim.startswith(link, "mailto:") then
+    return false
+  end
+  -- Get the part after the `ping:` part
+  local mail = link:sub(8)
+  -- Open terminal in vertical split and ping the URL
+  vim.cmd("split | term neomutt -- " .. mail)
+  return true
+end
+
 require("orgmode").setup({
   hyperlinks = {
     sources = {
       LinkPingType,
       RunShellCommand,
-      {
-        get_name = function()
-          return "mailto"
-        end,
-        follow = function(self, link)
-          local mail = link:sub(8)
-          vim.cmd("split | term neomutt -- " .. mail)
-          return true
-        end,
-        autocomplete = function(self, link)
-          return { "my_custom_type:my_custom_link" }
-        end,
-      },
+      SendMail,
+      --      {
+      --        get_name = function()
+      --          return "mailto"
+      --        end,
+      --        follow = function(self, link)
+      --          local mail = link:sub(8)
+      --          vim.cmd("split | term neomutt -- " .. mail)
+      --          return true
+      --        end,
+      --        autocomplete = function(self, link)
+      --          return { "my_custom_type:my_custom_link" }
+      --        end,
+      --      },
     },
   },
 })
