@@ -25,6 +25,7 @@ return {
         tbg_cyan = "#27707F",
         tbg_yellow = "#856F46",
         tbg_orange = "#604E49",
+        tbg_grey = "#455574",
       },
       highlights = {
 
@@ -47,7 +48,7 @@ return {
         ["RenderMarkdownH6Bg"] = { bg = "$bg1" },
 
         -- Orgmode
-        ["@org.tag.org"] = { fg = "$grey", fmt = "italic" },
+        ["@org.tag.org"] = { fg = "$tbg_grey", fmt = "none,italic" },
         -- Orgmode markup
         ["@org.code"] = { fg = "$green", bg = "$bg2" },
         ["@org.code.delimeter"] = { fg = "$green", bg = "$bg2" },
