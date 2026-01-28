@@ -6,25 +6,42 @@ blink.setup({
   snippets = { preset = "luasnip" },
   sources = {
     providers = {
+      lsp = {
+        name = "LSP",
+        module = "blink.cmp.sources.lsp",
+        fallbacks = { "path" },
+        opts = { tailwind_color_icon = "██" },
+        async = true,
+        transform_items = nil,
+      },
       path = {
         module = "blink.cmp.sources.path",
+        async = true,
         opts = {
-          -- ignore_root_slash = true,
+          trailing_slash = true,
+          label_trailing_slash = true,
+          get_cwd = function()
+            return vim.fn.getcwd()
+          end,
+          show_hidden_files_by_default = true,
+          ignore_root_slash = true,
         },
       },
       snippets = {
+        async = true,
         name = "luasnip",
         enabled = true,
       },
       orgmode = {
+        async = true,
         name = "Orgmode",
         module = "orgmode.org.autocompletion.blink",
-        -- fallbacks = { "buffer" },
+        fallbacks = { "path" },
       },
     },
     default = { "lsp", "path", "snippets", "buffer" },
     per_filetype = {
-      org = { "lsp", "path", "snippets", "orgmode" },
+      org = { "lsp", "path", "snippets" },
       markdown = { "lsp", "path", "snippets" },
     },
   },
