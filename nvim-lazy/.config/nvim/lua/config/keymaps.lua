@@ -6,7 +6,7 @@ local del = vim.keymap.del
 
 -- Custom keybindings for window navigation
 for i = 1, 9 do
-  vim.keymap.set("n", "<leader>" .. i, function()
+  vim.keymap.set({ "n", "t" }, "<leader>" .. i, function()
     vim.api.nvim_set_current_win(vim.api.nvim_list_wins()[i])
   end, { desc = "which_key_ignore" })
 end
@@ -19,7 +19,7 @@ map("n", "<C-A-k>", "<cmd>set paste<CR>m`O<ESC>``<cmd>set nopaste<CR>", { desc =
 
 map("n", "<C-A-k>", "<cmd>set paste<CR>m`O<ESC>``<cmd>set nopaste<CR>", { desc = "Add empty line below" })
 
-map("n", "<C-/>", "<cmd>lua require('snacks').terminal.get()<CR>", { desc = "Toggle tmux nvim" })
+-- map("n", "<C-/>", "<cmd>lua require('snacks').terminal.get()<CR>", { desc = "Toggle tmux nvim" })
 
 local function yank_git_relative_path()
   -- Get the absolute path of the current buffer
