@@ -30,6 +30,7 @@ local org_tasks = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "tasks") .
 local org_doc_dirs = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}"
 local org_lists = base_dir .. "%^{Topic|" .. _get_file_path(base_dir, "lists") .. "}"
 
+local task_template = "** %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 local capture_templates = {
   c = { description = "Capture", template = "* %?", target = "~/Journal/capture.org" },
   t = {
@@ -37,31 +38,31 @@ local capture_templates = {
     subtemplates = {
       o = {
         description = "Oneoff Tasks",
-        template = "** %?",
+        template = task_template,
         target = org_tasks .. "/tasks/oneoff.org",
         headline = "List of Oneoff Tasks",
       },
       i = {
         description = "Incidental Tasks",
-        template = "** %?",
+        template = task_template,
         target = org_tasks .. "/tasks/incidental.org",
         headline = "List of Incidental Tasks",
       },
       c = {
         description = "Coordinated Tasks",
-        template = "** %?",
+        template = task_template,
         target = org_tasks .. "/tasks/coordinated.org",
         headline = "List of Coordinated Tasks",
       },
       p = {
         description = "Planned Tasks",
-        template = "** %?",
+        template = task_template,
         target = org_tasks .. "/tasks/planned.org",
         headline = "List of Planned Tasks",
       },
       r = {
         description = "Recurring Tasks",
-        template = "** %?",
+        template = task_template,
         target = org_tasks .. "/tasks/recurring.org",
         headline = "List of Recurring Tasks",
       },
@@ -152,7 +153,7 @@ local roam_template = {
       description = "New Document",
       template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
-#+TODO: TODO(t) (e) DOING(d) PEND(p) OUTL(o) RESEARCH(s) FEEDBACK(b) WAITING(w) NEXT(n) | IDEA(i) ABORTED(a) PARTIAL(r) REVIEW(v) DONE(f)
+#+TODO: TODO(t) (e) DOIN(d) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 %?]],
       target = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
     },

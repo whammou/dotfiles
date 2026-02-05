@@ -70,7 +70,7 @@ require("orgmode").setup({
   org_blank_before_new_entry = { heading = false, plain_list_item = false },
 
   org_priority_highest = "A",
-  org_priority_default = "B",
+  org_priority_default = "D",
   org_priority_lowest = "F",
   org_deadline_warning_days = 0,
 

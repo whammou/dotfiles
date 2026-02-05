@@ -62,6 +62,7 @@ return {
     },
     config = function()
       require("config.orgmode.init")
+      vim.lsp.enable("org")
     end,
     keys = {
       { "<leader>oR", "<cmd>Lazy reload orgmode<CR>", desc = "Org reload" },
