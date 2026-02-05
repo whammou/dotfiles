@@ -1,1 +1,3 @@
-timeout 180 'grep -q "RUNNING" /proc/asound/card*/pcm*/sub*/status || brightnessctl --quiet --save && swaylock -f; brightnessctl --quiet set 0%' resume 'brightnessctl --quiet --restore' before-sleep 'swaylock -f'
+timeout 180 'grep -q "RUNNING" /proc/asound/card*/pcm*/sub*/status || brightnessctl --save && brightnessctl set 0% && swaylock -f' resume 'brightnessctl --restore'
+timeout 900 'systemctl suspend-then-hibernate'
+before-sleep 'swaylock -f'
