@@ -22,7 +22,7 @@ return {
     },
     opts = {
       open_for_directories = true,
-      floating_window_scaling_factor = 0.7,
+      --floating_window_scaling_factor = 0.7,
       yazi_floating_window_border = "single",
       highlights_groups = {
         hovered_buffer = { bg = "#283347" },
@@ -30,6 +30,14 @@ return {
       },
       keymaps = {
         show_help = "<f1>",
+      },
+      hooks = {
+        before_opening_window = function(options)
+          options.col = vim.o.columns
+          options.row = vim.o.lines
+          options.height = math.floor(vim.o.lines / 2)
+          options.width = vim.o.columns
+        end,
       },
     },
     init = function()
