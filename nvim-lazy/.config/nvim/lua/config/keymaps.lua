@@ -4,6 +4,9 @@
 local map = vim.keymap.set
 local del = vim.keymap.del
 
+map("n", "<leader>zc", function()
+  require("chezmoi.pick").fzf()
+end, { desc = "Chezmoi search all" })
 -- Custom keybindings for window navigation
 for i = 1, 9 do
   vim.keymap.set({ "n", "t" }, "<leader>" .. i, function()

@@ -24,7 +24,7 @@ blink.setup({
             return vim.fn.getcwd()
           end,
           show_hidden_files_by_default = true,
-          ignore_root_slash = true,
+          ignore_root_slash = false,
         },
       },
       snippets = {
