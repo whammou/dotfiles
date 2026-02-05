@@ -52,7 +52,8 @@ c.completion.open_categories = [
 ]
 
 
-defaultSearxng = "https://opnxng.com"
+# defaultSearxng = "https://opnxng.com"
+defaultSearxng = "https://searx.namejeff.xyz/"
 serxngQuery = defaultSearxng + "/search?q={}"
 c.url.start_pages = ["https://ascii-start.customstart.page/"]
 c.url.default_page = "https://ascii-start.customstart.page/"

@@ -19,7 +19,7 @@ c.qt.args = [
 ]
 
 c.qt.workarounds.disable_accelerated_2d_canvas = "never"
-c.qt.workarounds.disable_hangouts_extension = True
+# c.qt.workarounds.disable_hangouts_extension = True
 c.qt.workarounds.disable_accessibility = "always"
 
 c.content.autoplay = False
