@@ -12,58 +12,48 @@ open = [
 mpv-audio = [
     { run = 'mpv --no-video "$@"' ,block = true, for = 'unix' }
 ]
-
+pdf-viewer = [
+    { run = 'zathura "$@"' ,block = true, for = 'unix' }
+]
 [open]
 prepend_rules = [
-    { name = "*.url", use = 'url_opener' },
-    { name = "*.html", use = 'open' },
-    { name = "*.mp3", use = 'mpv-audio' }
+    { url = "*.url", use = 'url_opener' },
+    { url = "*.html", use = 'open' },
+    { url = "*.mp3", use = 'mpv-audio' },
+    { mime = "text/*" , use = "edit" },
+    { url = "*.tmpl" , use = "edit" },
+    { url = "*.pdf" , use = "pdf-viewer" }
 ]
 
+[preview]
+wrap = "yes"
+
+[[plugin.prepend_preloaders]]
+url = "/home/whammou/Share/**"
+run = "noop"
+
 [[plugin.prepend_previewers]]
-name = "*/"
+url = "*/"
 run  = 'piper -- eza -TL=2 --color=always --icons=always --group-directories-first --no-quotes "$1"'
 
 [[plugin.append_previewers]]
-name = "*"
+url = "*"
 run  = 'piper -- hexyl --border=none --terminal-width=$w "$1"'
 
-
 # Disable preloaders and previewer for /server
-
 [[plugin.prepend_fetchers]]
 id   = "mime"
-name = "*"
+url = "*"
 run  = "mime-ext"
 prio = "high"
-
-[[plugin.prepend_preloaders]]
-name = "/home/whammou/Share/nas/**"
-run = "noop"
-
-[[plugin.prepend_preloaders]]
-name = "/run/user/1000/gvfs/smb-share:server=whamlab.sytes.net,share=homelab-nas/**"
-run = "noop"
-
-[[plugin.prepend_preloaders]]
-name = "/home/whammou/Share/homelab/**"
-run = "noop"
-
-[[plugin.prepend_preloaders]]
-name = "/home/whammou/documents/gdrive/**"
-run = "noop"
-
-[[plugin.prepend_preloaders]]
-name = "/home/whammou/documents/mega/**"
-run = "noop"
 
 # Git change indicators
 [[plugin.prepend_fetchers]]
 id   = "git"
-name = "*"
+url = "*"
 run  = "git"
 
 [[plugin.prepend_fetchers]]
 id   = "git"
-name = "*/"
+url = "*/"
 run  = "git"

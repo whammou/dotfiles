@@ -1,6 +1,6 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "e07bf41"
+rev = "230b9c6"
 hash = "8da0b15a97b5dfd13941d1ecc617ac7c"
 
 [[plugin.deps]]
@@ -25,17 +25,17 @@ hash = "57056b9728006881d580ccabe8154a9c"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "e07bf41"
+rev = "230b9c6"
 hash = "ce67445ebb1bf3d97b8e44f50904b2c5"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "e07bf41"
+rev = "230b9c6"
 hash = "f69e4737c2fb8ceec58a2950faf13c46"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "e07bf41"
+rev = "230b9c6"
 hash = "270915fa8282a19908449530ff66f7e2"
 
 [[plugin.deps]]
