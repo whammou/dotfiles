@@ -302,6 +302,10 @@ windows_keys = [
             EzKey("t", lazy.layout.spawn_tab(rofi_run_cmd)),
             EzKey("S-t", lazy.layout.spawn_tab(rofi_run_cmd, new_level=True)),
             EzKey("w", lazy.layout.toggle_container_select_mode()),
+            EzKey("h", lazy.layout.move_focus("left")),
+            EzKey("j", lazy.layout.move_focus("down")),
+            EzKey("k", lazy.layout.move_focus("up")),
+            EzKey("l", lazy.layout.move_focus("right")),
             # Pull window out
             EzKey("o", lazy.layout.pull_out(position="next")),
             EzKey("S-o", lazy.layout.pull_out(position="previous")),
