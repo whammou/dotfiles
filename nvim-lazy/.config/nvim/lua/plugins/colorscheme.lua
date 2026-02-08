@@ -66,7 +66,7 @@ return {
         ["@org.agenda.today"] = { fg = "$orange", fmt = "bold,italic" },
         ["@org.agenda.weekend"] = { fg = "$red", fmt = "bold,italic" },
         ["@org.agenda.deadline"] = { fg = "$cyan" },
-        ["@org.agenda.scheduled"] = { fg = "$green" },
+        ["@org.agenda.scheduled"] = { fg = "$purple" },
         ["@org.agenda.header"] = { fg = "$green", bg = "$dimmed_green", fmt = "bold" },
         ["@org.agenda.time_grid"] = { fg = "$red", fmt = "bold" },
 
