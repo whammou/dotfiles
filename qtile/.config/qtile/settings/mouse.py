@@ -3,5 +3,5 @@ from libqtile.lazy import lazy
 from .keys import mod
 
 mouse = [
-    Click([], "Button2", lazy.spawn("sh /usr/local/bin/_keyboard_toggle")),
+    Click([], "Button2", lazy.spawn("_keyboard_toggle")),
 ]

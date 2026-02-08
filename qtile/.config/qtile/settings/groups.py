@@ -9,7 +9,7 @@ groups = [Group(i) for i in "12"]
 dropdown = [
     DropDown(
         "nmfzf",
-        "kitty --class=nmcli-fzf -e bash /usr/local/bin/nmwifi-fzf",
+        "kitty --class=nmcli-fzf -e sh nmwifi-fzf",
         width=0.6,
         height=0.8,
         x=0.2,

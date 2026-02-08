@@ -25,10 +25,10 @@ functional_keys = [
     Key([], "XF86Tools", lazy.spawn("rofi-mount")),
     Key([], "XF86Search", lazy.spawn("rofi-playerctl")),
     Key([], "XF86LaunchA", lazy.spawn("vktablet")),
-    Key([], "XF86Explorer", lazy.group["scratchpad"].dropdown_toggle("adapter")),
+    Key([], "XF86Explorer", lazy.spawn("adapter-switch")),
     Key([mod], "Print", lazy.spawn("flameshot screen")),
     Key([mod, "Shift"], "Print", lazy.spawn("flameshot gui")),
-    Key([mod], "Space", lazy.spawn("sh /usr/local/bin/toggle-trackpoint")),
+    Key([mod], "Space", lazy.spawn("toggle-trackpoint")),
     Key([mod, "Shift"], "Space", lazy.spawn("_keyboard_toggle")),
     Key(
         [mod],
