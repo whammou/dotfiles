@@ -63,6 +63,10 @@
     "prefix": "him",
     "body": "#+begin_html html\n<img src=\"${1:Image Path/URL}\" style=\"${2:width:}${3:50%};\"/>\n#+end_html\n$0"
   },
+  "ID-Property": {
+    "prefix": "ID",
+    "body": ":PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
   "Check-list": {
     "prefix": "Oc",
     "body": "- [ ] $0"
