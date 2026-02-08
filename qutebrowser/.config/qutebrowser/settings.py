@@ -52,25 +52,25 @@ c.completion.open_categories = [
 ]
 
 
-# defaultSearxng = "https://opnxng.com"
-defaultSearxng = "https://searx.namejeff.xyz/"
-serxngQuery = defaultSearxng + "/search?q={}"
-c.url.start_pages = ["https://ascii-start.customstart.page/"]
-c.url.default_page = "https://ascii-start.customstart.page/"
-c.url.searchengines = {
-    # "DEFAULT": "https://opnxng.com/search?q={}",
-    # "DEFAULT": "https://duckduckgo.com/?q={}",
-    "DEFAULT": serxngQuery,
-    "it": serxngQuery + "&categories=it",
-    "vi": serxngQuery + "&categories=videos",
-    "im": serxngQuery + "&categories=images",
-    "ne": serxngQuery + "&categories=news",
-    "ma": serxngQuery + "&categories=map",
-    "mu": serxngQuery + "&categories=music",
-    "sc": serxngQuery + "&categories=science",
-    "fi": serxngQuery + "&categories=files",
-    "so": serxngQuery + "&categories=social%20media",
+searxngInstance = "https://opnxng.com"
+# searxngInstance = "https://searx.namejeff.xyz/"
+searxngQuery = searxngInstance + "/search?q={}"
+searxngSearch = {
+    "DEFAULT": searxngQuery,
+    "it": searxngQuery + "&categories=it",
+    "vi": searxngQuery + "&categories=videos",
+    "im": searxngQuery + "&categories=images",
+    "ne": searxngQuery + "&categories=news",
+    "ma": searxngQuery + "&categories=map",
+    "mu": searxngQuery + "&categories=music",
+    "sc": searxngQuery + "&categories=science",
+    "fi": searxngQuery + "&categories=files",
+    "so": searxngQuery + "&categories=social%20media",
     "bo": "https://annas-archive.li/search?q={}",
 }
+
+c.url.start_pages = ["https://ascii-start.customstart.page/"]
+c.url.default_page = "https://ascii-start.customstart.page/"
+c.url.searchengines = searxngSearch
 
 # c.fonts.default_size = "13pt"
