@@ -5,6 +5,18 @@ return {
     ft = { "org" },
     dependencies = {
       {
+        "mrshmllow/orgmode-babel.nvim",
+        lazy = true,
+        cmd = { "OrgExecute", "OrgTangle" },
+        opts = {
+          -- by default, none are enabled
+          langs = { "python", "lua", ... },
+
+          -- paths to emacs packages to additionally load
+          load_paths = {},
+        },
+      },
+      {
         "danilshvalov/org-modern.nvim",
         lazy = true,
         event = "VeryLazy",
