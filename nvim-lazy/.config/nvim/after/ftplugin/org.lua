@@ -14,7 +14,7 @@ vim.opt.showbreak = ""
 
 --vim.opt.showbreak = string.rep(" ", 2) -- Make it so that long lines wrap smartly
 
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 3
 vim.opt.concealcursor = "nc"
 
 local org_roam_augroup = vim.api.nvim_create_augroup("OrgRoamFileTypeGroup", { clear = true })

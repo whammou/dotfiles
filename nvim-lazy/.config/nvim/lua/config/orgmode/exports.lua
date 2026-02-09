@@ -21,13 +21,12 @@ local eisvolgel_pdf = {
   action = function(exporter)
     local current_file = vim.api.nvim_buf_get_name(0)
     local target = vim.fn.fnamemodify(current_file, ":p:r") .. ".pdf"
+    -- sed 's/ \$\$/ $/g; s/\$\$ /$ /g' tasks/incidental.org | pandoc --template=eisvogel --lua-filter=org-html-image.lua -f org -t pdf -o tasks/incidental.pdf
+
     local command = {
-      "pandoc",
-      "--template=eisvogel",
-      "--lua-filter=org-html-image.lua",
-      "-o",
-      target,
+      "eisvogel-pdf",
       current_file,
+      target,
     }
     local on_success = function(output)
       print("Success!")
@@ -43,7 +42,7 @@ local eisvolgel_pdf = {
 
 local custom_exports = {
   f = rtf_export,
-  P = eisvolgel_pdf,
+  e = eisvolgel_pdf,
 }
 
 require("orgmode").setup({
