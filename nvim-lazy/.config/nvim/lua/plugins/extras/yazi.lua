@@ -1,28 +1,30 @@
+---@diagnostic disable: undefined-global
+
 return {
   {
     "mikavilpas/yazi.nvim",
     event = "VeryLazy",
     keys = {
       {
-        "<leader>e",
+        "<leader>ef",
         mode = { "n", "v" },
         "<cmd>Yazi<cr>",
         desc = "Open yazi at the current file",
       },
       {
-        "<leader>E",
+        "<leader>er",
         "<cmd>Yazi cwd<cr>",
         desc = "Open the file manager in nvim's working directory",
       },
       {
-        "<c-up>",
+        "<leader>et",
         "<cmd>Yazi toggle<cr>",
         desc = "Resume the last yazi session",
       },
     },
     opts = {
       open_for_directories = true,
-      --floating_window_scaling_factor = 0.7,
+      -- floating_window_scaling_factor = 0.7,
       yazi_floating_window_border = "single",
       highlights_groups = {
         hovered_buffer = { bg = "#283347" },
@@ -31,6 +33,7 @@ return {
       keymaps = {
         show_help = "<f1>",
       },
+      -- Make yazi window floats bat bottom
       hooks = {
         before_opening_window = function(options)
           options.col = vim.o.columns

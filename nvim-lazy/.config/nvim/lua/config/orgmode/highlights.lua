@@ -44,11 +44,14 @@ require("org-bullets").setup({
 require("orgmode").setup({
   org_todo_keyword_faces = {
     TODO = ":foreground #713E8B :weight bold :slant italic",
+    OPEN = ":foreground #713E8B :weight bold :slant italic",
     RECR = ":foreground #713E8B :weight bold :slant italic",
     DOIN = ":foreground #27707F :weight bold :slant italic",
+    PROG = ":foreground #27707F :weight bold :slant italic",
     PEND = ":foreground #455574 :weight bold :slant italic",
     OUTL = ":foreground #455574 :weight bold :slant italic",
     IDEA = ":foreground #455574 :weight bold :slant italic",
+    INTR = ":foreground #604E49 :weight bold :slant italic",
     WAIT = ":foreground #604E49 :weight bold :slant italic",
     EXPL = ":foreground #604E49 :weight bold :slant italic",
     FDBK = ":foreground #604E49 :weight bold :slant italic",
@@ -58,5 +61,6 @@ require("orgmode").setup({
     PRTL = ":foreground #efbd5d :weight bold :slant italic",
     ABRT = ":foreground #f65866 :weight bold :slant italic",
     DONE = ":foreground #8bcd5b :weight bold :slant italic",
+    CLSD = ":foreground #455574 :weight bold :slant italic",
   },
 })

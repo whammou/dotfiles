@@ -6,4 +6,5 @@ return {
   require("config.orgmode.editor"),
   require("config.orgmode.hyperlinks"),
   require("config.orgmode.exports"),
+  require("config.orgmode.agenda"),
 }

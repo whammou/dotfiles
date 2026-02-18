@@ -6,7 +6,8 @@ local zettel_dir = dir.zettel_dir
 
 require("org-roam").setup({
   directory = base_dir,
-  extensions = { dailies = { directory = "/topics/vault/" .. ".daily" } },
+  org_files = { base_dir .. "/topics/**/*.org" },
+  extensions = { dailies = { directory = zettel_dir .. "/" .. ".daily" } },
   database = {
     path = vim.fn.expand("~/.roamdb.json"),
     persist = true,

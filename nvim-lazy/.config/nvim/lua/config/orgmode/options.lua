@@ -6,6 +6,7 @@ require("orgmode").setup({
   org_agenda_files = { base_dir .. "**/*.org" },
   org_agenda_text_search_extra_files = { "agenda-archives" },
   org_agenda_current_time_string = " now ────────",
+  org_agenda_hide_empty_blocks = true,
 
   org_default_notes_file = base_dir .. "capture.org",
   org_log_into_drawer = "LOGBOOK",
@@ -77,7 +78,10 @@ require("orgmode").setup({
   org_todo_repeat_to_state = "RECR",
   org_todo_keywords = {
     "TODO(t)",
+    "OPEN(y)",
     "DOIN(d)",
+    "PROG(g)",
+    "INTR(q)",
     "(e)",
     "PEND(p)",
     "OUTL(o)",
@@ -93,6 +97,7 @@ require("orgmode").setup({
     "DONE(f)",
     "RVIW(v)",
     "ABRT(a)",
+    "CLSD(c)",
   },
 
   input = {

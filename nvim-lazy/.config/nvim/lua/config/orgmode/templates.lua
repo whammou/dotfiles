@@ -1,5 +1,4 @@
 local dir = require("config.orgmode.directories")
-
 local base_dir = dir.base_dir
 local zettel_dir = dir.zettel_dir
 
@@ -68,6 +67,7 @@ local capture_templates = {
       },
     },
   },
+
   l = {
     description = "List",
     subtemplates = {
@@ -87,88 +87,47 @@ local capture_templates = {
   },
 }
 
-local task_doc_agenda = {
-  {
-    type = "agenda",
-    org_agenda_tag_filter_preset = "TASK-RECURRING",
-    org_agenda_overriding_header = " 󰄵 Task Agenda ",
-    org_agenda_span = "day",
-  },
-  {
-    type = "agenda",
-    org_agenda_tag_filter_preset = "DOC",
-    org_agenda_overriding_header = "  Document Agenda ",
-    org_agenda_span = "day",
-  },
-  {
-    type = "agenda",
-    org_agenda_tag_filter_preset = "RECURRING",
-    org_agenda_overriding_header = "  Recurring Tasks ",
-    org_agenda_span = "day",
-  },
-}
-local backlog = {
-  {
-    type = "tags",
-    match = "/PEND|OUTL",
-    org_agenda_overriding_header = "Document Tasks",
-    org_agenda_span = "week",
-  },
-}
-
-local function setup_org_capture_template()
-  require("orgmode").setup({
-    org_capture_templates = capture_templates,
-    org_agenda_custom_commands = {
-      A = {
-        description = "Combined View",
-        types = task_doc_agenda,
-      },
-      l = {
-        description = "Backlog",
-        types = backlog,
-      },
-    },
-  })
-end
-
-setup_org_capture_template()
-
-vim.api.nvim_create_user_command("ReloadOrgConfig", setup_org_capture_template, {
-  desc = "Reloads Orgmode capture templates and related configuration",
-})
-
 local roam_template = {
-  roam = {
-    z = {
-      description = "Zettelkasten",
-      template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
+  z = {
+    description = "Zettelkasten",
+    template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 %?]],
-      target = "topics/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|"
-        .. _get_filename(zettel_dir)
-        .. "}.org",
-    },
-    n = {
-      description = "New Document",
-      template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
+    target = "topics/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. _get_filename(
+      base_dir .. zettel_dir
+    ) .. "}.org",
+  },
+  n = {
+    description = "New Document",
+    template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 #+TODO: TODO(t) (e) DOIN(d) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 %?]],
-      target = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
-    },
-    d = {
-      description = "Documents",
-      subtemplates = {
-        c = {
-          description = "Capture Document",
-          template = "** %?",
-          target = "%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
-          headline = "Document Drafts",
-        },
+    target = "%^{Topic|" .. _get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
+  },
+  r = {
+    description = "New Tracker",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
+#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+%?]],
+    target = "%^{Topic|" .. _get_dir_path(base_dir, "trackers") .. "}" .. "/%[slug].org",
+  },
+  d = {
+    description = "Documents",
+    subtemplates = {
+      c = {
+        description = "Capture Document",
+        template = "** %?",
+        target = "%^{Topic|" .. _get_file_path(base_dir, "draft.org") .. "}/draft.org",
+        headline = "Document Drafts",
       },
     },
   },
 }
 
-return roam_template
+local templates = {
+  roam = roam_template,
+  capture = capture_templates,
+}
+return templates

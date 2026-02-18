@@ -112,9 +112,19 @@
       "$0"
     ]
   },
+  "tracker-header": {
+    "prefix": "th",
+    "body": [
+      "#+FILETAGS: :TRACKER:META:${2:Tags}:",
+      "#+HTML:<details>\n",
+      "* $1 :TRACKER:META:$2:",
+      "#+HTML:</details>",
+      "$0"
+    ]
+  },
   "latex-inline-math": {
     "prefix": "mi",
-    "body": "\\$$1\\$$0"
+    "body": "\\$\\$$1\\$\\$ $0"
   },
   "github-special-block-note": {
     "prefix": "GN",
