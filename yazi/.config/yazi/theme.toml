@@ -18,9 +18,11 @@ marker_marked = { fg = "gray", bg = "cyan" }  # Light gray on cyan
 marker_selected = { fg = "gray", bg = "yellow" }  # Light gray on Orange
 
 # Tab
-tab_active = { bg = "darkgray", fg = "blue" }  # Darkened background, Blue text
-tab_inactive = {}
-tab_width = 1
+[tabs]
+sep_inner = { open = "", close = ""}
+sep_outer = { open = "", close = ""}
+active = {fg = "darkgrey", bg = "blue"}
+inactive = {fg = "darkgrey", bg = "lightblue"}
 
 # Count
 count_copied = { fg = "green", bg = "darkgray" }  # Green on Darkened background
