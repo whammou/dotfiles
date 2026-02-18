@@ -144,8 +144,7 @@ keymap = [
         "name": "monitor",
         "prefix": "m",
         "cmd": [
-            ["S-p", in_terminal("btm"), "pad_large"],
-            ["p", in_terminal("htop"), "pad_large"],
+            ["p", in_terminal("btm"), "pad_large"],
             ["b", in_terminal("monitor-battery"), "pad_list"],
             [
                 "S-b",
@@ -171,11 +170,16 @@ keymap = [
             ],
             ["g", in_terminal("lazygit -p /home/whammou/dotfiles/"), "pad_large"],
             ["e", in_terminal("nvim"), "pad_large"],
-            ["u", in_terminal("paru -Syu ; alert", parameters="--hold"), "pad_large"],
+            [
+                "u",
+                in_terminal("paru -Syy ; paru -Syu ; alert", parameters="--hold"),
+                "pad_large",
+            ],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["n", "rnote", "pad_extra_large"],
             ["r", in_terminal("newsboat"), "pad_large"],
             ["m", in_terminal("neomutt"), "pad_large"],
+            ["S-m", in_terminal("mangal"), "pad_small"],
             ["d", in_terminal("dict"), "pad_small"],
             ["a", in_terminal("anifzf"), "pad_small"],
             ["S-a", in_terminal("ani-cli -c"), "pad_small"],
