@@ -112,6 +112,11 @@ keymap = [
         "prefix": "o",
         "cmd": [
             ["a", in_terminal("orgmode-agenda"), "pad_large"],
+            [
+                "S-n",
+                "kitty --session /home/whammou/Workspace/kitty-session/test.session",
+                "pad_extra_large",
+            ],
             ["l", in_terminal("orgmode-backlog"), "pad_large"],
             ["z", in_terminal("orgmode-browse"), "pad_large"],
             ["o", in_terminal("orgmode-super-agenda"), "pad_large"],
