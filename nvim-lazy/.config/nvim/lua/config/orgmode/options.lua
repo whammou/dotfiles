@@ -1,5 +1,6 @@
-local dir = require("config.orgmode.directories")
+---@diagnostic disable: undefined-global
 
+local dir = require("config.orgmode.directories")
 local base_dir = dir.base_dir
 
 require("orgmode").setup({

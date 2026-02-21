@@ -1,6 +1,7 @@
+---@diagnostic disable: undefined-global
 local Snacks = require("snacks")
 
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "orgagenda",
   callback = function()
     --Snacks.zen.zoom()
