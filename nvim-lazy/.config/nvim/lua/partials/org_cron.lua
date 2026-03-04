@@ -31,14 +31,16 @@ require("orgmode").cron({
         --  })
         --end
 
-        vim.system({
-          "curl",
-          "-H",
-          "Title: Orgmode",
-          "-d",
-          string.format("%s\n%s\n%s", subtitle, date, title),
-          "http://whamlab.sytes.net/orgmode",
-        })
+        vim
+          .system({
+            "/usr/sbin/curl",
+            "-H",
+            "Title: Orgmode",
+            "-d",
+            string.format("%s\n%s\n%s", subtitle, date, title),
+            "http://whamlab.sytes.net/orgmode",
+          })
+          :wait()
       end
     end,
   },
