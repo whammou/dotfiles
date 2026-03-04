@@ -2,6 +2,7 @@
 
 local dir = require("config.orgmode.directories")
 local base_dir = dir.base_dir
+local date = os.date("%y%m")
 
 require("orgmode").setup({
   org_agenda_files = { base_dir .. "**/*.org" },
@@ -12,8 +13,9 @@ require("orgmode").setup({
   org_default_notes_file = base_dir .. "capture.org",
   org_log_into_drawer = "LOGBOOK",
   org_highlight_latex_and_related = "entities",
+  org_use_property_inheritance = true,
 
-  org_archive_location = "./log/archive_%s",
+  org_archive_location = "./log/" .. date .. "_%s",
   org_agenda_time_grid = {
     times = {
       0000,
