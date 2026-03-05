@@ -13,7 +13,7 @@ local tracker_agenda = {
   },
 }
 
-local super_agenda = {
+local task_agenda = {
   {
     type = "agenda",
     org_agenda_tag_filter_preset = "TASK-RECURRING",
@@ -74,19 +74,19 @@ local function setup_org_capture_template()
   require("orgmode").setup({
     org_capture_templates = capture_templates,
     org_agenda_custom_commands = {
-      s = {
-        description = "Org Tracker Agenda",
+      K = {
+        description = "Tracker Agenda",
         types = tracker_agenda,
       },
-      S = {
-        description = "Org Super Agenda",
-        types = super_agenda,
+      k = {
+        description = "Task Agenda",
+        types = task_agenda,
       },
-      A = {
+      c = {
         description = "Combined View",
         types = task_doc_agenda,
       },
-      l = {
+      L = {
         description = "Backlog",
         types = backlog,
       },

@@ -20,5 +20,8 @@ require("org-roam").setup({
       highlight_previews = true,
     },
   },
+  bindings = {
+    capture = "<leader>od",
+  },
   templates = capture.roam,
 })

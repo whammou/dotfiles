@@ -17,8 +17,8 @@ require("orgmode").cron({
     scheduled_reminder = true,
     cron_notifier = function(tasks)
       for _, task in ipairs(tasks) do
-        local subtitle = string.format("<b>%s</b> %s [%s]", task.todo, task.title, tostring(task.level))
-        local date = string.format("<b>%s</b>: %s", task.type, task.time:to_string())
+        local subtitle = string.format("%s: %s [%s]", task.todo, task.title, tostring(task.level))
+        local date = string.format("%s: %s", task.type, task.time:to_string())
         local title = string.format("%s (%s)", task.category, task.humanized_duration)
 
         --if vim.fn.executable("notify-send") == 1 then
