@@ -18,6 +18,16 @@ require("org-roam").setup({
       show_keybindings = false,
       focus_on_toggle = false,
       highlight_previews = true,
+      open = function()
+        local width = math.floor(vim.o.columns / 4)
+        local height = math.floor(vim.o.lines)
+
+        vim.api.nvim_open_win(0, true, {
+          split = "right",
+          width = width,
+          height = height,
+        })
+      end,
     },
   },
   bindings = {

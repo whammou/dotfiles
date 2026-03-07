@@ -4,12 +4,19 @@ local base_dir = dir.base_dir
 local zettel_dir = dir.zettel_dir
 
 local org_tasks = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "tasks") .. "}"
+local org_tracker = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "trackers") .. "}"
 local org_doc_dirs = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}"
 local org_lists = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "lists") .. "}"
 
 local task_template = "** %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 local capture_templates = {
   c = { description = "Capture", template = "* %?", target = "~/Journal/capture.org" },
+  r = {
+    description = "Tracker Capture",
+    template = task_template,
+    target = org_tracker .. "/trackers/tracker.org",
+    headline = "Trackers List",
+  },
   t = {
     description = "Task",
     subtemplates = {
@@ -69,7 +76,6 @@ local roam_template = {
   z = {
     description = "Zettelkasten",
     template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
-#+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 %?]],
     target = "topics/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. utils.get_filename(
       base_dir .. zettel_dir
@@ -78,7 +84,6 @@ local roam_template = {
   n = {
     description = "New Document",
     template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
-#+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 #+TODO: TODO(t) (e) DOIN(d) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
@@ -86,10 +91,8 @@ local roam_template = {
   r = {
     description = "New Tracker",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+LATEX_HEADER: \renewcommand\maketitle{} \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 #+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-
-* Tracker Lists
+* Trackers List
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "trackers") .. "}" .. "/tracker.org",
   },
