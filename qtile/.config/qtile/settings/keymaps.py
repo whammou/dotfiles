@@ -122,7 +122,7 @@ keymap = [
             ["o", in_terminal("orgmode-super-agenda"), "pad_large"],
             ["n", in_terminal("yazi /home/whammou/Journal"), "pad_large"],
             ["g", in_terminal("lazygit -p /home/whammou/Journal"), "pad_large"],
-            ["t", in_terminal("orgmode-capture"), "pad_small"],
+            ["c", in_terminal("orgmode-capture"), "pad_small"],
             ["d", in_terminal("orgroam-capture"), "pad_small"],
             ["m", in_terminal("orgmode-search"), "pad_large"],
         ],
@@ -177,7 +177,7 @@ keymap = [
             ["e", in_terminal("nvim"), "pad_large"],
             [
                 "u",
-                in_terminal("paru -Syy ; paru -Syu ; alert", parameters="--hold"),
+                in_terminal("sh 'paru -Syy && paru -Syu' ; alert", parameters="--hold"),
                 "pad_large",
             ],
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],

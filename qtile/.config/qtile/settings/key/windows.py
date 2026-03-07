@@ -250,10 +250,15 @@ windows_keys = [
         desc="Focus previous floating window",
     ),
     # Resize windows
-    EzKey("M-C-h", lazy.layout.resize("left", 100)),
-    EzKey("M-C-l", lazy.layout.resize("right", 100)),
-    EzKey("M-C-k", lazy.layout.resize("up", 100)),
-    EzKey("M-C-j", lazy.layout.resize("down", 100)),
+    # EzKey("M-C-h", lazy.layout.resize("left", 100)),
+    # EzKey("M-C-l", lazy.layout.resize("right", 100)),
+    # EzKey("M-C-k", lazy.layout.resize("up", 100)),
+    # EzKey("M-C-j", lazy.layout.resize("down", 100)),
+    # Resize windows 3x
+    EzKey("M-C-h", lazy.layout.resize("left", 300)),
+    EzKey("M-C-l", lazy.layout.resize("right", 300)),
+    EzKey("M-C-k", lazy.layout.resize("up", 300)),
+    EzKey("M-C-j", lazy.layout.resize("down", 300)),
     # Swap Windows
     EzKey("M-S-h", lazy.layout.swap("left")),
     EzKey("M-S-l", lazy.layout.swap("right")),

@@ -111,6 +111,7 @@ def wlan():
     return widget.Wlan(
         **base(bg="bg2", fg="purple"),
         format=" 󰢾 SIGN: {percent:2.0%} ",
+        disconnected_message=" 󰢿 SIGN: DC ",
         update_interval=60,
     )
 
