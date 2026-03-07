@@ -28,6 +28,13 @@ return {
         end,
         desc = "Find system config files",
       },
+      {
+        "<leader>fu",
+        function()
+          require("fzf-lua").files({ cwd = "~/.local/bin" })
+        end,
+        desc = "Find bin files",
+      },
     },
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
