@@ -1,5 +1,5 @@
 function fish_user_key_bindings
-    #fish_vi_key_bindings default
+    fish_vi_key_bindings default
 
     for mode in default insert
         bind --mode $mode \e\cu _paru_install
