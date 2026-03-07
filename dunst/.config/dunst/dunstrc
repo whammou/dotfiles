@@ -163,6 +163,13 @@ frame_color = "#8bcd5b"
 highlight = "#8bcd5b"
 format = "<b><span foreground='#8bcd5b' >  %s</span></b>\n\n%b"
 
+[opencode]
+category = ntfy
+summary = OpenCode
+frame_color = "#8bcd5b"
+highlight = "#8bcd5b"
+format = "<b><span foreground='#8bcd5b' >  %s</span></b>\n\n%b"
+
 [terminal-warning]
 category = ntfy
 summary = Remote Warning
