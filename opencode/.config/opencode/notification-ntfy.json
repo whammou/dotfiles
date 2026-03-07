@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/opencode-ntfy.sh/notification-ntfy.schema.json",
+  "backend": {
+    "server": "http://whamlab.sytes.net",
+    "topic": "opencode",
+    "title": {
+      "session.idle": {
+        "value": "OpenCode"
+      },
+      "session.error": {
+        "value": "OpenCode"
+      },
+      "permission.asked": {
+        "value": "OpenCode"
+      }
+    },
+    "message": {
+      "session.idle": {
+        "value": "{project}: Agent finished - no activity detected"
+      },
+      "session.error": {
+        "value": "{project}: Agent error occurred - {error}"
+      },
+      "permission.asked": {
+        "value": "{project}: Permission requested - {permission_type} access for {permission_patterns}"
+      }
+    }
+  }
+}
