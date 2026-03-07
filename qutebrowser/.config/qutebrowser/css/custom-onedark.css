@@ -54,10 +54,19 @@
 
 /* Apply the main background and foreground to the entire page */
 
-:not(td) {
+*:not(td) {
   background-color: var(--od-bg0) !important;
 }
 
+/* Ensure all common block elements inherit the base background */
+input#query-builder-test.FormControl-input.QueryBuilder-Input.FormControl-medium,
+textarea#read-only-cursor-text-area.react-blob-textarea.react-blob-print-hide,
+textarea#copilot-chat-textarea.ChatInput-module__input--HalEQ,
+div, canvas, svg {
+  background-color: transparent !important;
+}
+
+div.commtext.c00,
 section.post-content.clearfix ul li,
 span#marketing-card-callout-text.cfc-text-title-3.cfc-space-first.cfc-space-last.ng-star-inserted,
 span.marketing-card-note.cfc-text-title-5.cfc-space-first.cfc-space-last.ng-star-inserted,
@@ -67,40 +76,8 @@ div.md ol li,
 div.md ul li,
 html, body ,li {
   font-family: "HasklugNerdFont" !important;
-  background-color: var(--od-bg0) !important;
   background-image: none !important;
   color: var(--od-fg) !important;
-}
-
-/* Ensure all common block elements inherit the base background */
-div.ContentPreview-module__toolbar--_XWuB,
-div.cm-content,
-div.OverviewRepoFiles-module__Box_3--Bi2jM,
-div#issue-viewer-sticky-header.Box-sc-62in7e-0.jBGwUN.HeaderMetadata-module__stickyContainer--JBJvS,
-div#sticky-header-backdrop.sticky-header-shadow.color-shadow-small.is-stuck,
-div#home-page.container-fluid.bg-light,
-div.sidebar_wrapper.manual_leftbar, div#home-page.container-fluid.bg-light,
-section.dashboard-break-word.comment-body.markdown-body.m-0.p-3.color-bg-subtle.mb-0.rounded-1,
-aside.feed-left-sidebar.col-md-4.col-lg-3.color-border-muted.border-bottom.hide-md.hide-sm.border-right.color-bg-default,
-div.d-md-flex,
-div.cm-content.cm-lineWrapping,
-div#repos-file-tree.Box-sc-g0xbh4-0.bNhwaa,
-div#selectPanel,
-div#main.w3-col.l10.m12,
-div.Box-sc-g0xbh4-0.jodZGf,
-div.Box-sc-62in7e-0.kXOSfr,
-div.Box-sc-g0xbh4-0.dhuhek.BlobViewHeader-module__Box_1--PPihg,
-div.Box-sc-62in7e-0.jQLyEs.BlobViewHeader-module__Box_1--PPihg,
-div.Box-sc-62in7e-0.jQLyEs.BlobViewHeader-module__Box_1--_sZV1,
-section, article, main, header, footer, nav, aside {
-  background-color: var(--od-bg0) !important;
-}
-
-input#query-builder-test.FormControl-input.QueryBuilder-Input.FormControl-medium,
-textarea#read-only-cursor-text-area.react-blob-textarea.react-blob-print-hide,
-textarea#copilot-chat-textarea.ChatInput-module__input--HalEQ,
-div, canvas, svg {
-  background-color: initial !important;
 }
 
 /* Themed Scrollbars (for Firefox and Webkit browsers) */
@@ -194,8 +171,12 @@ span.-link--channel-name.pl8 {
 section.mt-content-container p {
   color: var(--od-fg) !important;
 }
-p:not(.markdown-alert-title,blockquote p) {
-  margin-bottom: 1em;
+
+p:not(
+.markdown-alert-title,
+blockquote p,
+p.ghd-alert-title
+) {
   color: var(--od-fg) !important;
 }
 blockquote ul li,
@@ -212,13 +193,16 @@ a:link {
   color-scheme: only light !important;
   color: var(--od-blue);
 }
+
 a:visited {
   color: var(--od-cyan);
 }
+
 a:hover, a:focus {
   color: var(--od--purple) !important;
   text-decoration: underline;
 }
+
 div.url_wrapper,
 a.question-hyperlink {
   color: var(--od-cyan) !important;
