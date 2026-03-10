@@ -54,6 +54,7 @@ c.completion.open_categories = [
 
 searxngInstance = "https://opnxng.com"
 # searxngInstance = "https://searx.namejeff.xyz/"
+# searxngInstance = "https://search.hbubli.cc/"
 searxngQuery = searxngInstance + "/search?q={}"
 searxngSearch = {
     "DEFAULT": searxngQuery,
