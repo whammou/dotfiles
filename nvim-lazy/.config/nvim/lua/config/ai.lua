@@ -7,6 +7,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
+local opencode_project_id = os.getenv("OPENCODE_PROJECT_ID")
+local opencode_server = os.getenv("OPENCODE_SERVER")
+
 require("sidekick").setup({
   -- add any options here
   cli = {
@@ -31,8 +34,8 @@ require("sidekick").setup({
           "opencode",
           "attach",
           "-p",
-          "Unlimitednova199-",
-          "http://whamlab.sytes.net:5000",
+          opencode_project_id,
+          opencode_server,
           "--dir",
           "/tmp/placeholder",
         },
