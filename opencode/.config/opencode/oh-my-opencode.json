@@ -2,13 +2,13 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "hephaestus": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "oracle": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "librarian": {
       "model": "opencode/big-pickle"
@@ -17,10 +17,10 @@
       "model": "opencode/big-pickle"
     },
     "multimodal-looker": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "prometheus": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "metis": {
       "model": "opencode/minimax-m2.5-free"
@@ -29,21 +29,21 @@
       "model": "opencode/minimax-m2.5-free"
     },
     "atlas": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "ultrabrain": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "deep": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "artistry": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/minimax-m2.5-free"
     },
     "quick": {
       "model": "opencode/big-pickle"
