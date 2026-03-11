@@ -7,7 +7,7 @@
   "permission": {
     "read": "allow",
     "edit": "ask",
-    "bash": "ask",
+    "bash": "allow",
     "external_directory": "allow"
   }
 }
