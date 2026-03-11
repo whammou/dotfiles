@@ -2,57 +2,57 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "hephaestus": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "oracle": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "librarian": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "explore": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "multimodal-looker": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "prometheus": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "metis": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "momus": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "atlas": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "ultrabrain": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "deep": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "artistry": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "quick": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "unspecified-low": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "unspecified-high": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     },
     "writing": {
-      "model": "opencode/MiniMax M2.5 Free"
+      "model": "opencode/minimax-m2.5-free"
     }
   }
 }
