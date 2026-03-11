@@ -2,13 +2,13 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     },
     "hephaestus": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     },
     "oracle": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     },
     "librarian": {
       "model": "opencode/big-pickle"
@@ -20,7 +20,7 @@
       "model": "opencode/big-pickle"
     },
     "prometheus": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     },
     "metis": {
       "model": "opencode/minimax-m2.5-free"
@@ -29,7 +29,7 @@
       "model": "opencode/minimax-m2.5-free"
     },
     "atlas": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     }
   },
   "categories": {
@@ -37,10 +37,10 @@
       "model": "opencode/big-pickle"
     },
     "ultrabrain": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     },
     "deep": {
-      "model": "cerebras/gpt-oss-120b"
+      "model": "opencode/big-pickle"
     },
     "artistry": {
       "model": "opencode/big-pickle"
