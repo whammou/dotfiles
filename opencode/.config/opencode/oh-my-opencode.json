@@ -2,34 +2,44 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#c75ae8"
     },
     "hephaestus": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#41a7fc"
     },
     "oracle": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#f65866"
     },
     "librarian": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "color": "#8bcd5b"
     },
     "explore": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "color": "#efbd5d"
     },
     "multimodal-looker": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#dd9046"
     },
     "prometheus": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#34bfd0"
     },
     "metis": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#c75ae8"
     },
     "momus": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#41a7fc"
     },
     "atlas": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "color": "#93a4c3"
     }
   },
   "categories": {
