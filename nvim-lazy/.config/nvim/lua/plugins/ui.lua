@@ -63,7 +63,7 @@ return {
     opts = {
       image = {
         doc = {
-          inline = true,
+          inline = false,
         },
         math = {
           enabled = true,

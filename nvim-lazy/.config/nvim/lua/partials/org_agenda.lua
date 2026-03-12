@@ -3,6 +3,7 @@ local Snacks = require("snacks")
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "orgagenda",
+  once = true,
   callback = function()
     --Snacks.zen.zoom()
     Snacks.bufdelete.other()
