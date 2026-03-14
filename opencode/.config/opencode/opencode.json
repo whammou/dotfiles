@@ -12,5 +12,12 @@
     "bash": {
       "rm * ": "deny"
     }
+  },
+  "mcp": {
+    "journal": {
+      "type": "remote",
+      "enabled": true,
+      "url": "https://gitmcp.io/whammou/notes.note"
+    }
   }
 }
