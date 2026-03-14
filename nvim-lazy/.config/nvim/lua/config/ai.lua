@@ -36,6 +36,7 @@ require("sidekick").setup({
           "-p",
           opencode_project_id,
           opencode_server,
+          "--continue",
           "--dir",
           "/tmp/placeholder",
         },
