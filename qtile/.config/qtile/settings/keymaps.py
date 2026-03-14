@@ -49,7 +49,14 @@ keymap = [
         "name": "ai",
         "prefix": "a",
         "cmd": [
-            ["p", in_terminal("opencode"), "pad_small"],
+            [
+                "p",
+                in_terminal(
+                    "opencode attach -p Unlimitednova199- http://whamlab.sytes.net:5000 --dir /home/whammou --continue",
+                    parameters="--hold",
+                ),
+                "pad_small",
+            ],
             [
                 "g",
                 "qutebrowser --basedir=/home/whammou/.cache/qutebrowser/chatgpt.com \
