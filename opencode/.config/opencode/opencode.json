@@ -14,10 +14,10 @@
     }
   },
   "mcp": {
-    "journal": {
+    "opsys.note": {
       "type": "remote",
       "enabled": true,
-      "url": "https://gitmcp.io/whammou/notes.note"
+      "url": "https://gitmcp.io/whammou/opsys.note"
     }
   }
 }
