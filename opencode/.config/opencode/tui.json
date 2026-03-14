@@ -5,7 +5,7 @@
     "leader": "ctrl+a",
     "app_exit": "ctrl+q,<leader>q",
     "editor_open": "<leader>e",
-    "theme_list": "<leader>t",
+    "theme_list": "none",
     "sidebar_toggle": "<leader>b",
     "status_view": "<leader>s",
     "tool_details": "<leader>p",
@@ -45,6 +45,7 @@
     "input_newline": "shift+enter,ctrl+j",
     "input_line_home": "ctrl+z",
     "history_previous": "ctrl+up",
-    "history_next": "ctrl+down"
+    "history_next": "ctrl+down",
+    "display_thinking": "<leader>t"
   }
 }
