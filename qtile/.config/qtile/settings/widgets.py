@@ -133,11 +133,15 @@ widgets = [
     ),
     # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
-    widget.TextBox(**base(bg="bg2", fg="fg"), text="󰧺 "),
-    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
-    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
-    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
-    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),
+    widget.TextBox(**base(bg="bg2", fg="fg"), text="󰧺 "),  # text_box 1
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 2
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 3
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 4
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 5
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 6
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 7
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 8
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 9
     widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=2),
 ]
 

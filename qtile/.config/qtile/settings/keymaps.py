@@ -190,6 +190,7 @@ keymap = [
             ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
             ["n", "rnote", "pad_extra_large"],
             ["r", in_terminal("newsboat"), "pad_large"],
+            ["S-n", in_terminal("notification_history"), "pad_small"],
             ["m", in_terminal("neomutt"), "pad_large"],
             ["S-m", in_terminal("mangal"), "pad_small"],
             ["d", in_terminal("dict"), "pad_small"],
