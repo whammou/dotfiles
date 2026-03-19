@@ -7,6 +7,7 @@ height = (0, 300)
 offset = (25,63)
 gap_size = 18
 transparency = 0
+origin = top-right
 
 indicate_hidden = yes
 shrink = yes
@@ -17,7 +18,7 @@ padding = 20
 horizontal_padding = 20
 frame_width = 2
 
-sort = update
+sort = id
 idle_threshold = 3
 show_age_threshold = -1
 notification_limit = 6

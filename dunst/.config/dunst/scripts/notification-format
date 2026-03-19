@@ -3,6 +3,6 @@
 notificationTitle=$DUNST_SUMMARY
 notificationBody=$DUNST_BODY
 
-formatedBody=$(echo "$DUNST_BODY" | sed 's/\([^:]*\):/<b>\1<\/b>:/')
+formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^:]*):/<b>$1<\/b>:/')
 
 dunstify -c "ntfy" "$DUNST_SUMMARY" "$formatedBody"
