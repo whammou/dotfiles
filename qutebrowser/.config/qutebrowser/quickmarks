@@ -1,3 +1,4 @@
 lib https://libgen.gs/index.php
 notes https://github.com/whammou/notes
 gate 192.168.0.
+gateway http://gateway.local/
