@@ -19,15 +19,16 @@ function LinkPingType:follow(link)
 end
 
 ---This method is optional.
----@param link string - The current value of the link, for example: "ping:go"
+---@param context OrgCompletionContext
 ---@return string[]
-function LinkPingType:autocomplete(link)
+function LinkPingType:autocomplete(context)
+  local base = type(context) == "string" and context or context.base or ""
   local items = {
     "ping:google.com",
     "ping:github.com",
   }
   return vim.tbl_filter(function(item)
-    return vim.startswith(item, link)
+    return vim.startswith(item, base)
   end, items)
 end
 

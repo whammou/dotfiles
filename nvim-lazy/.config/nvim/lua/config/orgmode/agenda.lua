@@ -4,19 +4,19 @@ local capture_templates = templates.capture
 local tracker_agenda = {
   {
     type = "agenda",
-    org_agenda_tag_filter_preset = "TASK-RECURRING",
+    org_agenda_tag_filter_preset = "typTask-catRecurring",
     org_agenda_span = "day",
   },
   {
     type = "tags",
-    match = "TRACKER+META",
+    match = "typTracker-meta/OPEN",
   },
 }
 
 local task_agenda = {
   {
     type = "agenda",
-    org_agenda_tag_filter_preset = "TASK-RECURRING",
+    org_agenda_tag_filter_preset = "typTask-catRecurring",
     org_agenda_span = "day",
   },
   {
@@ -26,25 +26,35 @@ local task_agenda = {
   },
   {
     type = "tags",
-    match = "TASK/DOIN",
+    match = "typTask/DOIN",
     org_agenda_overriding_header = "Global list of DOIN tasks",
   },
   {
     type = "tags",
-    match = "TASK/NEXT",
+    match = "typTask/NEXT",
     org_agenda_overriding_header = "Global list of NEXT tasks",
   },
   {
     type = "tags",
-    match = "TASK/WAIT",
+    match = "typTask/WAIT",
     org_agenda_overriding_header = "Global list of WAIT tasks",
+  },
+  {
+    type = "tags",
+    match = "typTask/TODO",
+    org_agenda_overriding_header = "Global list of TODO tasks",
+  },
+  {
+    type = "tags",
+    match = "typTask/PEND",
+    org_agenda_overriding_header = "Global list of PEND tasks",
   },
 }
 
 local task_doc_agenda = {
   {
     type = "agenda",
-    org_agenda_tag_filter_preset = "TASK-RECURRING",
+    org_agenda_tag_filter_preset = "typTask-catRecurring",
     org_agenda_overriding_header = " 󰄵 Task Agenda ",
     org_agenda_span = "day",
   },
@@ -56,7 +66,7 @@ local task_doc_agenda = {
   },
   {
     type = "agenda",
-    org_agenda_tag_filter_preset = "RECURRING",
+    org_agenda_tag_filter_preset = "catRecurring",
     org_agenda_overriding_header = "  Recurring Tasks ",
     org_agenda_span = "day",
   },

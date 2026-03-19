@@ -1,5 +1,3 @@
----@diagnostic disable: undefined-global
-
 local dir = require("config.orgmode.directories")
 local base_dir = dir.base_dir
 local date = os.date("%y%m")
@@ -68,7 +66,7 @@ require("orgmode").setup({
 
   org_id_link_to_org_use_id = true,
   org_use_tag_inheritance = true,
-  org_tags_exclude_from_inheritance = { "META" },
+  org_tags_exclude_from_inheritance = { "meta" },
   org_tags_column = 0,
   org_cycle_separator_lines = 0,
   org_blank_before_new_entry = { heading = false, plain_list_item = false },
