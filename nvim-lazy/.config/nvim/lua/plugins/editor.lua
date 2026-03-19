@@ -115,4 +115,16 @@ return {
       end,
     },
   },
+  {
+    "numEricL/table.vim",
+    lazy = true,
+    event = "VeryLazy",
+    -- init.lua - set defaults for all buffers (overridden by ftplugins)
+    option = function()
+      require("table_vim").setup({
+        style = "default",
+        options = { multiline = "auto", multiline_format = "block_wrap" },
+      })
+    end,
+  },
 }
