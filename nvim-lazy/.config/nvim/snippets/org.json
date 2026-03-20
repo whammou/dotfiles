@@ -1,98 +1,152 @@
 {
+  "Level1-Header": {
+    "prefix": "h1",
+    "description": "Org mode level 1 header with ID property",
+    "body": "* $1\n:PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
+  "Level2-Header": {
+    "prefix": "h2",
+    "description": "Org mode level 2 header with ID property",
+    "body": "** $1\n:PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
+  "Level3-Header": {
+    "prefix": "h3",
+    "description": "Org mode level 3 header with ID property",
+    "body": "*** $1\n:PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
+  "Level4-Header": {
+    "prefix": "h4",
+    "description": "Org mode level 4 header with ID property",
+    "body": "**** $1\n:PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
+  "Level5-Header": {
+    "prefix": "h5",
+    "description": "Org mode level 5 header with ID property",
+    "body": "***** $1\n:PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
+  "Level6-Header": {
+    "prefix": "h6",
+    "description": "Org mode level 6 header with ID property",
+    "body": "****** $1\n:PROPERTIES:\n:ID: $UUID\n:END:\n$0"
+  },
   "Objective": {
     "prefix": "OB",
+    "description": "Insert OBJECTIVE keyword",
     "body": "*OBJECTIVE:* $0"
   },
   "Idea": {
     "prefix": "Id",
+    "description": "Insert Idea keyword with italic text",
     "body": "*Idea:* /$1/$0"
   },
   "Visit": {
     "prefix": "Vi",
+    "description": "Insert Visit keyword",
     "body": "*Visit:* $0"
   },
   "References": {
     "prefix": "Re",
+    "description": "Insert Reference keyword",
     "body": "*Reference:* $0"
   },
   "Implemented": {
     "prefix": "Im",
+    "description": "Insert Implemented keyword",
     "body": "*Implemented:* $0"
   },
   "Check-out": {
     "prefix": "Ch",
+    "description": "Insert Check-out keyword",
     "body": "*Check-out:* $0"
   },
   "Keypoint": {
     "prefix": "Ke",
+    "description": "Insert Keypoint keyword",
     "body": "*Keypoint:* $0"
   },
   "Workaround": {
     "prefix": "Wo",
+    "description": "Insert Workaround prefix",
     "body": "Workaround - $0"
   },
   "Solution": {
     "prefix": "So",
+    "description": "Insert Solution keyword",
     "body": "*Solution:* $0"
   },
   "issues": {
     "prefix": "Is",
+    "description": "Insert Issue keyword",
     "body": "*Issue:* $0"
   },
   "Checkpoint": {
     "prefix": "Cp",
+    "description": "Insert Checkpoint keyword",
     "body": "*Checkpoint:* $0"
   },
   "For more information": {
     "prefix": "FM",
+    "description": "Insert FMI keyword",
     "body": "*FMI:* $0"
   },
   "Note": {
     "prefix": "No",
+    "description": "Insert dated note with border",
     "body": "${1:-----\n}- Note taken on [$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE]: \\\\\\\n  $0\n${2:-----}"
   },
   "Recurring Tasks": {
     "prefix": "TS",
+    "description": "Insert task with logbook and objectives",
     "body": "${1:Title}\n- *OBJECTIVE:* $2\n- ${3:*Reference:*}$4\n-----\n#+NAME:LOGBOOK\n#+HTML:<details>\n#+HTML:<summary>LOGBOOK</summary>\n:LOGBOOK:\n:END:\n#+HTML:</details>\n-----\n$0"
   },
   "LOGBOOK": {
     "prefix": "LOG",
+    "description": "Insert collapsible logbook section",
     "body": "#+name:LOGBOOK\n#+html:<details><summary>LOGBOOK</summary>\n:LOGBOOK:\n:END:\n#+html:</details>"
   },
   "html-image": {
     "prefix": "him",
+    "description": "Insert HTML image with style",
     "body": "#+begin_html html\n<img src=\"${1:Image Path/URL}\" style=\"${2:width:}${3:50%};\"/>\n#+end_html\n$0"
   },
   "ID-Property": {
     "prefix": "ID",
+    "description": "Insert ID property block",
     "body": ":PROPERTIES:\n:ID: $UUID\n:END:\n$0"
   },
   "Check-list": {
     "prefix": "Oc",
+    "description": "Insert unchecked checkbox",
     "body": "- [ ] $0"
   },
   "Orgmode-horizontal-line": {
     "prefix": "HL",
+    "description": "Insert horizontal line",
     "body": "-----"
   },
   "Orgmode-hyperlink": {
     "prefix": "Li",
+    "description": "Insert org hyperlink",
     "body": "[[${1:links/URLs}][${2:Description}]]$0"
   },
   "Orgmode-schedule": {
     "prefix": "Sc",
+    "description": "Insert scheduled date (today)",
     "body": "SCHEDULED: <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE>"
   },
   "Orgmode-deadline": {
     "prefix": "Dl",
+    "description": "Insert deadline date (today)",
     "body": "DEADLINE: <$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE>"
   },
   "orgmode-quote-block": {
     "prefix": "quote",
+    "description": "Insert quote block",
     "body": "#+BEGIN_QUOTE\n$1\n#+END_QUOTE\n$0"
   },
   "zettelkasten-header": {
     "prefix": "zh",
+    "description": "Zettelkasten header with tags",
     "body": [
       "#+TITLE: $1",
       "#+FILETAGS: :ZK:${2:Tags}:",
@@ -104,30 +158,23 @@
   },
   "doc-header": {
     "prefix": "dh",
+    "description": "Document header with metadata",
     "body": [
-      "#+FILETAGS: :DOC:META:${2:Tags}:",
+      "#+FILETAGS: :typDoc:meta:${2:Tags}:",
       "#+HTML:<details>\n",
       "* $1 :DOC:META:$2:",
       "#+HTML:</details>",
       "$0"
     ]
   },
-  "tracker-header": {
-    "prefix": "th",
-    "body": [
-      "#+FILETAGS: :TRACKER:META:${2:Tags}:",
-      "#+HTML:<details>\n",
-      "* $1 :TRACKER:META:$2:",
-      "#+HTML:</details>",
-      "$0"
-    ]
-  },
   "latex-inline-math": {
     "prefix": "mi",
+    "description": "Inline LaTeX math block",
     "body": "\\$\\$$1\\$\\$ $0"
   },
   "github-special-block-note": {
     "prefix": "GN",
+    "description": "GitHub NOTE callout block",
     "body": [
       "\n#+NAME:${1:Github Note Block}",
       "#+BEGIN_QUOTE markdown",
@@ -138,6 +185,7 @@
   },
   "github-special-block-warning": {
     "prefix": "GW",
+    "description": "GitHub WARNING callout block",
     "body": [
       "\n#+NAME:${1:Github Warning Block}",
       "#+BEGIN_QUOTE markdown",
@@ -148,6 +196,7 @@
   },
   "github-special-block-important": {
     "prefix": "GI",
+    "description": "GitHub IMPORTANT callout block",
     "body": [
       "\n#+NAME:${1:Github Important Block}",
       "#+BEGIN_QUOTE markdown",
@@ -158,6 +207,7 @@
   },
   "github-special-block-tip": {
     "prefix": "GT",
+    "description": "GitHub TIP callout block",
     "body": [
       "\n#+NAME:${1:Github tip Block}",
       "#+BEGIN_QUOTE markdown",
@@ -168,6 +218,7 @@
   },
   "github-special-block-caution": {
     "prefix": "GC",
+    "description": "GitHub CAUTION callout block",
     "body": [
       "\n#+NAME:${1:Github caution Block}",
       "#+BEGIN_QUOTE markdown",
@@ -178,6 +229,7 @@
   },
   "Github-hidden-section": {
     "prefix": "hcode",
+    "description": "Collapsible hidden section",
     "body": [
       "#+NAME:${1:Details}",
       "#+html:<details>",
