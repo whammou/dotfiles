@@ -324,8 +324,16 @@ windows_keys = [
                     EzKey("l", lazy.layout.merge_to_subtab("right")),
                     EzKey("j", lazy.layout.merge_to_subtab("down")),
                     EzKey("k", lazy.layout.merge_to_subtab("up")),
-                    EzKey("S-h", lazy.layout.merge_tabs("previous", "x")),
-                    EzKey("S-l", lazy.layout.merge_tabs("next", "x")),
+                    EzKey(
+                        "S-h",
+                        lazy.layout.merge_tabs("previous", "x"),
+                        lazy.layout.normalize(),
+                    ),
+                    EzKey(
+                        "S-l",
+                        lazy.layout.merge_tabs("next", "x"),
+                        lazy.layout.normalize(),
+                    ),
                     EzKey(
                         "C-h",
                         lazy.layout.merge_tabs("previous", "x"),
