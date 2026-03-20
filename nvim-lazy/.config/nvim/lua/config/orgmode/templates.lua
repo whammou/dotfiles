@@ -4,21 +4,38 @@ local base_dir = dir.base_dir
 local zettel_dir = dir.zettel_dir
 
 local org_tasks = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "tasks") .. "}"
-local org_tracker = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "trackers") .. "}"
+local org_dev = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "dev") .. "}"
 local org_doc_dirs = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}"
 local org_lists = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "lists") .. "}"
 
 local task_template = "** %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 local capture_templates = {
   c = { description = "Capture", template = "* %?", target = "~/Journal/capture.org" },
-  r = {
-    description = "Tracker Capture",
-    template = task_template,
-    target = org_tracker .. "/trackers/tracker.org",
-    headline = "Trackers List",
+  e = {
+    description = "New development",
+    subtemplates = {
+      b = {
+        description = "Bug report",
+        template = task_template,
+        target = org_dev .. "/dev/bug.org",
+        headline = "Bug List",
+      },
+      i = {
+        description = "Issue capture",
+        template = task_template,
+        target = org_dev .. "/dev/issue.org",
+        headline = "Issues List",
+      },
+      e = {
+        description = "Enhancement capture",
+        template = task_template,
+        target = org_dev .. "/dev/enhancement.org",
+        headline = "Enhancement List",
+      },
+    },
   },
   t = {
-    description = "Task",
+    description = "Task note capture",
     subtemplates = {
       o = {
         description = "Oneoff Tasks",
@@ -73,6 +90,30 @@ local capture_templates = {
 }
 
 local roam_template = {
+  b = {
+    description = "Report bug",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+* Bugs List :typDev:catBug:meta:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/bug.org",
+  },
+  i = {
+    description = "New issue",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+* Issues List :typDev:catIssue:meta:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/issue.org",
+  },
+  e = {
+    description = "New enhancement",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+* Enhancements List :typDev:catEnhancement:meta:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org",
+  },
   z = {
     description = "Zettelkasten",
     template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
@@ -87,14 +128,6 @@ local roam_template = {
 #+TODO: TODO(t) (e) DOIN(d) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
-  },
-  r = {
-    description = "New Tracker",
-    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Trackers List
-%?]],
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "trackers") .. "}" .. "/tracker.org",
   },
   d = {
     description = "Documents",

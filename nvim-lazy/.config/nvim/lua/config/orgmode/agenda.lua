@@ -9,7 +9,7 @@ local tracker_agenda = {
   },
   {
     type = "tags",
-    match = "typTracker-meta/OPEN",
+    match = "typDev-meta/OPEN",
   },
 }
 

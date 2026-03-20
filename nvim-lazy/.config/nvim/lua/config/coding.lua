@@ -1,9 +1,23 @@
 local blink = require("blink.cmp")
 local luasnip = require("luasnip")
 
+require("snippets.snippets")
+
+--luasnip.filetype_extend("org", { "tex" })
+
 blink.setup({
   cmdline = { enabled = false },
-  snippets = { preset = "luasnip" },
+  snippets = {
+    preset = "luasnip",
+  },
+  completion = {
+    ghost_text = {
+      enabled = true,
+      show_with_selection = true,
+      show_without_selection = true,
+      show_with_menu = true,
+    },
+  },
   sources = {
     providers = {
       lsp = {
@@ -28,9 +42,9 @@ blink.setup({
         },
       },
       snippets = {
-        async = true,
-        name = "luasnip",
-        enabled = true,
+        opts = {
+          use_label_description = true,
+        },
       },
       orgmode = {
         async = true,
@@ -47,10 +61,5 @@ blink.setup({
   },
   keymap = {
     preset = "default",
-    -- ["<C-Cr>"] = { "select_and_accept" },
   },
 })
-
---luasnip.setup({
---  luasnip.filetype_extend("org", { "tex" }),
---})
