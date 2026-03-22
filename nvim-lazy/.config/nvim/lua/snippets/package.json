@@ -1,0 +1,19 @@
+{
+  "name": "custom-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "org",
+        "path": "org.lua"
+      },
+      {
+        "language": "lua",
+        "path": "lua.lua"
+      },
+      {
+        "language": "markdown",
+        "path": "markdown.lua"
+      }
+    ]
+  }
+}
