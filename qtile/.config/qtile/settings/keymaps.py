@@ -50,9 +50,17 @@ keymap = [
         "prefix": "a",
         "cmd": [
             [
-                "p",
+                "o",
                 in_terminal(
                     "opencode attach -p Unlimitednova199- http://whamlab.sytes.net:5000 --dir /home/whammou --continue",
+                    parameters="--hold",
+                ),
+                "pad_small",
+            ],
+            [
+                "S-o",
+                in_terminal(
+                    "opencode",
                     parameters="--hold",
                 ),
                 "pad_small",
