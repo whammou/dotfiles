@@ -129,11 +129,6 @@ body = ^<b></b>:$
 format = ""
 script = /home/whammou/.config/dunst/scripts/clock-format
 
-#[orgmode]
-#summary = org_cron
-#script = ~/.config/dunst/scripts/orgmode
-#format = ""
-#set_transient = yes
 [reminder]
 category = ^(ntfy|reminder)$
 summary = ^(Orgmode|Reminder)$
