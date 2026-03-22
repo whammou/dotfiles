@@ -1,5 +1,3 @@
----@diagnostic disable: undefined-global
-
 vim.opt.foldlevel = 1
 vim.opt.foldminlines = 1
 vim.opt.cmdheight = 0

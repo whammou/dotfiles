@@ -20,6 +20,7 @@ vim.api.nvim_create_autocmd("FileType", {
       silent = true,
       buffer = true,
     })
+    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
   end,
 })
 
