@@ -3,14 +3,17 @@ local luasnip = require("luasnip")
 
 require("snippets.snippets")
 
---luasnip.filetype_extend("org", { "tex" })
-
 blink.setup({
+  fuzzy = { implementation = "rust" },
   cmdline = { enabled = false },
   snippets = {
     preset = "luasnip",
   },
   completion = {
+    trigger = {
+      show_on_keyword = false,
+      show_on_trigger_character = true,
+    },
     ghost_text = {
       enabled = true,
       show_with_selection = true,
