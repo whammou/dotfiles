@@ -44,16 +44,16 @@
   },
   "categories": {
     "visual-engineering": {
-      "model": "opencode/mimo-v2-flash-free"
+      "model": "opencode/mimo-v2-pro-free"
     },
     "ultrabrain": {
-      "model": "opencode/mimo-v2-flash-free"
+      "model": "opencode/mimo-v2-pro-free"
     },
     "deep": {
-      "model": "opencode/mimo-v2-flash-free"
+      "model": "opencode/mimo-v2-pro-free"
     },
     "artistry": {
-      "model": "opencode/mimo-v2-flash-free"
+      "model": "opencode/mimo-v2-pro-free"
     },
     "quick": {
       "model": "opencode/big-pickle"
