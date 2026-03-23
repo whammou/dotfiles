@@ -3,12 +3,12 @@
   "model_fallback": true,
   "agents": {
     "sisyphus": {
-      "model": "opencode/nemotron-3-super-free",
+      "model": "opencode/big-pickle",
       "fallback_models": ["opencode/minimax-m2.5-free"],
       "color": "#c75ae8"
     },
     "hephaestus": {
-      "model": "opencode/nemotron-3-super-free",
+      "model": "opencode/gpt-5-codex",
       "fallback_models": ["opencode/minimax-m2.5-free"],
       "color": "#41a7fc"
     },
@@ -23,7 +23,7 @@
       "color": "#8bcd5b"
     },
     "explore": {
-      "model": "opencode/big-pickle",
+      "model": "opencode/minimax-m2.5-free",
       "fallback_models": ["opencode/minimax-m2.5-free"],
       "color": "#efbd5d"
     },
@@ -58,10 +58,10 @@
       "model": "opencode/mimo-v2-pro-free"
     },
     "ultrabrain": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode/gpt-5-codex"
     },
     "deep": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode/big-pickle"
     },
     "artistry": {
       "model": "opencode/mimo-v2-pro-free"
