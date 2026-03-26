@@ -1,6 +1,8 @@
 local orgmode = require("orgmode")
 
-if vim.api.nvim_buf_get_name(0):match("orgagenda$") then
+local buf_name = vim.api.nvim_buf_get_name(0)
+if buf_name:match("orgagenda$") then
   orgmode.agenda:redo("mapping", true)
-  print("Refresh orgmode agenda")
+elseif buf_name:match("%.org$") then
+  vim.cmd("silent! RoamUpdate!")
 end

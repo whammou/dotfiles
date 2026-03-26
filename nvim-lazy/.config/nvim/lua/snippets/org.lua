@@ -4,6 +4,7 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
+local c = ls.choice_node
 
 local function uuid()
   return f(function()
@@ -152,11 +153,6 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Checkbox" }),
 
-  s("+-", {
-    t("- "),
-    i(0),
-  }, { desc = "List item" }),
-
   s("+1.", {
     t("1. "),
     i(0),
@@ -168,100 +164,45 @@ ls.add_snippets("org", {
   }, { desc = "Horizontal line" }),
 
   s(":PROP", {
-    t({ ":PROPERTIES:", ":ID: " }),
-    uuid(),
+    t({ ":PROPERTIES:", ":ID: " .. vim.fn.systemlist("uuidgen")[1] }),
+    i(1),
     t({ "", ":END:", "" }),
     i(0),
-  }, { desc = "Property drawer" }),
+  }, { desc = "Property drawer with ID" }),
 
-  s(":ID", {
-    t(":ID: "),
-    uuid(),
-    i(0),
-  }, { desc = "ID property" }),
-
-  s(":", {
-    t(":"),
-    i(1, "PROPERTY"),
-    t(": "),
-    i(0),
-  }, { desc = "Property" }),
-
-  s(".", {
-    t("."),
-    i(0),
-  }, { desc = "Date/time" }),
-
-  s(".S", {
-    t("SCHEDULED: <"),
-    current_date("%Y-%m-%d"),
-    t(">"),
-    i(0),
-  }, { desc = "Scheduled" }),
-
-  s(".D", {
-    t("DEADLINE: <"),
-    current_date("%Y-%m-%d"),
-    t(">"),
-    i(0),
-  }, { desc = "Deadline" }),
-
-  s("[[", {
-    t("[["),
-    i(1, "link"),
-    t("]["),
-    i(2, "desc"),
-    t("]]"),
-    i(0),
-  }, { desc = "Hyperlink" }),
-
-  s("#", {
-    t("#"),
-    i(1, "TODO"),
-    t(" "),
-    i(0),
-  }, { desc = "TODO keyword" }),
-
-  s("#+BEGIN", {
-    i(1, "type"),
+  s("#quote", {
+    t({ "#+begin_quote " }),
+    i(1, "option"),
     t({ "", "" }),
     i(2),
-    t({ "", "#+END_" }),
-    i(3, "type"),
-    i(0),
-  }, { desc = "Begin/end block" }),
-
-  s("#+BEGIN_QUOTE", {
-    t({ "#+BEGIN_QUOTE", "" }),
-    i(1),
-    t({ "", "#+END_QUOTE", "" }),
+    t({ "", "#+end_quote", "" }),
     i(0),
   }, { desc = "Quote block" }),
 
-  s("#+BEGIN_SRC", {
-    t("#+BEGIN_SRC "),
-    i(1, "language"),
+  s("#code", {
+    t("#+begin_src "),
+    i(1, "option"),
     t({ "", "" }),
     i(2),
-    t({ "", "#+END_SRC", "" }),
+    t({ "", "#+end_src", "" }),
     i(0),
   }, { desc = "Source block" }),
 
-  s("#+BEGIN_EXAMPLE", {
-    t({ "#+BEGIN_EXAMPLE", "" }),
+  s("#begin_example", {
+    t({ "#+begin_example", "" }),
     i(1),
-    t({ "", "#+END_EXAMPLE", "" }),
+    t({ "", "#+end_example", "" }),
     i(0),
   }, { desc = "Example block" }),
 
-  s("#+HTML", {
+  s("#html_block", {
     t({ "#+begin_html html", "" }),
     i(1),
     t({ "", "#+end_html", "" }),
     i(0),
   }, { desc = "HTML block" }),
 
-  s("#+HTML_IMG", {
+  s("#html_image", {
     t({ "#+begin_html html", "" }),
     t('<img src="'),
     i(1, "URL"),
@@ -272,34 +213,19 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "HTML image" }),
 
-  s("#+NAME", {
-    t("#+NAME: "),
-    i(0),
-  }, { desc = "Named block" }),
-
-  s("#+FILETAGS", {
-    t("#+FILETAGS: "),
-    i(0),
-  }, { desc = "File tags" }),
-
-  s("#+TITLE", {
-    t("#+TITLE: "),
-    i(0),
-  }, { desc = "Title" }),
-
-  s("#+LOGBOOK", {
+  s("#LOGBOOK", {
     t({
-      "#+NAME:LOGBOOK",
-      "#+HTML:<details>",
-      "#+HTML:<summary>LOGBOOK</summary>",
+      "#+name:LOGBOOK",
+      "#+html:<details>",
+      "#+html:<summary>LOGBOOK</summary>",
       ":LOGBOOK:",
       ":END:",
-      "#+HTML:</details>",
+      "#+html:</details>",
     }),
     i(0),
   }, { desc = "Logbook" }),
 
-  s("#+NOTE", {
+  s("+note", {
     t({ "-----", "" }),
     t("- Note taken on ["),
     current_date("%Y-%m-%d"),
@@ -310,71 +236,53 @@ ls.add_snippets("org", {
     t({ "", "-----", "" }),
   }, { desc = "Dated note" }),
 
-  s("#+TASK", {
-    i(1, "Title"),
-    t({ "", "- *OBJECTIVE:* " }),
-    i(2),
-    t({ "", "-----", "" }),
-    t({
-      "#+NAME:LOGBOOK",
-      "#+HTML:<details>",
-      "#+HTML:<summary>LOGBOOK</summary>",
-      ":LOGBOOK:",
-      ":END:",
-      "#+HTML:</details>",
-      "-----",
-      "",
-    }),
-    i(0),
-  }, { desc = "Recurring task" }),
-
-  s("GN", {
-    t({ "", "#+NAME:" }),
+  s("#GN", {
+    t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+BEGIN_QUOTE markdown", "[!NOTE]", "" }),
+    t({ "", "#+begin_quote markdown", "[!NOTE]", "" }),
     i(2),
-    t({ "", "#+END_QUOTE" }),
+    t({ "", "#+end_quote" }),
     i(0),
   }, { desc = "GitHub NOTE" }),
 
-  s("GW", {
-    t({ "", "#+NAME:" }),
+  s("#GW", {
+    t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+BEGIN_QUOTE markdown", "[!WARNING]", "" }),
+    t({ "", "#+begin_quote markdown", "[!WARNING]", "" }),
     i(2),
-    t({ "", "#+END_QUOTE" }),
+    t({ "", "#+end_quote" }),
     i(0),
   }, { desc = "GitHub WARNING" }),
 
-  s("GI", {
-    t({ "", "#+NAME:" }),
+  s("#GI", {
+    t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+BEGIN_QUOTE markdown", "[!IMPORTANT]", "" }),
+    t({ "", "#+begin_quote markdown", "[!IMPORTANT]", "" }),
     i(2),
-    t({ "", "#+END_QUOTE" }),
+    t({ "", "#+end_quote" }),
     i(0),
   }, { desc = "GitHub IMPORTANT" }),
 
-  s("GT", {
-    t({ "", "#+NAME:" }),
+  s("#GT", {
+    t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+BEGIN_QUOTE markdown", "[!TIP]", "" }),
+    t({ "", "#+begin_quote markdown", "[!TIP]", "" }),
     i(2),
-    t({ "", "#+END_QUOTE" }),
+    t({ "", "#+end_quote" }),
     i(0),
   }, { desc = "GitHub TIP" }),
 
-  s("GC", {
-    t({ "", "#+NAME:" }),
+  s("#GC", {
+    t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+BEGIN_QUOTE markdown", "[!CAUTION]", "" }),
+    t({ "", "#+begin_quote markdown", "[!CAUTION]", "" }),
     i(2),
-    t({ "", "#+END_QUOTE" }),
+    t({ "", "#+end_quote" }),
     i(0),
   }, { desc = "GitHub CAUTION" }),
 
-  s("details", {
-    t({ "#+NAME:" }),
+  s("#html_details", {
+    t({ "#+name:" }),
     i(1, "Details"),
     t({ "", "#+html:<details>", "#+html:<summary><b>" }),
     i(2, "Summary"),
@@ -384,7 +292,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Collapsible" }),
 
-  s("zh", {
+  s("*zh", {
     t({ "#+TITLE: " }),
     i(1, "Title"),
     t({ "", "#+FILETAGS: :ZK:" }),
@@ -400,7 +308,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Zettelkasten" }),
 
-  s("dh", {
+  s("*dh", {
     t("#+FILETAGS: :typDoc:meta:"),
     i(2, "Tags"),
     t({ ":", "" }),
@@ -414,7 +322,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Doc header" }),
 
-  s("$$", {
+  s("+math", {
     t("$$"),
     i(1),
     t("$$ "),

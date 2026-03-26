@@ -18,7 +18,7 @@ local capture_templates = {
         description = "Bug report",
         template = task_template,
         target = org_dev .. "/dev/bug.org",
-        headline = "Bug List",
+        headline = "Bugs List",
       },
       i = {
         description = "Issue capture",
@@ -30,7 +30,7 @@ local capture_templates = {
         description = "Enhancement capture",
         template = task_template,
         target = org_dev .. "/dev/enhancement.org",
-        headline = "Enhancement List",
+        headline = "Enhancements List",
       },
     },
   },
