@@ -271,3 +271,5 @@ cmdline
 cmdline
 Fallbacks
 DeSec
+filetypes
+LuaSnip
