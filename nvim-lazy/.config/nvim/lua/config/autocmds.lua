@@ -12,25 +12,6 @@ vim.api.nvim_create_user_command("Redir", function(ctx)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
   vim.opt_local.modified = false
 end, { nargs = "+", complete = "command" })
--- Binding org-meta-return
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "org",
-  callback = function()
-    vim.keymap.set("i", "<S-CR>", '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {
-      silent = true,
-      buffer = true,
-    })
-    vim.opt_local.formatoptions:remove({ "c", "r", "o" })
-  end,
-})
-
--- via an autocmd
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "org-roam-select",
-  callback = function()
-    vim.b.completion = false
-  end,
-})
 
 -- Disable tree-sitter for larg file
 -- vim.api.nvim_create_autocmd({ "InsertLeave", "InsertEnter" }, {
