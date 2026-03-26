@@ -30,7 +30,7 @@ require("sidekick").setup({
     },
     tools = {
       opencode = {
-        cmd = { "opencode", "/tmp/placeholder" },
+        cmd = { "opencode", "--continue", "/tmp/placeholder" },
       },
       opencode_attach = {
         cmd = {
