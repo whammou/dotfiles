@@ -1,4 +1,5 @@
 local opt = vim.opt
+local opt_local = vim.opt_local
 
 function _G.markdown_foldexpr()
   local lnum = vim.v.lnum
@@ -24,11 +25,21 @@ function _G.markdown_foldexpr()
   return "="
 end
 
-opt.foldlevel = 0
-opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.markdown_foldexpr()"
--- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  callback = function()
+    if vim.bo.filetype == "markdown" then
+      vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+      opt_local.foldlevel = 1
+      opt_local.foldmethod = "expr"
+      opt_local.foldexpr = "v:lua.markdown_foldexpr()"
+      -- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
-vim.o.breakindent = true
-vim.o.breakindentopt = "list:-1"
--- vim.o.formatlistpat = "-"
+      opt_local.breakindent = true
+      opt_local.breakindentopt = "list:-1"
+      vim.opt_local.showbreak = "NONE"
+      vim.opt_local.conceallevel = 3
+      vim.opt_local.concealcursor = "nc"
+      -- vim.o.formatlistpat = "-"
+    end
+  end,
+})
