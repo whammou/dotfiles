@@ -10,8 +10,20 @@ for i = 1, 9 do
   end, { desc = "which_key_ignore" })
 end
 
-map("n", "zp", "zMzvzz", { desc = "Unfold only at this level" })
-map("n", "zP", "zozczOzt", { desc = "Unfold levels below at this level" })
+map("n", "zp", function()
+  vim.cmd("normal! mq")
+  vim.cmd("normal! zMzv")
+  vim.cmd("normal! `q")
+  vim.cmd("delmarks q")
+end, { desc = "Fold everything except current fold, preserve viewport" })
+
+map("n", "zP", function()
+  vim.cmd("normal! mq")
+  vim.cmd("normal! zMzvzczO")
+  vim.cmd("normal! `q")
+  vim.cmd("delmarks q")
+end, { desc = "Unfold at cursor, or levels below if already unfolded" })
+
 map("n", "<C-g>u", "<cmd>GetCurrentBranchLink<CR>", { desc = "Get current branch link" })
 map("n", "<C-A-j>", "<cmd>set paste<CR>m`o<ESC>``<cmd>set nopaste<CR>", { desc = "Add empty line above" })
 map("n", "<C-A-k>", "<cmd>set paste<CR>m`O<ESC>``<cmd>set nopaste<CR>", { desc = "Add empty line below" })
