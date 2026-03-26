@@ -183,10 +183,11 @@ keymap = [
         "prefix": "u",
         "cmd": [
             # ["s", in_terminal("chess-tui --engine-path /sbin/stockfish"), "pad_small"],
+            ["b", in_terminal("bluetuith"), "pad_small"],
             [
                 "y",
                 in_terminal("yt-x", parameters="--title='Youtube - yt-x'"),
-                "pad_large",
+                "pad_small",
             ],
             ["g", in_terminal("lazygit -p /home/whammou/dotfiles/"), "pad_large"],
             ["e", in_terminal("nvim"), "pad_large"],

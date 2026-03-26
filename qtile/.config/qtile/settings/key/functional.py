@@ -9,9 +9,7 @@ functional_keys = [
     Key(
         [],
         "XF86AudioMute",
-        lazy.spawn(
-            "pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle"
-        ),
+        lazy.spawn("volume toggle"),
     ),
     Key([], "XF86AudioLowerVolume", lazy.spawn("volume 1%-")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("volume 1%+")),

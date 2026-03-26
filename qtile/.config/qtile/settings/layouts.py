@@ -81,7 +81,7 @@ def after_kill_fallback(window):
 
 
 BORDER_WIDTH = 3
-BORDER_COLOR = colors["cyan"]
+BORDER_COLOR = colors["grey"]
 
 layouts = [
     MyCustomBonsai(
