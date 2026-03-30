@@ -1,3 +1,4 @@
-timeout 180 'grep -q "RUNNING" /proc/asound/card*/pcm*/sub*/status || (brightnessctl --save && brightnessctl set 0% && swaylock -f)' resume 'brightnessctl --restore'
-timeout 900 'grep -q "RUNNING" /proc/asound/card*/pcm*/sub*/status || systemctl suspend-then-hibernate'
+timeout 180 'brightnessctl --save && brightnessctl set 0%' resume 'brightnessctl --restore'
+timeout 180 '! playerctl status 2>/dev/null | rg -q "Playing" && swaylock -f'
+timeout 900 '! playerctl status 2>/dev/null | rg -q "Playing" && ([ "$(cat /sys/class/power_supply/AC/online)" = "0" ] && systemctl suspend-then-hibernate)'
 before-sleep 'swaylock -f'
