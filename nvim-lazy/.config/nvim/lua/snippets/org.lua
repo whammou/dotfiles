@@ -4,7 +4,7 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
-local c = ls.choice_node
+-- local c = ls.choice_node
 
 local function uuid()
   return f(function()
@@ -163,14 +163,14 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Horizontal line" }),
 
-  s(":PROP", {
+  s(":PROP-ID", {
     t({ ":PROPERTIES:", ":ID: " .. vim.fn.systemlist("uuidgen")[1] }),
     i(1),
     t({ "", ":END:", "" }),
     i(0),
   }, { desc = "Property drawer with ID" }),
 
-  s("#quote", {
+  s("#+quote", {
     t({ "#+begin_quote " }),
     i(1, "option"),
     t({ "", "" }),
@@ -179,7 +179,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Quote block" }),
 
-  s("#code", {
+  s("#+code", {
     t("#+begin_src "),
     i(1, "option"),
     t({ "", "" }),
@@ -188,21 +188,21 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Source block" }),
 
-  s("#begin_example", {
+  s("#+begin_example", {
     t({ "#+begin_example", "" }),
     i(1),
     t({ "", "#+end_example", "" }),
     i(0),
   }, { desc = "Example block" }),
 
-  s("#html_block", {
+  s("#+html_block", {
     t({ "#+begin_html html", "" }),
     i(1),
     t({ "", "#+end_html", "" }),
     i(0),
   }, { desc = "HTML block" }),
 
-  s("#html_image", {
+  s("#+html_image", {
     t({ "#+begin_html html", "" }),
     t('<img src="'),
     i(1, "URL"),
@@ -213,7 +213,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "HTML image" }),
 
-  s("#LOGBOOK", {
+  s("#+LOGBOOK", {
     t({
       "#+name:LOGBOOK",
       "#+html:<details>",
@@ -236,7 +236,7 @@ ls.add_snippets("org", {
     t({ "", "-----", "" }),
   }, { desc = "Dated note" }),
 
-  s("#GN", {
+  s("#+GN", {
     t({ "", "#+name:" }),
     i(1, "Block"),
     t({ "", "#+begin_quote markdown", "[!NOTE]", "" }),
@@ -245,7 +245,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "GitHub NOTE" }),
 
-  s("#GW", {
+  s("#+GW", {
     t({ "", "#+name:" }),
     i(1, "Block"),
     t({ "", "#+begin_quote markdown", "[!WARNING]", "" }),
@@ -254,7 +254,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "GitHub WARNING" }),
 
-  s("#GI", {
+  s("#+GI", {
     t({ "", "#+name:" }),
     i(1, "Block"),
     t({ "", "#+begin_quote markdown", "[!IMPORTANT]", "" }),
@@ -263,7 +263,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "GitHub IMPORTANT" }),
 
-  s("#GT", {
+  s("#+GT", {
     t({ "", "#+name:" }),
     i(1, "Block"),
     t({ "", "#+begin_quote markdown", "[!TIP]", "" }),
@@ -272,7 +272,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "GitHub TIP" }),
 
-  s("#GC", {
+  s("#+GC", {
     t({ "", "#+name:" }),
     i(1, "Block"),
     t({ "", "#+begin_quote markdown", "[!CAUTION]", "" }),
@@ -281,7 +281,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "GitHub CAUTION" }),
 
-  s("#html_details", {
+  s("#+html_details", {
     t({ "#+name:" }),
     i(1, "Details"),
     t({ "", "#+html:<details>", "#+html:<summary><b>" }),
@@ -322,7 +322,7 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Doc header" }),
 
-  s("+math", {
+  s("#math", {
     t("$$"),
     i(1),
     t("$$ "),
