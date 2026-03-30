@@ -6,6 +6,6 @@ dunst_action=$(dunstify -A "yank,Yank Clipboard" "Clipboard" "$DUNST_BODY")
 # Define Actions
 case $dunst_action in
 "yank")
-  echo -n $DUNST_BODY | xclip -selection clipboard
+  echo -n $DUNST_BODY | wl-copy
   ;;
 esac
