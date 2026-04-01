@@ -38,7 +38,7 @@ require("orgmode").cron({
             "Title: Orgmode",
             "-d",
             string.format("%s\n%s\n%s", subtitle, date, title),
-            "http://whamlab.sytes.net/orgmode",
+            "https://ntfy.whammou.dedyn.io/orgmode",
           })
           :wait()
       end
