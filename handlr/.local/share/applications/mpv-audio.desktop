@@ -2,7 +2,7 @@
 Version=1.0
 Name=Mpv-audio
 Comment=Start mpv in audio mode
+Terminal=true
 Exec=mpv --no-video %U
-Terminal=yes
 Type=Application
-MimeType=audio/mpeg
+MimeType=audio/vnd.wave
