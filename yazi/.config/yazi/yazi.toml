@@ -20,6 +20,7 @@ prepend_rules = [
     { url = "*.url", use = 'url_opener' },
     { url = "*.html", use = 'open' },
     { url = "*.mp3", use = 'mpv-audio' },
+    { url = "*.wav", use = 'mpv-audio' },
     { mime = "text/*" , use = "edit" },
     { url = "*.tmpl" , use = "edit" },
     { url = "*.pdf" , use = "pdf-viewer" }
