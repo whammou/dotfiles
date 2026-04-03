@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+paplay ~/.bell/alert-08.wav

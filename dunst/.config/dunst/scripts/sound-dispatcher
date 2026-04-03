@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# ~/.config/dunst/scripts/sound-dispatcher
+# Dispatches different sounds based on notification details
+
+# Available environment variables:
+# DUNST_APP_NAME, DUNST_SUMMARY, DUNST_BODY, DUNST_ICON_PATH
+# DUNST_URGENCY, DUNST_ID, DUNST_PROGRESS, DUNST_CATEGORY, DUNST_URLS
+
+# Sound for test notifications
+# if [[ "$DUNST_SUMMARY" == "test" ]]; then
+#   paplay ~/.local/share/bell/alert-01.wav
+#   exit 0
+# fi
+
+case "$DUNST_CATEGORY" in
+ntfy-script)
+  exit 0
+  ;;
+esac
+
+case "$DUNST_SUMMARY" in
+test)
+  paplay ~/.local/share/bell/alert-01.wav
+  exit 0
+  ;;
+Mpv)
+  exit 0
+  ;;
+SimpMusic)
+  exit 0
+  ;;
+esac
+
+# Default sound for all other notifications
+case "$DUNST_URGENCY" in
+LOW) paplay ~/.local/share/bell/bip-bop-05.wav ;;
+NORMAL) paplay ~/.local/share/bell/staplebops-01.wav ;;
+CRITICAL) paplay ~/.local/share/bell/alert-01.wav ;;
+esac

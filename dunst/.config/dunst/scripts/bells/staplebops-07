@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+paplay ~/.bell/staplebops-07.wav

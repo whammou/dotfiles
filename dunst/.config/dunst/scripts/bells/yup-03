@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+paplay ~/.bell/yup-03.wav

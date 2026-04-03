@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+paplay ~/.bell/nope-12.wav

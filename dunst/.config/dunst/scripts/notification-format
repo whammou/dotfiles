@@ -5,4 +5,4 @@ notificationBody=$DUNST_BODY
 
 formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^:]*):/<b>$1<\/b>:/')
 
-dunstify -c "ntfy" "$DUNST_SUMMARY" "$formatedBody"
+dunstify -c "ntfy-display" "$DUNST_SUMMARY" "$formatedBody"
