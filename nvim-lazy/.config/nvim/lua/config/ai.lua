@@ -14,7 +14,7 @@ require("sidekick").setup({
   -- add any options here
   cli = {
     win = {
-      layout = "bottom",
+      layout = "right",
       split = {
         width = 0,
         height = 0,
