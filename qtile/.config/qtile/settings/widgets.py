@@ -142,6 +142,7 @@ widgets = [
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 7
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 8
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 9
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 10
     widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=2),
 ]
 

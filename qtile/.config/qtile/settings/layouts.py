@@ -1,7 +1,7 @@
 from libqtile import layout
 from libqtile.config import Match
 from qtile_bonsai import Bonsai
-from libqtile import hook
+from libqtile import hook, qtile
 
 from .theme import colors
 from .screens import GAP, OFFSET

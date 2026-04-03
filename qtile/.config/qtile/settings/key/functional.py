@@ -47,4 +47,6 @@ functional_keys = [
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
     Key([], "XF86AudioPause", lazy.spawn("playerctl -a pause")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("volume 5%+")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("volume 5%-")),
 ]

@@ -1,4 +1,4 @@
-from libqtile import hook
+from libqtile import hook, qtile
 from libqtile.backend.wayland.inputs import InputConfig
 
 from settings.keys import mod, keys
@@ -16,6 +16,19 @@ import subprocess
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call([path.join(qtile_path, "autostart.sh")])
+
+
+@hook.subscribe.unlocked
+@hook.subscribe.startup
+def session_start():
+    qtile.spawn("systemctl --user start qtile-session.target")
+    qtile.spawn("systemctl --user restart screensaver")
+
+
+@hook.subscribe.shutdown
+@hook.subscribe.locked
+def session_lock():
+    qtile.spawn("systemctl --user stop qtile-session.target")
 
 
 wl_input_rules = {
