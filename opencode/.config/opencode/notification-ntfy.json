@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/opencode-ntfy.sh/notification-ntfy.schema.json",
   "backend": {
-    "server": "http://whamlab.sytes.net",
+    "server": "https://ntfy.whammou.dedyn.io",
     "topic": "opencode",
     "title": {
       "session.idle": {
