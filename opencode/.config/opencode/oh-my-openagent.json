@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
-  "model_fallback": true,
   "agents": {
     "sisyphus": {
       "model": "opencode/big-pickle",
+      "variant": "max",
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
@@ -11,6 +11,7 @@
     },
     "hephaestus": {
       "model": "opencode/nemotron-3-super-free",
+      "variant": "medium",
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
@@ -18,17 +19,11 @@
     },
     "oracle": {
       "model": "opencode/nemotron-3-super-free",
+      "variant": "high",
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
       "color": "#f65866"
-    },
-    "librarian": {
-      "model": "opencode/big-pickle",
-      "fallback_models": [
-        "opencode/minimax-m2.5-free"
-      ],
-      "color": "#8bcd5b"
     },
     "explore": {
       "model": "opencode/minimax-m2.5-free",
@@ -39,6 +34,7 @@
     },
     "multimodal-looker": {
       "model": "opencode/mimo-v2-omni-free",
+      "variant": "medium",
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
@@ -46,6 +42,7 @@
     },
     "prometheus": {
       "model": "opencode/minimax-m2.5-free",
+      "variant": "max",
       "fallback_models": [
         "opencode/big-pickle"
       ],
@@ -53,6 +50,7 @@
     },
     "metis": {
       "model": "opencode/minimax-m2.5-free",
+      "variant": "max",
       "fallback_models": [
         "opencode/big-pickle"
       ],
@@ -60,6 +58,7 @@
     },
     "momus": {
       "model": "opencode/minimax-m2.5-free",
+      "variant": "xhigh",
       "fallback_models": [
         "opencode/big-pickle"
       ],
@@ -71,32 +70,128 @@
         "opencode/big-pickle"
       ],
       "color": "#93a4c3"
+    },
+    "sisyphus-junior": {
+      "model": "opencode/claude-sonnet-4-6",
+      "fallback_models": [
+        {
+          "model": "opencode/gpt-5.4",
+          "variant": "medium"
+        },
+        {
+          "model": "opencode/big-pickle"
+        }
+      ]
+    },
+    "librarian": {
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        "opencode/minimax-m2.5-free"
+      ],
+      "color": "#8bcd5b"
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "opencode/mimo-v2-pro-free"
+      "model": "opencode/mimo-v2-pro-free",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "opencode/glm-5"
+        },
+        {
+          "model": "opencode/claude-opus-4-6",
+          "variant": "max"
+        }
+      ]
     },
     "ultrabrain": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode/nemotron-3-super-free",
+      "variant": "xhigh",
+      "fallback_models": [
+        {
+          "model": "opencode/gemini-3.1-pro",
+          "variant": "high"
+        },
+        {
+          "model": "opencode/claude-opus-4-6",
+          "variant": "max"
+        }
+      ]
     },
     "deep": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "variant": "medium",
+      "fallback_models": [
+        {
+          "model": "opencode/claude-opus-4-6",
+          "variant": "max"
+        },
+        {
+          "model": "opencode/gemini-3.1-pro",
+          "variant": "high"
+        }
+      ]
     },
     "artistry": {
-      "model": "opencode/mimo-v2-pro-free"
+      "model": "opencode/mimo-v2-pro-free",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "opencode/claude-opus-4-6",
+          "variant": "max"
+        },
+        {
+          "model": "opencode/gpt-5.4"
+        }
+      ]
     },
     "quick": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        {
+          "model": "opencode/claude-haiku-4-5"
+        },
+        {
+          "model": "opencode/gemini-3-flash"
+        },
+        {
+          "model": "opencode/gpt-5-nano"
+        }
+      ]
     },
     "unspecified-low": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        {
+          "model": "opencode/gpt-5.3-codex",
+          "variant": "medium"
+        },
+        {
+          "model": "opencode/gemini-3-flash"
+        }
+      ]
     },
     "unspecified-high": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode/minimax-m2.5-free",
+      "fallback_models": [
+        {
+          "model": "opencode/gpt-5.3-codex",
+          "variant": "medium"
+        },
+        {
+          "model": "opencode/gemini-3-flash"
+        }
+      ]
     },
     "writing": {
-      "model": "opencode/big-pickle"
+      "model": "opencode/big-pickle",
+      "fallback_models": [
+        {
+          "model": "opencode/claude-sonnet-4-6"
+        }
+      ]
     }
-  }
+  },
+  "model_fallback": true
 }
