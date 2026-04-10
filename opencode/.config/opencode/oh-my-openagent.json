@@ -10,7 +10,7 @@
       "color": "#c75ae8"
     },
     "hephaestus": {
-      "model": "opencode/nemotron-3-super-free",
+      "model": "cerebras/gtp-oss-120b",
       "variant": "medium",
       "fallback_models": [
         "opencode/minimax-m2.5-free"
