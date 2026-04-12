@@ -7,21 +7,31 @@ if status is-interactive
     set fish_greeting
 end
 
-function fish_title
-    set -q argv[1]; or set argv fish
-    set -l current_path_abbreviated (fish_prompt_pwd_dir_length=1 prompt_pwd)
-    set -l current_path_expanded (string replace '~' "HOME" -- "$current_path_abbreviated")
+#function fish_title
+#    set -q argv[1]; or set argv fish
+#    set -l current_path_abbreviated (fish_prompt_pwd_dir_length=1 prompt_pwd)
+#    set -l current_path_expanded (string replace '~' "HOME" -- "$current_path_abbreviated")
+#
+#    if is_ssh
+#        set -l host (ssh_host)
+#        echo "ssh $host $argv[1] $current_path_expanded - "
+#    else
+#        echo "$argv[1] $current_path_expanded - "
+#    end
+#end
 
-    if is_ssh
-        set -l host (ssh_host)
-        echo "[SSH:$host] $argv[1] $current_path_expanded - "
-    else
-        echo "$argv[1] $current_path_expanded - "
-    end
-end
-set fish_cursor_default block
-set fish_cursor_insert line
+#set fish_cursor_default block
+#set fish_cursor_insert line
 
+#function ssh
+#    if set -q $TMUX
+#        tmux rename-window (echo $argv | cut -d . -f 1)
+#        command ssh "$argv"
+#        tmux set-window-option automatic-rename on 1>/dev/null
+#    else
+#        command ssh "$argv"
+#    end
+#end
 # Term settings
 #export TERM=xterm-256color
 
