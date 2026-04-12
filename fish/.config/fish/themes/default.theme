@@ -1,0 +1,35 @@
+fish_color_autosuggestion brblack
+fish_color_cancel -r
+fish_color_command --reset
+fish_color_comment red
+fish_color_cwd green
+fish_color_cwd_root red
+fish_color_end green
+fish_color_error brred
+fish_color_escape brcyan
+fish_color_hg_added green
+fish_color_hg_clean green
+fish_color_hg_copied magenta
+fish_color_hg_deleted red
+fish_color_hg_dirty red
+fish_color_hg_modified yellow
+fish_color_hg_renamed magenta
+fish_color_hg_unmerged red
+fish_color_hg_untracked yellow
+fish_color_history_current --bold
+fish_color_host --reset
+fish_color_host_remote yellow
+fish_color_normal --reset
+fish_color_operator brcyan
+fish_color_param cyan --italics
+fish_color_quote yellow
+fish_color_redirection cyan --bold
+fish_color_search_match white --background=brblack --bold
+fish_color_selection white --background=brblack --bold
+fish_color_status red
+fish_color_user brgreen
+fish_color_valid_path blue
+fish_pager_color_description yellow --italics
+fish_pager_color_prefix --bold --underline
+fish_pager_color_progress brwhite --background=cyan --bold
+fish_pager_color_selected_background -r
