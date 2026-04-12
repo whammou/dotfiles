@@ -4,6 +4,7 @@ function fish_user_key_bindings
     for mode in default insert
         bind --mode $mode \e\cu _paru_install
         bind --mode $mode \e\cq _paru_uninstall
+        bind --mode $mode \cs _systemd_user
         bind --mode $mode \e\co _reset
         bind --mode $mode \co _reset_color
         bind --mode $mode \cg _lazygit
