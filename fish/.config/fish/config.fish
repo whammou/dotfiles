@@ -7,18 +7,10 @@ if status is-interactive
     set fish_greeting
 end
 
-#function fish_title
-#    set -q argv[1]; or set argv fish
-#    set -l current_path_abbreviated (fish_prompt_pwd_dir_length=1 prompt_pwd)
-#    set -l current_path_expanded (string replace '~' "HOME" -- "$current_path_abbreviated")
-#
-#    if is_ssh
-#        set -l host (ssh_host)
-#        echo "ssh $host $argv[1] $current_path_expanded - "
-#    else
-#        echo "$argv[1] $current_path_expanded - "
-#    end
-#end
+function fish_title
+    set -q argv[1]; or set argv fish
+    echo (pwd)" - "
+end
 
 #set fish_cursor_default block
 #set fish_cursor_insert line
