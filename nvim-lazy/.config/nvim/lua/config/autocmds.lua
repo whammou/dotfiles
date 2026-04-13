@@ -13,6 +13,32 @@ vim.api.nvim_create_user_command("Redir", function(ctx)
   vim.opt_local.modified = false
 end, { nargs = "+", complete = "command" })
 
+vim.opt.viewoptions:append("folds")
+
+local function is_real_file_buffer(buf)
+  local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+  local bufname = vim.api.nvim_buf_get_name(buf)
+  return buftype == "" and bufname ~= ""
+end
+
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  pattern = "*",
+  callback = function(args)
+    if is_real_file_buffer(args.buf) then
+      vim.cmd("silent! mkview!")
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = "*",
+  callback = function(args)
+    if is_real_file_buffer(args.buf) then
+      vim.cmd("silent! loadview")
+    end
+  end,
+})
+
 -- Disable tree-sitter for larg file
 -- vim.api.nvim_create_autocmd({ "InsertLeave", "InsertEnter" }, {
 --   pattern = "*",
