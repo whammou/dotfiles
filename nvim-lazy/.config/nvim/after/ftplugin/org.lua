@@ -1,5 +1,6 @@
 vim.opt_local.formatoptions:remove({ "c", "r", "o" })
 vim.opt_local.foldlevel = 1
+vim.opt_local.foldlevelstart = 98
 vim.opt_local.foldminlines = 1
 vim.opt_local.cmdheight = 0
 vim.opt_local.wrap = true

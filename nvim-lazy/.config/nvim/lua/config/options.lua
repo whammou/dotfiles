@@ -17,7 +17,8 @@ opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,w
 
 --opt.foldmethod = "expr"
 --opt.foldexpr = "v:vim.treesitter.foldexpr()"
-opt.foldlevel = 99
+--opt.foldlevel = 99
+opt.foldlevelstart = 99
 opt.foldminlines = 0
 opt.fillchars = [[diff:╱,eob: ,fold: ,foldclose: ,foldopen:,foldsep: ]]
 

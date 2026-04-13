@@ -55,6 +55,7 @@ require("orgmode").setup({
     WAIT = ":foreground #604E49 :weight bold :slant italic",
     EXPL = ":foreground #604E49 :weight bold :slant italic",
     FDBK = ":foreground #604E49 :weight bold :slant italic",
+    TEST = ":foreground #604E49 :weight bold :slant italic",
     NEXT = ":foreground #2E6495 :weight bold :slant italic",
     TARGET = ":foreground #713E8B :weight bold :slant italic",
     RVIW = ":foreground #efbd5d :weight bold :slant italic",

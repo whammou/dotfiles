@@ -15,7 +15,9 @@ require("orgmode").setup({
 
   org_archive_location = "./log/" .. date .. "_%s",
   org_agenda_time_grid = {
-    times = vim.tbl_map(function(x) return x * 100 end, vim.fn.range(24)),
+    times = vim.tbl_map(function(x)
+      return x * 100
+    end, vim.fn.range(24)),
     time_separator = "─────",
     time_label = "──────────────",
   },
@@ -67,6 +69,7 @@ require("orgmode").setup({
     "NEXT(n)",
     "TARGET(g)",
     "IDEA(i)",
+    "TEST(s)",
     "RECR(l)",
     "|",
     "PRTL(r)",
