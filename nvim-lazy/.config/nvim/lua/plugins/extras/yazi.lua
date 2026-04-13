@@ -1,5 +1,3 @@
----@diagnostic disable: undefined-global
-
 return {
   {
     "mikavilpas/yazi.nvim",
@@ -13,13 +11,22 @@ return {
       },
       {
         "<leader>er",
-        "<cmd>Yazi cwd<cr>",
-        desc = "Open the file manager in nvim's working directory",
+        function()
+          local git_root = vim.fn.systemlist("git rev-parse --show-toplevel 2>/dev/null")[1]
+          local root = git_root ~= "" and git_root or "/"
+          require("yazi").yazi({}, root)
+        end,
+        desc = "Open yazi at git root or system root",
       },
       {
         "<leader>et",
         "<cmd>Yazi toggle<cr>",
         desc = "Resume the last yazi session",
+      },
+      {
+        "<leader>es",
+        "<cmd>edit scp://homelab//home/homelab/<cr>",
+        desc = "Open remote home via netrw",
       },
     },
     opts = {
@@ -43,9 +50,9 @@ return {
         end,
       },
     },
-    init = function()
-      vim.g.loaded_netrwPlugin = 1
-      vim.g.loaded_netrw = 1
-    end,
+    --init = function()
+    --  vim.g.loaded_netrwPlugin = 0
+    --  vim.g.loaded_netrw = 0
+    --end,
   },
 }
