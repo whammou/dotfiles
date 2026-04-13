@@ -32,6 +32,12 @@ local capture_templates = {
         target = org_dev .. "/dev/enhancement.org",
         headline = "Enhancements List",
       },
+      r = {
+        description = "Refactor capture",
+        template = task_template,
+        target = org_dev .. "/dev/refactor.org",
+        headline = "Refactor Tickets",
+      },
     },
   },
   t = {
@@ -113,6 +119,30 @@ local roam_template = {
 * Enhancements List :typDev:catEnhancement:meta:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org",
+  },
+  r = {
+    description = "Refactor Tickets",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+* Refactor Tickets :typDev:catRefactor:meta:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/refactor.org",
+  },
+  m = {
+    description = "Minor Milestone",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+* Minor Milestones :typMilestone:catMinor:meta:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/minor.org",
+  },
+  M = {
+    description = "Major Milestone",
+    template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+* Major Milestones :typMilestone:catMajor:meta:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/major.org",
   },
   z = {
     description = "Zettelkasten",
