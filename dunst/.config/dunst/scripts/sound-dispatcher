@@ -8,9 +8,19 @@
 
 # Sound for test notifications
 # if [[ "$DUNST_SUMMARY" == "test" ]]; then
-#   paplay ~/.local/share/bell/alert-01.wav
+#   paplay --volume=$VOLUME ~/.local/share/bell/alert-01.wav
 #   exit 0
 # fi
+
+BELL_DIR=~/.local/share/bell
+VOLUME=1.0
+
+play_sound() {
+  pw-play \
+    --media-role="Notification" \
+    --volume=$VOLUME \
+    $BELL_DIR/"$1"
+}
 
 case "$DUNST_CATEGORY" in
 ntfy-script)
@@ -19,21 +29,30 @@ ntfy-script)
 esac
 
 case "$DUNST_SUMMARY" in
-test)
-  paplay ~/.local/share/bell/alert-01.wav
+Beeper | Zalo)
+  play_sound staplebops-02.wav
   exit 0
   ;;
-Mpv)
+Terminal | Clipboard | RemoteSession | OpencodeCode | Remote\ Warning)
+  play_sound yup-01.wav
   exit 0
   ;;
-SimpMusic)
+Reminder | Orgmode)
+  play_sound staplebops-04.wav
+  exit 0
+  ;;
+Spark)
+  play_sound bip-bop-10.wav
+  exit 0
+  ;;
+Mpv | SimpMusic | Pocket\ Casts)
   exit 0
   ;;
 esac
 
 # Default sound for all other notifications
 case "$DUNST_URGENCY" in
-LOW) paplay ~/.local/share/bell/bip-bop-05.wav ;;
-NORMAL) paplay ~/.local/share/bell/staplebops-01.wav ;;
-CRITICAL) paplay ~/.local/share/bell/alert-01.wav ;;
+LOW) play_sound bip-bop-05.wav ;;
+NORMAL) play_sound staplebops-01.wav ;;
+CRITICAL) play_sound nope-03.wav ;;
 esac
