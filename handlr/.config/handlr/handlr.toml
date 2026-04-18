@@ -8,6 +8,12 @@ exec = "mpv --profile=image %U" # Uses desktop entry field codes
 terminal = false # Set to true for terminal apps, false for GUI apps (optional; defaults to false)
 regexes = ['https?:\/\/[^\s\/$.?#].[^\s]*\.(?:png|jpe?g|gif|svg|webp|bmp|tiff|svg)$'] # Use single-quote literal strings
 
+
+[[handlers]]
+exec = "nvim %U" # Uses desktop entry field codes
+terminal = true # Set to true for terminal apps, false for GUI apps (optional; defaults to false)
+regexes = ['scp?:\/\/[^\s\/$.?#].[^\s]*'] # Use single-quote literal strings
+
 #[[handlers]]
 #exec = "mpv --x11-name='mpv-float' %u"
 #terminal = false
