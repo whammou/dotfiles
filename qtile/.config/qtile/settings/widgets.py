@@ -116,6 +116,15 @@ def wlan():
     )
 
 
+def bluetooth():
+    return widget.Bluetooth(
+        **base(bg="bg2", fg="fg"),
+        default_text="{connected_devices}",
+        device_format="Device: {battery_level}[{symbol}]",
+        fmt=" 󰥰 {} ",
+    )
+
+
 powerline = {"decorations": [PowerLineDecoration(path="arrow_right")]}
 
 widgets = [
@@ -143,7 +152,7 @@ widgets = [
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 8
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 9
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 10
-    widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=2),
+    widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=10),
 ]
 
 widget_defaults = dict(

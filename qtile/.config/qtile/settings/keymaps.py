@@ -144,10 +144,10 @@ keymap = [
     },
     {
         "name": "yazi",
-        "prefix": "f",
+        "prefix": "e",
         "cmd": [
             ["h", in_terminal("yazi $HOME"), "pad_medium"],
-            ["s", in_terminal("yazi /server/"), "pad_medium"],
+            ["s", in_terminal("yazi sftp://homelab"), "pad_medium"],
         ],
     },
     {
