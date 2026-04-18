@@ -1,0 +1,105 @@
+---
+# Eisvogel + tcolorbox configuration for org-mode files
+# Add to top of your .org file or use as standalone YAML
+---
+
+# tcolorbox environment mapping for pandoc-latex-environment
+pandoc-latex-environment:
+  note: [note]
+  tip: [tip]
+  warning: [warning]
+  important: [important]
+  caution: [caution]
+  info: [info]
+
+header-includes:
+  - |
+    ```{=latex}
+    \usepackage{tcolorbox}
+    \tcbuselibrary{breakable, skins}
+    
+    % Note box (blue)
+    \newtcolorbox{note}{
+      breakable,
+      colback=blue!5!white,
+      colframe=blue!60!black,
+      title=Note,
+      fonttitle=\bfseries,
+      top=4pt,
+      bottom=4pt,
+      left=6pt,
+      right=6pt,
+      arc=2mm
+    }
+    
+    % Tip box (green)
+    \newtcolorbox{tip}{
+      breakable,
+      colback=green!5!white,
+      colframe=green!60!black,
+      title=Tip,
+      fonttitle=\bfseries,
+      top=4pt,
+      bottom=4pt,
+      left=6pt,
+      right=6pt,
+      arc=2mm
+    }
+    
+    % Warning box (orange)
+    \newtcolorbox{warning}{
+      breakable,
+      colback=orange!5!white,
+      colframe=orange!75!black,
+      title=Warning,
+      fonttitle=\bfseries,
+      top=4pt,
+      bottom=4pt,
+      left=6pt,
+      right=6pt,
+      arc=2mm
+    }
+    
+    % Important box (yellow)
+    \newtcolorbox{important}{
+      breakable,
+      colback=yellow!10!white,
+      colframe=yellow!75!black,
+      title=Important,
+      fonttitle=\bfseries,
+      top=4pt,
+      bottom=4pt,
+      left=6pt,
+      right=6pt,
+      arc=2mm
+    }
+    
+    % Caution box (red/orange)
+    \newtcolorbox{caution}{
+      breakable,
+      colback=red!5!white,
+      colframe=red!75!black,
+      title=Caution,
+      fonttitle=\bfseries,
+      top=4pt,
+      bottom=4pt,
+      left=6pt,
+      right=6pt,
+      arc=2mm
+    }
+    
+    % Info box (cyan)
+    \newtcolorbox{info}{
+      breakable,
+      colback=cyan!5!white,
+      colframe=cyan!60!black,
+      title=Info,
+      fonttitle=\bfseries,
+      top=4pt,
+      bottom=4pt,
+      left=6pt,
+      right=6pt,
+      arc=2mm
+    }
+    ```
+---

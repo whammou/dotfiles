@@ -1,0 +1,29 @@
+% GitHub colors for awesomebox
+\usepackage{awesomebox}
+
+% GitHub special block colors
+\definecolor{gh-note}{HTML}{1F6FEB}      % blue
+\definecolor{gh-tip}{HTML}{3FB950}       % green
+\definecolor{gh-warning}{HTML}{9E6A03}    % amber/orange
+\definecolor{gh-important}{HTML}{8957E5} % purple
+\definecolor{gh-caution}{HTML}{DA3633}   % red
+
+% Override awesomebox defaults
+\definecolor{abnote}{HTML}{1F6FEB}
+\definecolor{abwarning}{HTML}{9E6A03}
+\definecolor{abcaution}{HTML}{DA3633}
+\definecolor{abimportant}{HTML}{8957E5}
+\definecolor{abvrulecolor}{HTML}{3FB950}
+
+% Redefine blocks with correct colors
+\RenewDocumentEnvironment{tipblock}{+b}{
+  \awesomebox[gh-tip]{2pt}{\faLightbulb}{gh-tip}{#1}
+}{}
+
+\RenewDocumentEnvironment{importantblock}{+b}{
+  \awesomebox[gh-important]{2pt}{\faExclamationCircle}{gh-important}{#1}
+}{}
+
+\RenewDocumentEnvironment{warningblock}{+b}{
+  \awesomebox[gh-warning]{2pt}{\faExclamationTriangle}{gh-warning}{#1}
+}{}

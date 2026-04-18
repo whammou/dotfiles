@@ -1,0 +1,17 @@
+# Eisvogel PDF defaults for pandoc
+# Usage: pandoc -d eisvogel input.org -o output.pdf
+
+template: eisvogel
+
+include-in-header:
+  - ${USERDATA}/eisvogel-tcolorbox.tex
+  - ${USERDATA}/verbatim.tex
+
+filters:
+  - verbatim-style.lua
+  - org-html-image.lua
+  - org-admonitions.lua
+  - mermaid-filter
+
+from: org
+to: pdf

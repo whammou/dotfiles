@@ -1,0 +1,11 @@
+% Inline code (verbatim) styling - smaller font + background
+\usepackage{xcolor}
+\usepackage{realboxes}
+
+% Define colors (GitHub medium gray)
+\definecolor{codebg}{HTML}{d8dfe4}
+
+% Custom command for inline code styling
+\DeclareRobustCommand{\code}[1]{%
+  \Colorbox{codebg}{\texttt{\small#1}}%
+}
