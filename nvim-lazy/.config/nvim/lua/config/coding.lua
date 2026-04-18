@@ -3,6 +3,18 @@ local luasnip = require("luasnip")
 
 require("snippets.snippets")
 
+vim.keymap.set({ "i", "s" }, "<C-n>", function()
+  if luasnip.choice_active() then
+    luasnip.change_choice(1)
+  end
+end)
+
+vim.keymap.set({ "i", "s" }, "<C-p>", function()
+  if luasnip.choice_active() then
+    luasnip.change_choice(-1)
+  end
+end)
+
 blink.setup({
   fuzzy = { implementation = "rust" },
   cmdline = { enabled = false },
