@@ -3,6 +3,8 @@
 
 template: eisvogel
 
+pdf-engine: xelatex
+
 include-in-header:
   - ${USERDATA}/eisvogel-tcolorbox.tex
   - ${USERDATA}/verbatim.tex
