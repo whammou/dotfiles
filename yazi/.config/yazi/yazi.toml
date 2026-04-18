@@ -1,7 +1,7 @@
 # yazi configs
 [opener]
 edit = [
-    { run = 'nvim "$@"', block = true, for = 'unix' },
+    { run = 'nvim %S', block = true, for = 'unix' },
 ]
 url_opener = [
     { run = 'open-url "$@"', block = false, for = 'unix' },
@@ -13,7 +13,7 @@ mpv-audio = [
     { run = 'mpv --no-video "$@"' ,block = true, for = 'unix' }
 ]
 pdf-viewer = [
-    { run = 'zathura "$@"' ,block = true, for = 'unix' }
+    { run = 'zaread %S' ,block = true, for = 'unix' }
 ]
 [open]
 prepend_rules = [
@@ -23,7 +23,6 @@ prepend_rules = [
     { url = "*.wav", use = 'mpv-audio' },
     { mime = "text/*" , use = "edit" },
     { url = "*.tmpl" , use = "edit" },
-    { url = "*.pdf" , use = "pdf-viewer" }
 ]
 
 [preview]
