@@ -1,87 +1,129 @@
 /*
- ,* ===================================================================
- ,*  OneDark-Deep Browser Stylesheet
- ,* ===================================================================
- ,*  Generated based on the provided onedark-deep color palette.
- ,*  The primary page background is set to `bg0`, with other UI
- ,*  elements using contrasting background shades from the palette.
- ,* ===================================================================
- ,*/
+ * ===================================================================
+ *  OneDark-Deep Browser Stylesheet
+ * ===================================================================
+ *  A maintainable, themeable CSS for qutebrowser.
+ *  Modify colors in the :root section, then use throughout.
+ * ===================================================================
+ */
+
+/* ==========================================================================
+   COLOR PALETTE
+   Edit these variables to change the theme colors.
+   ========================================================================== */
 
 :root {
-  /* Define all colors as CSS variables for easy reuse */
-  --od-black: #0c0e15;
-  --od-bg0: #1a212e; /* Main background */
-  --od-bg1: #21283b; /* Lighter background (UI elements, code blocks) */
-  --od-bg2: #283347; /* Even lighter background (hover, active UI) */
-  --od-bg3: #2a324a; /* Accent background */
-  --od-bg_d: #141b24; /* Darker background (borders) */
-  --od-bg_blue: #54b0fd;
-  --od-bg_yellow: #f2cc81;
-  --od-fg: #93a4c3; /* Main foreground/text color */
-  --od-purple: #c75ae8;
-  --od-green: #8bcd5b;
-  --od-orange: #dd9046;
-  --od-blue: #41a7fc;
-  --od-yellow: #efbd5d;
-  --od-cyan: #34bfd0;
-  --od-red: #f65866;
-  --od-grey: #455574;
-  --od-light_grey: #6c7d9c;
-  --od-dark_cyan: #27707F;
-  --od-dark_blue: #2E6495;
-  --od-dark_red: #883D4A;
-  --od-dark_yellow: #856F46;
-  --od-dark_purple: #713E8B;
-  --od-dark_green: #547745;
-  --od-dimmed_cyan: #1D313E;
-  --od-dimmed_blue: #1E2E43;
-  --od-dimmed_red: #302734;
-  --od-dimmed_yellow: #2F3133;
-  --od-dimmed_purple: #2B2741;
-  --od-dimeed_green: #253233;
-  --od-diff_add: #27341c;
-  --od-diff_delete: #331c1e;
-  --od-diff_change: #102b40;
-  --od-diff_text: #1c4a6e;
+  /* Backgrounds - Dark to Light */
+  --od-black:      #0c0e15;
+  --od-bg0:        #1a212e;  /* Main background */
+  --od-bg1:        #21283b;  /* UI elements, code blocks */
+  --od-bg2:        #283347;  /* Hover, active states */
+  --od-bg3:        #2a324a;  /* Accent backgrounds */
+  --od-bg_d:       #141b24;  /* Borders */
+
+  /* Foreground (text) */
+  --od-fg:         #93a4c3;  /* Main text color */
+  --od-grey:       #455574;  /* Muted text */
+  --od-light-grey: #6c7d9c;  /* Secondary text */
+
+  /* Accent Colors - Bright */
+  --od-purple:    #c75ae8;
+  --od-green:     #8bcd5b;
+  --od-orange:    #dd9046;
+  --od-blue:      #41a7fc;
+  --od-yellow:    #efbd5d;
+  --od-cyan:      #34bfd0;
+  --od-red:       #f65866;
+
+  /* Accent Colors - Dark (for backgrounds/borders) */
+  --od-dark-cyan:   #27707F;
+  --od-dark-blue:   #2E6495;
+  --od-dark-red:    #883D4A;
+  --od-dark-yellow: #856F46;
+  --od-dark-purple: #713E8B;
+  --od-dark-green:  #547745;
+
+  /* Dimmed Colors (subtle backgrounds) */
+  --od-dimmed-cyan:  #1D313E;
+  --od-dimmed-blue:  #1E2E43;
+  --od-dimmed-red:   #302734;
+  --od-dimmed-yellow:#2F3133;
+  --od-dimmed-purple:#2B2741;
+  --od-dimmed-green: #253233;
+
+  /* Diff/Syntax Colors */
+  --od-diff-add:    #27341c;
+  --od-diff-delete: #331c1e;
+  --od-diff-change: #102b40;
+  --od-diff-text:   #1c4a6e;
 }
 
-/*
- ,* ===================================================================
- ,*  Base & Global Styles
- ,* ===================================================================
- ,*/
+/* ==========================================================================
+   UTILITY CLASSES
+   Reusable patterns for easier modification.
+   ========================================================================== */
 
-/* Apply the main background and foreground to the entire page */
+/* Text colors */
+.text-primary   { color: var(--od-fg) !important; }
+.text-muted     { color: var(--od-grey) !important; }
+.text-accent    { color: var(--od-cyan) !important; }
+.text-link      { color: var(--od-blue) !important; }
+.text-link-vis  { color: var(--od-cyan) !important; }
+.text-link-hover{ color: var(--od-purple) !important; }
 
+/* Backgrounds */
+.bg-main      { background-color: var(--od-bg0) !important; }
+.bg-elevated  { background-color: var(--od-bg1) !important; }
+.bg-hover     { background-color: var(--od-bg2) !important; }
+.bg-accent    { background-color: var(--od-bg3) !important; }
+.bg-transparent{ background-color: transparent !important; }
+
+/* Borders */
+.border-subtle { border-color: var(--od-bg_d) !important; }
+.border-accent { border-color: var(--od-blue) !important; }
+
+/* ==========================================================================
+   BASE & GLOBAL STYLES
+   ========================================================================== */
+
+/* Apply main background - exclude specific elements */
 *:not(td) {
   background-color: var(--od-bg0) !important;
 }
 
-/* Ensure all common block elements inherit the base background */
-input#query-builder-test.FormControl-input.QueryBuilder-Input.FormControl-medium,
-textarea#read-only-cursor-text-area.react-blob-textarea.react-blob-print-hide,
-textarea#copilot-chat-textarea.ChatInput-module__input--HalEQ,
+/* Exceptions - elements that should remain transparent */
+input#query-builder-test,
+textarea#read-only-cursor-text-area,
+textarea#copilot-chat-textarea,
 div, canvas, svg {
   background-color: transparent !important;
 }
 
-div.commtext.c00,
-section.post-content.clearfix ul li,
-span#marketing-card-callout-text.cfc-text-title-3.cfc-space-first.cfc-space-last.ng-star-inserted,
-span.marketing-card-note.cfc-text-title-5.cfc-space-first.cfc-space-last.ng-star-inserted,
-div.rFY7Pc,
-div.mMsbvc,
-div.md ol li,
-div.md ul li,
-html, body ,li {
-  font-family: "HasklugNerdFont" !important;
+/* Font and text reset */
+div, li, html, body {
+  font-family: "HasklugNerdFont", monospace !important;
   background-image: none !important;
   color: var(--od-fg) !important;
 }
 
-/* Themed Scrollbars (for Firefox and Webkit browsers) */
-,* {
+/* Site-specific background image removal */
+section.post-content.clearfix ul li,
+div.md ol li,
+div.md ul li,
+div.commtext.c00,
+div.rFY7Pc,
+div.mMsbvc,
+span#marketing-card-callout-text,
+span.marketing-card-note {
+  background-image: none !important;
+}
+
+span {
+  background-color: transparent !important;
+}
+
+/* Themed Scrollbars */
+* {
   scrollbar-width: thin;
   scrollbar-color: var(--od-grey) var(--od-bg1);
 }
@@ -97,100 +139,74 @@ html, body ,li {
   border: 2px solid var(--od-bg1);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--od-light_grey);
+  background-color: var(--od-light-grey);
 }
 
-
-/*
- ,* ===================================================================
- ,*  Typography & Text Elements
- ,* ===================================================================
- ,*/
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
 
 h1, h2, h3, h4, h5, h6 {
   color-scheme: only light !important;
   font-weight: bold !important;
-}
-h2, h3, h4, h5, h6 {
-  padding: 0.25em 0.5em !important;
-}
-h1::before, h1 {
-  color: var(--od-cyan) !important;
-  background-color: var(--od-dimmed_cyan) !important;
-}
-h2::before, h2 {
-  color: var(--od-purple) !important;
-  background-color: var(--od-dimmed_purple) !important;
-}
-h3::before, h3 {
-  color: var(--od-blue) !important;
-  background-color: var(--od-dimmed_blue) !important;
-}
-h4::before, h4 {
-  color: var(--od-yellow) !important;
-  background-color: var(--od-dimmed_yellow) !important;
-}
-h5::before, h5 {
-  color: var(--od-green) !important;
-  background-color: var(--od-dimeed_green) !important;
-}
-h6::before, h6 {
-  color: var(--od-red) !important;
-  background-color: var(--od-dimmed_red) !important;
+  padding: 0.25em 0.5em;
 }
 
-article.markdown-body.entry-content.container-lg details ul li {
-  color: var(--od-cyan);
+h1 {
+  color: var(--od-cyan) !important;
+  background-color: var(--od-dimmed-cyan) !important;
+}
+
+h2 {
+  color: var(--od-purple) !important;
+  background-color: var(--od-dimmed-purple) !important;
+}
+
+h3 {
+  color: var(--od-blue) !important;
+  background-color: var(--od-dimmed-blue) !important;
+}
+
+h4 {
+  color: var(--od-yellow) !important;
+  background-color: var(--od-dimmed-yellow) !important;
+}
+
+h5 {
+  color: var(--od-green) !important;
+  background-color: var(--od-dimmed-green) !important;
+}
+
+h6 {
+  color: var(--od-red) !important;
+  background-color: var(--od-dimmed-red) !important;
+}
+
+/* Paragraphs - exclude alert titles from color override */
+p:not(.markdown-alert-title, .ghd-alert-title, blockquote p) {
+  color: var(--od-fg) !important;
+}
+
+/* Lists */
+li {
+  color: var(--od-fg) !important;
 }
 
 li::marker {
   color: var(--od-cyan);
 }
 
-summary, summary::marker {
+ul li, ol li {
   color: var(--od-cyan);
 }
 
-/*span.hljs-subst,
-math-renderer.js-inline-math math {
-  color: var(--od-orange) !important;
-}*/
-
-span, a {
+/* Links */
+a {
   background-color: transparent !important;
+  color: var(--od-blue);
 }
 
-span.pre,
-span.cfc-switcher-button-label-text.ng-tns-c3831740024-2.ng-star-inserted,
-span.jNZqle,
-div.s-post-summary--stats-item.s-post-summary--stats-item__emphasized,
-span.-link--channel-name.pl8 {
-  color: var(--od-grey) !important;
-}
-
-section.mt-content-container p {
-  color: var(--od-fg) !important;
-}
-
-p:not(
-.markdown-alert-title,
-blockquote p,
-p.ghd-alert-title
-) {
-  color: var(--od-fg) !important;
-}
-blockquote ul li,
-blockquote p {
-  color: var(--od-light_grey) !important;
-}
-
-div.accordion-label.texts,
-button.accordion-button.align-items-start.shadow-none.rounded-0 span,
-span.highlight,
-div.page-title,
-a.s-tag.post-tag.js-gps-track,
 a:link {
-  color-scheme: only light !important;
   color: var(--od-blue);
 }
 
@@ -199,15 +215,22 @@ a:visited {
 }
 
 a:hover, a:focus {
-  color: var(--od--purple) !important;
+  color: var(--od-purple) !important;
   text-decoration: underline;
 }
 
-div.url_wrapper,
+/* Specialized links */
+a.columnlinklist__content--link,
+span.pre,
+span.cfc-switcher-button-label-text,
+div.s-post-summary--stats-item span,
+a.-link--channel-name,
+div.url_wrapper a,
 a.question-hyperlink {
-  color: var(--od-cyan) !important;
+  color: var(--od-grey) !important;
 }
 
+/* Text elements */
 strong, b {
   color: var(--od-fg);
   background-color: var(--od-bg1) !important;
@@ -221,6 +244,31 @@ em, i {
   font-style: italic;
 }
 
+/* Inline highlights */
+span.highlight,
+div.page-title,
+a.s-tag.post-tag {
+  color-scheme: only light !important;
+  color: var(--od-blue);
+}
+
+/* ==========================================================================
+   QUOTES & SEPARATORS
+   ========================================================================== */
+
+blockquote {
+  background-color: var(--od-bg1);
+  border-left: 4px solid var(--od-cyan);
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+  color: var(--od-light-grey);
+}
+
+blockquote ul li,
+blockquote p {
+  color: var(--od-light-grey) !important;
+}
+
 hr {
   border: 0;
   border-top: 1px solid var(--od-bg3) !important;
@@ -228,33 +276,29 @@ hr {
   background-color: var(--od-bg0);
 }
 
-blockquote {
-  background-color: var(--od-bg1);
-  border-left: 4px solid var(--od-cyan);
-  padding: 1em 1.5em;
-  margin: 1.5em 0;
-  color: var(--od-light_grey);
+/* ==========================================================================
+   CODE & PREFORMATTED TEXT
+   ========================================================================== */
+
+code, pre, kbd, samp {
+  border-radius: 4px !important;
+  border: none !important;
+  font-family: "FiraCode", "JetBrains Mono", monospace !important;
+  background-color: var(--od-bg3) !important;
+  padding: 0.2em 0.4em;
+  color: var(--od-green);
 }
 
-/*
- ,* ===================================================================
- ,*  Code & Preformatted Text
- ,* ===================================================================
- ,*/
+/* Code in posts/bodies */
 div.s-prose.js-post-body h1 code,
 div.s-prose.js-post-body ul li code,
 div.rh-generic--component p code {
   color: var(--od-green) !important;
 }
+
 div.s-prose.js-post-body p code,
-div.s-prose.js-post-body pre code,
-code, pre, kbd, samp {
-  border-radius: 0px !important; /* Slightly rounded corners for inline code */
-  border: none !important;
-  font-family: monospace !important; /* Ensure monospace for code */
-  background-color: var(--od-bg3) !important; /* A slightly lighter dark color for contrast, common in dark themes */
-  padding: 0.2em 0.4em;
-  color: var(--od-green);
+div.s-prose.js-post-body pre code {
+  background-color: var(--od-bg3) !important;
 }
 
 pre {
@@ -267,11 +311,9 @@ pre code {
   padding: 0;
 }
 
-/*
- ,* ===================================================================
- ,*  Forms & UI Elements
- ,* ===================================================================
- ,*/
+/* ==========================================================================
+   FORMS & UI ELEMENTS
+   ========================================================================== */
 
 input, textarea, select, button {
   background-color: var(--od-bg3) !important;
@@ -291,7 +333,10 @@ input::placeholder, textarea::placeholder {
   opacity: 1;
 }
 
-button, input[type="submit"], input[type="button"], input[type="reset"] {
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
   background-color: var(--od-bg2);
   color: var(--od-fg);
   cursor: pointer;
@@ -299,9 +344,12 @@ button, input[type="submit"], input[type="button"], input[type="reset"] {
   transition: background-color 0.2s ease;
 }
 
-button:hover, input[type="submit"]:hover, input[type="button"]:hover, input[type="reset"]:hover {
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover {
   background-color: var(--od-bg3);
-  border-color: var(--od-light_grey);
+  border-color: var(--od-light-grey);
 }
 
 button:disabled, input:disabled {
@@ -310,11 +358,14 @@ button:disabled, input:disabled {
   cursor: not-allowed;
 }
 
-/*
- ,* ===================================================================
- ,*  Tables
- ,* ===================================================================
- ,*/
+button {
+  background-color: var(--od-bg3) !important;
+  color: var(--od-fg) !important;
+}
+
+/* ==========================================================================
+   TABLES
+   ========================================================================== */
 
 table {
   width: 100%;
@@ -322,22 +373,37 @@ table {
   margin: 1.5em 0;
 }
 
-th {
-  color: var(--od-fg) !important;
+th, thead {
+  background-color: var(--od-bg1);
+  color: var(--od-yellow);
+  font-weight: bold;
   border: 1px solid var(--od-bg1);
   text-align: left;
 }
 
 td {
-  color: intial !important;
-}
-
-thead, th {
-  background-color: var(--od-bg1);
-  color: var(--od-yellow);
-  font-weight: bold;
+  color: initial !important;
 }
 
 tbody tr:nth-child(odd) {
   background-color: var(--od-bg1);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--od-bg0);
+}
+
+/* ==========================================================================
+   SITE-SPECIFIC OVERRIDES
+   Add custom styles for specific websites here.
+   ========================================================================== */
+
+/* Stack Overflow */
+section.mt-content-container p {
+  color: var(--od-fg) !important;
+}
+
+/* GitHub article content */
+article.markdown-body.entry-content.container-lg details ul li {
+  color: var(--od-cyan);
 }

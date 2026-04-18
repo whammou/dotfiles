@@ -86,7 +86,8 @@ config.bind(
 )
 config.bind(
     "Ff",
-    "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
+    # "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
+    "set statusbar.show never ;; hint all spawn _qtile_spawn_screen '{hint-url}'",
 )
 config.bind(
     "FF",
