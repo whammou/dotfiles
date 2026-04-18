@@ -20,9 +20,9 @@ local task_agenda = {
     org_agenda_span = "day",
   },
   {
-    type = "tags_todo",
-    match = '+PRIORITY="A"',
-    org_agenda_overriding_header = "Global list of High Priority tasks",
+    type = "tags",
+    match = "typTask/PROG",
+    org_agenda_overriding_header = "Global list of PROG tasks",
   },
   {
     type = "tags",
@@ -38,6 +38,11 @@ local task_agenda = {
     type = "tags",
     match = "typTask/WAIT",
     org_agenda_overriding_header = "Global list of WAIT tasks",
+  },
+  {
+    type = "tags_todo",
+    match = '+PRIORITY>="A"',
+    org_agenda_overriding_header = "Global list of High Priority tasks",
   },
   {
     type = "tags",

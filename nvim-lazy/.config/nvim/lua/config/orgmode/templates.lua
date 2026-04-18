@@ -3,14 +3,41 @@ local utils = require("config.orgmode.utils")
 local base_dir = dir.base_dir
 local zettel_dir = dir.zettel_dir
 
+-- local org_doc_dirs = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}"
 local org_tasks = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "tasks") .. "}"
 local org_dev = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "dev") .. "}"
-local org_doc_dirs = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}"
+local org_milestone = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "milestones") .. "}"
 local org_lists = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "lists") .. "}"
 
 local task_template = "** %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 local capture_templates = {
   c = { description = "Capture", template = "* %?", target = "~/Journal/capture.org" },
+
+  m = {
+    description = "Milestone Capture",
+    subtemplates = {
+      M = {
+        description = "Major milestone capture",
+        template = task_template,
+        target = org_milestone .. "/milestones/major.org",
+        headline = "Major Milestones",
+      },
+      m = {
+        description = "Minor milestone capture",
+        template = task_template,
+        target = org_milestone .. "/milestones/minor.org",
+        headline = "Minor Milestones",
+      },
+    },
+  },
+
+  d = {
+    description = "Document Capture",
+    template = task_template,
+    target = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "draft.org") .. "}/draft.org",
+    headline = "Document Drafts",
+  },
+
   e = {
     description = "New development",
     subtemplates = {
@@ -40,6 +67,7 @@ local capture_templates = {
       },
     },
   },
+
   t = {
     description = "Task note capture",
     subtemplates = {
@@ -77,7 +105,7 @@ local capture_templates = {
   },
 
   l = {
-    description = "List",
+    description = "List capture",
     subtemplates = {
       p = {
         description = "Purchase List",
@@ -155,20 +183,9 @@ local roam_template = {
   n = {
     description = "New Document",
     template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
-#+TODO: TODO(t) (e) DOIN(d) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
-  },
-  d = {
-    description = "Documents",
-    subtemplates = {
-      c = {
-        description = "Capture Document",
-        template = "** %?",
-        target = "%^{Topic|" .. utils.get_file_path(base_dir, "draft.org") .. "}/draft.org",
-        headline = "Document Drafts",
-      },
-    },
   },
 }
 

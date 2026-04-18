@@ -47,7 +47,7 @@ require("orgmode").setup({
     OPEN = ":foreground #713E8B :weight bold :slant italic",
     RECR = ":foreground #713E8B :weight bold :slant italic",
     DOIN = ":foreground #27707F :weight bold :slant italic",
-    PROG = ":foreground #27707F :weight bold :slant italic",
+    PROG = ":foreground #537745 :weight bold :slant italic",
     PEND = ":foreground #455574 :weight bold :slant italic",
     OUTL = ":foreground #455574 :weight bold :slant italic",
     IDEA = ":foreground #455574 :weight bold :slant italic",

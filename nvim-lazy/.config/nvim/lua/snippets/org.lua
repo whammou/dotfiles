@@ -4,6 +4,7 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
+local c = ls.choice_node
 -- local c = ls.choice_node
 
 local function uuid()
@@ -25,6 +26,16 @@ local function current_time(format)
 end
 
 ls.add_snippets("org", {
+
+  s(":ORGANIZATION", {
+    t(":ORGANIZATION: "),
+    c(1, {
+      i(nil, "RMIT"),
+      i(nil, "MITx"),
+      i(nil, "OpenStax"),
+    }),
+  }),
+
   s("*1", {
     t("* "),
     i(1, "Title"),
@@ -158,13 +169,20 @@ ls.add_snippets("org", {
     i(0),
   }, { desc = "Numbered list" }),
 
-  s("+HL", {
+  s("-HL", {
     t("-----"),
     i(0),
   }, { desc = "Horizontal line" }),
 
-  s(":PROP-ID", {
+  s(":P-ID", {
     t({ ":PROPERTIES:", ":ID: " .. vim.fn.systemlist("uuidgen")[1] }),
+    i(1),
+    t({ "", ":END:", "" }),
+    i(0),
+  }, { desc = "Property drawer with ID" }),
+
+  s(":ID", {
+    t({ ":ID: " .. vim.fn.systemlist("uuidgen")[1] }),
     i(1),
     t({ "", ":END:", "" }),
     i(0),
