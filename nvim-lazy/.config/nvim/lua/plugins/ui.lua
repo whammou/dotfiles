@@ -62,13 +62,30 @@ return {
     "folke/snacks.nvim",
     opts = {
       image = {
+        enabled = true,
         doc = {
+          enabled = true,  -- Enable document rendering for org files
           inline = false,
+          float = true,
+          max_width = 100,
+          max_height = 50,
+        },
+        convert = {
+          notify = false,
+          mermaid = { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", "dark", "-s", "1.5" },
+          -- PlantUML: requires plantuml (brew install plantuml)
+          plantuml = {
+            "-charset", "utf8",
+            "{src}",
+            "-tp", "png",
+            "-o", "{file}",
+          },
         },
         math = {
           enabled = true,
           latex = {
             font_size = "Large",
+            color = "E63946",
             tpl = [[
               \documentclass[preview,border=0pt,varwidth,12pt]{standalone}
               \usepackage{${packages}}
