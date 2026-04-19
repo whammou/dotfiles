@@ -54,6 +54,7 @@ text/x-python=nvim.desktop;
 text/x-python3=nvim.desktop;
 text/x-systemd-unit=nvim.desktop;
 text/x-tex=nvim.desktop;
+text/x-scheme=nvim.desktop;
 video/mpeg=mpv-audio.desktop;
 video/x-matroska=mpv-float.desktop;mpv.desktop;
 x-scheme-handler/beeper=beepertexts.desktop;
