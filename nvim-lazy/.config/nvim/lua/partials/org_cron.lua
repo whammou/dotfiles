@@ -33,12 +33,12 @@ require("orgmode").cron({
 
         vim
           .system({
-            "/usr/sbin/curl",
-            "-H",
-            "Title: Orgmode",
-            "-d",
+            "/usr/sbin/ntfy",
+            "pub",
+            "-t",
+            "Orgmode",
+            "orgmode",
             string.format("%s\n%s\n%s", subtitle, date, title),
-            "https://ntfy.whammou.dedyn.io/orgmode",
           })
           :wait()
       end
