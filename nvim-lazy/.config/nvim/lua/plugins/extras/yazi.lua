@@ -1,6 +1,7 @@
 return {
   {
     "mikavilpas/yazi.nvim",
+    enabled = false,
     event = "VeryLazy",
     keys = {
       {
@@ -30,7 +31,7 @@ return {
       },
     },
     opts = {
-      open_for_directories = true,
+      open_for_directories = false,
       -- floating_window_scaling_factor = 0.7,
       yazi_floating_window_border = "single",
       highlights_groups = {
