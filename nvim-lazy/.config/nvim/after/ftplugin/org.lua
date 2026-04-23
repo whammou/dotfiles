@@ -15,7 +15,6 @@ vim.opt_local.showbreak = "NONE"
 vim.opt_local.conceallevel = 3
 vim.opt_local.concealcursor = "nc"
 
--- Binding org-meta-return
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "org",
   callback = function()
@@ -26,7 +25,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- via an autocmd
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "org-roam-select",
   callback = function()
@@ -44,7 +42,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
       vim.bo.filetype = "org"
     end
   end,
-  desc = "Change org-roam-node-buffer filetype to org on buffer read",
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -55,5 +52,22 @@ vim.api.nvim_create_autocmd("BufEnter", {
       vim.bo.filetype = "org"
     end
   end,
-  desc = "Change org-roam-node-buffer filetype to org on buffer enter",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "org",
+  callback = function()
+    vim.cmd([[
+      syntax match orgAdmonitionWarning '\[!WARNING\]'
+      syntax match orgAdmonitionCaution '\[!CAUTION\]'
+      syntax match orgAdmonitionImportant '\[!IMPORTANT\]'
+      syntax match orgAdmonitionTip '\[!TIP\]'
+      syntax match orgAdmonitionNote '\[!NOTE\]'
+      highlight link orgAdmonitionWarning WarningMsg
+      highlight link orgAdmonitionCaution Error
+      highlight link orgAdmonitionImportant Title
+      highlight link orgAdmonitionTip String
+      highlight link orgAdmonitionNote Identifier
+    ]])
+  end,
 })
