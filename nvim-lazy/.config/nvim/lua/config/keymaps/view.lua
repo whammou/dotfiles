@@ -11,3 +11,5 @@ map("n", "zu", function()
   end)
 end, { desc = "Restore previous view" })
 
+map("n", "<C-j>", "<cmd>lua Snacks.image.doc.hover()<cr>", { desc = "Show Snacks preview" })
+map("n", "<C-k>", "<cmd>lua Snacks.image.doc.hover_close()<cr>", { desc = "Close Snacks preview" })

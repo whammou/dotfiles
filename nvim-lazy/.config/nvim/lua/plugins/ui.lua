@@ -64,7 +64,7 @@ return {
       image = {
         enabled = true,
         doc = {
-          enabled = true,  -- Enable document rendering for org files
+          enabled = false, -- Enable document rendering for org files
           inline = false,
           float = true,
           max_width = 100,
@@ -72,13 +72,16 @@ return {
         },
         convert = {
           notify = false,
-          mermaid = { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", "dark", "-s", "1.5" },
+          mermaid = { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", "dark", "-e", "png", "-s", "2" },
           -- PlantUML: requires plantuml (brew install plantuml)
           plantuml = {
-            "-charset", "utf8",
+            "-charset",
+            "utf8",
             "{src}",
-            "-tp", "png",
-            "-o", "{file}",
+            "-tp",
+            "png",
+            "-o",
+            "{file}",
           },
         },
         math = {
