@@ -1,13 +1,13 @@
----@diagnostic disable: undefined-global
 local Snacks = require("snacks")
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "orgagenda",
   once = true,
   callback = function()
-    --Snacks.zen.zoom()
-    Snacks.bufdelete.other()
-    vim.cmd.only()
-    --vim.opt.spell = false
+    vim.defer_fn(function()
+      Snacks.bufdelete.other()
+      vim.cmd.only()
+      vim.cmd("set foldmethod=indent")
+    end, 0)
   end,
 })
