@@ -7,6 +7,7 @@ require("orgmode").setup({
   org_agenda_text_search_extra_files = { "agenda-archives" },
   org_agenda_current_time_string = " now ────────",
   org_agenda_hide_empty_blocks = true,
+  org_agenda_remove_tags = true,
 
   org_default_notes_file = base_dir .. "capture.org",
   org_log_into_drawer = "LOGBOOK",

@@ -49,6 +49,8 @@ return {
 
         -- Orgmode
         ["@org.tag.org"] = { fg = "$tbg_grey", fmt = "none,italic" },
+        ["@org.directive.org"] = { fg = "$tbg_grey", fmt = "none" },
+        ["@org.block.org"] = { fg = "$tbg_grey", fmt = "none" },
         -- Orgmode markup
         ["@org.code"] = { fg = "$green", bg = "$bg2" },
         ["@org.code.delimeter"] = { fg = "$green", bg = "$bg2" },
@@ -93,6 +95,7 @@ return {
         ["Conceal"] = { bg = "none", fg = "$tbg_blue", fmt = "bold" },
         ["SpellBad"] = { sp = "$orange", fmt = "underline" },
         ["CursorLineNr"] = { fg = "$orange", fmt = "bold" },
+        ["Cursor"] = { fg = "$fg" },
         ["CodeBlock"] = { bg = "$bg3" },
 
         -- Which-key
@@ -104,6 +107,11 @@ return {
         ["FzfLuaFzfPrompt"] = { fg = "$blue" },
         ["FzfLuaHeaderText"] = { fg = "$purple" },
         ["FzfLuaHeaderBind"] = { fg = "$green" },
+
+        -- Neo-tree
+        ["NeoTreeNormal"] = { bg = "$bg0" },
+        ["NeoTreeNormalNC"] = { bg = "$bg0" },
+        ["NeoTreeEndOfBuffer"] = { bg = "$bg0" },
       },
     },
   },
