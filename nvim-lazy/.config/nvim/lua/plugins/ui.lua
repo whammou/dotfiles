@@ -71,7 +71,7 @@ return {
           max_height = 50,
         },
         convert = {
-          notify = false,
+          notify = true,
           mermaid = { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", "dark", "-e", "png", "-s", "2" },
           -- PlantUML: requires plantuml (brew install plantuml)
           plantuml = {
