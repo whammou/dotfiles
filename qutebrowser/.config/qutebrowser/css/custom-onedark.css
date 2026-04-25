@@ -276,6 +276,13 @@ hr {
   background-color: var(--od-bg0);
 }
 
+/* Light mode: dim bright separators */
+@media (prefers-color-scheme: light) {
+  hr {
+    border-top-color: #dddddd !important;
+  }
+}
+
 /* ==========================================================================
    CODE & PREFORMATTED TEXT
    ========================================================================== */

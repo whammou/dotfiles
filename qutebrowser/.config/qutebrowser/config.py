@@ -6,5 +6,6 @@ config.source("./themes/onedark.py")
 config.source("./keys.py")
 config.source("./chromium.py")
 config.source("./settings.py")
+config.source("./fonts.py")
 
 config.load_autoconfig(True)
