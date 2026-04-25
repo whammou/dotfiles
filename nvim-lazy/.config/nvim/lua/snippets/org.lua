@@ -25,7 +25,38 @@ local function current_time(format)
   end, {})
 end
 
+local function headline_custom_id()
+  return f(function()
+    local ok, api = pcall(require, "orgmode.api")
+    if not ok then
+      return ""
+    end
+
+    local file = api.current()
+    if not file then
+      return ""
+    end
+
+    local headline = file:get_closest_headline()
+    if not headline or not headline.title then
+      return ""
+    end
+
+    -- Convert to GitHub markdown snake-case
+    local title = headline.title
+    local custom_id = title:gsub("%s+", "-"):gsub("[^a-zA-Z0-9%-]", ""):lower()
+
+    return ":CUSTOM_ID: " .. custom_id
+  end, {})
+end
+
+-- Add this snippet inside ls.add_snippets("org", {...}):
+
 ls.add_snippets("org", {
+
+  s(":CUSTOM_ID", {
+    headline_custom_id(),
+  }, { desc = "CUSTOM_ID from current headline" }),
 
   s(":ORGANIZATION", {
     t(":ORGANIZATION: "),
@@ -257,7 +288,7 @@ ls.add_snippets("org", {
   s("#+GN", {
     t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+begin_quote markdown", "[!NOTE]", "" }),
+    t({ "", "#+begin_quote org", "[!NOTE]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
     i(0),
@@ -266,7 +297,7 @@ ls.add_snippets("org", {
   s("#+GW", {
     t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+begin_quote markdown", "[!WARNING]", "" }),
+    t({ "", "#+begin_quote org", "[!WARNING]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
     i(0),
@@ -275,7 +306,7 @@ ls.add_snippets("org", {
   s("#+GI", {
     t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+begin_quote markdown", "[!IMPORTANT]", "" }),
+    t({ "", "#+begin_quote org", "[!IMPORTANT]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
     i(0),
@@ -284,7 +315,7 @@ ls.add_snippets("org", {
   s("#+GT", {
     t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+begin_quote markdown", "[!TIP]", "" }),
+    t({ "", "#+begin_quote org", "[!TIP]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
     i(0),
@@ -293,7 +324,7 @@ ls.add_snippets("org", {
   s("#+GC", {
     t({ "", "#+name:" }),
     i(1, "Block"),
-    t({ "", "#+begin_quote markdown", "[!CAUTION]", "" }),
+    t({ "", "#+begin_quote org", "[!CAUTION]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
     i(0),
