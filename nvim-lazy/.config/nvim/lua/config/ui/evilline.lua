@@ -88,7 +88,7 @@ ins_left({
   -- mode component
   function()
     --return ""
-    return ""
+    return "󰈮"
   end,
   color = function()
     -- auto change color according to neovims mode
@@ -177,7 +177,7 @@ ins_left({
     end
     return msg
   end,
-  icon = " ",
+  icon = "󰔳",
   color = { fg = colors.fg },
 })
 
@@ -186,7 +186,7 @@ ins_right({
   "o:encoding", -- option component same as &encoding in viml
   fmt = string.upper, -- I'm not sure why it's upper case either ;)
   cond = conditions.hide_in_width,
-  icon = "",
+  icon = "",
   color = { fg = colors.yellow, gui = "bold" },
 })
 
@@ -201,21 +201,21 @@ ins_right({
     end
   end,
   cond = conditions.hide_in_width,
-  icon = "󰻀",
+  icon = "󰣇",
   icons_enabled = true,
   color = { fg = colors.blue, gui = "bold" },
 })
 
 ins_right({
   "branch",
-  icon = "",
+  icon = "",
   color = { fg = colors.violet, gui = "bold" },
 })
 
 ins_right({
   "diff",
   -- Is it me or the symbol for modified us really weird
-  symbols = { added = " ", modified = " ", removed = " " },
+  symbols = { added = "✚ ", modified = " ", removed = "✖ " },
   diff_color = {
     added = { fg = colors.green },
     modified = { fg = colors.orange },

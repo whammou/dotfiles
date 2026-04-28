@@ -1,7 +1,44 @@
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    keys = {
+      {
+        "<leader>ef",
+        "<cmd>Neotree show toggle<CR>",
+        desc = "Toggle file explorer (no focus)",
+      },
+      {
+        "<leader>eh",
+        "<cmd>Neotree show dir=~<cr>",
+        desc = "Neotree go HOME",
+      },
+      {
+        "<leader>es",
+        "<cmd>edit scp://homelab//home/homelab/<cr>",
+        desc = "Open remote home via netrw",
+      },
+    },
     opts = {
+      window = {
+        width = "30%",
+      },
+      default_component_configs = {
+        git_status = {
+          symbols = {
+            -- Change type
+            added = "✚", -- or "✚"
+            modified = "", -- or ""
+            deleted = "✖", -- this can only be used in the git_status source
+            renamed = "󰁕", -- this can only be used in the git_status source
+            -- Status type
+            untracked = "",
+            ignored = "",
+            unstaged = "󰄱",
+            staged = "",
+            conflict = "",
+          },
+        },
+      },
       event_handlers = {
         {
           event = "neo_tree_buffer_enter",
