@@ -2,6 +2,7 @@
   "$schema": "node_modules/opencode-ntfy.sh/notification-ntfy.schema.json",
   "backend": {
     "server": "https://ntfy.whammou.dedyn.io",
+    "token": "{file:~/.secrets/ntfy-token}",
     "topic": "opencode",
     "title": {
       "session.idle": {
