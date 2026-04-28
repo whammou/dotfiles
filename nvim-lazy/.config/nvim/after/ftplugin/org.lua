@@ -53,21 +53,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "org",
-  callback = function()
-    vim.cmd([[
-      syntax match orgAdmonitionWarning '\[!WARNING\]'
-      syntax match orgAdmonitionCaution '\[!CAUTION\]'
-      syntax match orgAdmonitionImportant '\[!IMPORTANT\]'
-      syntax match orgAdmonitionTip '\[!TIP\]'
-      syntax match orgAdmonitionNote '\[!NOTE\]'
-      highlight link orgAdmonitionWarning WarningMsg
-      highlight link orgAdmonitionCaution Error
-      highlight link orgAdmonitionImportant Title
-      highlight link orgAdmonitionTip String
-      highlight link orgAdmonitionNote Identifier
-    ]])
-  end,
-})

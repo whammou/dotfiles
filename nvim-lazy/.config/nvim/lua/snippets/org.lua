@@ -286,8 +286,8 @@ ls.add_snippets("org", {
   }, { desc = "Dated note" }),
 
   s("#+GN", {
-    t({ "", "#+name:" }),
-    i(1, "Block"),
+    t({ "", "#+name: Note Admonition - " }),
+    i(1, "Description"),
     t({ "", "#+begin_quote org", "[!NOTE]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
@@ -295,8 +295,8 @@ ls.add_snippets("org", {
   }, { desc = "GitHub NOTE" }),
 
   s("#+GW", {
-    t({ "", "#+name:" }),
-    i(1, "Block"),
+    t({ "", "#+name: Warning Admonition - " }),
+    i(1, "Description"),
     t({ "", "#+begin_quote org", "[!WARNING]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
@@ -304,8 +304,8 @@ ls.add_snippets("org", {
   }, { desc = "GitHub WARNING" }),
 
   s("#+GI", {
-    t({ "", "#+name:" }),
-    i(1, "Block"),
+    t({ "", "#+name: Important Admonition - " }),
+    i(1, "Description"),
     t({ "", "#+begin_quote org", "[!IMPORTANT]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
@@ -313,8 +313,8 @@ ls.add_snippets("org", {
   }, { desc = "GitHub IMPORTANT" }),
 
   s("#+GT", {
-    t({ "", "#+name:" }),
-    i(1, "Block"),
+    t({ "", "#+name: Tip Admonition - " }),
+    i(1, "Description"),
     t({ "", "#+begin_quote org", "[!TIP]", "" }),
     i(2),
     t({ "", "#+end_quote" }),
@@ -322,8 +322,8 @@ ls.add_snippets("org", {
   }, { desc = "GitHub TIP" }),
 
   s("#+GC", {
-    t({ "", "#+name:" }),
-    i(1, "Block"),
+    t({ "", "#+name: Caution Admonition - " }),
+    i(1, "Description"),
     t({ "", "#+begin_quote org", "[!CAUTION]", "" }),
     i(2),
     t({ "", "#+end_quote" }),

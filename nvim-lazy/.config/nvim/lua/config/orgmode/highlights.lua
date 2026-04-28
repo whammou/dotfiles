@@ -1,3 +1,21 @@
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "org",
+  callback = function()
+    vim.cmd([[
+      syntax match orgAdmonitionWarning '\[!WARNING\]'
+      syntax match orgAdmonitionCaution '\[!CAUTION\]'
+      syntax match orgAdmonitionImportant '\[!IMPORTANT\]'
+      syntax match orgAdmonitionTip '\[!TIP\]'
+      syntax match orgAdmonitionNote '\[!NOTE\]'
+      highlight orgAdmonitionWarning guifg=#dd9046 gui=bold
+      highlight orgAdmonitionCaution guifg=#f65866 gui=bold
+      highlight orgAdmonitionImportant guifg=#c75ae8 gui=bold
+      highlight orgAdmonitionTip guifg=#8bcd5b gui=bold
+      highlight orgAdmonitionNote guifg=#41a7fc gui=bold
+    ]])
+  end,
+})
+
 vim.cmd([[highlight Headline1 guibg=#1D313E]])
 vim.cmd([[highlight Headline2 guibg=#2B2741]])
 vim.cmd([[highlight Headline3 guibg=#1E2E43]])
