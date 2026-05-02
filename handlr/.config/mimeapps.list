@@ -48,6 +48,7 @@ text/html=qutebrowser.quick.desktop;
 text/markdown=nvim.desktop;
 text/org=nvim.desktop;
 text/plain=nvim.desktop;
+text/x-devicetree-source=nvim.desktop;
 text/x-log=nvim.desktop;
 text/x-lua=nvim.desktop;
 text/x-python=nvim.desktop;
