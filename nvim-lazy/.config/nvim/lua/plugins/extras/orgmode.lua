@@ -5,14 +5,21 @@ return {
     ft = { "org" },
     dependencies = {
       {
+        "tangledhelix/org-links.nvim",
+        enabled = false,
+        lazy = true,
+        event = "VeryLazy",
+        ft = { "org" },
+        opts = {
+          hl_group = "OrgLinksLink",
+        },
+      },
+      {
         "mrshmllow/orgmode-babel.nvim",
         lazy = true,
         cmd = { "OrgExecute", "OrgTangle" },
         opts = {
-          -- by default, none are enabled
           langs = { "python", "lua", ... },
-
-          -- paths to emacs packages to additionally load
           load_paths = {},
         },
       },
@@ -27,7 +34,6 @@ return {
         lazy = true,
         ft = { "org" },
         keys = {
-          -- example keybindings
           {
             "<leader>ozg",
             function()

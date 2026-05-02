@@ -14,7 +14,7 @@ require("orgmode").setup({
   org_highlight_latex_and_related = "entities",
   org_use_property_inheritance = true,
 
-  org_archive_location = "./log/" .. date .. "_%s",
+  org_archive_location = "./.logs/" .. date .. "/archive_%s",
   org_agenda_time_grid = {
     times = vim.tbl_map(function(x)
       return x * 100
