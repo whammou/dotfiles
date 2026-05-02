@@ -120,6 +120,7 @@ span.marketing-card-note {
 
 span {
   background-color: transparent !important;
+  color: var(--od-light-grey);
 }
 
 /* Themed Scrollbars */
@@ -211,11 +212,11 @@ a:link {
 }
 
 a:visited {
-  color: var(--od-cyan);
+  color: var(--od-dark-blue);
 }
 
 a:hover, a:focus {
-  color: var(--od-purple) !important;
+  color: var(--od-orange) !important;
   text-decoration: underline;
 }
 
@@ -249,7 +250,7 @@ span.highlight,
 div.page-title,
 a.s-tag.post-tag {
   color-scheme: only light !important;
-  color: var(--od-blue);
+  color: var(--od-orange);
 }
 
 /* ==========================================================================
@@ -336,7 +337,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 input::placeholder, textarea::placeholder {
-  color: var(--od-grey);
+  color: var(--od-orange);
   opacity: 1;
 }
 
@@ -361,13 +362,13 @@ input[type="reset"]:hover {
 
 button:disabled, input:disabled {
   background-color: var(--od-bg1);
-  color: var(--od-grey);
+  color: var(--od-dark-red);
   cursor: not-allowed;
 }
 
 button {
   background-color: var(--od-bg3) !important;
-  color: var(--od-fg) !important;
+  color: var(--od-red) !important;
 }
 
 /* ==========================================================================
@@ -389,7 +390,7 @@ th, thead {
 }
 
 td {
-  color: initial !important;
+  color: var(--od-green) !important;
 }
 
 tbody tr:nth-child(odd) {
