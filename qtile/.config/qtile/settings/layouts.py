@@ -1,11 +1,9 @@
-from libqtile import layout
+from libqtile import hook, layout, qtile
 from libqtile.config import Match
 from qtile_bonsai import Bonsai
-from libqtile import hook, qtile
 
-from .theme import colors
 from .screens import GAP, OFFSET
-
+from .theme import colors
 
 # @hook.subscribe.client_new
 # def prevent_focus_steal(client):
