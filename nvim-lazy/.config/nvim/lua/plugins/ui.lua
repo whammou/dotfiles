@@ -133,7 +133,7 @@ return {
       },
       dashboard = { enabled = false },
       notifier = {
-        timeout = 1000,
+        timeout = 5000,
       },
     },
     keys = {

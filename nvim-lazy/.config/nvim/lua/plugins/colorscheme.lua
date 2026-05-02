@@ -67,6 +67,7 @@ return {
         ["@org.agenda.day"] = { fg = "none", fmt = "bold,italic" },
         ["@org.agenda.today"] = { fg = "$orange", fmt = "bold,italic" },
         ["@org.agenda.weekend"] = { fg = "$red", fmt = "bold,italic" },
+        ["@org.agenda.weekend.today"] = { fg = "$orange", fmt = "bold,italic,underline" },
         ["@org.agenda.deadline"] = { fg = "$cyan" },
         ["@org.agenda.scheduled"] = { fg = "$purple" },
         ["@org.agenda.header"] = { fg = "$green", bg = "$dimmed_green", fmt = "bold" },
@@ -77,6 +78,7 @@ return {
         ["@org.properties.org"] = { fg = "$tbg_cyan" },
         ["@org.properties.name.org"] = { fg = "$tbg_cyan", fmt = "bold" },
         ["@org.drawer.org"] = { fg = "none" },
+        ["OrgLinksLink"] = { fg = "$blue" },
 
         --Snack dashboard
         ["SnacksDashBoardHeader"] = { fg = "$fg" },
