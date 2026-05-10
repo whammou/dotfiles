@@ -52,7 +52,7 @@ require("orgmode").setup({
   org_priority_highest = "A",
   org_priority_default = "D",
   org_priority_lowest = "F",
-  org_deadline_warning_days = 0,
+  org_deadline_warning_days = 7,
 
   org_todo_repeat_to_state = "RECR",
   org_todo_keywords = {

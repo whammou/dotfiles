@@ -4,7 +4,17 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 
 
 # BROWSER SETTINGS
-c.editor.command = ["kitty", "nvim", "{file}"]
+# c.editor.command = ["kitty", "nvim", "{file}"]
+c.editor.command = [
+    "kitty",
+    "--single-instance",
+    "--app-id",
+    "kitty-float",
+    "nvim",
+    "{file}",
+    "+startinsert",
+    "+call cursor({line}, {column})",
+]
 c.search.wrap = False
 c.new_instance_open_target = "tab-bg"
 c.new_instance_open_target_window = "last-focused"

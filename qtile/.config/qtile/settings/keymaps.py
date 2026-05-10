@@ -223,7 +223,7 @@ keymap = [
             ["S-l", in_terminal("lobster -c"), "pad_small"],
             [
                 "c",
-                in_terminal(".venv/calculator/bin/python -i /usr/local/bin/calc"),
+                in_terminal(".venv/calculator/bin/python -i ~/.local/bin/calc"),
                 "pad_small",
             ],
             [

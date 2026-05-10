@@ -4,6 +4,9 @@
 
 local opt = vim.opt
 
+--vim.g.loaded_netrwPlugin = 0
+--vim.g.loaded_netrw = 0
+
 vim.opt.title = true
 vim.opt.titlelen = 0 -- do not shorten title
 vim.opt.titlestring = "%t - "

@@ -177,9 +177,9 @@ def focus_back(group):
             target_window.center()
 
     elif not target_window.floating:
+        current_window.set_position_floating(-9999, -9999)
         group.focus(target_window)
-        # current_window.keep_below()
-        # current_window.keep_below()
+        current_window.keep_below()
 
 
 @lazy.group.function

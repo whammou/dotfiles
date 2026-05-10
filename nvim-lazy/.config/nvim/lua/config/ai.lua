@@ -19,6 +19,10 @@ require("sidekick").setup({
         width = 0,
         height = 0,
       },
+      keys = {
+        stopinsert = false,
+        escape = { "<esc><esc>", "stopinsert", mode = "t", desc = "enter normal mode" },
+      },
       config = function(terminal)
         local dir = vim.b.sidekick_cwd or vim.loop.cwd()
         terminal.tool.cmd[#terminal.tool.cmd] = dir

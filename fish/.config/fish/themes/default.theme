@@ -1,4 +1,4 @@
-fish_color_autosuggestion brblack
+fish_color_autosuggestion brwhite
 fish_color_cancel -r
 fish_color_command --bold --reset
 fish_color_comment red

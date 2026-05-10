@@ -1,36 +1,50 @@
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    lazy = true,
+    dependencies = {
+      "whammou/netman.nvim",
+      lazy = true,
+      opts = {},
+    },
     keys = {
       {
         "<leader>ef",
         "<cmd>Neotree show toggle<CR>",
-        desc = "Toggle file explorer (no focus)",
+        desc = "Toggle file explorer (cwd)",
       },
       {
         "<leader>eh",
-        "<cmd>Neotree show dir=~<cr>",
+        "<cmd>Neotree show toggle dir=~<cr>",
         desc = "Neotree go HOME",
       },
       {
         "<leader>es",
-        "<cmd>edit scp://homelab//home/homelab/<cr>",
+        "<cmd>Neotree show toggle remote<cr>",
         desc = "Open remote home via netrw",
       },
     },
     opts = {
+      sources = {
+        "filesystem",
+        "git_status",
+        "netman.ui.neo-tree",
+      },
+      source_selector = {
+        sources = {
+          { source = "remote" },
+        },
+      },
       window = {
-        width = "30%",
+        width = "25",
       },
       default_component_configs = {
         git_status = {
           symbols = {
-            -- Change type
-            added = "✚", -- or "✚"
-            modified = "", -- or ""
-            deleted = "✖", -- this can only be used in the git_status source
-            renamed = "󰁕", -- this can only be used in the git_status source
-            -- Status type
+            added = "✚",
+            modified = "",
+            deleted = "✖",
+            renamed = "󰁕",
             untracked = "",
             ignored = "",
             unstaged = "󰄱",
@@ -44,14 +58,14 @@ return {
           event = "neo_tree_buffer_enter",
           handler = function()
             -- This effectively hides the cursor
-            vim.cmd("highlight! Cursor blend=100")
+            vim.cmd("highlight! CursorBlock blend=100")
           end,
         },
         {
           event = "neo_tree_buffer_leave",
           handler = function()
             -- Make this whatever your current Cursor highlight group is.
-            vim.cmd("highlight! Cursor guibg=#5f87af blend=0")
+            vim.cmd("highlight! CursorBlock guibg=#5f87af blend=0")
           end,
         },
       },
@@ -94,10 +108,7 @@ return {
         desc = "Find bin files",
       },
     },
-    -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    -- or if using mini.icons/mini.nvim
-    -- dependencies = { "nvim-mini/mini.icons" },
     opts = {
       winopts = {
         split = "belowright new",
@@ -105,7 +116,6 @@ return {
       },
     },
   },
-  -- lazy.nvim
   {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
@@ -116,13 +126,7 @@ return {
           hlgroup = "Comment",
         },
       },
-    }, -- needed even when using default config
-
-    -- recommended: disable vim's auto-folding
-    -- init = function()
-    --   vim.opt.foldlevel = 99
-    --   vim.opt.foldlevelstart = 99
-    -- end,
+    },
   },
   {
     "norcalli/nvim-colorizer.lua",
@@ -135,7 +139,6 @@ return {
   },
   {
     "pysan3/fcitx5.nvim",
-    -- lazy = true,
     event = "VeryLazy",
     opts = {},
   },
@@ -165,7 +168,6 @@ return {
       },
     },
     opts = {
-      -- Customize Configuration
       hide_following_blank_lines = true,
       foldtext = function(folded_count)
         return ""
@@ -176,7 +178,6 @@ return {
     "numEricL/table.vim",
     lazy = true,
     event = "VeryLazy",
-    -- init.lua - set defaults for all buffers (overridden by ftplugins)
     option = function()
       require("table_vim").setup({
         style = "default",

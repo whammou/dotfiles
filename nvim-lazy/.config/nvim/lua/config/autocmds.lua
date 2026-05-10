@@ -6,6 +6,43 @@
 -- Add any additional autocmds here
 -- with `vim.api.nvim_create_autocmd`
 
+vim.api.nvim_create_autocmd("BufNewFile", {
+  group = vim.api.nvim_create_augroup("NetmanInit", { clear = true }),
+  callback = function()
+    local f = vim.fn.expand("%:p")
+    for _, v in ipairs({ "sftp", "scp", "ssh", "docker" }) do
+      local p = v .. "://"
+      if string.sub(f, 1, #p) == p then
+        vim.defer_fn(function()
+          require("netman").read(f)
+        end, 0)
+        vim.api.nvim_clear_autocmds({ group = "NetmanInit" })
+        break
+      end
+    end
+  end,
+})
+--- optional part if you still want to use netrw for files unsupported by netman.nvim
+--- these need to be two separate AUgroups, don't combine them
+vim.api.nvim_create_autocmd("BufNewFile", {
+  group = vim.api.nvim_create_augroup("UnsupportedRemoteFile", { clear = true }),
+  callback = function()
+    local f = vim.fn.expand("%:p")
+    for _, v in ipairs({ "dav", "fetch", "ftp", "http", "rcp", "rsync" }) do
+      local p = v .. "://"
+      if string.sub(f, 1, #p) == p then
+        vim.cmd([[
+          unlet g:loaded_netrw
+          unlet g:loaded_netrwPlugin
+          runtime! plugin/netrwPlugin.vim
+          silent Explore %
+        ]])
+        vim.api.nvim_clear_autocmds({ group = "UnsupportedRemoteFile" })
+        break
+      end
+    end
+  end,
+})
 vim.api.nvim_create_user_command("Redir", function(ctx)
   local lines = vim.split(vim.api.nvim_exec(ctx.args, true), "\n", { plain = true })
   vim.cmd("new")

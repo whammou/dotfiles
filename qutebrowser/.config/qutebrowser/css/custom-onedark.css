@@ -216,7 +216,7 @@ a:visited {
 }
 
 a:hover, a:focus {
-  color: var(--od-orange) !important;
+  color: var(--od-green) !important;
   text-decoration: underline;
 }
 
@@ -250,7 +250,7 @@ span.highlight,
 div.page-title,
 a.s-tag.post-tag {
   color-scheme: only light !important;
-  color: var(--od-orange);
+  color: var(--od-green);
 }
 
 /* ==========================================================================

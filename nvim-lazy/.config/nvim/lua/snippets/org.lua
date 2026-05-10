@@ -206,7 +206,8 @@ ls.add_snippets("org", {
   }, { desc = "Horizontal line" }),
 
   s(":P-ID", {
-    t({ ":PROPERTIES:", ":ID: " .. vim.fn.systemlist("uuidgen")[1] }),
+    t({ ":PROPERTIES:", ":ID: " }),
+    uuid(),
     i(1),
     t({ "", ":END:", "" }),
     i(0),
