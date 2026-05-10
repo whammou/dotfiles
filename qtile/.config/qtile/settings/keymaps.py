@@ -176,6 +176,8 @@ keymap = [
             ["g", in_terminal("nvtop"), "pad_small"],
             ["d", in_terminal("ncdu --color dark /"), "pad_small"],
             ["m", in_terminal("watch -n 1 xset q"), "pad_small"],
+            ["s", in_terminal("sysz --user"), "pad_medium"],
+            ["S-s", in_terminal("sysz --system"), "pad_medium"],
         ],
     },
     {
@@ -196,7 +198,11 @@ keymap = [
                 in_terminal("sh 'paru -Syy && paru -Syu' ; alert", parameters="--hold"),
                 "pad_large",
             ],
-            ["s", in_terminal("chessterm --black_engine=/sbin/stockfish"), "pad_small"],
+            [
+                "S-s",
+                in_terminal("chessterm --black_engine=/sbin/stockfish"),
+                "pad_small",
+            ],
             ["n", "rnote", "pad_extra_large"],
             ["r", in_terminal("newsboat"), "pad_large"],
             ["S-n", in_terminal("notification_history"), "pad_small"],
