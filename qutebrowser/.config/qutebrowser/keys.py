@@ -8,13 +8,28 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 config.unbind("d")
 config.unbind("D")
 config.unbind("F")
+config.unbind("<Control-e>", mode="insert")
 # config.unbind("j")
 # config.unbind("k")
 
 # Input method
 # config.bind("<Escape>", "spawn fcitx5-remote -s keyboard-us", mode="insert")
 # ~/.config/qutebrowser/config.py
-
+config.bind(
+    "<Control-e>",
+    "edit-text ;; message-info 'Opened in Editor'",
+    mode="insert",
+)
+config.bind(
+    "<Escape>",
+    "spawn fcitx5-remote -s keyboard-us ;; mode-leave",
+    mode="insert",
+)
+config.bind(
+    "<Control-i>",
+    "set statusbar.show in-mode ;; spawn fcitx5-remote -s unikey",
+    mode="insert",
+)
 
 # Bind Escape in insert mode to switch Fcitx5 and then leave insert mode
 # This might require two presses or careful timing, as qutebrowser's own
@@ -25,19 +40,7 @@ config.bind(
     "<Escape>", "mode-enter normal;; set statusbar.show in-mode", mode="command"
 )
 config.bind("<Return>", "command-accept;; set statusbar.show in-mode", mode="command")
-
-config.bind(
-    "<Escape>",
-    "spawn fcitx5-remote -s keyboard-us ;; mode-leave",
-    mode="insert",
-)
-
 config.bind("i", "set statusbar.show in-mode ;; mode-enter insert", mode="normal")
-config.bind(
-    "<Control-i>",
-    "set statusbar.show in-mode ;; spawn fcitx5-remote -s unikey ;; mode-enter insert",
-    mode="normal",
-)
 config.bind("/", "cmd-set-text -s :search ;; set statusbar.show always", mode="normal")
 config.bind(
     "?", "cmd-set-text -s :search -r;; set statusbar.show always", mode="normal"
