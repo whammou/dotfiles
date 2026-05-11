@@ -38,23 +38,29 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
-      cmdline = {
-        opts = {
-          border = "single",
-        },
-      },
-      cmdline_popup = {
-        opt = {
-          border = "single",
-        },
+      presets = {
+        lsp_doc_border = false, -- disable rounded LSP doc borders
+        command_palette = false, -- disable palette preset that force-overrides borders to rounded
       },
       views = {
         cmdline_popup = {
-          border = { style = "none" },
-        },
-        popupmenu = {
           border = { style = "single" },
+          position = { row = 3, col = "50%" },
+          size = { min_width = 60, width = "auto", height = "auto" },
         },
+        cmdline_popupmenu = {
+          border = { style = "single" },
+          position = { row = 6, col = "50%" },
+          size = { width = 60, height = "auto", max_height = 15 },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "NoiceCmdlinePopupBorder" },
+          },
+        },
+        cmdline_input = { border = { style = "single" } },
+        popupmenu = { border = { style = "single" } },
+        popup = { border = { style = "single" } },
+        hover = { border = { style = "single" } },
+        confirm = { border = { style = "single" } },
       },
     },
   },
@@ -106,10 +112,12 @@ return {
       },
       styles = {
         lazygit = {
+          border = "single",
           height = 0.5,
           position = "bottom",
         },
         terminal = {
+          border = "single",
           height = 0.3,
           position = "bottom",
         },

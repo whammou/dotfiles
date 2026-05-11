@@ -41,6 +41,7 @@ require("orgmode").setup({
   org_startup_indented = false,
   org_startup_folded = "inherit",
   win_split_mode = "auto",
+  win_border = "single",
 
   org_id_link_to_org_use_id = true,
   org_use_tag_inheritance = true,
