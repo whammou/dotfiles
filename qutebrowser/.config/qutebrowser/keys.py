@@ -94,7 +94,7 @@ config.bind(
 )
 config.bind(
     "FF",
-    "set statusbar.show never ;; hint all tab-bg",
+    "set statusbar.show never ;; hint all spawn xdg-open {hint-url}",
 )
 config.bind(";a", "set statusbar.show never ;; hint all yank")
 # Medias
