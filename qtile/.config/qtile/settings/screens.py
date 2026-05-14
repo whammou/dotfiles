@@ -22,8 +22,9 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("wavy_lines_v01_5120x2880.png"),
-        wallpaper_mode="fill",
+        # wallpaper=select_wallpaper("od_qtile_bg_d.png"),
+        # wallpaper_mode="fill",
+        background="#141b24",
         top=status_bar(
             widgets,
             margin=[
