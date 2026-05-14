@@ -8,6 +8,7 @@ function fish_user_key_bindings
         bind --mode $mode \e\co _reset
         bind --mode $mode \co _reset_color
         bind --mode $mode \cg _lazygit
+        bind --mode $mode \e\cm fman
 
         # bind --mode $mode \cZ true #unbind <C-z> send to background
         # bind --mode $mode \x1c bg
