@@ -36,6 +36,7 @@ vim.o.shell = "fish"
 -- opts.rocks.hererocks = false
 
 -- Animation
+vim.g.filepicker = "fzf"
 vim.g.snacks_animate = false -- Turn off snacks animation
 
 -- Markdown

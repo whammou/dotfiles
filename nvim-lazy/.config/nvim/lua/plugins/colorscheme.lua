@@ -4,7 +4,7 @@ return {
     priority = 1000,
     lazy = true,
     opts = {
-      style = "deep",
+      style = "dark",
       transparent = false,
       term_colors = false,
       lualine = {

@@ -11,8 +11,8 @@ local opencode_project_id = os.getenv("OPENCODE_PROJECT_ID")
 local opencode_server = os.getenv("OPENCODE_SERVER")
 
 require("sidekick").setup({
-  -- add any options here
   cli = {
+    picker = "fzf-lua",
     win = {
       layout = "right",
       split = {
