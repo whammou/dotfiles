@@ -43,6 +43,7 @@ run  = 'piper -- hexyl --border=none --terminal-width=$w "$1"'
 # Disable preloaders and previewer for /server
 [[plugin.prepend_fetchers]]
 id   = "mime"
+group = "mime"
 url = "*"
 run  = "mime-ext"
 prio = "high"
@@ -50,10 +51,12 @@ prio = "high"
 # Git change indicators
 [[plugin.prepend_fetchers]]
 id   = "git"
+group = "git"
 url = "*"
 run  = "git"
 
 [[plugin.prepend_fetchers]]
 id   = "git"
+group = "git"
 url = "*/"
 run  = "git"
