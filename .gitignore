@@ -32,3 +32,4 @@ opencode/.config/opencode/node_modules
 /fish/.config/fish/functions/__abbr_tips_init.fish
 /fish/.config/fish/functions/_opencode.init.fish
 /qutebrowser/.config/qutebrowser/.unison.autoconfig.yml.86f6db085345f920a1e52b18834f85a7.unison.tmp
+.sisyphus/
