@@ -1,20 +1,20 @@
 indicator-idle-visible
 font-size=13
 
-text-color=2a324a
-color=1a212e
+text-color=3b3f4c
+color=282c34
 
-key-hl-color=8bcd5b
+key-hl-color=98c379
 
-inside-color=2a324a
-inside-clear-color=856f46
-inside-wrong-color=883d4a
-inside-ver-color=2e6495
+inside-color=3b3f4c
+inside-clear-color=877658
+inside-wrong-color=884953
+inside-ver-color=456E92
 
-ring-color=537745
-ring-clear-color=efbd5a
-ring-wrong-color=f65866
-ring-ver-color=41a7fc
+ring-color=607857
+ring-clear-color=e5c07b
+ring-wrong-color=e86671
+ring-ver-color=61afef
 
-separator-color=1a212e
+separator-color=282c34
 line-uses-inside

@@ -1,6 +1,6 @@
-bgcol: #1a212e
-fgcol: #455574
-hicol: #93a4c3
-hicol2: #455574
-hicol3: #455574
-errcol: #f65866
+bgcol: #282c34
+fgcol: #565C66
+hicol: #abb2bf
+hicol2: #565C66
+hicol3: #565C66
+errcol: #e86671

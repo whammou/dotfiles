@@ -1,25 +1,65 @@
+-- Getter for neo-tree source selector cached by editor.lua's after_render handler
+_G.__cached_neo_tree_selector = nil
+_G.__get_selector = function()
+  return _G.__cached_neo_tree_selector or ""
+end
+
 return {
   {
     "akinsho/bufferline.nvim",
-    opts = {
-      options = {
-        buffer_close_icon = " ",
-        always_show_bufferline = true,
-        hover = {
-          enabled = false,
-          delay = 200,
-          reveal = { "close" },
+    config = function()
+      local bufferline = require("bufferline")
+      bufferline.setup({
+        options = {
+          buffer_close_icon = " ",
+          always_show_bufferline = true,
+          offsets = {
+            {
+              filetype = "neo-tree",
+              raw = "%{%v:lua.__get_selector()%}",
+              highlight = { sep = { link = "WinSeparator" } },
+              separator = "┃",
+            },
+          },
+          hover = {
+            enabled = false,
+            delay = 200,
+            reveal = { "close" },
+          },
         },
-      },
-      highlights = {
-        --close_button_selected = {
-        --  fg = "#1a212e",
-        --},
-        fill = {
-          bg = "#283347",
+        highlights = {
+          fill = {
+            bg = "#21252b",
+          },
         },
-      },
-    },
+      })
+
+      -- Patch bufferline's internal get_section_text to support raw offset field
+      -- Reference: https://github.com/nvim-neo-tree/neo-tree.nvim/issues/1368
+      local Offset = require("bufferline.offset")
+      local get_func = Offset.get
+      for i = 1, 100 do
+        local name, val = debug.getupvalue(get_func, i)
+        if name == "get_section_text" then
+          local orig = val
+          debug.setupvalue(get_func, i, function(size, highlight, offset, is_left)
+            if offset.raw then
+              local text = offset.raw
+              if type(text) == "function" then text = text() end
+              text = text or ""
+              if offset.separator then
+                local sep_icon = type(offset.separator) == "string" and offset.separator or "│"
+                local sep = (highlight.sep or "") .. sep_icon
+                return (not is_left and sep or "") .. text .. (is_left and sep or "")
+              end
+              return text
+            end
+            return orig(size, highlight, offset, is_left)
+          end)
+          break
+        end
+      end
+    end,
   },
   {
     "nvim-lualine/lualine.nvim",

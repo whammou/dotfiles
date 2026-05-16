@@ -7,21 +7,21 @@ vim.api.nvim_create_autocmd("FileType", {
       syntax match orgAdmonitionImportant '\[!IMPORTANT\]'
       syntax match orgAdmonitionTip '\[!TIP\]'
       syntax match orgAdmonitionNote '\[!NOTE\]'
-      highlight orgAdmonitionWarning guifg=#dd9046 gui=bold
-      highlight orgAdmonitionCaution guifg=#f65866 gui=bold
-      highlight orgAdmonitionImportant guifg=#c75ae8 gui=bold
-      highlight orgAdmonitionTip guifg=#8bcd5b gui=bold
-      highlight orgAdmonitionNote guifg=#41a7fc gui=bold
+      highlight orgAdmonitionWarning guifg=#d19a66 gui=bold
+      highlight orgAdmonitionCaution guifg=#e86671 gui=bold
+      highlight orgAdmonitionImportant guifg=#c678dd gui=bold
+      highlight orgAdmonitionTip guifg=#98c379 gui=bold
+      highlight orgAdmonitionNote guifg=#61afef gui=bold
     ]])
   end,
 })
 
-vim.cmd([[highlight Headline1 guibg=#1D313E]])
-vim.cmd([[highlight Headline2 guibg=#2B2741]])
-vim.cmd([[highlight Headline3 guibg=#1E2E43]])
-vim.cmd([[highlight Headline4 guibg=#2F3133]])
-vim.cmd([[highlight Headline5 guibg=#253233]])
-vim.cmd([[highlight Headline6 guibg=#302734]])
+vim.cmd([[highlight Headline1 guibg=#2b3c44]])
+vim.cmd([[highlight Headline2 guibg=#393247]])
+vim.cmd([[highlight Headline3 guibg=#2c3949]])
+vim.cmd([[highlight Headline4 guibg=#3d3c39]])
+vim.cmd([[highlight Headline5 guibg=#333d39]])
+vim.cmd([[highlight Headline6 guibg=#3e323a]])
 
 vim.cmd([[highlight Dash gui=bold]])
 
@@ -61,25 +61,25 @@ require("org-bullets").setup({
 
 require("orgmode").setup({
   org_todo_keyword_faces = {
-    TODO = ":foreground #713E8B :weight bold :slant italic",
-    OPEN = ":foreground #713E8B :weight bold :slant italic",
-    RECR = ":foreground #713E8B :weight bold :slant italic",
-    DOIN = ":foreground #27707F :weight bold :slant italic",
-    PROG = ":foreground #537745 :weight bold :slant italic",
-    PEND = ":foreground #455574 :weight bold :slant italic",
-    OUTL = ":foreground #455574 :weight bold :slant italic",
-    IDEA = ":foreground #455574 :weight bold :slant italic",
-    INTR = ":foreground #604E49 :weight bold :slant italic",
-    WAIT = ":foreground #604E49 :weight bold :slant italic",
-    EXPL = ":foreground #604E49 :weight bold :slant italic",
-    FDBK = ":foreground #604E49 :weight bold :slant italic",
-    TEST = ":foreground #604E49 :weight bold :slant italic",
-    NEXT = ":foreground #2E6495 :weight bold :slant italic",
-    TARGET = ":foreground #713E8B :weight bold :slant italic",
-    RVIW = ":foreground #efbd5d :weight bold :slant italic",
-    PRTL = ":foreground #efbd5d :weight bold :slant italic",
-    ABRT = ":foreground #f65866 :weight bold :slant italic",
-    DONE = ":foreground #8bcd5b :weight bold :slant italic",
-    CLSD = ":foreground #455574 :weight bold :slant italic",
+    TODO = ":foreground #775289 :weight bold :slant italic",
+    OPEN = ":foreground #775289 :weight bold :slant italic",
+    RECR = ":foreground #775289 :weight bold :slant italic",
+    DOIN = ":foreground #3F717B :weight bold :slant italic",
+    PROG = ":foreground #607857 :weight bold :slant italic",
+    PEND = ":foreground #5c6370 :weight bold :slant italic",
+    OUTL = ":foreground #5c6370 :weight bold :slant italic",
+    IDEA = ":foreground #5c6370 :weight bold :slant italic",
+    INTR = ":foreground #6e594f :weight bold :slant italic",
+    WAIT = ":foreground #6e594f :weight bold :slant italic",
+    EXPL = ":foreground #6e594f :weight bold :slant italic",
+    FDBK = ":foreground #6e594f :weight bold :slant italic",
+    TEST = ":foreground #6e594f :weight bold :slant italic",
+    NEXT = ":foreground #456E92 :weight bold :slant italic",
+    TARGET = ":foreground #775289 :weight bold :slant italic",
+    RVIW = ":foreground #e5c07b :weight bold :slant italic",
+    PRTL = ":foreground #e5c07b :weight bold :slant italic",
+    ABRT = ":foreground #e86671 :weight bold :slant italic",
+    DONE = ":foreground #98c379 :weight bold :slant italic",
+    CLSD = ":foreground #5c6370 :weight bold :slant italic",
   },
 })

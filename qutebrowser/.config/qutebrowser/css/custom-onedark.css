@@ -14,48 +14,48 @@
 
 :root {
   /* Backgrounds - Dark to Light */
-  --od-black:      #0c0e15;
-  --od-bg0:        #1a212e;  /* Main background */
-  --od-bg1:        #21283b;  /* UI elements, code blocks */
-  --od-bg2:        #283347;  /* Hover, active states */
-  --od-bg3:        #2a324a;  /* Accent backgrounds */
-  --od-bg_d:       #141b24;  /* Borders */
+  --od-black:      #181a1f;
+  --od-bg0:        #282c34;  /* Main background */
+  --od-bg1:        #31353f;  /* UI elements, code blocks */
+  --od-bg2:        #393f4a;  /* Hover, active states */
+  --od-bg3:        #3b3f4c;  /* Accent backgrounds */
+  --od-bg_d:       #21252b;  /* Borders */
 
   /* Foreground (text) */
-  --od-fg:         #93a4c3;  /* Main text color */
-  --od-grey:       #455574;  /* Muted text */
-  --od-light-grey: #6c7d9c;  /* Secondary text */
+  --od-fg:         #abb2bf;  /* Main text color */
+  --od-grey:       #5c6370;  /* Muted text */
+  --od-light-grey: #848b98;  /* Secondary text */
 
   /* Accent Colors - Bright */
-  --od-purple:    #c75ae8;
-  --od-green:     #8bcd5b;
-  --od-orange:    #dd9046;
-  --od-blue:      #41a7fc;
-  --od-yellow:    #efbd5d;
-  --od-cyan:      #34bfd0;
-  --od-red:       #f65866;
+  --od-purple:    #c678dd;
+  --od-green:     #98c379;
+  --od-orange:    #d19a66;
+  --od-blue:      #61afef;
+  --od-yellow:    #e5c07b;
+  --od-cyan:      #56b6c2;
+  --od-red:       #e86671;
 
-  /* Accent Colors - Dark (for backgrounds/borders) */
-  --od-dark-cyan:   #27707F;
-  --od-dark-blue:   #2E6495;
-  --od-dark-red:    #883D4A;
-  --od-dark-yellow: #856F46;
-  --od-dark-purple: #713E8B;
-  --od-dark-green:  #547745;
+  /* Accent Colors - Dark (50/50 blend bright + bg0) */
+  --od-dark-cyan:   #3F717B;
+  --od-dark-blue:   #456E92;
+  --od-dark-red:    #884953;
+  --od-dark-yellow: #877658;
+  --od-dark-purple: #775289;
+  --od-dark-green:  #607857;
 
   /* Dimmed Colors (subtle backgrounds) */
-  --od-dimmed-cyan:  #1D313E;
-  --od-dimmed-blue:  #1E2E43;
-  --od-dimmed-red:   #302734;
-  --od-dimmed-yellow:#2F3133;
-  --od-dimmed-purple:#2B2741;
-  --od-dimmed-green: #253233;
+  --od-dimmed-cyan:  #2b3c44;
+  --od-dimmed-blue:  #2c3949;
+  --od-dimmed-red:   #3e323a;
+  --od-dimmed-yellow:#3d3c39;
+  --od-dimmed-purple:#393247;
+  --od-dimmed-green: #333d39;
 
   /* Diff/Syntax Colors */
-  --od-diff-add:    #27341c;
-  --od-diff-delete: #331c1e;
-  --od-diff-change: #102b40;
-  --od-diff-text:   #1c4a6e;
+  --od-diff-add:    #31392b;
+  --od-diff-delete: #382b2c;
+  --od-diff-change: #1c3448;
+  --od-diff-text:   #2c5372;
 }
 
 /* ==========================================================================

@@ -1,3 +1,10 @@
+-- Neo-tree source selector highlight groups matching bufferline `#21252b` fill
+vim.api.nvim_set_hl(0, "NeoTreeTabBarBg", { bg = "#21252b" })
+vim.api.nvim_set_hl(0, "NeoTreeTabBarInactive", { bg = "#1c2028", fg = "#5c6370" })
+vim.api.nvim_set_hl(0, "NeoTreeTabBarActive", { bg = "#2b303b", fg = "#e5e7eb", bold = true })
+vim.api.nvim_set_hl(0, "NeoTreeTabBarSepInactive", { bg = "#21252b", fg = "#3b4048" })
+vim.api.nvim_set_hl(0, "NeoTreeTabBarSepActive", { bg = "#2b303b", fg = "#3b4048" })
+
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -31,9 +38,19 @@ return {
         "netman.ui.neo-tree",
       },
       source_selector = {
+        winbar = false,
         sources = {
-          { source = "remote" },
+          { source = "filesystem", display_name = "  Files" },
+          { source = "git_status", display_name = "  Git" },
+          { source = "remote", display_name = " 󰒍 Remote" },
         },
+        highlight_tab = "NeoTreeTabBarInactive",
+        highlight_tab_active = "NeoTreeTabBarActive",
+        highlight_background = "NeoTreeTabBarBg",
+        highlight_separator = "NeoTreeTabBarSepInactive",
+        highlight_separator_active = "NeoTreeTabBarSepActive",
+        separator = { left = "▏", right = "▕" },
+        show_separator_on_edge = false,
       },
       window = {
         width = "25",
@@ -66,6 +83,21 @@ return {
           handler = function()
             -- Make this whatever your current Cursor highlight group is.
             vim.cmd("highlight! CursorBlock guibg=#5f87af blend=0")
+          end,
+        },
+        -- Cache neo-tree source selector for bufferline tabline integration
+        {
+          event = "after_render",
+          handler = function(state)
+            if state.current_position == "left" or state.current_position == "right" then
+              local selector = require("neo-tree.ui.selector")
+              local width = vim.api.nvim_win_get_width(state.winid)
+              local str = selector.get_selector(state, width)
+              if str then
+                _G.__cached_neo_tree_selector = str
+                vim.cmd("redrawtabline")
+              end
+            end
           end,
         },
       },

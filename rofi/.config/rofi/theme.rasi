@@ -33,12 +33,12 @@ configuration {
   padding: 0;
   spacing: 0;
 
-  bg: #1a212e;
-	fg: #93a4c3;
-	blue: #41a7fc;
-	blue-alt: #41a7fc15;
-	red: #f65866;
-  red-alt: #f6586615;
+  bg: #282c34;
+	fg: #abb2bf;
+	blue: #61afef;
+	blue-alt: #61afef15;
+	red: #e86671;
+  red-alt: #e8667115;
 
   background-color: @bg;
   text-color: @fg;

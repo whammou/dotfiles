@@ -24,7 +24,7 @@ screens = [
     Screen(
         # wallpaper=select_wallpaper("od_qtile_bg_d.png"),
         # wallpaper_mode="fill",
-        background="#141b24",
+        background="#181a1f",
         top=status_bar(
             widgets,
             margin=[
