@@ -34,6 +34,8 @@ c.content.user_stylesheets = "~/.config/qutebrowser/css/custom-onedark.css"
 c.content.prefers_reduced_motion = True
 c.downloads.location.directory = "/home/whammou/Downloads/"
 
+c.content.proxy = "socks5://127.0.0.1:1080"
+c.content.tls.certificate_errors = "ask-block-thirdparty"
 c.fileselect.handler = "external"
 c.fileselect.single_file.command = [
     "kitty",
@@ -68,16 +70,17 @@ searxngInstance = "https://opnxng.com"
 searxngQuery = searxngInstance + "/search?q={}"
 searxngSearch = {
     "DEFAULT": searxngQuery,
-    "it": searxngQuery + "&categories=it",
-    "vi": searxngQuery + "&categories=videos",
-    "im": searxngQuery + "&categories=images",
-    "ne": searxngQuery + "&categories=news",
-    "ma": searxngQuery + "&categories=map",
-    "mu": searxngQuery + "&categories=music",
-    "sc": searxngQuery + "&categories=science",
-    "fi": searxngQuery + "&categories=files",
-    "so": searxngQuery + "&categories=social%20media",
-    "bo": "https://annas-archive.li/search?q={}",
+    "xi": searxngQuery + "&categories=it",
+    "xv": searxngQuery + "&categories=videos",
+    "xm": searxngQuery + "&categories=images",
+    "xn": searxngQuery + "&categories=news",
+    "xa": searxngQuery + "&categories=map",
+    "xu": searxngQuery + "&categories=music",
+    "xc": searxngQuery + "&categories=science",
+    "xf": searxngQuery + "&categories=files",
+    "xs": searxngQuery + "&categories=social%20media",
+    "aa": "https://annas-archive.li/search?q={}",
+    "gg": "https://www.google.com/search?q={}",
 }
 
 c.url.start_pages = ["https://ascii-start.customstart.page/"]

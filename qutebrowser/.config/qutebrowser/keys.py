@@ -12,6 +12,10 @@ config.unbind("<Control-e>", mode="insert")
 # config.unbind("j")
 # config.unbind("k")
 
+config.bind(
+    "xp",
+    "config-cycle content.proxy socks5://127.0.0.1:1080 system ;; message-info 'Toggled proxy'",
+)
 # Input method
 # config.bind("<Escape>", "spawn fcitx5-remote -s keyboard-us", mode="insert")
 # ~/.config/qutebrowser/config.py
