@@ -4,27 +4,28 @@
 #   ssh host <command> /pa<TAB> → /path/... (paths from remote host)
 #   ssh host <command> ~/use<TAB> → /home/user/... (via ~ expansion on remote)
 #   ssh host <command> ./rel<TAB> → ./relative/path/...
+#   ssh host <command> -p myproj<TAB> → completes remote myproj*
+#   ssh host <command> -p <TAB> → lists remote files
 #
 # Requires key-based SSH login (password prompts will block completion).
 #
 # Built-in SSH completions are sourced first (flag completions, host
 # completions, remote command name via __fish_complete_subcommand).
-# Remote path completion is ADDED for path-like tokens (starting with
-# /, ~, ./ or ../). For those tokens you'll see both local AND remote
-# results — type more characters to narrow down.
+# Remote path completion fires for any non-flag argument after the command.
+# You may see both local AND remote results — type more to narrow down.
 
 # 1. Load all built-in SSH completions (flags, hosts, subcommand)
 source /usr/share/fish/completions/ssh.fish
 
-# 2. Add remote path completion for path-like arguments after the host+command
+# 2. Add remote path completion for arguments after the host+command
 function __fish_ssh_remote_should_complete -d 'Check if remote path completion should activate'
     # Need at least: ssh + host + command
     test (__fish_number_of_cmd_args_wo_opts) -ge 3; or return 1
 
     set -l token (commandline -ct)
-    # Activate for empty token (user pressed Tab after command) or path-like token
-    test -z "$token"; and return 0
-    string match -qr '^(/|~|\.\.?/)' -- $token; or return 1
+    # Skip flags — let local command completions handle those
+    string match -q -- '-*' $token; and return 1
+    # Complete remote paths for any non-flag token (empty, path, or plain word)
     return 0
 end
 

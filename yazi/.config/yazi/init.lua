@@ -1,3 +1,8 @@
+ps.sub("ind-app-title", function(args)
+	args.value = tostring(cx.active.current.cwd) .. " - yazi"
+	return args
+end)
+
 local orange = "#DD9046"
 
 th.git = th.git or {}

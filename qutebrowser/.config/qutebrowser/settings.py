@@ -81,6 +81,7 @@ searxngSearch = {
     "xs": searxngQuery + "&categories=social%20media",
     "aa": "https://annas-archive.li/search?q={}",
     "gg": "https://www.google.com/search?q={}",
+    "bb": "https://search.brave.com/search?q={}",
 }
 
 c.url.start_pages = ["https://ascii-start.customstart.page/"]

@@ -9,7 +9,7 @@ local opt = vim.opt
 
 vim.opt.title = true
 vim.opt.titlelen = 0 -- do not shorten title
-vim.opt.titlestring = "%t - "
+vim.opt.titlestring = "%F - nvim"
 
 opt.autochdir = true
 opt.autoread = true
