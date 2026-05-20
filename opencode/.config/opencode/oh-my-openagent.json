@@ -7,7 +7,7 @@
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
-      "color": "#c75ae8"
+      "color": "#c678dd"
     },
     "hephaestus": {
       "model": "cerebras/gpt-oss-120b",
@@ -15,7 +15,7 @@
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
-      "color": "#41a7fc"
+      "color": "#61afef"
     },
     "oracle": {
       "model": "opencode/nemotron-3-super-free",
@@ -23,14 +23,14 @@
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
-      "color": "#f65866"
+      "color": "#e86671"
     },
     "explore": {
       "model": "opencode/minimax-m2.5-free",
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
-      "color": "#efbd5d"
+      "color": "#e5c07b"
     },
     "multimodal-looker": {
       "model": "opencode/mimo-v2-omni-free",
@@ -38,7 +38,7 @@
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
-      "color": "#dd9046"
+      "color": "#d19a66"
     },
     "prometheus": {
       "model": "opencode/minimax-m2.5-free",
@@ -46,7 +46,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
-      "color": "#34bfd0"
+      "color": "#56b6c2"
     },
     "metis": {
       "model": "opencode/minimax-m2.5-free",
@@ -54,7 +54,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
-      "color": "#c75ae8"
+      "color": "#c678dd"
     },
     "momus": {
       "model": "opencode/minimax-m2.5-free",
@@ -62,14 +62,14 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
-      "color": "#41a7fc"
+      "color": "#61afef"
     },
     "atlas": {
       "model": "opencode/minimax-m2.5-free",
       "fallback_models": [
         "opencode/big-pickle"
       ],
-      "color": "#93a4c3"
+      "color": "#abb2bf"
     },
     "sisyphus-junior": {
       "model": "opencode/claude-sonnet-4-6",
@@ -88,7 +88,7 @@
       "fallback_models": [
         "opencode/minimax-m2.5-free"
       ],
-      "color": "#8bcd5b"
+      "color": "#98c379"
     }
   },
   "categories": {

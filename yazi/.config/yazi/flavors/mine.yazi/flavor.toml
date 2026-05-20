@@ -36,10 +36,10 @@ border_style = { fg = "#282C34" }  # Darkened background
 [status]
 separator_open = ""
 separator_close = ""
-separator_style = { fg = "#41A7Fc", bg = "#282C34" }  # Blue on Darkened background
+separator_style = { fg = "#61afef", bg = "#282C34" }  # Blue on Darkened background
 
 # Mode
-mode_normal = { fg = "#282C34", bg = "#41A7FC", bold = true }  # Dark gray on Blue
+mode_normal = { fg = "#282C34", bg = "#61afef", bold = true }  # Dark gray on Blue
 mode_select = { fg = "#282C34", bg = "#00FF00", bold = true }  # Dark gray on Blue
 mode_unset = { fg = "#282C34", bg = "#AE00FF", bold = true }  # Dark gray on Blue
 
@@ -144,7 +144,7 @@ rules = [
     { mime = "application/vnd.*", fg = "#00FF00", bold = true },  # Green
 
     # Fallback
-    { name = "*", fg = "#93a4c3", bold = true },  # Blue
+    { name = "*", fg = "#abb2bf", bold = true },  # Blue
     { name = "*/", fg = "#AE00FF", bold = true }  # Blue
 ]
 
