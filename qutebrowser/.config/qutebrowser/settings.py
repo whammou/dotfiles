@@ -5,6 +5,7 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 
 # BROWSER SETTINGS
 # c.editor.command = ["kitty", "nvim", "{file}"]
+c.window.title_format = "[{scroll_pos}] {current_title}"
 c.editor.command = [
     "kitty",
     "--single-instance",
@@ -15,6 +16,7 @@ c.editor.command = [
     "+startinsert",
     "+call cursor({line}, {column})",
 ]
+c.completion.show = "auto"
 c.search.wrap = False
 c.new_instance_open_target = "tab-bg"
 c.new_instance_open_target_window = "last-focused"

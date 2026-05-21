@@ -50,6 +50,7 @@ def workspaces():
             font="HasklugNerdFont",
             fontsize=13,
             padding=5,
+            format="{name} - {class}",
         ),
         separator(),
     ]

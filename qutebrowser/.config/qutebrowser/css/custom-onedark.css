@@ -124,6 +124,7 @@ span {
 }
 
 /* Themed Scrollbars */
+/*
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--od-grey) var(--od-bg1);
@@ -142,6 +143,7 @@ span {
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--od-light-grey);
 }
+*/
 
 /* ==========================================================================
    TYPOGRAPHY
