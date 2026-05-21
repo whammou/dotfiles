@@ -45,7 +45,9 @@ return {
           debug.setupvalue(get_func, i, function(size, highlight, offset, is_left)
             if offset.raw then
               local text = offset.raw
-              if type(text) == "function" then text = text() end
+              if type(text) == "function" then
+                text = text()
+              end
               text = text or ""
               if offset.separator then
                 local sep_icon = type(offset.separator) == "string" and offset.separator or "│"

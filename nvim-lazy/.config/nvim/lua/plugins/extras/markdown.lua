@@ -2,8 +2,14 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = true,
+    enabled = true,
     ft = "markdown",
     dependencies = {
+      {
+        "lukas-reineke/headlines.nvim",
+        lazy = true,
+        opts = {},
+      },
       {
         "willchao612/vim-diagon",
         lazy = true,
@@ -25,33 +31,8 @@ return {
         },
       },
     },
-    opts = {
-      completions = { blink = { enabled = true } },
-      paragraph = {
-        enabled = true,
-        left_margin = 0,
-        indent = 0,
-      },
-      heading = {
-        position = "overlay",
-        border = true,
-        border_virtual = true,
-      },
-      indent = {
-        enabled = false,
-        skip_heading = true,
-        per_level = 1,
-        skip_level = 0,
-        icon = "",
-      },
-
-      latex = {
-        enabled = true,
-      },
-
-      html = {
-        enabled = true,
-      },
-    },
+    config = function()
+      require("config.markdown")
+    end,
   },
 }

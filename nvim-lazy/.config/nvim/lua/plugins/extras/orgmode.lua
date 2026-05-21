@@ -67,6 +67,10 @@ return {
       {
         "lukas-reineke/headlines.nvim",
         lazy = true,
+        ft = { "org" },
+        config = function()
+          require("config.orgmode.highlights")
+        end,
       },
       {
         "chipsenkbeil/org-roam.nvim",
