@@ -26,9 +26,9 @@
       "color": "#e86671"
     },
     "explore": {
-      "model": "opencode/big-pickel",
+      "model": "opencode/big-pickle",
       "fallback_models": [
-        "opencode/big-pickel"
+        "opencode/big-pickle"
       ],
       "color": "#e5c07b"
     },
@@ -36,12 +36,12 @@
       "model": "opencode/mimo-v2-omni-free",
       "variant": "medium",
       "fallback_models": [
-        "opencode/big-pickel"
+        "opencode/big-pickle"
       ],
       "color": "#d19a66"
     },
     "prometheus": {
-      "model": "opencode/big-pickel",
+      "model": "opencode/big-pickle",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle"
@@ -49,7 +49,7 @@
       "color": "#56b6c2"
     },
     "metis": {
-      "model": "opencode/big-pickel",
+      "model": "opencode/big-pickle",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle"
@@ -57,7 +57,7 @@
       "color": "#c678dd"
     },
     "momus": {
-      "model": "opencode/big-pickel",
+      "model": "opencode/big-pickle",
       "variant": "xhigh",
       "fallback_models": [
         "opencode/big-pickle"
@@ -65,7 +65,7 @@
       "color": "#61afef"
     },
     "atlas": {
-      "model": "opencode/big-pickel",
+      "model": "opencode/big-pickle",
       "fallback_models": [
         "opencode/big-pickle"
       ],
@@ -86,7 +86,7 @@
     "librarian": {
       "model": "opencode/big-pickle",
       "fallback_models": [
-        "opencode/big-pickel"
+        "opencode/big-pickle"
       ],
       "color": "#98c379"
     }
@@ -173,7 +173,7 @@
       ]
     },
     "unspecified-high": {
-      "model": "opencode/big-pickel",
+      "model": "opencode/big-pickle",
       "fallback_models": [
         {
           "model": "opencode/gpt-5.3-codex",
