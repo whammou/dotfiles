@@ -5,7 +5,7 @@
       "model": "opencode/big-pickle",
       "variant": "max",
       "fallback_models": [
-        "opencode/minimax-m2.5-free"
+        "opencode/big-pickle"
       ],
       "color": "#c678dd"
     },
@@ -13,7 +13,7 @@
       "model": "cerebras/gpt-oss-120b",
       "variant": "medium",
       "fallback_models": [
-        "opencode/minimax-m2.5-free"
+        "opencode/big-pickle"
       ],
       "color": "#61afef"
     },
@@ -21,14 +21,14 @@
       "model": "opencode/nemotron-3-super-free",
       "variant": "high",
       "fallback_models": [
-        "opencode/minimax-m2.5-free"
+        "opencode/big-pickle"
       ],
       "color": "#e86671"
     },
     "explore": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode/big-pickel",
       "fallback_models": [
-        "opencode/minimax-m2.5-free"
+        "opencode/big-pickel"
       ],
       "color": "#e5c07b"
     },
@@ -36,12 +36,12 @@
       "model": "opencode/mimo-v2-omni-free",
       "variant": "medium",
       "fallback_models": [
-        "opencode/minimax-m2.5-free"
+        "opencode/big-pickel"
       ],
       "color": "#d19a66"
     },
     "prometheus": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode/big-pickel",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle"
@@ -49,7 +49,7 @@
       "color": "#56b6c2"
     },
     "metis": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode/big-pickel",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle"
@@ -57,7 +57,7 @@
       "color": "#c678dd"
     },
     "momus": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode/big-pickel",
       "variant": "xhigh",
       "fallback_models": [
         "opencode/big-pickle"
@@ -65,7 +65,7 @@
       "color": "#61afef"
     },
     "atlas": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode/big-pickel",
       "fallback_models": [
         "opencode/big-pickle"
       ],
@@ -86,7 +86,7 @@
     "librarian": {
       "model": "opencode/big-pickle",
       "fallback_models": [
-        "opencode/minimax-m2.5-free"
+        "opencode/big-pickel"
       ],
       "color": "#98c379"
     }
@@ -173,7 +173,7 @@
       ]
     },
     "unspecified-high": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode/big-pickel",
       "fallback_models": [
         {
           "model": "opencode/gpt-5.3-codex",
