@@ -9,6 +9,7 @@
   "permission": {
     "read": "allow",
     "edit": "ask",
+    "doom_loop": "allow",
     "external_directory": "allow",
     "bash": {
       "rm * ": "deny"
