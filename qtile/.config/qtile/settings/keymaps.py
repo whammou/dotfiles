@@ -188,7 +188,7 @@ keymap = [
             ["b", in_terminal("bluetuith"), "pad_small"],
             [
                 "y",
-                in_terminal("yt-x", parameters="--title='Youtube - yt-x'"),
+                in_terminal("yt-x", parameters="--title='YTX | Youtube'"),
                 "pad_small",
             ],
             ["g", in_terminal("lazygit -p /home/whammou/dotfiles/"), "pad_large"],
@@ -215,7 +215,7 @@ keymap = [
                 "t",
                 in_terminal(
                     "tt --theme=mine --multi --nohighlight",
-                    parameters="--title='Typing - tt' -o font_size=20",
+                    parameters="--title='TT | Typing' -o font_size=20",
                 ),
                 "pad_typing",
             ],
@@ -224,7 +224,10 @@ keymap = [
             ["l", in_terminal("noobhub"), "pad_small"],
             [
                 "c",
-                in_terminal(".venv/calculator/bin/python -i ~/.local/bin/calc"),
+                in_terminal(
+                    ".venv/calculator/bin/python -i .local/bin/calc",
+                    parameters="--title='CAL | Calculator'",
+                ),
                 "pad_small",
             ],
             [

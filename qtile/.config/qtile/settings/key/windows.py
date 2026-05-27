@@ -1,5 +1,6 @@
 from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
+from settings.layouts import hide_floating_win, show_floating_win
 
 mod = "mod4"
 alt = "mod1"
@@ -10,9 +11,7 @@ def hide_all_floating(qtile):
     group = qtile.current_group
     for window in group.windows:
         if window.floating:
-            # logger.warning(f"Hiding window: {window.name}")
-            window.set_position_floating(9999, 9999)
-            # Optional: move the window to the bottom of the stack
+            hide_floating_win(window)
             window.keep_below()
 
 
@@ -20,7 +19,7 @@ def hide_all_floating(qtile):
 def toggle_floating(window):
     window.disable_fullscreen()
     window.toggle_floating()
-    window.center()
+    show_floating_win(window)
 
 
 @lazy.function
@@ -38,14 +37,13 @@ def floats_to_bottom(qtile):
         for window in group.windows:
             if window.floating:
                 window.keep_below()
-                window.set_position_floating(9999, 9999)
+                hide_floating_win(window)
 
 
 @lazy.window.function
 def float_to_front(window):
     if window.floating:
-        window.bring_to_front()
-        window.center()
+        show_floating_win(window)
     else:
         window.disable_floating()
 
@@ -154,32 +152,17 @@ def toggle_tiling_floating_focus(qtile):
 
     # Focus the target window if it's not already focused
     if target_window and qtile.current_window != target_window:
-        last_floating.keep_below()
-        last_floating.set_position_floating(9999, 9999)
         current_group.focus(target_window)
-        target_window.bring_to_front()
 
 
 @lazy.group.function
 def focus_back(group):
     history = group.focus_history
+    if len(history) < 2:
+        return
     target_window = history[-2]
-    current_window = history[-1]
-
-    if target_window.floating:
-        if current_window.floating:
-            target_window.center()
-            group.focus(target_window)
-            current_window.set_position_floating(9999, 9999)
-        elif not current_window.floating:
-            group.focus(target_window)
-            target_window.bring_to_front()
-            target_window.center()
-
-    elif not target_window.floating:
-        current_window.set_position_floating(-9999, -9999)
+    if target_window:
         group.focus(target_window)
-        current_window.keep_below()
 
 
 @lazy.group.function
@@ -229,24 +212,18 @@ windows_keys = [
         [mod],
         "period",
         focus_next_floating_and_front(),
-        lazy.window.center(),
-        lazy.window.bring_to_front(),
         desc="Focus next floating window",
     ),
     Key(
         [mod],
         "comma",
         focus_prev_floating_and_front(),
-        lazy.window.center(),
-        lazy.window.bring_to_front(),
         desc="Focus previous floating window",
     ),
     Key(
         [mod, "Shift"],
         "comma",
         focus_prev_floating_and_front(),
-        lazy.window.set_position_floating(9999, 9999),
-        lazy.window.keep_below(),
         desc="Focus previous floating window",
     ),
     # Resize windows
@@ -272,23 +249,10 @@ windows_keys = [
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
-    EzKey(
-        "M-<Tab>",
-        lazy.window.set_opacity(0.0).when(when_floating=True),
-        focus_back(),
-    ),
-    EzKey(
-        "M-S-<Escape>",
-        lazy.function(toggle_tiling_floating_focus),
-        lazy.window.center(),
-    ),
+    EzKey("M-<Tab>", focus_back()),
+    EzKey("M-S-<Escape>", lazy.function(toggle_tiling_floating_focus)),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
-    EzKey(
-        "M-<Escape>",
-        lazy.window.set_position_floating(9999, 9999).when(when_floating=True),
-        lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
-        floats_to_bottom(),
-    ),
+    EzKey("M-<Escape>", lazy.function(toggle_tiling_floating_focus).when(when_floating=True)),
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
     EzKey("M-f", lazy.window.toggle_fullscreen()),
     EzKey("M-S-f", toggle_floating()),

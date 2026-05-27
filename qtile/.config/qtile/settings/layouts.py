@@ -5,30 +5,39 @@ from qtile_bonsai import Bonsai
 from .screens import GAP, OFFSET
 from .theme import colors
 
-# @hook.subscribe.client_new
-# def prevent_focus_steal(client):
-#    client.__class__.can_steal_focus = property(lambda self: False)
+_last_focused = None
 
 
-# @hook.subscribe.client_new
-# def blur_floating(window):
-#    floating_rules = ["mpv-float", "feh"]
-#    for wm_class in floating_rules:
-#        if wm_class == window.wm_class:
-#            window.set_position_floating(9999, 9999)
+def hide_floating_win(window):
+    """Hide a floating window off-screen."""
+    if window.floating and not window.fullscreen:
+        window.set_position_floating(-9999, -9999)
 
 
-# @hook.subscribe.client_focus
-# def set_hint(window):
-#    window.window.set_property(
-#        "IS_FLOATING", str(window.floating), type="STRING", format=8
-#    )
+def show_floating_win(window):
+    """Show a floating window centered and at front."""
+    if window.floating and not window.fullscreen:
+        window.bring_to_front()
+        window.center()
 
 
 @hook.subscribe.client_managed
 def hide_floating(window):
-    if window.floating:
-        window.set_position_floating(-9999, -9999)
+    hide_floating_win(window)
+
+
+@hook.subscribe.client_focus
+def on_client_focus(window):
+    global _last_focused
+
+    if _last_focused is not None and _last_focused.floating:
+        try:
+            hide_floating_win(_last_focused)
+        except (AttributeError, RuntimeError):
+            pass
+
+    show_floating_win(window)
+    _last_focused = window
 
 
 # @hook.subscribe.group_window_add
@@ -57,12 +66,9 @@ class MyCustomBonsai(Bonsai):
 def maintain_focus(group, window):
     prev_window = group.current_window
     if prev_window is not None:
-        # If we're about to refocus a floating win, also take care of the required
-        # refocus in the background layout.
         if prev_window.floating:
             group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
         group.qtile.call_soon(lambda: group.focus(prev_window))
-        group.qtile.call_soon(lambda: group.current_window.bring_to_front())
 
 
 @hook.subscribe.client_killed
@@ -74,8 +80,6 @@ def after_kill_fallback(window):
         group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
         if current_window.floating:
             group.qtile.call_soon(lambda: group.focus(current_window))
-            group.qtile.call_soon(current_window.center)
-            group.qtile.call_soon(current_window.bring_to_front)
 
 
 BORDER_WIDTH = 3
