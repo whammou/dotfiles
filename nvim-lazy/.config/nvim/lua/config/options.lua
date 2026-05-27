@@ -9,20 +9,20 @@ local opt = vim.opt
 
 vim.opt.title = true
 vim.opt.titlelen = 0 -- do not shorten title
-vim.opt.titlestring = "%F - nvim"
+vim.opt.titlestring = "NVIM | %F"
 
 opt.autochdir = true
 opt.autoread = true
 opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,winpos,terminal,localoptions,resize"
 
---opt.foldmethod = "indent"
 --opt.foldtext = ""
 
 --opt.foldmethod = "expr"
 --opt.foldexpr = "v:vim.treesitter.foldexpr()"
 --opt.foldlevel = 99
-opt.foldlevelstart = 99
-opt.foldminlines = 0
+--opt.foldmethod = "indent"
+--opt.foldlevelstart = 99
+--opt.foldminlines = 99
 opt.fillchars = [[diff:╱,eob: ,fold: ,foldclose: ,foldopen:,foldsep: ]]
 
 vim.opt.wrap = true

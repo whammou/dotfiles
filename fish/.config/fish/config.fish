@@ -9,7 +9,7 @@ end
 
 function fish_title
     set -q argv[1]; or set argv fish
-    echo (pwd)" - fish"
+    echo "FISH | "(pwd)
 end
 
 #set fish_cursor_default block

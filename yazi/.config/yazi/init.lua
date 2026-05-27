@@ -1,5 +1,5 @@
 ps.sub("ind-app-title", function(args)
-	args.value = tostring(cx.active.current.cwd) .. " - yazi"
+	args.value = "YAZI | " .. tostring(cx.active.current.cwd)
 	return args
 end)
 
