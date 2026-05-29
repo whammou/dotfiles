@@ -1,6 +1,17 @@
+# though format sort would be better just recently discovered it lol check the mpv faq above to see how or the official readme
+-S res:1080,vcodec:avc1,acodec:m4a
+--embed-chapters
+--sponsorblock-mark all
+--embed-metadata
+--embed-thumbnail
+--add-metadata
+--embed-subs
 --write-subs
 --write-auto-subs
---sub-langs "en.*"
-
---sponsorblock-mark all
--S res:1080,vcodec:avc1,acodec:m4a
+--compat-options no-keep-subs
+--sub-lang en,en-en
+--merge-output-format mkv
+--no-warnings
+--quiet
+--reject-title "\[Deleted video\]|\[Private video\]"
+--progress
