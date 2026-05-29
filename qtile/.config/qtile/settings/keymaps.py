@@ -52,7 +52,7 @@ keymap = [
             [
                 "o",
                 in_terminal(
-                    "opencode attach -p Unlimitednova199- http://whamlab.sytes.net:5000 --dir /home/whammou --continue",
+                    "opencode attach -p Unlimitednova199- https://opencode.whammou.dedyn.io --dir /home/whammou --continue",
                     parameters="--hold",
                 ),
                 "pad_small",
@@ -135,7 +135,6 @@ keymap = [
             ["l", in_terminal("orgmode-backlog"), "pad_large"],
             ["z", in_terminal("orgmode-browse"), "pad_large"],
             ["o", in_terminal("orgmode-super-agenda"), "pad_large"],
-            ["n", in_terminal("yazi /home/whammou/Journal"), "pad_large"],
             ["g", in_terminal("lazygit -p /home/whammou/Journal"), "pad_large"],
             ["c", in_terminal("orgmode-capture"), "pad_small"],
             ["d", in_terminal("orgroam-capture"), "pad_small"],
@@ -148,6 +147,7 @@ keymap = [
         "cmd": [
             ["h", in_terminal("yazi $HOME"), "pad_medium"],
             ["s", in_terminal("yazi sftp://homelab"), "pad_medium"],
+            ["n", in_terminal("yazi /home/whammou/Journal"), "pad_large"],
         ],
     },
     {

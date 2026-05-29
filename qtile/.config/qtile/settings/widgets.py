@@ -90,7 +90,7 @@ def disk_free():
     return widget.DF(
         **base(fg="red"),
         partition="/home",
-        format="{uf}{m}",
+        format="{uf:.0f}{m}",
         # format = "{r: 0.0f}",
         fmt="󰋊 FREE: {}  ",
         visible_on_warn=False,
