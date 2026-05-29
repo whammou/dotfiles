@@ -7,7 +7,7 @@ return {
   },
   {
     "hxueh/beancount.nvim",
-    ft = { "beancount", "bean" },
+    event = { "FileType beancount", "FileType bean" },
     dependencies = {
       {
         "saghen/blink.cmp",
