@@ -6,6 +6,7 @@ template: eisvogel
 pdf-engine: xelatex
 
 include-in-header:
+  - ${USERDATA}/headline-preserve.tex
   - ${USERDATA}/eisvogel-tcolorbox.tex
   - ${USERDATA}/verbatim.tex
 

@@ -1,0 +1,13 @@
+% Orphan-headline prevention for KOMA-Script (scrartcl/scrreprt/scrbook)
+\usepackage{needspace}
+\usepackage[defaultlines=2,all]{nowidow}
+\makeatletter
+\@secpenalty\@M
+\makeatother
+
+% Use kernel hooks to prepend Needspace to native KOMA section commands.
+% This keeps all KOMA-Script features intact (no warnings), while ensuring
+% headings have enough room before being placed on a page.
+\AddToHook{cmd/section/before}{\Needspace{12\baselineskip}}
+\AddToHook{cmd/subsection/before}{\Needspace{10\baselineskip}}
+\AddToHook{cmd/subsubsection/before}{\Needspace{8\baselineskip}}
