@@ -5,7 +5,7 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 
 # BROWSER SETTINGS
 # c.editor.command = ["kitty", "nvim", "{file}"]
-c.window.title_format = "[{scroll_pos}] {current_title}"
+c.window.title_format = "QB | [{scroll_pos}] {current_title}"
 c.editor.command = [
     "kitty",
     "--single-instance",
@@ -67,11 +67,12 @@ c.completion.open_categories = [
 
 
 searxngInstance = "https://opnxng.com"
+google = "https://google.com/search?q={}"
 # searxngInstance = "https://searx.namejeff.xyz/"
 # searxngInstance = "https://search.hbubli.cc/"
 searxngQuery = searxngInstance + "/search?q={}"
 searxngSearch = {
-    "DEFAULT": searxngQuery,
+    "DEFAULT": google,
     "xi": searxngQuery + "&categories=it",
     "xv": searxngQuery + "&categories=videos",
     "xm": searxngQuery + "&categories=images",
