@@ -66,6 +66,38 @@ local function para_to_latex(para)
   return text
 end
 
+local function block_to_latex(block)
+  if block.t == "Para" then
+    return para_to_latex(block)
+  elseif block.t == "BulletList" then
+    local lines = {}
+    for _, item in ipairs(block.c) do
+      local item_lines = {}
+      for _, subblock in ipairs(item) do
+        table.insert(item_lines, "  \\item " .. block_to_latex(subblock))
+      end
+      table.insert(lines, table.concat(item_lines, "\n"))
+    end
+    return "\\begin{itemize}\n" .. table.concat(lines, "\n") .. "\n\\end{itemize}"
+  elseif block.t == "OrderedList" then
+    local lines = {}
+    for _, item in ipairs(block.c) do
+      local item_lines = {}
+      for _, subblock in ipairs(item) do
+        table.insert(item_lines, "  \\item " .. block_to_latex(subblock))
+      end
+      table.insert(lines, table.concat(item_lines, "\n"))
+    end
+    return "\\begin{enumerate}\n" .. table.concat(lines, "\n") .. "\n\\end{enumerate}"
+  elseif block.t == "Plain" then
+    return para_to_latex(block)
+  elseif block.t == "RawBlock" and block.format == "latex" then
+    return block.text
+  else
+    return pandoc.utils.stringify(block)
+  end
+end
+
 function BlockQuote(block)
   if #block.c == 0 then
     return block
@@ -90,16 +122,32 @@ function BlockQuote(block)
   end
   
   local env_name = admonition_map[ad_name]
-  local content_parts = {}
+  local children = {}
   
-  for i, para in ipairs(block.c) do
-    local para_content = para_to_latex(para)
-    if para_content ~= "" then
-      table.insert(content_parts, para_content)
+  local marker_stripped = pandoc.Para({})
+  for _, elem in ipairs(block.c[1].c) do
+    if elem.t == "Str" then
+      local cleaned = elem.text:gsub("%[!([A-Z]+)%]%s*", "")
+      if cleaned ~= "" then
+        table.insert(marker_stripped.c, pandoc.Str(cleaned))
+      end
+    else
+      table.insert(marker_stripped.c, elem)
+    end
+  end
+  local header_latex = para_to_latex(marker_stripped)
+  if header_latex ~= "" then
+    table.insert(children, header_latex)
+  end
+  
+  for i = 2, #block.c do
+    local content = block_to_latex(block.c[i])
+    if content ~= "" then
+      table.insert(children, content)
     end
   end
   
-  local content = table.concat(content_parts, "\\\\\n")
+  local content = table.concat(children, "\n")
   
   local latex = string.format(
     '\\begin{%s}%s\\end{%s}',
