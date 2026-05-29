@@ -16,41 +16,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.cmd([[highlight Headline1 guibg=#2b3c44]])
-vim.cmd([[highlight Headline2 guibg=#393247]])
-vim.cmd([[highlight Headline3 guibg=#2c3949]])
-vim.cmd([[highlight Headline4 guibg=#3d3c39]])
-vim.cmd([[highlight Headline5 guibg=#333d39]])
-vim.cmd([[highlight Headline6 guibg=#3e323a]])
-
-vim.cmd([[highlight Dash gui=bold]])
-
-require("headlines").setup({
-  markdown = {
-    headline_highlights = false,
-    bullets_highlights = false,
-    codeblock_highlight = false,
-    dash_highlight = false,
-    quote_highlight = false,
-  },
-  org = {
-    headline_highlights = {
-      "Headline1",
-      "Headline2",
-      "Headline3",
-      "Headline4",
-      "Headline5",
-      "Headline6",
-    },
-    -- bullets = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
-    bullets = { "󰫃", "󰫄", "󰫅", "󰫆", "󰫇", "󰫈" },
-    codeblock_highlight = "Codeblock",
-    dash_highlight = "Comment",
-    dash_string = "─",
-    fat_headlines = true,
-  },
-})
-
 require("org-bullets").setup({
   concealcursor = true,
   symbols = {

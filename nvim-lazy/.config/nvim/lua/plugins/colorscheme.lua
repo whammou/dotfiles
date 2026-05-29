@@ -101,6 +101,7 @@ return {
         ["CursorLineNr"] = { fg = "$orange", fmt = "bold" },
         ["Cursor"] = { fg = "$fg" },
         ["CodeBlock"] = { bg = "$bg3" },
+        ["FoldedDefault"] = { bg = "$dimmed_cyan" },
 
         -- Which-key
         ["WhichKeyDesc"] = { fg = "$green" },
@@ -122,6 +123,12 @@ return {
         ["NeoTreeGitUntracked"] = { fg = "$purple" },
         ["NeoTreeWinseparator"] = { bg = "none" },
         ["NeoTreeRootName"] = { fg = "$blue" },
+        -- Neo-tree source selector tab bar
+        ["NeoTreeTabBarBg"] = { bg = "$bg_d" },
+        ["NeoTreeTabBarInactive"] = { bg = "$bg_d", fg = "$grey" },
+        ["NeoTreeTabBarActive"] = { bg = "$bg0", fg = "$fg", fmt = "bold" },
+        ["NeoTreeTabBarSepInactive"] = { bg = "$bg_d", fg = "$bg3" },
+        ["NeoTreeTabBarSepActive"] = { bg = "$bg0", fg = "$bg3" },
       },
     },
   },

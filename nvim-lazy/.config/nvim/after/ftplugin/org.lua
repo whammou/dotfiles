@@ -1,6 +1,6 @@
 vim.opt_local.formatoptions:remove({ "c", "r", "o" })
-vim.opt_local.foldlevel = 1
-vim.opt_local.foldlevelstart = 98
+vim.opt_local.foldlevel = 0
+vim.opt_local.foldlevelstart = 1
 vim.opt_local.foldminlines = 1
 vim.opt_local.cmdheight = 0
 vim.opt_local.wrap = true
@@ -14,6 +14,10 @@ vim.opt_local.formatlistpat = [[^\s*\%([-+*]\s\+\|\d\+\.\s\+\|[a-zA-Z]\+\.\s\+\)
 vim.opt_local.showbreak = "NONE"
 vim.opt_local.conceallevel = 3
 vim.opt_local.concealcursor = "nc"
+
+vim.keymap.set("n", "<leader>og", function()
+  vim.fn.jobstart("qutebrowser_quick http://192.168.0.104:5173", { detach = true })
+end, { desc = "org graph" })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "org",

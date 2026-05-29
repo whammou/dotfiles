@@ -6,11 +6,6 @@ return {
     ft = "markdown",
     dependencies = {
       {
-        "lukas-reineke/headlines.nvim",
-        lazy = true,
-        opts = {},
-      },
-      {
         "willchao612/vim-diagon",
         lazy = true,
       },

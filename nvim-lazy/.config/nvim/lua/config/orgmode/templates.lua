@@ -20,13 +20,11 @@ local capture_templates = {
         description = "Major milestone capture",
         template = task_template,
         target = org_milestone .. "/milestones/major.org",
-        headline = "Major Milestones",
       },
       m = {
         description = "Minor milestone capture",
         template = task_template,
         target = org_milestone .. "/milestones/minor.org",
-        headline = "Minor Milestones",
       },
     },
   },
@@ -35,7 +33,6 @@ local capture_templates = {
     description = "Document Capture",
     template = task_template,
     target = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "draft.org") .. "}/draft.org",
-    headline = "Document Drafts",
   },
 
   e = {
@@ -45,25 +42,21 @@ local capture_templates = {
         description = "Bug report",
         template = task_template,
         target = org_dev .. "/dev/bug.org",
-        headline = "Bugs List",
       },
       i = {
         description = "Issue capture",
         template = task_template,
         target = org_dev .. "/dev/issue.org",
-        headline = "Issues List",
       },
       e = {
         description = "Enhancement capture",
         template = task_template,
         target = org_dev .. "/dev/enhancement.org",
-        headline = "Enhancements List",
       },
       r = {
         description = "Refactor capture",
         template = task_template,
         target = org_dev .. "/dev/refactor.org",
-        headline = "Refactor Tickets",
       },
     },
   },
@@ -75,31 +68,26 @@ local capture_templates = {
         description = "Oneoff Tasks",
         template = task_template,
         target = org_tasks .. "/tasks/oneoff.org",
-        headline = "List of Oneoff Tasks",
       },
       i = {
         description = "Incidental Tasks",
         template = task_template,
         target = org_tasks .. "/tasks/incidental.org",
-        headline = "List of Incidental Tasks",
       },
       c = {
         description = "Coordinated Tasks",
         template = task_template,
         target = org_tasks .. "/tasks/coordinated.org",
-        headline = "List of Coordinated Tasks",
       },
       p = {
         description = "Planned Tasks",
         template = task_template,
         target = org_tasks .. "/tasks/planned.org",
-        headline = "List of Planned Tasks",
       },
       r = {
         description = "Recurring Tasks",
         template = task_template,
         target = org_tasks .. "/tasks/recurring.org",
-        headline = "List of Recurring Tasks",
       },
     },
   },
@@ -111,13 +99,11 @@ local capture_templates = {
         description = "Purchase List",
         template = "** %<%Y%m%d> - %^{List Title}\n:PROPERTIES:\n:CREATED_ON: %<%y%m%d>\n:END:\n%?",
         target = org_lists .. "/lists/purchase.org",
-        headline = "Purchase Lists",
       },
       l = {
         description = "Location List",
         template = "** %^{Enter Location Name}",
         target = org_lists .. "/lists/location.org",
-        headline = "Location List",
       },
     },
   },
@@ -128,7 +114,7 @@ local roam_template = {
     description = "Report bug",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Bugs List :typDev:catBug:meta:
+#+FILETAGS: :typDev:catBug:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/bug.org",
   },
@@ -136,7 +122,7 @@ local roam_template = {
     description = "New issue",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Issues List :typDev:catIssue:meta:
+#+FILETAGS: :typDev:catIssue:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/issue.org",
   },
@@ -144,7 +130,7 @@ local roam_template = {
     description = "New enhancement",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Enhancements List :typDev:catEnhancement:meta:
+#+FILETAGS: :typDev:catEnhancement:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org",
   },
@@ -152,7 +138,7 @@ local roam_template = {
     description = "Refactor Tickets",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Refactor Tickets :typDev:catRefactor:meta:
+#+FILETAGS: :typDev:catRefactor:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/refactor.org",
   },
@@ -160,7 +146,7 @@ local roam_template = {
     description = "Minor Milestone",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Minor Milestones :typMilestone:catMinor:meta:
+#+FILETAGS: :typMilestone:catMinor:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/minor.org",
   },
@@ -168,7 +154,7 @@ local roam_template = {
     description = "Major Milestone",
     template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-* Major Milestones :typMilestone:catMajor:meta:
+#+FILETAGS: :typMilestone:catMajor:
 %?]],
     target = "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/major.org",
   },

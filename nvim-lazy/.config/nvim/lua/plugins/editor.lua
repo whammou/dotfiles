@@ -1,11 +1,15 @@
--- Neo-tree source selector highlight groups matching bufferline `#21252b` fill
-vim.api.nvim_set_hl(0, "NeoTreeTabBarBg", { bg = "#21252b" })
-vim.api.nvim_set_hl(0, "NeoTreeTabBarInactive", { bg = "#1c2028", fg = "#5c6370" })
-vim.api.nvim_set_hl(0, "NeoTreeTabBarActive", { bg = "#2b303b", fg = "#e5e7eb", bold = true })
-vim.api.nvim_set_hl(0, "NeoTreeTabBarSepInactive", { bg = "#21252b", fg = "#3b4048" })
-vim.api.nvim_set_hl(0, "NeoTreeTabBarSepActive", { bg = "#2b303b", fg = "#3b4048" })
+-- Neo-tree source selector highlights defined in colorscheme.lua (onedark opts.highlights)
+-- to avoid being wiped by onedark's `hi clear` during colorscheme application.
 
 return {
+  {
+    "lukas-reineke/headlines.nvim",
+    lazy = true,
+    event = { "FileType org", "FileType markdown" },
+    config = function()
+      require("config.editor")
+    end,
+  },
   {
     "nvim-neo-tree/neo-tree.nvim",
     lazy = true,
