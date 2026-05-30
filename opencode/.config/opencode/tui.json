@@ -15,7 +15,7 @@
     "session_timeline": "<leader>g",
     "session_share": "none",
     "session_unshare": "none",
-    "session_interrupt": "ctrl+shift+k",
+    "session_interrupt": "shift+alt+k",
     "session_compact": "<leader>c",
     "session_child_cycle": "ctrl+right",
     "session_child_cycle_reverse": "ctrl+left",

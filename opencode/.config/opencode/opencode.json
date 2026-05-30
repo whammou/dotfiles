@@ -8,7 +8,7 @@
   ],
   "permission": {
     "read": "allow",
-    "edit": "ask",
+    "edit": "allow",
     "doom_loop": "allow",
     "external_directory": "allow",
     "bash": {
