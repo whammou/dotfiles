@@ -34,3 +34,6 @@ opencode/.config/opencode/node_modules
 /qutebrowser/.config/qutebrowser/.unison.autoconfig.yml.86f6db085345f920a1e52b18834f85a7.unison.tmp
 .sisyphus/
 .omo/
+.unison*
+/w3m/.w3m/history
+/w3m/.w3m/cookie
