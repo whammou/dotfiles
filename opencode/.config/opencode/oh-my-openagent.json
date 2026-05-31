@@ -7,14 +7,16 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "orchestrator",
       "color": "#c678dd"
     },
     "hephaestus": {
-      "model": "cerebras/gpt-oss-120b",
+      "model": "opencode/big-pickle",
       "variant": "medium",
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "builder",
       "color": "#61afef"
     },
     "oracle": {
@@ -23,6 +25,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "sage",
       "color": "#e86671"
     },
     "explore": {
@@ -30,6 +33,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "scout",
       "color": "#e5c07b"
     },
     "multimodal-looker": {
@@ -38,6 +42,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "inspector",
       "color": "#d19a66"
     },
     "prometheus": {
@@ -46,6 +51,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "planner",
       "color": "#56b6c2"
     },
     "metis": {
@@ -54,6 +60,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "analyst",
       "color": "#c678dd"
     },
     "momus": {
@@ -62,6 +69,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "critic",
       "color": "#61afef"
     },
     "atlas": {
@@ -69,9 +77,11 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "runner",
       "color": "#abb2bf"
     },
     "sisyphus-junior": {
+      "displayName": "junior",
       "model": "opencode/claude-sonnet-4-6",
       "fallback_models": [
         {
@@ -88,6 +98,7 @@
       "fallback_models": [
         "opencode/big-pickle"
       ],
+      "displayName": "archivist",
       "color": "#98c379"
     }
   },
