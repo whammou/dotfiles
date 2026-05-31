@@ -1,0 +1,1 @@
+image/*; mpv --profile=image %s

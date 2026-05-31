@@ -1,0 +1,24 @@
+# Vim-style page movement
+keymap	C-f	NEXT_PAGE
+keymap	C-b	PREV_PAGE
+keymap	C-d	NEXT_HALF_PAGE
+keymap	C-u	PREV_HALF_PAGE
+
+# Smooth scrolling - slide at page edges
+keymap	j	MOVE_DOWN1
+keymap	k	MOVE_UP1
+
+# Neovim-style history navigation (C-o / C-i)
+# NOTE: C-i = TAB in ASCII, replaces TAB for NEXT_LINK
+keymap	C-o	BACK
+keymap	C-i	NEXT
+
+# Link navigation moved to C-n / C-p (was on C-i/TAB and M-TAB)
+keymap	C-n	NEXT_LINK
+keymap	C-p	PREV_LINK
+
+# Buffer stack list
+keymap	B	SELECT_MENU
+
+# Help on Alt+h
+keymap	M-h	HELP
