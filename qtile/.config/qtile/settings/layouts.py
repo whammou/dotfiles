@@ -6,6 +6,7 @@ from .screens import GAP, OFFSET
 from .theme import colors
 
 _last_focused = None
+_suppress_floating_hide = False
 
 
 def hide_floating_win(window):
@@ -26,11 +27,30 @@ def hide_floating(window):
     hide_floating_win(window)
 
 
+def restore_tree_view(group):
+    """Restore Bonsai's tree view to show the last tiled window's tab."""
+    if group.layout.last_focused_window:
+        group.layout.focus(group.layout.last_focused_window)
+        group.layout_all()
+
+
+def restore_focus(window):
+    """Restore focus to window and re-enable floating hide."""
+    global _suppress_floating_hide
+    _suppress_floating_hide = False
+    if window.group is not None:
+        window.group.focus(window)
+
+
 @hook.subscribe.client_focus
 def on_client_focus(window):
-    global _last_focused
+    global _last_focused, _suppress_floating_hide
 
-    if _last_focused is not None and _last_focused.floating:
+    if (
+        _last_focused is not None
+        and _last_focused.floating
+        and not _suppress_floating_hide
+    ):
         try:
             hide_floating_win(_last_focused)
         except (AttributeError, RuntimeError):
@@ -64,11 +84,17 @@ class MyCustomBonsai(Bonsai):
 
 @hook.subscribe.group_window_add
 def maintain_focus(group, window):
+    global _suppress_floating_hide
+
     prev_window = group.current_window
     if prev_window is not None:
         if prev_window.floating:
-            group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
-        group.qtile.call_soon(lambda: group.focus(prev_window))
+            _suppress_floating_hide = True
+            # Deferred: Qtile's auto-focus of the new window will
+            # update the tree view to B's tab via Bonsai.focus(new).
+            # Run AFTER that to restore view to the last tiled tab.
+            group.qtile.call_soon(lambda: restore_tree_view(group))
+        group.qtile.call_soon(lambda: restore_focus(prev_window))
 
 
 @hook.subscribe.client_killed
