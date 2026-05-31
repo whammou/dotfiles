@@ -1,0 +1,16 @@
+% Org-mode priority badge styling (used by org-priority.lua filter)
+% The filter emits \orgpriority{LEVEL} when pri:t is active (default).
+% When pri:nil, the filter strips all priority cookies, so \orgpriority
+% is never called from the document body -- this definition is harmless
+% either way.
+\definecolor{priority-A}{HTML}{DA3633}
+\definecolor{priority-B}{HTML}{9E6A03}
+\definecolor{priority-C}{HTML}{3FB950}
+\newcommand{\orgpriority}[1]{%
+  {\normalfont\sffamily\bfseries\small%
+    \if A#1\color{priority-A}\else
+    \if B#1\color{priority-B}\else
+    \if C#1\color{priority-C}\fi\fi\fi
+    [#1]%
+  }%
+}

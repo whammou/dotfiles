@@ -9,12 +9,14 @@ include-in-header:
   - ${USERDATA}/headline-preserve.tex
   - ${USERDATA}/eisvogel-tcolorbox.tex
   - ${USERDATA}/verbatim.tex
+  - ${USERDATA}/org-priority.tex
 
 filters:
   - table-fix.lua
   - verbatim-style.lua
   - org-html-image.lua
   - org-admonitions.lua
+  - org-priority.lua
   - mermaid-filter
 
 from: org
