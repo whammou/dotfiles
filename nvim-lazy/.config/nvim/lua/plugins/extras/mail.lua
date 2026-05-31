@@ -13,18 +13,19 @@ return {
   },
   {
     "martineausimon/nvim-mail-merge",
-    lazy = true,
-    event = { "FileType markdown", "FileType mail" },
+    -- lazy = true,
+    -- event = { "FileType markdown", "FileType mail" },
+    ft = { "markdown", "mail" },
     config = function()
       require("config.mail")
     end,
   },
   {
     "Konfekt/vim-notmuch-addrlookup",
-    lazy = true,
-    event = "FileType mail",
+    ft = { "mail", "markdown", "org" },
     init = function()
       vim.g.notmuch_filter = 1
+      vim.g.notmuch_filetypes = { "mail", "markdown", "org" }
     end,
   },
 }

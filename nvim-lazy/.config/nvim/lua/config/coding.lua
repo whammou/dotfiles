@@ -45,9 +45,14 @@ blink.setup({
       },
       omni = {
         module = "blink.cmp.sources.complete_func",
-        enabled = function() return vim.bo.omnifunc ~= 'v:lua.vim.lsp.omnifunc' end,
+        async = true,
+        enabled = function()
+          return vim.bo.omnifunc ~= "v:lua.vim.lsp.omnifunc"
+        end,
         opts = {
-          complete_func = function() return vim.bo.omnifunc end,
+          complete_func = function()
+            return vim.bo.omnifunc
+          end,
         },
       },
       path = {
@@ -77,8 +82,8 @@ blink.setup({
     },
     default = { "lsp", "path", "snippets", "buffer" },
     per_filetype = {
-      org = { "lsp", "path", "snippets" },
-      markdown = { "lsp", "path", "snippets" },
+      org = { "lsp", "path", "snippets", "omni" },
+      markdown = { "lsp", "path", "snippets", "omni" },
       mail = { "omni" },
     },
   },

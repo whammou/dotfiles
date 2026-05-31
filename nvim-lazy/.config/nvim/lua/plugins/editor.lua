@@ -4,8 +4,9 @@
 return {
   {
     "lukas-reineke/headlines.nvim",
-    lazy = true,
-    event = { "FileType org", "FileType markdown" },
+    -- lazy = true,
+    -- event = "VeryLazy",
+    ft = { "markdown", "org" },
     config = function()
       require("config.editor")
     end,

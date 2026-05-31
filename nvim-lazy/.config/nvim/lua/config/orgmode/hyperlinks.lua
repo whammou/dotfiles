@@ -11,10 +11,8 @@ function LinkPingType:follow(link)
   if not vim.startswith(link, "ping:") then
     return false
   end
-  -- Get the part after the `ping:` part
   local url = link:sub(6)
-  -- Open terminal in vertical split and ping the URL
-  vim.cmd("vsplit | term ping " .. url)
+  Snacks.terminal.open({ "ping", url }, { win = { position = "right", width = 0.5 } })
   return true
 end
 
@@ -45,10 +43,8 @@ function RunShellCommand:follow(link)
   if not vim.startswith(link, "shell:") then
     return false
   end
-  -- Get the part after the `ping:` part
   local command = link:sub(7)
-  -- Open terminal in vertical split and ping the URL
-  vim.cmd("split | term " .. command)
+  Snacks.terminal.open(command, { win = { position = "bottom", height = 0.5 } })
   return true
 end
 
@@ -59,16 +55,15 @@ function SendMail:get_name()
   return "mailto"
 end
 
----@param link string - The current value of the link, for example: "ping:google.com"
+---@param link string - The current value of the link, for example: "mailto: user@domain.com <user@domain.com>"
 ---@return boolean - When true, link was handled, when false, continue to the next source
 function SendMail:follow(link)
   if not vim.startswith(link, "mailto:") then
     return false
   end
-  -- Get the part after the `ping:` part
   local mail = link:sub(8)
-  -- Open terminal in vertical split and ping the URL
-  vim.cmd("split | term neomutt -- " .. mail)
+  mail = vim.trim(mail)
+  Snacks.terminal.open({ "neomutt", "--", mail }, { win = { position = "bottom", height = 0.5 } })
   return true
 end
 
