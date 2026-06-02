@@ -97,7 +97,7 @@
         "opencode/big-pickle"
       ],
       "color": "#d19a66",
-      "mode": "subagent",
+      "mode": "all",
       "description": "Mentor for studying programming concepts and understanding codebases",
       "skills": [
         "case-study-mentor"
