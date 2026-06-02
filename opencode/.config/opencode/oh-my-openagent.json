@@ -89,6 +89,19 @@
         "opencode/big-pickle"
       ],
       "color": "#98c379"
+    },
+    "case-study-mentor": {
+      "model": "opencode/big-pickle",
+      "variant": "max",
+      "fallback_models": [
+        "opencode/big-pickle"
+      ],
+      "color": "#d19a66",
+      "mode": "subagent",
+      "description": "Mentor for studying programming concepts and understanding codebases",
+      "skills": [
+        "case-study-mentor"
+      ]
     }
   },
   "categories": {
