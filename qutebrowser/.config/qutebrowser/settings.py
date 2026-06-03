@@ -82,6 +82,7 @@ searxngSearch = {
     "xc": searxngQuery + "&categories=science",
     "xf": searxngQuery + "&categories=files",
     "xs": searxngQuery + "&categories=social%20media",
+    "xx": searxngQuery,
     "aa": "https://annas-archive.li/search?q={}",
     "gg": "https://www.google.com/search?q={}",
     "bb": "https://search.brave.com/search?q={}",

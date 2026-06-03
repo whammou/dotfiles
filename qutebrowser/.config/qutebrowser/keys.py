@@ -30,6 +30,11 @@ config.bind(
     mode="insert",
 )
 config.bind(
+    "<Escape>",
+    "spawn fcitx5-remote -s keyboard-us",
+    mode="normal",
+)
+config.bind(
     "<Control-i>",
     "set statusbar.show in-mode ;; spawn fcitx5-remote -s unikey",
     mode="insert",

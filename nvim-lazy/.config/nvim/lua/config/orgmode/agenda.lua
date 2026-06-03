@@ -41,7 +41,7 @@ local task_agenda = {
   },
   {
     type = "tags_todo",
-    match = '+PRIORITY>="A"',
+    match = 'typTask+PRIORITY>="C"',
     org_agenda_overriding_header = "Global list of High Priority tasks",
   },
   {

@@ -41,16 +41,17 @@ disabled = true
 tag_symbol = " tag "
 
 [git_status]
-conflicted = '='
-ahead = '⇡'
-behind = '⇣'
-diverged = '⇕'
-untracked = '?'
-stashed = '$'
-modified = '!'
-staged = '+'
-renamed = '»'
-deleted = '✘'
+style = "bold red"
+conflicted = ' 󰅗 '
+ahead = ' ⇡ '
+behind = ' ⇣ '
+diverged = ' ⇕ '
+untracked = ' 󰐖 '
+stashed = ' 󰏗 '
+modified = ' 󰝤 '
+staged = '  '
+renamed = ' 󰏬 '
+deleted = '  '
 
 [aws]
 symbol = "  "
@@ -83,10 +84,10 @@ symbol = " "
 symbol = " "
 
 [fossil_branch]
-symbol = " "
+symbol = " "
 
 [git_branch]
-symbol = " "
+symbol = " "
 style = "bold yellow"
 
 [golang]
@@ -102,7 +103,7 @@ symbol = " "
 symbol = " "
 
 [hg_branch]
-symbol = " "
+symbol = " "
 
 [hostname]
 ssh_only = false

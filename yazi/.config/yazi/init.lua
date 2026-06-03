@@ -10,9 +10,11 @@ th.git.modified = ui.Style():fg(orange):bold() --orange
 th.git.deleted = ui.Style():fg("red"):bold()
 th.git.added = ui.Style():fg("green"):bold()
 th.git = th.git or {}
-th.git.modified_sign = ""
-th.git.deleted_sign = "✖"
-th.git.added_sign = "✚"
+th.git.modified_sign = "󰝤"
+th.git.deleted_sign = ""
+th.git.added_sign = ""
+th.git.untracked_sign = "󰐖"
+th.git.ignored_sign = "󰿠"
 
 require("git"):setup({
 	order = 1500,

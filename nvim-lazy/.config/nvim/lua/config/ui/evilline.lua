@@ -215,11 +215,11 @@ ins_right({
 ins_right({
   "diff",
   -- Is it me or the symbol for modified us really weird
-  symbols = { added = "✚ ", modified = " ", removed = "✖ " },
+  symbols = { added = " ", modified = "󰝤 ", removed = " " },
   diff_color = {
-    added = { fg = colors.green },
-    modified = { fg = colors.orange },
-    removed = { fg = colors.red },
+    added = { fg = colors.green, gui = "bold" },
+    modified = { fg = colors.orange, gui = "bold" },
+    removed = { fg = colors.red, gui = "bold" },
   },
   -- cond = conditions.hide_in_width,
 })

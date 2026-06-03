@@ -4,7 +4,7 @@
 return {
   {
     "lukas-reineke/headlines.nvim",
-    -- lazy = true,
+    lazy = true,
     -- event = "VeryLazy",
     ft = { "markdown", "org" },
     config = function()
@@ -58,20 +58,20 @@ return {
         show_separator_on_edge = false,
       },
       window = {
-        width = "25",
+        width = 25,
       },
       default_component_configs = {
         git_status = {
           symbols = {
-            added = "✚",
-            modified = "",
-            deleted = "✖",
-            renamed = "󰁕",
-            untracked = "",
-            ignored = "",
-            unstaged = "󰄱",
-            staged = "",
-            conflict = "",
+            added = "",
+            modified = "󰝤",
+            deleted = "",
+            renamed = "󰏬",
+            untracked = "󰐖",
+            ignored = "󰿠",
+            unstaged = "󰍵",
+            staged = "",
+            conflict = "󰅗",
           },
         },
       },
@@ -81,6 +81,8 @@ return {
           handler = function()
             -- This effectively hides the cursor
             vim.cmd("highlight! CursorBlock blend=100")
+            -- Prevent neo-tree window from being resized by other splits
+            vim.wo.winfixwidth = true
           end,
         },
         {
@@ -150,6 +152,15 @@ return {
       winopts = {
         split = "belowright new",
         border = "single",
+      },
+      git_icons = {
+        ["M"] = { icon = "", color = "yellow" },
+        ["D"] = { icon = "", color = "red" },
+        ["A"] = { icon = "", color = "green" },
+        ["R"] = { icon = "", color = "yellow" },
+        ["C"] = { icon = "", color = "yellow" },
+        ["T"] = { icon = "", color = "magenta" },
+        ["?"] = { icon = "", color = "magenta" },
       },
     },
   },
