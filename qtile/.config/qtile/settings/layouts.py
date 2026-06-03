@@ -74,6 +74,7 @@ def on_client_focus(window):
 
 class MyCustomBonsai(Bonsai):
     def __init__(self, *args, **kwargs):
+        self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
         super().__init__(*args, **kwargs)
         self.last_focused_window = None
 
@@ -81,6 +82,21 @@ class MyCustomBonsai(Bonsai):
         if self.focused_window:
             self.last_focused_window = self.focused_window
         super().focus(window)
+
+    def _handle_add_client__normal(self, window):
+        wm_class = window.get_wm_class()
+        if wm_class and self._is_excluded(wm_class):
+            pane = self._tree.tab()
+            self._reset_next_window_handler()
+            return pane
+        return super()._handle_add_client__normal(window)
+
+    def _is_excluded(self, wm_class):
+        """Check if a window's WM_CLASS matches any excluded class (case-insensitive)."""
+        if not self.excluded_wm_classes:
+            return False
+        wm_lower = [c.lower() for c in wm_class]
+        return any(exc.lower() in wm_lower for exc in self.excluded_wm_classes)
 
 
 @hook.subscribe.group_window_add
