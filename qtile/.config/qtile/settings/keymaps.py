@@ -177,6 +177,7 @@ keymap = [
             ["d", in_terminal("ncdu --color dark /"), "pad_small"],
             ["m", in_terminal("watch -n 1 xset q"), "pad_small"],
             ["s", in_terminal("sysz --user", parameters="--hold"), "pad_medium"],
+            ["e", in_terminal("fzf-emoji"), "pad_medium"],
             ["S-s", in_terminal("sysz --system", parameters="--hold"), "pad_medium"],
         ],
     },

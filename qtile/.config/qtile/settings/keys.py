@@ -30,5 +30,7 @@ keys = list(
         spawn_position([mod, "shift"], "x", keymap, "y", position="previous"),
         spawn_tab([mod], "t", keymap, new_level=False),
         spawn_tab([mod, "control"], "t", keymap, new_level=True),
+        spawn_tab([mod, "shift"], "t", keymap, new_level=True, position="next"),
+        spawn_tab([mod, "shift"], "t", keymap, new_level=False, position="next"),
     )
 )
