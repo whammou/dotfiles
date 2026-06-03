@@ -4,6 +4,7 @@ from qtile_bonsai import Bonsai
 
 from .screens import GAP, OFFSET
 from .theme import colors
+from .smart_bonsai import smart_split
 
 _last_focused = None
 _suppress_floating_hide = False
@@ -120,7 +121,7 @@ layouts = [
             "window.border_color": colors["bg0"],
             "window.active.border_color": BORDER_COLOR,
             "window.margin": [0, GAP, GAP * 2, GAP],
-            "window.default_add_mode": "tab",
+            "window.default_add_mode": smart_split,
             "container_select_mode.border_color": colors["orange"],
             "container_select_mode.border_size": BORDER_WIDTH,
             "tab_bar.height": BORDER_WIDTH * 2,
