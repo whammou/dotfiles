@@ -5,9 +5,11 @@ from qtile_bonsai import Bonsai
 from .screens import GAP, OFFSET
 from .theme import colors
 from .smart_bonsai import smart_split
+import os
 
 _last_focused = None
 _suppress_floating_hide = False
+_floating_sound_startup = True
 
 
 def hide_floating_win(window):
@@ -26,6 +28,24 @@ def show_floating_win(window):
 @hook.subscribe.client_managed
 def hide_floating(window):
     hide_floating_win(window)
+
+
+@hook.subscribe.startup_complete
+def _disable_floating_sound_startup():
+    """Disable the startup guard after Qtile finishes initializing."""
+    global _floating_sound_startup
+    _floating_sound_startup = False
+
+
+@hook.subscribe.client_managed
+def play_floating_sound(window):
+    """Play a notification sound when a floating window appears."""
+    global _floating_sound_startup
+    if _floating_sound_startup:
+        return
+    if window.floating:
+        sound_path = os.path.expanduser("~/.local/share/bell/staplebops-05.wav")
+        qtile.spawn(f"pw-play --media-role=Notification --volume=1.0 {sound_path}")
 
 
 def restore_tree_view(group):
@@ -138,6 +158,7 @@ layouts = [
             "window.active.border_color": BORDER_COLOR,
             "window.margin": [0, GAP, GAP * 2, GAP],
             "window.default_add_mode": smart_split,
+            "excluded_wm_classes": ["mpv"],
             "container_select_mode.border_color": colors["orange"],
             "container_select_mode.border_size": BORDER_WIDTH,
             "tab_bar.height": BORDER_WIDTH * 2,
