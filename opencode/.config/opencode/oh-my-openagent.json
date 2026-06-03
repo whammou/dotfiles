@@ -18,7 +18,7 @@
       "color": "#61afef"
     },
     "oracle": {
-      "model": "opencode/nemotron-3-super-free",
+      "model": "opencode/big-pickle",
       "variant": "high",
       "fallback_models": [
         "opencode/big-pickle"
@@ -89,21 +89,11 @@
         "opencode/big-pickle"
       ],
       "color": "#98c379"
-    },
-    "case-study-mentor": {
-      "model": "opencode/big-pickle",
-      "variant": "max",
-      "fallback_models": [
-        "opencode/big-pickle"
-      ],
-      "color": "#d19a66",
-      "mode": "all",
-      "description": "Mentor for studying programming concepts and understanding codebases",
-      "skills": [
-        "case-study-mentor"
-      ]
     }
   },
+  "agent_definitions": [
+    "agents/mentor.md"
+  ],
   "categories": {
     "visual-engineering": {
       "model": "opencode/mimo-v2-pro-free",
