@@ -252,10 +252,13 @@ windows_keys = [
     EzKey("M-<Tab>", focus_back()),
     EzKey("M-S-<Escape>", lazy.function(toggle_tiling_floating_focus)),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
-    EzKey("M-<Escape>", lazy.function(toggle_tiling_floating_focus).when(when_floating=True)),
+    EzKey(
+        "M-<Escape>",
+        lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
+    ),
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
-    EzKey("M-f", lazy.window.toggle_fullscreen()),
-    EzKey("M-S-f", toggle_floating()),
+    EzKey("M-z", lazy.window.toggle_fullscreen()),
+    EzKey("M-S-z", toggle_floating()),
     # Floating Windows
     EzKey("A-S-0", floats_to_front()),
     # Rofi menu
