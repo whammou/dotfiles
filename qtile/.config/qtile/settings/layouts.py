@@ -56,9 +56,7 @@ def restore_tree_view(group):
 
 
 def restore_focus(window):
-    """Restore focus to window and re-enable floating hide."""
-    global _suppress_floating_hide
-    _suppress_floating_hide = False
+    """Restore focus to window. The suppression flag is reset by on_client_focus."""
     if window.group is not None:
         window.group.focus(window)
 
@@ -79,6 +77,7 @@ def on_client_focus(window):
 
     show_floating_win(window)
     _last_focused = window
+    _suppress_floating_hide = False
 
 
 # @hook.subscribe.group_window_add
@@ -131,6 +130,9 @@ def maintain_focus(group, window):
             # update the tree view to B's tab via Bonsai.focus(new).
             # Run AFTER that to restore view to the last tiled tab.
             group.qtile.call_soon(lambda: restore_tree_view(group))
+        # Keep focus on the current window when a new window spawns,
+        # regardless of window type (float or tiled). Without this,
+        # new windows steal focus on creation.
         group.qtile.call_soon(lambda: restore_focus(prev_window))
 
 

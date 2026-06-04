@@ -12,7 +12,7 @@ def focus_visible_window(mod, window_index, **spawn):
                 str(i),
                 lazy.layout.focus_nth_window(i, **spawn),
                 # lazy.window.bring_to_front(),
-                lazy.function(hide_all_floating),
+                # lazy.function(hide_all_floating),
             )
         )
     return keymaps
