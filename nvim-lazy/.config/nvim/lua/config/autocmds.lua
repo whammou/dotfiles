@@ -1,10 +1,17 @@
----@diagnostic disable: undefined-global
-
 -- Autocmds are automatically loaded on the VeryLazy event
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 --
 -- Add any additional autocmds here
 -- with `vim.api.nvim_create_autocmd`
+
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  callback = function()
+    if #vim.api.nvim_list_wins() > 1 then
+      vim.cmd("tabdo wincmd =")
+    end
+  end,
+})
 
 vim.api.nvim_create_autocmd("BufNewFile", {
   group = vim.api.nvim_create_augroup("NetmanInit", { clear = true }),

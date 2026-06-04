@@ -57,3 +57,15 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+-- OrgFiletags: interactive fzf-lua picker for #+FILETAGS search
+vim.api.nvim_create_user_command('OrgFiletags', function(opts)
+  require('config.orgmode.filetags').OrgFiletags(opts.args)
+end, { nargs = '?', desc = 'Search org files by #+FILETAGS (interactive fzf-lua picker)' })
+
+vim.keymap.set('n', '<leader>oF', ':OrgFiletags<CR>', {
+  desc = 'Org Filetags (fzf-lua)',
+  buffer = true,
+  silent = true,
+})
+

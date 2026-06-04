@@ -8,7 +8,6 @@ return {
         "tangledhelix/org-links.nvim",
         enabled = false,
         lazy = true,
-        event = "VeryLazy",
         ft = { "org" },
         opts = {
           hl_group = "OrgLinksLink",
@@ -17,6 +16,7 @@ return {
       {
         "mrshmllow/orgmode-babel.nvim",
         lazy = true,
+        ft = { "org" },
         cmd = { "OrgExecute", "OrgTangle" },
         opts = {
           langs = { "python", "lua", ... },
@@ -26,7 +26,6 @@ return {
       {
         "danilshvalov/org-modern.nvim",
         lazy = true,
-        event = "VeryLazy",
         ft = { "org" },
       },
       {
@@ -34,6 +33,13 @@ return {
         lazy = true,
         ft = { "org" },
         keys = {
+          {
+            "<leader>ozt",
+            function()
+              require("fzf-org").filetags()
+            end,
+            desc = "org-titles",
+          },
           {
             "<leader>ozg",
             function()

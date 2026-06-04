@@ -5,8 +5,10 @@ return {
   {
     "lukas-reineke/headlines.nvim",
     lazy = true,
-    -- event = "VeryLazy",
     ft = { "markdown", "org" },
+    dependencies = {
+      "nvim-orgmode/orgmode",
+    },
     config = function()
       require("config.editor")
     end,
