@@ -1,5 +1,8 @@
 import itertools
 
+from libqtile.config import Key
+from libqtile.lazy import lazy
+
 from .keymaps import keymap
 from .key.qtile import qtile_keys
 from .key.functional import functional_keys
@@ -7,6 +10,7 @@ from .key.layers import focus_visible_window, change_tab_layer, focus_nth_floati
 from .key.windows import windows_keys
 from .key.spawn import spawn_position, spawn_new, spawn_tab
 from .group.scratchpads import scratchpad_keys
+from .which_key import show_which_key
 
 
 mod = "mod4"
@@ -37,5 +41,6 @@ keys = list(
         spawn_tab([mod, "shift"], "t", keymap, new_level=False),
         spawn_tab([mod, "shift"], "n", keymap, new_level=False, position="next"),
         spawn_tab([mod, "shift"], "p", keymap, new_level=False, position="next"),
+        [Key([mod], "slash", lazy.function(show_which_key), desc="Show which-key overlay")],
     )
 )
