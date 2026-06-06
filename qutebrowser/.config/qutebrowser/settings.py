@@ -5,7 +5,7 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 
 # BROWSER SETTINGS
 # c.editor.command = ["kitty", "nvim", "{file}"]
-c.window.title_format = "QB | [{scroll_pos}] {current_title}"
+c.window.title_format = "QB | [{scroll_pos}] {audio}{current_title}{title_sep}{host}"
 c.editor.command = [
     "kitty",
     "--single-instance",

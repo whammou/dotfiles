@@ -98,12 +98,12 @@ config.bind(
     "set statusbar.show never ;; hint all spawn _qtile_spawn_new_tab '{hint-url}'",
 )
 config.bind(
-    "Ff",
+    "FF",
     # "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",
     "set statusbar.show never ;; hint all spawn _qtile_spawn_screen '{hint-url}'",
 )
 config.bind(
-    "FF",
+    "Ff",
     "set statusbar.show never ;; hint all spawn xdg-open {hint-url}",
 )
 config.bind(";a", "set statusbar.show never ;; hint all yank")
