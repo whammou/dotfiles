@@ -17,13 +17,14 @@
     },
     "message": {
       "session.idle": {
-        "command": "echo \"{project}: Agent finished — https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+        "command": "echo \"$(opencode session list | grep \"{session_id}\" | awk -F'  +' '{print $2}')\\nStatus:  Agent finished\\nURL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       },
       "session.error": {
-        "command": "echo \"{project}: Agent error — {error} — https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+        "command": "echo \"$(opencode session list | grep \"{session_id}\" | awk -F'  +' '{print $2}')\\nStatus:  Agent error — {error}\\nURL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       },
       "permission.asked": {
-        "command": "echo \"{project}: Permission {permission_type} for {permission_patterns} — https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+        "command": "echo \"$(opencode session list | grep \"{session_id}\" | awk -F'  +' '{print $2}')\\nStatus:  Permission {permission_type} for {permission_patterns}\\nURL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+
       }
     }
   }
