@@ -17,13 +17,13 @@
     },
     "message": {
       "session.idle": {
-        "value": "{project}: Agent finished - no activity detected"
+        "command": "echo \"{project}: Agent finished — https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       },
       "session.error": {
-        "value": "{project}: Agent error occurred - {error}"
+        "command": "echo \"{project}: Agent error — {error} — https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       },
       "permission.asked": {
-        "value": "{project}: Permission requested - {permission_type} access for {permission_patterns}"
+        "command": "echo \"{project}: Permission {permission_type} for {permission_patterns} — https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       }
     }
   }
