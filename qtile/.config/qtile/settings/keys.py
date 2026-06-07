@@ -22,10 +22,10 @@ keys = list(
         functional_keys,
         windows_keys,
         focus_visible_window(
-            [meta], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
+            [mod], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
         ),
-        focus_nth_floating([mod], range(1, 10)),
-        change_tab_layer([mod], range(1, 10), range(1, 10)),
+        focus_nth_floating([mod, "shift"], range(1, 10)),
+        change_tab_layer([mod, "shift"], range(1, 10), range(1, 10)),
         spawn_new([mod], "s", keymap),
         scratchpad_keys([mod], "f", keymap),
         spawn_position([mod], "v", keymap, "x", position="next"),
@@ -41,6 +41,13 @@ keys = list(
         spawn_tab([mod, "shift"], "t", keymap, new_level=False),
         spawn_tab([mod, "shift"], "n", keymap, new_level=False, position="next"),
         spawn_tab([mod, "shift"], "p", keymap, new_level=False, position="next"),
-        [Key([mod], "slash", lazy.function(show_which_key), desc="Show which-key overlay")],
+        [
+            Key(
+                [mod],
+                "slash",
+                lazy.function(show_which_key),
+                desc="Show which-key overlay",
+            )
+        ],
     )
 )

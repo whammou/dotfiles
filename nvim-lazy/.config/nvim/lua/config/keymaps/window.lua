@@ -11,4 +11,3 @@ end
 
 map("n", "<leader>ws", "<cmd>split # | wincmd p<CR>", { desc = "Split with prev buffer, keep focus" })
 map("n", "<leader>wv", "<cmd>vsplit # | wincmd p<CR>", { desc = "Vsplit with prev buffer, keep focus" })
-
