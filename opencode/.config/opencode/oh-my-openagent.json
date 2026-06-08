@@ -6,6 +6,7 @@
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
         "google/gemini-2.5-flash"
       ],
       "color": "#c678dd"
@@ -14,8 +15,9 @@
       "model": "openrouter/gpt-oss-120b",
       "variant": "medium",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#61afef"
     },
@@ -23,16 +25,18 @@
       "model": "openrouter/openrouter/free",
       "variant": "high",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#e86671"
     },
     "explore": {
       "model": "openrouter/openrouter/free",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#e5c07b"
     },
@@ -40,8 +44,9 @@
       "model": "opencode/mimo-v2-omni-free",
       "variant": "medium",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#d19a66"
     },
@@ -49,8 +54,9 @@
       "model": "openrouter/openrouter/free",
       "variant": "max",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#56b6c2"
     },
@@ -58,8 +64,9 @@
       "model": "openrouter/openrouter/free",
       "variant": "max",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#c678dd"
     },
@@ -67,32 +74,36 @@
       "model": "openrouter/openrouter/free",
       "variant": "xhigh",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#61afef"
     },
     "atlas": {
       "model": "openrouter/openrouter/free",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#abb2bf"
     },
     "sisyphus-junior": {
       "model": "openrouter/openrouter/free",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#56b6c2"
     },
     "librarian": {
       "model": "openrouter/openrouter/free",
       "fallback_models": [
-        "google/gemini-2.5-flash",
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-3.1-flash-lite",
+        "google/gemini-2.5-flash"
       ],
       "color": "#98c379"
     }
