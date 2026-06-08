@@ -2,32 +2,36 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "variant": "max",
       "fallback_models": [
-        "opencode/big-pickle"
+        "opencode/big-pickle",
+        "google/gemini-2.5-flash"
       ],
       "color": "#c678dd"
     },
     "hephaestus": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/gpt-oss-120b",
       "variant": "medium",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#61afef"
     },
     "oracle": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "variant": "high",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#e86671"
     },
     "explore": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#e5c07b"
@@ -36,56 +40,58 @@
       "model": "opencode/mimo-v2-omni-free",
       "variant": "medium",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#d19a66"
     },
     "prometheus": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "variant": "max",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#56b6c2"
     },
     "metis": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "variant": "max",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#c678dd"
     },
     "momus": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "variant": "xhigh",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#61afef"
     },
     "atlas": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#abb2bf"
     },
     "sisyphus-junior": {
-      "model": "opencode/claude-sonnet-4-6",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
-        {
-          "model": "opencode/gpt-5.4",
-          "variant": "medium"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
-      ]
+        "google/gemini-2.5-flash",
+        "opencode/big-pickle"
+      ],
+      "color": "#56b6c2"
     },
     "librarian": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
+        "google/gemini-2.5-flash",
         "opencode/big-pickle"
       ],
       "color": "#98c379"
@@ -123,7 +129,7 @@
       ]
     },
     "deep": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "variant": "medium",
       "fallback_models": [
         {
@@ -150,7 +156,7 @@
       ]
     },
     "quick": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
         {
           "model": "opencode/claude-haiku-4-5"
@@ -164,7 +170,7 @@
       ]
     },
     "unspecified-low": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
         {
           "model": "opencode/gpt-5.3-codex",
@@ -176,7 +182,7 @@
       ]
     },
     "unspecified-high": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
         {
           "model": "opencode/gpt-5.3-codex",
@@ -188,7 +194,7 @@
       ]
     },
     "writing": {
-      "model": "opencode/big-pickle",
+      "model": "openrouter/openrouter/free",
       "fallback_models": [
         {
           "model": "opencode/claude-sonnet-4-6"
