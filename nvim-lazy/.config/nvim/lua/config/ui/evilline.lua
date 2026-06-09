@@ -88,7 +88,29 @@ ins_left({
   -- mode component
   function()
     --return ""
-    return "󰰓"
+    local mode_icon = {
+      n = "󰰓", -- md_alpha_n_circle
+      i = "󰰄", -- md_alpha_i_circle
+      v = "󰰫", -- md_alpha_v_circle
+      [""] = "󰰫",
+      V = "󰰫",
+      c = "󰞷", -- md_console_line
+      no = "󰆍", -- md_console
+      s = "󰒉", -- md_selection
+      S = "󰒉",
+      [""] = "󰒉",
+      ic = "󰰄", -- md_alpha_i_circle
+      R = "󰓡", -- md_swap_horizontal
+      Rv = "󰓡",
+      cv = "󰞷", -- md_console_line
+      ce = "󰞷",
+      r = "󰔟", -- md_help_circle
+      rm = "󰔟",
+      ["r?"] = "󰔟",
+      ["!"] = "󰆍", -- md_console
+      t = "󰆍", -- md_console
+    }
+    return mode_icon[vim.fn.mode()] or "󰰓"
   end,
   color = function()
     -- auto change color according to neovims mode

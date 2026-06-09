@@ -79,6 +79,7 @@ config.bind("T", "set statusbar.show always ;; cmd-set-text -s :tab")
 config.bind("<Ctrl-T>", "set statusbar.show always ;; cmd-set-text -s :tab_new")
 
 config.bind("f", "set statusbar.show never ;; hint all")
+config.bind("FO", "set statusbar.show never ;; hint all tab")
 config.bind("FI", "set statusbar.show never ;; hint images spawn xdg-open {hint-url}")
 config.bind("Fi", "set statusbar.show never ;; hint inputs")
 config.bind(

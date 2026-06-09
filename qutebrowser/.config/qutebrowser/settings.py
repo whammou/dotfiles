@@ -7,14 +7,10 @@ config = config  # noqa: F821 pylint: disable=E0602,C0103
 # c.editor.command = ["kitty", "nvim", "{file}"]
 c.window.title_format = "QB | [{scroll_pos}] {audio}{current_title}{title_sep}{host}"
 c.editor.command = [
-    "kitty",
-    "--single-instance",
-    "--app-id",
-    "kitty-float",
-    "nvim",
+    "/home/whammou/.config/qutebrowser/userscripts/editor-wrapper.py",
     "{file}",
-    "+startinsert",
-    "+call cursor({line}, {column})",
+    "{line}",
+    "{column}",
 ]
 c.completion.show = "auto"
 c.search.wrap = False
