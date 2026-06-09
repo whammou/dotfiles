@@ -22,7 +22,7 @@
       "color": "#61afef"
     },
     "oracle": {
-      "model": "opencode/mimo-v2.5-free",
+      "model": "google/gemini-3.1-flash-lite",
       "variant": "high",
       "fallback_models": [
         "opencode/big-pickle",
@@ -41,7 +41,7 @@
       "color": "#e5c07b"
     },
     "multimodal-looker": {
-      "model": "opencode/mimo-v2-omni-free",
+      "model": "google/gemini-3.1-flash-lite",
       "variant": "medium",
       "fallback_models": [
         "opencode/big-pickle",
@@ -51,7 +51,7 @@
       "color": "#d19a66"
     },
     "prometheus": {
-      "model": "opencode/mimo-v2.5-free",
+      "model": "google/gemini-3.1-flash-lite",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
@@ -61,7 +61,7 @@
       "color": "#56b6c2"
     },
     "metis": {
-      "model": "opencode/mimo-v2.5-free",
+      "model": "google/gemini-3.1-flash-lite",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
@@ -81,7 +81,7 @@
       "color": "#61afef"
     },
     "atlas": {
-      "model": "opencode/mimo-v2.5-free",
+      "model": "google/gemini-3.1-flash-lite",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
