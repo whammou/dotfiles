@@ -17,13 +17,13 @@
     },
     "message": {
       "session.idle": {
-        "command": "echo \"Status: Agent finished  \" && echo \"Session: $(opencode export \"{session_id}\" 2>&1 | grep -o '\"title\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)\" && echo \"URL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+        "command": "echo \"Status: Agent idling 󰍷 \" && echo \"Session: $(opencode export \"{session_id}\" 2>&1 | grep -o '\"title\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)\" && echo \"URL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       },
       "session.error": {
-        "command": "echo \"Status: Agent error  - {error}\" && echo \"Session: $(opencode export \"{session_id}\" 2>&1 | grep -o '\"title\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)\" && echo \"URL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+        "command": "echo \"Status: Agent error  \" && echo \"Session: $(opencode export \"{session_id}\" 2>&1 | grep -o '\"title\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)\" && if [ -n \"{error}\" ]; then echo \"Error: {error}\"; fi && echo \"URL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       },
       "permission.asked": {
-        "command": "echo \"Status: Permission  - {permission_type} for {permission_patterns}\" && echo \"Session: $(opencode export \"{session_id}\" 2>&1 | grep -o '\"title\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)\" && echo \"URL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
+        "command": "echo \"Status: Permission requested  \" && echo \"Session: $(opencode export \"{session_id}\" 2>&1 | grep -o '\"title\": \"[^\"]*\"' | head -1 | cut -d'\"' -f4)\" && echo \"{permission_type}: {permission_patterns}\" && echo \"URL: https://opencode.whammou.dedyn.io/$(echo -n \"$PWD\" | base64 -w0)/session/{session_id}\""
       }
     }
   }
