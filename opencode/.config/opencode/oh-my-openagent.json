@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/deepseek-v4-flash-free",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
@@ -12,7 +12,7 @@
       "color": "#c678dd"
     },
     "hephaestus": {
-      "model": "openrouter/gpt-oss-120b",
+      "model": "groq/openai/gpt-oss-120b",
       "variant": "medium",
       "fallback_models": [
         "opencode/big-pickle",
@@ -22,7 +22,7 @@
       "color": "#61afef"
     },
     "oracle": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/mimo-v2.5-free",
       "variant": "high",
       "fallback_models": [
         "opencode/big-pickle",
@@ -32,7 +32,7 @@
       "color": "#e86671"
     },
     "explore": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/deepseek-v4-flash-free",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
@@ -51,7 +51,7 @@
       "color": "#d19a66"
     },
     "prometheus": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/mimo-v2.5-free",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
@@ -61,7 +61,7 @@
       "color": "#56b6c2"
     },
     "metis": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/mimo-v2.5-free",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
@@ -71,7 +71,7 @@
       "color": "#c678dd"
     },
     "momus": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/mimo-v2.5-free",
       "variant": "xhigh",
       "fallback_models": [
         "opencode/big-pickle",
@@ -81,7 +81,7 @@
       "color": "#61afef"
     },
     "atlas": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/mimo-v2.5-free",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
@@ -90,7 +90,7 @@
       "color": "#abb2bf"
     },
     "sisyphus-junior": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/deepseek-v4-flash-free",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
@@ -99,7 +99,7 @@
       "color": "#56b6c2"
     },
     "librarian": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/deepseek-v4-flash-free",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
