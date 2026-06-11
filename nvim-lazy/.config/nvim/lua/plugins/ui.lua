@@ -80,6 +80,12 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+      lsp = {
+        -- Option A: disable noice hover interception → native vim.lsp.buf.hover() popup
+        hover = { enabled = false },
+        -- disable noice signature interception → native vim.lsp.buf.signature_help() popup
+        signature = { enabled = false },
+      },
       presets = {
         lsp_doc_border = false, -- disable rounded LSP doc borders
         command_palette = false, -- disable palette preset that force-overrides borders to rounded

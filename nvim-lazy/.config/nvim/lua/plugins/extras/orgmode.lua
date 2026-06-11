@@ -3,89 +3,96 @@ return {
     "nvim-orgmode/orgmode",
     lazy = true,
     ft = { "org" },
-    dependencies = {
-      {
-        "tangledhelix/org-links.nvim",
-        enabled = false,
-        lazy = true,
-        ft = { "org" },
-        opts = {
-          hl_group = "OrgLinksLink",
-        },
-      },
-      {
-        "mrshmllow/orgmode-babel.nvim",
-        lazy = true,
-        ft = { "org" },
-        cmd = { "OrgExecute", "OrgTangle" },
-        opts = {
-          langs = { "python", "lua", ... },
-          load_paths = {},
-        },
-      },
-      {
-        "danilshvalov/org-modern.nvim",
-        lazy = true,
-        ft = { "org" },
-      },
-      {
-        "0xzhzh/fzf-org.nvim",
-        lazy = true,
-        ft = { "org" },
-        keys = {
-          {
-            "<leader>ozt",
-            function()
-              require("fzf-org").filetags()
-            end,
-            desc = "org-titles",
-          },
-          {
-            "<leader>ozg",
-            function()
-              require("fzf-org").orgmode()
-            end,
-            desc = "org-browse",
-          },
-          {
-            "<leader>ozf",
-            function()
-              require("fzf-org").files()
-            end,
-            desc = "org-files",
-          },
-          {
-            "<leader>ozr",
-            function()
-              require("fzf-org").refile_to_file()
-            end,
-            desc = "org-refile",
-          },
-        },
-        opts = {},
-      },
-      {
-        "nvim-orgmode/org-bullets.nvim",
-        lazy = true,
-        ft = { "org" },
-        opts = {},
-      },
-      {
-        "chipsenkbeil/org-roam.nvim",
-        lazy = true,
-        ft = { "org" },
-        keys = {
-          { "<leader>nu", "<Cmd>RoamUpdate<CR>", desc = "Update Roam database" },
-          { "<leader>nU", "<Cmd>RoamUpdate!<CR>", desc = "Force update Roam database" },
-        },
-      },
-    },
     config = function()
       require("config.orgmode.init")
       vim.lsp.enable("org")
     end,
     keys = {
       { "<leader>oR", "<cmd>Lazy reload orgmode<CR>", desc = "Org reload" },
+    },
+  },
+  {
+    "tangledhelix/org-links.nvim",
+    enabled = false,
+    lazy = true,
+    dependencies = { "nvim-orgmode/orgmode" },
+    ft = { "org" },
+    opts = {
+      hl_group = "OrgLinksLink",
+    },
+  },
+  {
+    "mrshmllow/orgmode-babel.nvim",
+    lazy = true,
+    ft = { "org" },
+    dependencies = { "nvim-orgmode/orgmode" },
+    cmd = { "OrgExecute", "OrgTangle" },
+    opts = {
+      langs = { "python", "lua", ... },
+      load_paths = {},
+      extra_evals = {
+        '(setq org-babel-python-command "/home/whammou/.local/share/sniprun-venv/bin/python")',
+      },
+    },
+  },
+  {
+    "danilshvalov/org-modern.nvim",
+    lazy = true,
+    ft = { "org" },
+    dependencies = { "nvim-orgmode/orgmode" },
+  },
+  {
+    "0xzhzh/fzf-org.nvim",
+    lazy = true,
+    ft = { "org" },
+    dependencies = { "nvim-orgmode/orgmode" },
+    keys = {
+      {
+        "<leader>ozt",
+        function()
+          require("fzf-org").filetags()
+        end,
+        desc = "org-titles",
+      },
+      {
+        "<leader>ozg",
+        function()
+          require("fzf-org").orgmode()
+        end,
+        desc = "org-browse",
+      },
+      {
+        "<leader>ozf",
+        function()
+          require("fzf-org").files()
+        end,
+        desc = "org-files",
+      },
+      {
+        "<leader>ozr",
+        function()
+          require("fzf-org").refile_to_file()
+        end,
+        desc = "org-refile",
+      },
+    },
+    opts = {},
+  },
+  {
+    "nvim-orgmode/org-bullets.nvim",
+    lazy = true,
+    ft = { "org" },
+    dependencies = { "nvim-orgmode/orgmode" },
+    opts = {},
+  },
+  {
+    "chipsenkbeil/org-roam.nvim",
+    lazy = true,
+    ft = { "org" },
+    dependencies = { "nvim-orgmode/orgmode" },
+    keys = {
+      { "<leader>nu", "<Cmd>RoamUpdate<CR>", desc = "Update Roam database" },
+      { "<leader>nU", "<Cmd>RoamUpdate!<CR>", desc = "Force update Roam database" },
     },
   },
 

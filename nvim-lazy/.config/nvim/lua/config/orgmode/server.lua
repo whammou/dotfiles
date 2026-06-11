@@ -46,7 +46,24 @@ function M.setup()
   end
 end
 
+-- Filter noweb syntax diagnostics (<< >>) from org LSP output
+local function setup_lsp_filter()
+	local orig_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+		if result and result.diagnostics then
+			local client = vim.lsp.get_client_by_id(ctx.client_id)
+			if client and client.name == "org" then
+				result.diagnostics = vim.tbl_filter(function(d)
+					return not d.message:find("<<") and not d.message:find(">>")
+				end, result.diagnostics)
+			end
+		end
+		orig_handler(err, result, ctx, config)
+	end
+end
+
 -- Run immediately when required
 M.setup()
+setup_lsp_filter()
 
 return M
