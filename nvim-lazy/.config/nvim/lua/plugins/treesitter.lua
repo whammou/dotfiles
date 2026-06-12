@@ -28,6 +28,7 @@ return {
     ft = { "org" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
+      "neovim-treesitter/treesitter-parser-registry",
     },
     opts = {
       lsp = {
@@ -42,18 +43,23 @@ return {
     config = function(_, opts)
       require("otter").setup(opts)
 
+      -- Defer activation so orgmode can set up folds first
+      local function activate()
+        vim.schedule(function()
+          require("otter").activate()
+        end)
+      end
+
       local augroup = vim.api.nvim_create_augroup("otter_org", { clear = true })
       vim.api.nvim_create_autocmd("FileType", {
         group = augroup,
         pattern = "org",
-        callback = function()
-          require("otter").activate()
-        end,
+        callback = activate,
       })
 
       -- Activate for the current buffer if already in an org file
       if vim.bo.filetype == "org" then
-        require("otter").activate()
+        activate()
       end
     end,
   },

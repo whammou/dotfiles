@@ -9,6 +9,7 @@ return {
     end,
     keys = {
       { "<leader>oR", "<cmd>Lazy reload orgmode<CR>", desc = "Org reload" },
+      { "<leader>obe", "<cmd>OrgExecute!<CR>", desc = "Org execute current block" },
     },
   },
   {
@@ -22,16 +23,19 @@ return {
     },
   },
   {
-    "mrshmllow/orgmode-babel.nvim",
+    "whammou/orgmode-babel.nvim",
     lazy = true,
     ft = { "org" },
+    branch = "feat/cursor-block-execute",
     dependencies = { "nvim-orgmode/orgmode" },
     cmd = { "OrgExecute", "OrgTangle" },
     opts = {
       langs = { "python", "lua", ... },
       load_paths = {},
       extra_evals = {
+        "(setq org-id-track-globally nil)",
         '(setq org-babel-python-command "/home/whammou/.local/share/sniprun-venv/bin/python")',
+        '(org-babel-make-language-alias "py" "python")',
       },
     },
   },

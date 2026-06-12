@@ -170,6 +170,9 @@ return {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
     opts = {
+      useLspFoldsWithTreesitterFallback = {
+        enabled = false, -- prevents overriding orgmode's foldmethod/foldexpr when LSP attaches to ANY buffer (e.g. otter hidden buffer)
+      },
       foldtext = {
         lineCount = {
           template = "%d",
