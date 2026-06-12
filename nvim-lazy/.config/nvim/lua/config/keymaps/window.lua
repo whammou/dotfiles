@@ -1,7 +1,7 @@
 local map = vim.keymap.set
 
 for i = 1, 9 do
-  map({ "n", "t" }, "<M-S-" .. i .. ">", function()
+  map({ "n", "t" }, "<M-" .. i .. ">", function()
     local wins = vim.api.nvim_list_wins()
     if wins[i] then
       vim.api.nvim_set_current_win(wins[i])
