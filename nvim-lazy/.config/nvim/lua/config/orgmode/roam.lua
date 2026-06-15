@@ -1,5 +1,4 @@
 local dir = require("config.orgmode.directories")
-local capture = require("config.orgmode.templates")
 
 local base_dir = dir.base_dir
 local zettel_dir = dir.zettel_dir
@@ -33,5 +32,5 @@ require("org-roam").setup({
   bindings = {
     capture = "<leader>od",
   },
-  templates = capture.roam,
+  -- templates removed — nvim-orgmode now handles all captures
 })

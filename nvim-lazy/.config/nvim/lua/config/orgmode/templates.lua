@@ -2,15 +2,40 @@ local dir = require("config.orgmode.directories")
 local utils = require("config.orgmode.utils")
 local ft = require("config.orgmode.filetags")
 local base_dir = dir.base_dir
-local zettel_dir = dir.zettel_dir
 
--- local org_doc_dirs = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}"
+--- Shared task_template: heading + UUID drawer.
+local task_template = "\n\n* %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
+
+--- Task preamble: DOIN/PROG/NEXT/WAIT state sequence.
+local task_todo = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+#+FILETAGS: :typTask:catOneoff:]]
+
+--- Recurring adds RECR before TODO.
+local task_recurring_todo = task_todo:gsub(
+  "#%+TODO: ",
+  "#+TODO: RECR(l) "
+)
+
+--- Dev preamble: OPEN/PROG/NEXT state sequence.
+local dev_template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+#+FILETAGS: :typDev:catBug:]] .. task_template
+
+--- Milestone templates: preamble with TODO state sequence.
+local milestone_template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+#+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+#+FILETAGS: :typMilestone:catMinor:]] .. task_template
+
+--- List preamble: different TODO with EXPL(s), TARGET(g), IDEA(i) + title:nil.
+local list_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil title:nil
+#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(s) FDBK(b) NEXT(n) TARGET(g) | IDEA(i) ABRT(a) PRTL(r) RVIW(v) DONE(f)
+#+FILETAGS: :typList:catPurchase:]]
+
+-- Pre-computed target prefixes for task/list/draft templates
 local org_tasks = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "tasks") .. "}"
-local org_dev = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "dev") .. "}"
-local org_milestone = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "milestones") .. "}"
 local org_lists = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "lists") .. "}"
 
-local task_template = "** %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 local capture_templates = {
   c = {
     description = "Capture",
@@ -19,23 +44,23 @@ local capture_templates = {
   },
 
   m = {
-    description = "Milestone Capture",
+    description = "Milestone",
     subtemplates = {
       M = {
-        description = "Major milestone capture",
-        template = ft.wrap_template(task_template, org_milestone .. "/milestones/major.org"),
-        target = org_milestone .. "/milestones/major.org",
+        description = "Major milestone",
+        template = milestone_template:gsub(":catMinor:", ":catMajor:"),
+        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/major.org",
       },
       m = {
-        description = "Minor milestone capture",
-        template = ft.wrap_template(task_template, org_milestone .. "/milestones/minor.org"),
-        target = org_milestone .. "/milestones/minor.org",
+        description = "Minor milestone",
+        template = milestone_template,
+        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/minor.org",
       },
     },
   },
 
   d = {
-    description = "Document Capture",
+    description = "Document capture",
     template = ft.wrap_template(
       task_template,
       base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "draft.org") .. "}/draft.org"
@@ -48,23 +73,23 @@ local capture_templates = {
     subtemplates = {
       b = {
         description = "Bug report",
-        template = ft.wrap_template(task_template, org_dev .. "/dev/bug.org"),
-        target = org_dev .. "/dev/bug.org",
+        template = dev_template,
+        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/bug.org",
       },
       i = {
-        description = "Issue capture",
-        template = ft.wrap_template(task_template, org_dev .. "/dev/issue.org"),
-        target = org_dev .. "/dev/issue.org",
+        description = "New issue",
+        template = dev_template:gsub(":catBug:", ":catIssue:"),
+        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/issue.org",
       },
       e = {
-        description = "Enhancement capture",
-        template = ft.wrap_template(task_template, org_dev .. "/dev/enhancement.org"),
-        target = org_dev .. "/dev/enhancement.org",
+        description = "New enhancement",
+        template = dev_template:gsub(":catBug:", ":catEnhancement:"),
+        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org",
       },
       r = {
-        description = "Refactor capture",
-        template = ft.wrap_template(task_template, org_dev .. "/dev/refactor.org"),
-        target = org_dev .. "/dev/refactor.org",
+        description = "Refactor tickets",
+        template = dev_template:gsub(":catBug:", ":catRefactor:"),
+        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/refactor.org",
       },
     },
   },
@@ -73,28 +98,28 @@ local capture_templates = {
     description = "Task note capture",
     subtemplates = {
       o = {
-        description = "Oneoff Tasks",
-        template = ft.wrap_template(task_template, org_tasks .. "/tasks/oneoff.org"),
+        description = "Oneoff tasks",
+        template = task_todo:gsub(":catOneoff:", ":catOneoff:") .. task_template,
         target = org_tasks .. "/tasks/oneoff.org",
       },
       i = {
-        description = "Incidental Tasks",
-        template = ft.wrap_template(task_template, org_tasks .. "/tasks/incidental.org"),
+        description = "Incidental tasks",
+        template = task_todo:gsub(":catOneoff:", ":catIncidental:") .. task_template,
         target = org_tasks .. "/tasks/incidental.org",
       },
       c = {
-        description = "Coordinated Tasks",
-        template = ft.wrap_template(task_template, org_tasks .. "/tasks/coordinated.org"),
+        description = "Coordinated tasks",
+        template = task_todo:gsub(":catOneoff:", ":catCoordinated:") .. task_template,
         target = org_tasks .. "/tasks/coordinated.org",
       },
       p = {
-        description = "Planned Tasks",
-        template = ft.wrap_template(task_template, org_tasks .. "/tasks/planned.org"),
+        description = "Planned tasks",
+        template = task_todo:gsub(":catOneoff:", ":catPlanned:") .. task_template,
         target = org_tasks .. "/tasks/planned.org",
       },
       r = {
-        description = "Recurring Tasks",
-        template = ft.wrap_template(task_template, org_tasks .. "/tasks/recurring.org"),
+        description = "Recurring tasks",
+        template = task_recurring_todo:gsub(":catOneoff:", ":catRecurring:") .. task_template,
         target = org_tasks .. "/tasks/recurring.org",
       },
     },
@@ -104,108 +129,17 @@ local capture_templates = {
     description = "List capture",
     subtemplates = {
       p = {
-        description = "Purchase List",
-        template = ft.wrap_template(
-          "** %<%Y%m%d> - %^{List Title}\n:PROPERTIES:\n:CREATED_ON: %<%y%m%d>\n:END:\n%?",
-          org_lists .. "/lists/purchase.org"
-        ),
+        description = "Purchase list",
+        template = list_preamble .. "\n** %<%Y%m%d> - %^{List Title}\n:PROPERTIES:\n:CREATED_ON: %<%y%m%d>\n:END:\n%?",
         target = org_lists .. "/lists/purchase.org",
       },
       l = {
-        description = "Location List",
-        template = ft.wrap_template("** %^{Enter Location Name}", org_lists .. "/lists/location.org"),
+        description = "Location list",
+        template = list_preamble:gsub(":catPurchase:", ":catLocation:") .. "\n** %^{Enter Location Name}",
         target = org_lists .. "/lists/location.org",
       },
     },
   },
 }
 
-local roam_template = {
-  b = {
-    description = "Report bug",
-    template = ft.wrap_template(
-      [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS: :typDev:catBug:
-%?]],
-      "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/bug.org"
-    ),
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/bug.org",
-  },
-  i = {
-    description = "New issue",
-    template = ft.wrap_template(
-      [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS: :typDev:catIssue:
-%?]],
-      "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/issue.org"
-    ),
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/issue.org",
-  },
-  e = {
-    description = "New enhancement",
-    template = ft.wrap_template(
-      [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS: :typDev:catEnhancement:
-%?]],
-      "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org"
-    ),
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org",
-  },
-  r = {
-    description = "Refactor Tickets",
-    template = ft.wrap_template(
-      [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS: :typDev:catRefactor:
-%?]],
-      "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/refactor.org"
-    ),
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/refactor.org",
-  },
-  m = {
-    description = "Minor Milestone",
-    template = ft.wrap_template(
-      [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS: :typMilestone:catMinor:
-%?]],
-      "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/minor.org"
-    ),
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/minor.org",
-  },
-  M = {
-    description = "Major Milestone",
-    template = ft.wrap_template(
-      [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS: :typMilestone:catMajor:
-%?]],
-      "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/major.org"
-    ),
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/major.org",
-  },
-  z = {
-    description = "Zettelkasten",
-    template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
-%?]],
-    target = "topics/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. utils.get_filename(
-      base_dir .. zettel_dir
-    ) .. "}.org",
-  },
-  n = {
-    description = "New Document",
-    template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
-#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
-%?]],
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
-  },
-}
-
-local templates = {
-  roam = roam_template,
-  capture = capture_templates,
-}
-return templates
+return { capture = capture_templates }
