@@ -302,4 +302,73 @@ end
 
 M.OrgFiletags = OrgFiletags
 
+--- Generate preamble for a new archive file. Tags are inferred from the source file.
+--- Format: #+FILETAGS: :top<Topic>:typArchive:typ<SourceTyp>:cat<SourceCat>:
+local function generate_archive_preamble(source_path)
+  local topic = M.infer_topic(source_path)
+  local source_tags = M.infer(source_path)
+
+  local parts = {}
+  if topic then
+    table.insert(parts, topic)
+  end
+  table.insert(parts, "typArchive")
+  local source_typ = source_tags and source_tags:match(":typ([^:]+):")
+  if source_typ then
+    table.insert(parts, "typ" .. source_typ)
+  end
+  local source_cat = source_tags and source_tags:match(":cat([^:]+):")
+  if source_cat then
+    table.insert(parts, "cat" .. source_cat)
+  end
+
+  return table.concat({
+    "#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil",
+    "#+FILETAGS: :" .. table.concat(parts, ":") .. ":",
+  }, "\n") .. "\n"
+end
+
+-- Patch Capture:refile_file_headline_to_archive so new archive files get a preamble
+-- instead of being created empty.
+do
+  local patched = false
+  local function try_patch()
+    if patched then
+      return
+    end
+    local ok, Capture = pcall(require, "orgmode.capture")
+    if ok and Capture then
+      local orig = Capture.refile_file_headline_to_archive
+      Capture.refile_file_headline_to_archive = function(self, headline)
+        local file = headline.file
+        if file:is_archive_file() then
+          return require("orgmode.utils").echo_warning("This file is already an archive file.")
+        end
+
+        local archive_location = file:get_archive_file_location()
+        if not archive_location then
+          return
+        end
+
+        local archive_directory = vim.fn.fnamemodify(archive_location, ":p:h")
+        if vim.fn.isdirectory(archive_directory) == 0 then
+          vim.fn.mkdir(archive_directory, "p")
+        end
+
+        if not vim.uv.fs_stat(archive_location) then
+          local preamble = generate_archive_preamble(file.filename)
+          vim.fn.writefile(vim.split(preamble, "\n"), archive_location)
+        end
+
+        return orig(self, headline)
+      end
+      patched = true
+    end
+  end
+  try_patch()
+  if not patched then
+    vim.schedule(try_patch)
+  end
+end
+
 return M
