@@ -3,6 +3,7 @@ return {
     "nvim-orgmode/orgmode",
     lazy = true,
     ft = { "org" },
+    cmd = { "Org" },
     config = function()
       require("config.orgmode.init")
       vim.lsp.enable("org")
