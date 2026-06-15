@@ -79,6 +79,42 @@ do
   end
 end
 
+-- Patch Template.compile to remove the blank line roam inserts between its
+-- PROPERTIES/TITLE prefix and our preamble. Post-processes the final split
+-- lines since roam's hook (which adds \n\n) runs after our FILETAGS hook.
+do
+  local patched = false
+  local function try_patch()
+    if patched then
+      return
+    end
+    local ok, Template = pcall(require, "orgmode.capture.template")
+    if ok and Template and Template.compile then
+      local orig_compile = Template.compile
+      Template.compile = function(self)
+        return orig_compile(self):next(function(lines)
+          if lines then
+            for i = 1, #lines - 1 do
+              if lines[i] == ":END:" or (lines[i] and lines[i]:match("^#%+TITLE: ")) then
+                if lines[i + 1] == "" then
+                  table.remove(lines, i + 1)
+                  break
+                end
+              end
+            end
+          end
+          return lines
+        end)
+      end
+      patched = true
+    end
+  end
+  try_patch()
+  if not patched then
+    vim.schedule(try_patch)
+  end
+end
+
 --- Map from parent directory name → typ tag value.
 --- `cat` is always derived from the filename itself.
 local typ_dir = {

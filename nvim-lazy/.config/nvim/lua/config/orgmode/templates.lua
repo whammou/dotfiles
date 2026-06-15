@@ -3,29 +3,29 @@ local utils = require("config.orgmode.utils")
 local ft = require("config.orgmode.filetags")
 local base_dir = dir.base_dir
 
---- Shared task_template: heading + UUID drawer.
-local task_template = "\n\n* %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
+--- Shared suffix: heading + UUID drawer.
+local heading_drawer = "\n\n* %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 
 --- Task preamble: DOIN/PROG/NEXT/WAIT state sequence. Order matches actual task/*.org.
-local task_todo = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+local task_preamble = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+FILETAGS:]]
 
 --- Recurring adds RECR before TODO.
-local task_recurring_todo = task_todo:gsub(
+local task_preamble_recurring = task_preamble:gsub(
   "#%+TODO: ",
   "#+TODO: RECR(l) "
 )
 
 --- Dev preamble: OPEN/PROG/NEXT state sequence.
-local dev_template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+local dev_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS:]] .. task_template
+#+FILETAGS:]] .. heading_drawer
 
---- Milestone templates: preamble with TODO state sequence.
-local milestone_template = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
+--- Milestone preamble: TODO state sequence.
+local milestone_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
-#+FILETAGS:]] .. task_template
+#+FILETAGS:]] .. heading_drawer
 
 --- List preamble: different TODO with EXPL(s), TARGET(g), IDEA(i) + title:nil.
 local list_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil title:nil
@@ -38,9 +38,8 @@ local draft_preamble = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXP
 #+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+FILETAGS:]]
 
--- Pre-computed target prefixes for task/list/draft templates
-local org_tasks = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "tasks") .. "}"
-local org_lists = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "lists") .. "}"
+-- Always list topic directories for capture completion, auto-append subdirectory.
+local topic_target = base_dir .. "topics/%^{Topic|" .. utils.get_topic_dirs() .. "}"
 
 local capture_templates = {
   c = {
@@ -54,21 +53,21 @@ local capture_templates = {
     subtemplates = {
       M = {
         description = "Major milestone",
-        template = milestone_template,
-        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/major.org",
+        template = milestone_preamble,
+        target = topic_target .. "/milestones/major.org",
       },
       m = {
         description = "Minor milestone",
-        template = milestone_template,
-        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "milestones") .. "}" .. "/minor.org",
+        template = milestone_preamble,
+        target = topic_target .. "/milestones/minor.org",
       },
     },
   },
 
   d = {
     description = "Document capture",
-    template = draft_preamble .. task_template,
-    target = base_dir .. "%^{Topic|" .. utils.get_file_path(base_dir, "draft.org") .. "}/draft.org",
+    template = draft_preamble .. heading_drawer,
+    target = topic_target .. "/docs/draft.org",
   },
 
   e = {
@@ -76,23 +75,23 @@ local capture_templates = {
     subtemplates = {
       b = {
         description = "Bug report",
-        template = dev_template,
-        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/bug.org",
+        template = dev_preamble,
+        target = topic_target .. "/dev/bug.org",
       },
       i = {
         description = "New issue",
-        template = dev_template,
-        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/issue.org",
+        template = dev_preamble,
+        target = topic_target .. "/dev/issue.org",
       },
       e = {
         description = "New enhancement",
-        template = dev_template,
-        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/enhancement.org",
+        template = dev_preamble,
+        target = topic_target .. "/dev/enhancement.org",
       },
       r = {
         description = "Refactor tickets",
-        template = dev_template,
-        target = base_dir .. "%^{Topic|" .. utils.get_dir_path(base_dir, "dev") .. "}" .. "/refactor.org",
+        template = dev_preamble,
+        target = topic_target .. "/dev/refactor.org",
       },
     },
   },
@@ -102,28 +101,28 @@ local capture_templates = {
     subtemplates = {
       o = {
         description = "Oneoff tasks",
-        template = task_todo .. task_template,
-        target = org_tasks .. "/tasks/oneoff.org",
+        template = task_preamble .. heading_drawer,
+        target = topic_target .. "/tasks/oneoff.org",
       },
       i = {
         description = "Incidental tasks",
-        template = task_todo .. task_template,
-        target = org_tasks .. "/tasks/incidental.org",
+        template = task_preamble .. heading_drawer,
+        target = topic_target .. "/tasks/incidental.org",
       },
       c = {
         description = "Coordinated tasks",
-        template = task_todo .. task_template,
-        target = org_tasks .. "/tasks/coordinated.org",
+        template = task_preamble .. heading_drawer,
+        target = topic_target .. "/tasks/coordinated.org",
       },
       p = {
         description = "Planned tasks",
-        template = task_todo .. task_template,
-        target = org_tasks .. "/tasks/planned.org",
+        template = task_preamble .. heading_drawer,
+        target = topic_target .. "/tasks/planned.org",
       },
       r = {
         description = "Recurring tasks",
-        template = task_recurring_todo .. task_template,
-        target = org_tasks .. "/tasks/recurring.org",
+        template = task_preamble_recurring .. heading_drawer,
+        target = topic_target .. "/tasks/recurring.org",
       },
     },
   },
@@ -134,12 +133,12 @@ local capture_templates = {
       p = {
         description = "Purchase list",
         template = list_preamble .. "\n** %<%Y%m%d> - %^{List Title}\n:PROPERTIES:\n:CREATED_ON: %<%y%m%d>\n:END:\n%?",
-        target = org_lists .. "/lists/purchase.org",
+        target = topic_target .. "/lists/purchase.org",
       },
       l = {
         description = "Location list",
         template = list_preamble .. "\n** %^{Enter Location Name}",
-        target = org_lists .. "/lists/location.org",
+        target = topic_target .. "/lists/location.org",
       },
     },
   },

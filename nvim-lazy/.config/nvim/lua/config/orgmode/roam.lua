@@ -10,9 +10,7 @@ local roam_templates = {
     template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
 #+FILETAGS:
 %?]],
-    target = "topics/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. utils.get_filename(
-      base_dir .. zettel_dir
-    ) .. "}.org",
+    target = "topics/%^{Topic|" .. utils.get_topic_dirs() .. "}" .. "/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}.org",
   },
   n = {
     description = "New Document",
@@ -20,7 +18,7 @@ local roam_templates = {
 #+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+FILETAGS:
 %?]],
-    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
+    target = "topics/%^{Topic|" .. utils.get_topic_dirs() .. "}" .. "/docs/%[slug].org",
   },
 }
 
