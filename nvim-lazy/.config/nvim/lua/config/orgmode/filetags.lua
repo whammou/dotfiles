@@ -36,7 +36,7 @@ local function inject_filetags_hook(self, content, content_type)
   local filetags_line = "#+FILETAGS: " .. filetags
 
   if content:match("#%+FILETAGS:") then
-    return content:gsub("#%+FILETAGS: [^\n]*", filetags_line)
+    return content:gsub("#%+FILETAGS:[^\n]*", filetags_line)
   end
 
   -- No existing FILETAGS — insert after #+TODO: line, or else prepend
@@ -79,47 +79,99 @@ do
   end
 end
 
--- Path → FILETAGS rules.
-local rules = {
-  -- Capture templates: subdirectory-prefixed paths
-  { pattern = "/dev/bug%.org$",        tags = ":typDev:catBug:" },
-  { pattern = "/dev/issue%.org$",      tags = ":typDev:catIssue:" },
-  { pattern = "/dev/enhancement%.org$", tags = ":typDev:catEnhancement:" },
-  { pattern = "/dev/refactor%.org$",   tags = ":typDev:catRefactor:" },
-  { pattern = "/milestones/major%.org$", tags = ":typMilestone:catMajor:" },
-  { pattern = "/milestones/minor%.org$", tags = ":typMilestone:catMinor:" },
-  { pattern = "/tasks/oneoff%.org$",   tags = ":typTask:catOneoff:" },
-  { pattern = "/tasks/incidental%.org$", tags = ":typTask:catIncidental:" },
-  { pattern = "/tasks/coordinated%.org$", tags = ":typTask:catCoordinated:" },
-  { pattern = "/tasks/planned%.org$",  tags = ":typTask:catPlanned:" },
-  { pattern = "/tasks/recurring%.org$", tags = ":typTask:catRecurring:" },
-  { pattern = "/lists/purchase%.org$", tags = ":typList:catPurchase:" },
-  { pattern = "/lists/location%.org$", tags = ":typList:catLocation:" },
-  { pattern = "/draft%.org$",          tags = ":typDoc:catDraft:" },
-  { pattern = "/capture%.org$",        tags = ":typJournal:catCapture:" },
-  -- Roam templates: filename-only paths (less specific)
-  { pattern = "/bug%.org$",            tags = ":typDev:catBug:" },
-  { pattern = "/issue%.org$",          tags = ":typDev:catIssue:" },
-  { pattern = "/enhancement%.org$",    tags = ":typDev:catEnhancement:" },
-  { pattern = "/refactor%.org$",       tags = ":typDev:catRefactor:" },
-  { pattern = "/minor%.org$",          tags = ":typMilestone:catMinor:" },
-  { pattern = "/major%.org$",          tags = ":typMilestone:catMajor:" },
+--- Map from parent directory name → typ tag value.
+--- `cat` is always derived from the filename itself.
+local typ_dir = {
+  dev = "Dev",
+  milestones = "Milestone",
+  tasks = "Task",
+  lists = "List",
+  docs = "Doc",
+  vault = "Zettel",
 }
 
---- Infer filetags from a capture target path string.
---- The path may still contain `%^{...}` prompt placeholders — the static
---- suffix is sufficient for disambiguation.
+--- Map from filename → typ tag value for root-level files that don't have a
+--- directory prefix (e.g. ~/Journal/capture.org).
+local typ_file = {
+  capture = "Journal",
+}
+
+---@param file string  Filename stem (e.g. "bug", "oneoff")
+---@return string  Uppercase-first stem (e.g. "Bug", "Oneoff")
+local function ucfirst(file)
+  return file:sub(1, 1):upper() .. file:sub(2)
+end
+
+---@param dir string  Parent directory name
+---@param file string  Filename stem
+---@return string  e.g. ":typDev:catBug:" or ":typDoc:" (docs without cat)
+local function infer_with(dir, file)
+  local typ = typ_dir[dir] or "Doc"
+  -- Docs (non-draft) get typ only, no cat — existing files have no FILETAGS at all
+  if dir == "docs" and file ~= "draft" then
+    return ":typ" .. typ .. ":"
+  end
+  return ":typ" .. typ .. ":cat" .. ucfirst(file) .. ":"
+end
+
+---@param file string  Filename stem
+---@return string  e.g. ":typJournal:catCapture:"
+local function infer_file_only(file)
+  local typ = typ_file[file] or "Doc"
+  return ":typ" .. typ .. ":cat" .. ucfirst(file) .. ":"
+end
+
+--- Derive type (`typ`) and category (`cat`) FILETAGS from a capture target path.
+---
+--- Rules:
+--- - `cat` = "cat" + filename-stem with uppercase first letter
+---   (e.g. bug.org → catBug, oneoff.org → catOneoff, draft.org → catDraft)
+--- - `typ` is determined by the parent directory name (dev→Dev, tasks→Task, ...)
+---   or by typ_file for root-level files (capture→Journal)
+--- - Files under an unrecognized directory default to typDoc.
+---
+--- Handles both absolute paths (/home/.../dev/bug.org) and relative paths
+--- from org-roam (topics/vault/node.org, opsys/doc.org, capture.org).
+--- The path may still contain `%^{...}` prompt placeholders at non-suffix
+--- positions — matching works from the end, so the suffix is sufficient.
+---
 --- @param target_path string
---- @return string|nil  e.g. ":typDev:catBug:", or nil when no rule matches
+--- @return string|nil  e.g. ":typDev:catBug:", or nil when path has no .org file
 function M.infer(target_path)
   if not target_path then
     return nil
   end
-  for _, r in ipairs(rules) do
-    if target_path:match(r.pattern) then
-      return r.tags
-    end
+
+  -- Absolute: /.../dir/file.org
+  local dir, file = target_path:match("/([^/]+)/([^/]+)%.org$")
+  if dir and file then
+    return infer_with(dir, file)
   end
+
+  -- Roam with topics/ prefix: topics/dir/file.org
+  local dir, file = target_path:match("^topics/([^/]+)/([^/]+)%.org$")
+  if dir and file then
+    return infer_with(dir, file)
+  end
+
+  -- Relative two-level: dir/file.org
+  local dir, file = target_path:match("^([^/]+)/([^/]+)%.org$")
+  if dir and file then
+    return infer_with(dir, file)
+  end
+
+  -- Absolute single: /.../file.org
+  local file = target_path:match("/([^/]+)%.org$")
+  if file then
+    return infer_file_only(file)
+  end
+
+  -- Relative single: file.org (roam root files)
+  local file = target_path:match("^([^/]+)%.org$")
+  if file then
+    return infer_file_only(file)
+  end
+
   return nil
 end
 

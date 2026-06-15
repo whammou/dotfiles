@@ -1,7 +1,28 @@
 local dir = require("config.orgmode.directories")
+local utils = require("config.orgmode.utils")
 
 local base_dir = dir.base_dir
 local zettel_dir = dir.zettel_dir
+
+local roam_templates = {
+  z = {
+    description = "Zettelkasten",
+    template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
+#+FILETAGS:
+%?]],
+    target = "topics/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))|" .. utils.get_filename(
+      base_dir .. zettel_dir
+    ) .. "}.org",
+  },
+  n = {
+    description = "New Document",
+    template = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
+#+FILETAGS:
+%?]],
+    target = "%^{Topic|" .. utils.get_dir_path(base_dir, "docs") .. "}" .. "/%[slug].org",
+  },
+}
 
 require("org-roam").setup({
   directory = base_dir,
@@ -32,5 +53,5 @@ require("org-roam").setup({
   bindings = {
     capture = "<leader>od",
   },
-  -- templates removed — nvim-orgmode now handles all captures
+  templates = roam_templates,
 })
