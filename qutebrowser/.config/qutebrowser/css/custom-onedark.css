@@ -102,13 +102,26 @@ div, canvas, svg {
 /* Font and text reset */
 div, li, html, body {
   font-family: "HasklugNerdFont", monospace !important;
-  background-image: none !important;
   color: var(--od-fg) !important;
+}
+
+/* Page-level backgrounds */
+html, body {
+  background-image: none !important;
 }
 
 /* Structural elements */
 nav, aside, header, footer {
   background-color: var(--od-bg1) !important;
+}
+
+/* Semantic layout elements */
+main {
+  background-color: var(--od-bg0) !important;
+}
+
+article, section, form {
+  background-color: var(--od-bg0) !important;
 }
 
 /* Site-specific background image removal */
@@ -126,6 +139,19 @@ span.marketing-card-note {
 span {
   background-color: transparent !important;
   color: var(--od-light-grey);
+}
+
+/* Content elements inherit parent background - prevents mismatch inside elevated containers */
+p, ul, ol, li, label, small, sub, sup,
+abbr, address, dfn, cite, output,
+em, i, q, u, s, del, ins, var,
+data, time, bdi, bdo {
+  background-color: transparent !important;
+}
+
+/* Media elements - never force background behind them */
+img, picture, video, iframe, embed, object {
+  background-color: transparent !important;
 }
 
 /* Themed Scrollbars */
@@ -209,7 +235,8 @@ figure {
 }
 
 figcaption {
-  color: var(--od-grey);
+  background-color: var(--od-bg1) !important;
+  color: var(--od-grey) !important;
   font-style: italic;
 }
 
@@ -251,20 +278,34 @@ ul li, ol li {
 /* Links */
 a {
   background-color: transparent !important;
-  color: var(--od-blue);
+  color: var(--od-blue) !important;
 }
 
 a:link {
-  color: var(--od-blue);
+  color: var(--od-blue) !important;
 }
 
 a:visited {
-  color: var(--od-dark-blue);
+  color: var(--od-dark-blue) !important;
+}
+
+a:visited:hover {
+  color: var(--od-dark-green) !important;
 }
 
 a:hover, a:focus {
   color: var(--od-green) !important;
   text-decoration: underline;
+}
+
+a:active {
+  color: var(--od-orange) !important;
+}
+
+a:focus-visible {
+  color: var(--od-cyan) !important;
+  outline: 2px solid var(--od-cyan);
+  outline-offset: 2px;
 }
 
 /* Specialized links */
@@ -298,6 +339,68 @@ div.page-title,
 a.s-tag.post-tag {
   color-scheme: only light !important;
   color: var(--od-green);
+}
+
+/* Additional text-level elements */
+q {
+  color: var(--od-light-grey) !important;
+  font-style: italic;
+}
+
+cite {
+  color: var(--od-cyan) !important;
+}
+
+dfn {
+  color: var(--od-light-grey) !important;
+  font-style: italic;
+}
+
+abbr {
+  color: var(--od-grey) !important;
+}
+
+small {
+  color: var(--od-grey) !important;
+}
+
+sub, sup {
+  color: var(--od-grey) !important;
+}
+
+u {
+  color: var(--od-cyan) !important;
+  text-decoration: none;
+}
+
+s, del {
+  color: var(--od-dark-red) !important;
+}
+
+ins {
+  color: var(--od-green) !important;
+}
+
+var {
+  color: var(--od-orange) !important;
+  font-style: italic;
+}
+
+address {
+  color: var(--od-light-grey) !important;
+  font-style: italic;
+}
+
+output {
+  color: var(--od-cyan) !important;
+}
+
+data, time {
+  color: var(--od-light-grey) !important;
+}
+
+bdi, bdo {
+  color: var(--od-fg) !important;
 }
 
 /* ==========================================================================
@@ -362,7 +465,6 @@ pre {
 }
 
 pre code {
-  background-color: transparent;
   padding: 0;
 }
 
@@ -381,6 +483,11 @@ input:focus, textarea:focus, select:focus {
   outline: 2px solid var(--od-blue);
   outline-offset: 1px;
   border-color: var(--od-blue);
+}
+
+option, optgroup {
+  background-color: var(--od-bg3) !important;
+  color: var(--od-fg);
 }
 
 input::placeholder, textarea::placeholder {
@@ -461,7 +568,12 @@ th, thead {
 
 td {
   background-color: var(--od-bg0);
+  border-color: var(--od-bg_d);
   color: var(--od-green) !important;
+}
+
+tr, tbody {
+  border-color: var(--od-bg_d);
 }
 
 tbody tr:nth-child(odd) {
