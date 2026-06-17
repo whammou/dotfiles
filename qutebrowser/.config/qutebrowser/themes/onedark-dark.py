@@ -23,6 +23,7 @@ purple = "#c678dd"
 
 c.hints.border = "0px"
 c.hints.radius = 0
+c.hints.padding = {"top": 2, "bottom": 2, "left": 4, "right": 4}
 c.fonts.hints = "default_size default_family"
 
 c.fonts.default_size = "13pt"

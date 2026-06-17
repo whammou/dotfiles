@@ -282,30 +282,16 @@ a {
 }
 
 a:link {
-  color: var(--od-blue) !important;
+  color: var(--od-blue);
 }
 
 a:visited {
-  color: var(--od-dark-blue) !important;
-}
-
-a:visited:hover {
-  color: var(--od-dark-green) !important;
+  color: var(--od-dark-blue);
 }
 
 a:hover, a:focus {
-  color: var(--od-green) !important;
+  color: var(--od-green);
   text-decoration: underline;
-}
-
-a:active {
-  color: var(--od-orange) !important;
-}
-
-a:focus-visible {
-  color: var(--od-cyan) !important;
-  outline: 2px solid var(--od-cyan);
-  outline-offset: 2px;
 }
 
 /* Specialized links */
