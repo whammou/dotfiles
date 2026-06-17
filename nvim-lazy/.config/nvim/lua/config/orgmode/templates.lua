@@ -7,15 +7,13 @@ local base_dir = dir.base_dir
 local heading_drawer = "\n\n* %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uuidgen')):END:"
 
 --- Task preamble: DOIN/PROG/NEXT/WAIT state sequence. Order matches actual task/*.org.
-local task_preamble = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+local task_preamble =
+  [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+FILETAGS:]]
 
 --- Recurring adds RECR before TODO.
-local task_preamble_recurring = task_preamble:gsub(
-  "#%+TODO: ",
-  "#+TODO: RECR(l) "
-)
+local task_preamble_recurring = task_preamble:gsub("#%+TODO: ", "#+TODO: RECR(l) ")
 
 --- Dev preamble: OPEN/PROG/NEXT state sequence.
 local dev_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
@@ -34,12 +32,13 @@ local list_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil title:n
 
 --- Draft preamble: uses same full TODO as tasks, with draft-specific OPTIONS.
 --- Matches actual docs/draft.org (minus TITLE, which is file-specific).
-local draft_preamble = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+local draft_preamble =
+  [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+FILETAGS:]]
 
 -- Always list topic directories for capture completion, auto-append subdirectory.
-local topic_target = base_dir .. "topics/%^{Topic|" .. utils.get_topic_dirs() .. "}"
+local topic_target = base_dir .. "/%^{Topic|" .. utils.get_topic_dirs() .. "}"
 
 local capture_templates = {
   c = {

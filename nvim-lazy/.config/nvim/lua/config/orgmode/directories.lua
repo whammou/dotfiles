@@ -1,5 +1,5 @@
-local base_dir = vim.fn.expand("~/Journal/")
-local zettel_dir = "/topics/vault/"
+local base_dir = vim.fn.expand("~/.local/share/orgmode/")
+local zettel_dir = "/vault/"
 local relative_dir = vim.fn.getcwd():gsub(base_dir, "")
 
 local dir = {

@@ -1,6 +1,5 @@
 vim.opt_local.formatoptions:remove({ "c", "r", "o" })
-vim.opt_local.foldlevel = 0
-vim.opt_local.foldlevelstart = 1
+vim.opt_local.foldlevelstart = 0
 vim.opt_local.foldminlines = 1
 vim.opt_local.cmdheight = 0
 vim.opt_local.wrap = true
@@ -59,13 +58,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- OrgFiletags: interactive fzf-lua picker for #+FILETAGS search
-vim.api.nvim_create_user_command('OrgFiletags', function(opts)
-  require('config.orgmode.filetags').OrgFiletags(opts.args)
-end, { nargs = '?', desc = 'Search org files by #+FILETAGS (interactive fzf-lua picker)' })
+vim.api.nvim_create_user_command("OrgFiletags", function(opts)
+  require("config.orgmode.filetags").OrgFiletags(opts.args)
+end, { nargs = "?", desc = "Search org files by #+FILETAGS (interactive fzf-lua picker)" })
 
-vim.keymap.set('n', '<leader>oF', ':OrgFiletags<CR>', {
-  desc = 'Org Filetags (fzf-lua)',
+vim.keymap.set("n", "<leader>oF", ":OrgFiletags<CR>", {
+  desc = "Org Filetags (fzf-lua)",
   buffer = true,
   silent = true,
 })
-

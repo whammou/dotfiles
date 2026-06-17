@@ -31,7 +31,7 @@ end
 --- List all topic directories under topics/ for capture completion.
 --- Always returns all topics regardless of whether subdirectories exist.
 function M.get_topic_dirs()
-  local topics_dir = dir.base_dir .. "topics/"
+  local topics_dir = dir.base_dir
   local dirs = vim.fn.glob(topics_dir .. "*", 0, 1)
   local result = {}
   for _, d in ipairs(dirs) do

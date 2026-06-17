@@ -65,23 +65,23 @@ local function is_real_file_buffer(buf)
   return buftype == "" and bufname ~= ""
 end
 
-vim.api.nvim_create_autocmd("BufWinLeave", {
-  pattern = "*",
-  callback = function(args)
-    if is_real_file_buffer(args.buf) then
-      vim.cmd("silent! mkview!")
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = "*",
-  callback = function(args)
-    if is_real_file_buffer(args.buf) then
-      vim.cmd("silent! loadview")
-    end
-  end,
-})
+--vim.api.nvim_create_autocmd("BufWinLeave", {
+--  pattern = "*",
+--  callback = function(args)
+--    if is_real_file_buffer(args.buf) then
+--      vim.cmd("silent! mkview!")
+--    end
+--  end,
+--})
+--
+--vim.api.nvim_create_autocmd("BufWinEnter", {
+--  pattern = "*",
+--  callback = function(args)
+--    if is_real_file_buffer(args.buf) then
+--      vim.cmd("silent! loadview")
+--    end
+--  end,
+--})
 
 -- Disable tree-sitter for larg file
 -- vim.api.nvim_create_autocmd({ "InsertLeave", "InsertEnter" }, {
