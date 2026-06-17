@@ -11,11 +11,32 @@ map("n", "zu", function()
   end)
 end, { desc = "Restore previous view" })
 
+local url_preview = require("config.url_preview")
+
+local IMAGE_EXTS = {
+  png = true, jpg = true, jpeg = true, gif = true, webp = true,
+  svg = true, bmp = true, ico = true, avif = true, tif = true, tiff = true,
+}
+
+local function is_image_url(url)
+  local lower = url:lower():gsub("[?#].*$", "")
+  local ext = lower:match("%.([a-z0-9]+)$")
+  return ext and IMAGE_EXTS[ext] or false
+end
+
 map("n", "P", function()
+  local url = vim.fn.expand("<cfile>")
+  if url and url:match("^https?://[^%s\"'<>()]+") and not is_image_url(url) then
+    return url_preview.preview_url(url)
+  end
+
   local ok, doc = pcall(require, "snacks.image.doc")
   if not ok then
     return
   end
+
+  url_preview.close()
+
   local has_preview = false
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     local cfg = vim.api.nvim_win_get_config(win)
@@ -39,4 +60,4 @@ map("n", "P", function()
   else
     doc.hover()
   end
-end, { desc = "Toggle Snacks image preview" })
+end, { desc = "Toggle Snacks image/URL preview" })

@@ -192,6 +192,43 @@ return {
         timeout = 5000,
       },
     },
+    config = function(_, opts)
+      require("snacks").setup(opts)
+      local convert = require("snacks.image.convert")
+      local _convert = convert.convert
+      ---@diagnostic disable-next-line: duplicate-set-field
+      function convert.convert(copts)
+        local src = copts.src
+        local ext = src and src:match("%.(%w+)$")
+        local diag_exts = { mmd = "mermaid", dot = "DOT", puml = "PlantUML", gv = "DOT" }
+        local label = diag_exts[ext or ""]
+        if label then
+          local cache = Snacks.image.config.cache
+          local base = vim.fn.fnamemodify(src, ":t:r")
+          local prefix = vim.fn.sha256(src .. "0"):sub(1, 8) .. "-"
+            .. base:gsub("[^%w%.]+", "-")
+          local expected = cache .. "/" .. prefix .. "." .. vim.o.background .. ".png"
+          local uncached = vim.fn.filereadable(expected) == 0
+          if uncached then
+            vim.notify("Rendering " .. label .. " diagram …", vim.log.levels.INFO)
+          end
+          local orig_on_done = copts.on_done
+          copts.on_done = function(c)
+            vim.schedule(function()
+              if c:error() then
+                vim.notify("Rendering failed: " .. src, vim.log.levels.WARN)
+              elseif uncached then
+                vim.notify("Rendered " .. label .. " diagram", vim.log.levels.INFO)
+              end
+            end)
+            if orig_on_done then
+              orig_on_done(c)
+            end
+          end
+        end
+        return _convert(copts)
+      end
+    end,
     keys = {
       { "<leader>n", false },
       {
