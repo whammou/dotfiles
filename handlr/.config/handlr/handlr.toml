@@ -23,3 +23,8 @@ regexes = ['scp?:\/\/[^\s\/$.?#].[^\s]*'] # Use single-quote literal strings
 exec = "handlr launch .mkv %u"
 terminal = false
 regexes = ['(https://)?(www\.)?youtu(be\.com|\.be)/*.']
+
+[[handlers]]
+exec = "orgmode-open-id %u"
+terminal = true
+regexes = ['^id:']

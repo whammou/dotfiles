@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Open Org ID
+Exec=orgmode-open-id %u
+StartupNotify=false
+MimeType=x-scheme-handler/id;
+NoDisplay=true
+Terminal=false
+Categories=Utility;
