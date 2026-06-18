@@ -101,7 +101,7 @@ div, canvas, svg {
 
 /* Font and text reset */
 div, li, html, body {
-  font-family: "HasklugNerdFont", monospace !important;
+  font-family: "Hasklug Nerd Font", monospace !important;
   color: var(--od-fg) !important;
 }
 
@@ -427,7 +427,7 @@ hr {
 code, pre, kbd, samp {
   border-radius: 4px !important;
   border: none !important;
-  font-family: "FiraCode", "JetBrains Mono", monospace !important;
+  font-family: "Hasklug Nerd Font" monospace !important;
   background-color: var(--od-bg3) !important;
   padding: 0.2em 0.4em;
   color: var(--od-green);
