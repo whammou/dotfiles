@@ -95,7 +95,7 @@
 input#query-builder-test,
 textarea#read-only-cursor-text-area,
 textarea#copilot-chat-textarea,
-div, canvas, svg {
+canvas, svg {
   background-color: transparent !important;
 }
 
@@ -137,15 +137,11 @@ span.marketing-card-note {
 }
 
 span {
-  background-color: transparent !important;
   color: var(--od-light-grey);
 }
 
-/* Content elements inherit parent background - prevents mismatch inside elevated containers */
-p, ul, ol, li, label, small, sub, sup,
-abbr, address, dfn, cite, output,
-em, i, q, u, s, del, ins, var,
-data, time, bdi, bdo {
+/* Content elements with high layering probability - prevent mismatch inside elevated containers */
+div, span, a, p, ul, ol, li, label {
   background-color: transparent !important;
 }
 
@@ -272,17 +268,12 @@ li::marker {
 }
 
 ul li, ol li {
-  color: var(--od-cyan);
+  color: var(--od-fg) !important;
 }
 
 /* Links */
 a {
-  background-color: transparent !important;
   color: var(--od-blue) !important;
-}
-
-a:link {
-  color: var(--od-blue);
 }
 
 a:visited {
@@ -398,7 +389,7 @@ blockquote {
   border-left: 4px solid var(--od-cyan);
   padding: 1em 1.5em;
   margin: 1.5em 0;
-  color: var(--od-light-grey);
+  color: var(--od-light-grey) !important;
 }
 
 blockquote ul li,
@@ -427,7 +418,7 @@ hr {
 code, pre, kbd, samp {
   border-radius: 4px !important;
   border: none !important;
-  font-family: "Hasklug Nerd Font" monospace !important;
+  font-family: "Hasklug Nerd Font", monospace !important;
   background-color: var(--od-bg3) !important;
   padding: 0.2em 0.4em;
   color: var(--od-green);
@@ -529,11 +520,6 @@ dialog,
   color: var(--od-fg);
 }
 
-button {
-  background-color: var(--od-bg3) !important;
-  color: var(--od-red) !important;
-}
-
 /* ==========================================================================
    TABLES
    ========================================================================== */
@@ -550,6 +536,16 @@ th, thead {
   font-weight: bold;
   border: 1px solid var(--od-bg1);
   text-align: left;
+}
+
+caption {
+  background-color: var(--od-bg0);
+  color: var(--od-fg);
+  caption-side: bottom;
+}
+
+tfoot {
+  background-color: var(--od-bg1);
 }
 
 td {
