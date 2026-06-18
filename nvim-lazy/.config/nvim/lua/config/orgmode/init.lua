@@ -5,6 +5,7 @@ return {
   require("config.orgmode.options"),
   require("config.orgmode.roam"),
   require("config.orgmode.editor"),
+  require("config.orgmode.goto_id"),
   require("config.orgmode.hyperlinks"),
   require("config.orgmode.exports"),
   require("config.orgmode.agenda"),

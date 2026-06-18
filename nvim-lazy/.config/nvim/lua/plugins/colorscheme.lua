@@ -80,6 +80,8 @@ return {
         ["@org.properties.org"] = { fg = "$tbg_cyan" },
         ["@org.properties.name.org"] = { fg = "$tbg_cyan", fmt = "bold" },
         ["@org.drawer.org"] = { fg = "none" },
+        ["@org.hyperlink"] = { fg = "$blue" },
+        ["@org.hyperlink.desc"] = { fg = "$blue" },
         ["OrgLinksLink"] = { fg = "$blue" },
 
         --Snack dashboard
