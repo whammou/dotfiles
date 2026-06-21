@@ -299,8 +299,6 @@ a.question-hyperlink {
 /* Text elements */
 strong, b {
   color: var(--od-fg);
-  background-color: var(--od-bg1) !important;
-  padding: 0.2em 0.4em;
   font-weight: bold;
 }
 
