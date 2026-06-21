@@ -222,7 +222,7 @@ keymap = [
             ],
             # ["l", in_terminal("lobster"), "pad_small"],
             # ["S-l", in_terminal("lobster -c"), "pad_small"],
-            ["l", in_terminal("noobhub"), "pad_small"],
+            ["l", in_terminal("kari"), "pad_small"],
             [
                 "c",
                 in_terminal(
