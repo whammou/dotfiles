@@ -14,14 +14,11 @@ return {
     },
   },
   {
-    "tangledhelix/org-links.nvim",
-    enabled = false,
+    "seflue/org-link.nvim",
     lazy = true,
-    dependencies = { "nvim-orgmode/orgmode" },
     ft = { "org" },
-    opts = {
-      hl_group = "OrgLinksLink",
-    },
+    dependencies = { "nvim-orgmode/orgmode" },
+    opts = {},
   },
   {
     "whammou/orgmode-babel.nvim",
