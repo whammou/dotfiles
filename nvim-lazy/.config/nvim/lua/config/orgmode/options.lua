@@ -31,6 +31,7 @@ require("orgmode").setup({
     org = {
       org_cycle = false,
       org_toggle_checkbox = "<Leader>oC",
+      org_return = false,
     },
   },
 

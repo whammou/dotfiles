@@ -25,6 +25,14 @@ local function is_image_url(url)
 end
 
 map("n", "P", function()
+  -- Org [[id:UUID]] link preview (only check in org buffers)
+  if vim.bo.filetype == "org" then
+    local ok, mod = pcall(require, "config.orgmode.preview_id")
+    if ok and mod.preview_id_link() then
+      return
+    end
+  end
+
   local url = vim.fn.expand("<cfile>")
   if url and url:match("^https?://[^%s\"'<>()]+") and not is_image_url(url) then
     return url_preview.preview_url(url)
@@ -60,4 +68,4 @@ map("n", "P", function()
   else
     doc.hover()
   end
-end, { desc = "Toggle Snacks image/URL preview" })
+end, { desc = "Preview: org ID / URL / image" })
