@@ -59,11 +59,25 @@ local function preview_id_link()
     focusable = true,
   }
 
-  local buf = vim.lsp.util.open_floating_preview(lines, "", win_opts)
+  local buf, winnr = vim.lsp.util.open_floating_preview(lines, "", win_opts)
   vim.api.nvim_set_option_value("filetype", "org", { buf = buf })
 
-  pcall(vim.api.nvim_buf_clear_namespace, buf,
-    vim.api.nvim_create_namespace("headlines_namespace"), 0, -1)
+  -- Account for headlines.nvim fat_headline virt_lines displacement
+  pcall(function()
+    local ns = vim.api.nvim_create_namespace("headlines_namespace")
+    local extmarks = vim.api.nvim_buf_get_extmarks(buf, ns, 0, -1, { details = true })
+    local extra = 0
+    for _, em in ipairs(extmarks) do
+      local d = em[4]
+      if d then
+        extra = extra + #(d.virt_lines or {}) + #(d.virt_lines_above or {})
+      end
+    end
+    if extra > 0 then
+      local cfg = vim.api.nvim_win_get_config(winnr)
+      vim.api.nvim_win_set_config(winnr, { height = cfg.height + extra })
+    end
+  end)
 
   return true
 end
