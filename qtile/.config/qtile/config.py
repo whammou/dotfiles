@@ -1,5 +1,8 @@
 from libqtile import hook, qtile
 from libqtile.backend.wayland.inputs import InputConfig
+import logging
+from libqtile.log_utils import logger
+
 
 from settings.keys import mod, keys
 from settings.groups import groups
@@ -11,6 +14,9 @@ from settings.path import qtile_path
 
 from os import path
 import subprocess
+
+# Set the log level to CRITICAL to stop regular logs
+logger.setLevel(logging.CRITICAL)
 
 
 @hook.subscribe.startup_once
