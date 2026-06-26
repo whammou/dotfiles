@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Zathura-http
+Comment=A zathura wrapper for working with file over http
+Exec=zapdf %u
+Terminal=false
+Type=Application
+MimeType=application/pdf
+Categories=Viewer
