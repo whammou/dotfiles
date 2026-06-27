@@ -4,11 +4,11 @@
 # Called by [raw-notification] catch-all rule.
 # Suppressed raw notification → enriched display notification.
 #
-# Loop prevention: skip if appname already has dis+ prefix.
+# Loop prevention: skip if appname already has display- prefix.
 # Specific handlers: skip if category = "raw.handled" (call, clock, etc.).
 
 # Loop prevention — skip display notifications re-entering the pipeline
-case "$DUNST_APP_NAME" in dis+*) exit 0 ;; esac
+case "$DUNST_APP_NAME" in display-*) exit 0 ;; esac
 
 # Skip notifications already handled by specific rules (call, clock, etc.)
 [ "$DUNST_CATEGORY" = "raw.handled" ] && exit 0
@@ -26,10 +26,9 @@ progress_args=""
 stack_args=""
 [ -n "$DUNST_STACK_TAG" ] && stack_args="-h string:x-dunst-stack-tag:$DUNST_STACK_TAG"
 
-# Re-send as display notification with dis+ prefixed appname
+# Re-send as display notification with display- prefixed appname
 dunstify \
-  -a "dis+$DUNST_APP_NAME" \
-  -c "ntfy-display" \
+  -a "display-$DUNST_APP_NAME" \
   $urgency_args \
   $progress_args \
   $stack_args \
