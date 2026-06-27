@@ -1,8 +1,37 @@
 #!/usr/bin/env sh
+# notification-format
+#
+# Called by [raw-notification] catch-all rule.
+# Suppressed raw notification → enriched display notification.
+#
+# Loop prevention: skip if appname already has dis+ prefix.
+# Specific handlers: skip if category = "raw.handled" (call, clock, etc.).
 
-notificationTitle=$DUNST_SUMMARY
-notificationBody=$DUNST_BODY
+# Loop prevention — skip display notifications re-entering the pipeline
+case "$DUNST_APP_NAME" in dis+*) exit 0 ;; esac
 
+# Skip notifications already handled by specific rules (call, clock, etc.)
+[ "$DUNST_CATEGORY" = "raw.handled" ] && exit 0
+
+# Enrich body: bold the first colon-separated label (e.g. "AppName: msg" → "AppName: msg")
 formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^:]*):/<b>$1<\/b>:/')
 
-dunstify -c "ntfy-display" "$DUNST_SUMMARY" "$formatedBody"
+# Forward original urgency, stack tag, and progress bar hint
+urgency_args=""
+[ -n "$DUNST_URGENCY" ] && urgency_args="-u $DUNST_URGENCY"
+
+progress_args=""
+[ -n "$DUNST_PROGRESS" ] && progress_args="-h int:value:$DUNST_PROGRESS"
+
+stack_args=""
+[ -n "$DUNST_STACK_TAG" ] && stack_args="-h string:x-dunst-stack-tag:$DUNST_STACK_TAG"
+
+# Re-send as display notification with dis+ prefixed appname
+dunstify \
+  -a "dis+$DUNST_APP_NAME" \
+  -c "ntfy-display" \
+  $urgency_args \
+  $progress_args \
+  $stack_args \
+  "$DUNST_SUMMARY" \
+  "$formatedBody"

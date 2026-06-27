@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 dunstify \
+  -a "dis+$DUNST_APP_NAME" \
   -c reminder \
   "Reminder" \
   "A Timer is reached"

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 dunstify \
+  -a "dis+$DUNST_APP_NAME" \
   "$DUNST_SUMMARY" \
   "Call in progress" \
   -c call.accept.notification \
