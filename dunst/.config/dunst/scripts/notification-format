@@ -16,9 +16,9 @@ case "$DUNST_APP_NAME" in display-*) exit 0 ;; esac
 # Enrich body: bold the first colon-separated label (e.g. "AppName: msg" → "AppName: msg")
 formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^:]*):/<b>$1<\/b>:/')
 
-# Forward original urgency, stack tag, and progress bar hint
+# Forward original urgency (lowercased for dunstify), stack tag, and progress bar hint
 urgency_args=""
-[ -n "$DUNST_URGENCY" ] && urgency_args="-u $DUNST_URGENCY"
+[ -n "$DUNST_URGENCY" ] && urgency_args="-u $(echo "$DUNST_URGENCY" | tr '[:upper:]' '[:lower:]')"
 
 progress_args=""
 [ -n "$DUNST_PROGRESS" ] && progress_args="-h int:value:$DUNST_PROGRESS"
