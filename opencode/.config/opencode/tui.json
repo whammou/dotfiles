@@ -47,5 +47,8 @@
     "history_previous": "ctrl+up",
     "history_next": "ctrl+down",
     "display_thinking": "<leader>t"
-  }
+  },
+  "plugin": [
+    "oh-my-openagent@latest"
+  ]
 }
