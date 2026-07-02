@@ -148,7 +148,15 @@ return {
         end,
         desc = "Find bin files",
       },
+      {
+        "<leader>fw",
+        function()
+          require("custom.webdav-fzf").browse()
+        end,
+        desc = "Browse WebDAV files",
+      },
     },
+    cmd = { "WebdavFzf" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       winopts = {
