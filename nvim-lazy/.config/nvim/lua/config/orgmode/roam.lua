@@ -10,7 +10,10 @@ local roam_templates = {
     template = [[#+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t
 #+FILETAGS:
 %?]],
-    target = "topics/%^{Topic|" .. utils.get_topic_dirs() .. "}" .. "/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}.org",
+    target = "topics/%^{Topic|"
+      .. utils.get_topic_dirs()
+      .. "}"
+      .. "/vault/%^{Insert node|draft|%(return vim.fn.expand('%:t:r'))}.org",
   },
   n = {
     description = "New Document",
@@ -18,13 +21,13 @@ local roam_templates = {
 #+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+FILETAGS:
 %?]],
-    target = "topics/%^{Topic|" .. utils.get_topic_dirs() .. "}" .. "/docs/%[slug].org",
+    target = "%^{Topic|" .. utils.get_topic_dirs() .. "}" .. "/docs/%[slug].org",
   },
 }
 
 require("org-roam").setup({
   directory = base_dir,
-  org_files = { base_dir .. "/topics/**/*.org" },
+  org_files = { base_dir .. "/**/*.org" },
   extensions = { dailies = { directory = zettel_dir .. "/" .. ".daily" } },
   database = {
     path = vim.fn.expand("~/.roamdb.json"),
