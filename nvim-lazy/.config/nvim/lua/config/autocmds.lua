@@ -35,7 +35,7 @@ vim.api.nvim_create_autocmd("BufNewFile", {
   group = vim.api.nvim_create_augroup("UnsupportedRemoteFile", { clear = true }),
   callback = function()
     local f = vim.fn.expand("%:p")
-    for _, v in ipairs({ "dav", "fetch", "ftp", "http", "rcp", "rsync" }) do
+    for _, v in ipairs({ "davs", "dav", "fetch", "ftp", "http", "https", "rcp", "rsync" }) do
       local p = v .. "://"
       if string.sub(f, 1, #p) == p then
         vim.cmd([[

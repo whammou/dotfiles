@@ -21,6 +21,11 @@ terminal = true
 regexes = ['scp?:\/\/[^\s\/$.?#].[^\s]*']
 
 [[handlers]]
+exec = "davs-open %u"
+terminal = true
+regexes = ['^https://[^\s/]+/.*\.org(?:\?[^\s]*)?(?:\#[^\s]*)?$']
+
+[[handlers]]
 exec = "zapdf %u"
 terminal = false
 regexes = ['https?:\/\/[^\s]+\.pdf(?:\?[^\s]*)?(?:\#[^\s]*)?']
