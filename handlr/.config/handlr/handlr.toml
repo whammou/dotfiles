@@ -21,7 +21,7 @@ terminal = true
 regexes = ['scp?:\/\/[^\s\/$.?#].[^\s]*']
 
 [[handlers]]
-exec = "davs-open %u"
+exec = 'sh -c "exec nvim \"$(echo \"$1\" | sed \"s,https://,davs://,\")\"" sh %u'
 terminal = true
 regexes = ['^https://[^\s/]+/.*\.org(?:\?[^\s]*)?(?:\#[^\s]*)?$']
 
