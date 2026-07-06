@@ -11,7 +11,7 @@ regexes = [
 ]
 
 [[handlers]]
-exec = "mpv %u"
+exec = "handlr launch .mkv %u"
 terminal = false
 regexes = ['https?:\/\/[^\s\/$.?#].[^\s]*\.(?:mp4|mkv)$']
 
@@ -51,7 +51,7 @@ regexes = ['^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$']
 # regexes = ['(https://)?(www\.)?youtu(be\.com|\.be)/*.*#__preview']
 
 [[handlers]]
-exec = "handlr-open-office %u"
+exec = "handlr launch .docx %u"
 terminal = false
 regexes = [
   'https?:\/\/[^\s]+\.(abw|csv|dbf|dif|djvu|doc|docm|docx|dot|dotm|dotx|epub|fodg|fodp|fods|fodt|gnumeric|htm|html|json|md|mml|mobi|odf|odg|odm|odp|ods|odt|otg|oth|otp|ots|ott|oxt|pot|potm|potx|ppsx|ppt|pptm|pptx|rtf|slk|sxc|sxi|t602|tsv|txt|typ|uos|uot|uof|wpd|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xml)(?:\?[^\s]*)?(?:\#[^\s]*)?$'

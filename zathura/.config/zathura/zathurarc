@@ -1,8 +1,9 @@
 set window-title-basename true
 set recolor true
+set adjust-open "width"
 set guioptions None
 set selection-clipboard clipboard
-set font "saucecodepro 12"
+set font "HasklugNerdFont 12"
 
 #map <C-c> set recolor
 
