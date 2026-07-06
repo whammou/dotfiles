@@ -2,6 +2,8 @@ set window-title-basename true
 set recolor true
 set adjust-open "width"
 set guioptions None
+set open-first-page false
+set continuous-hist-save false
 set selection-clipboard clipboard
 set font "HasklugNerdFont 12"
 

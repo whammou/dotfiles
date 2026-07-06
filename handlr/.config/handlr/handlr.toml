@@ -28,7 +28,11 @@ regexes = ['^https://[^\s/]+/.*\.org(?:\?[^\s]*)?(?:\#[^\s]*)?$']
 [[handlers]]
 exec = "zapdf %u"
 terminal = false
-regexes = ['https?:\/\/[^\s]+\.pdf(?:\?[^\s]*)?(?:\#[^\s]*)?']
+regexes = [
+  'https?:\/\/[^\s]+\.pdf(?:\?[^\s]*)?(?:\#[^\s]*)?',
+  'file:\/\/[^\s]+\.pdf(?:\?[^\s]*)?(?:\#[^\s]*)?',
+  '^\/.*\.pdf(?:\?[^\s]*)?(?:\#[^\s]*)?$',
+]
 
 [[handlers]]
 exec = "handlr launch .mkv %u"
@@ -54,5 +58,7 @@ regexes = ['^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$']
 exec = "handlr launch .docx %u"
 terminal = false
 regexes = [
-  'https?:\/\/[^\s]+\.(abw|csv|dbf|dif|djvu|doc|docm|docx|dot|dotm|dotx|epub|fodg|fodp|fods|fodt|gnumeric|htm|html|json|md|mml|mobi|odf|odg|odm|odp|ods|odt|otg|oth|otp|ots|ott|oxt|pot|potm|potx|ppsx|ppt|pptm|pptx|rtf|slk|sxc|sxi|t602|tsv|txt|typ|uos|uot|uof|wpd|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xml)(?:\?[^\s]*)?(?:\#[^\s]*)?$'
+  'https?:\/\/[^\s]+\.(abw|csv|dbf|dif|djvu|doc|docm|docx|dot|dotm|dotx|epub|fodg|fodp|fods|fodt|gnumeric|htm|html|json|md|mml|mobi|odf|odg|odm|odp|ods|odt|otg|oth|otp|ots|ott|oxt|pot|potm|potx|ppsx|ppt|pptm|pptx|rtf|slk|sxc|sxi|t602|tsv|txt|typ|uos|uot|uof|wpd|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xml)(?:\?[^\s]*)?(?:\#[^\s]*)?$',
+  'file:\/\/[^\s]+\.(abw|csv|dbf|dif|djvu|doc|docm|docx|dot|dotm|dotx|epub|fodg|fodp|fods|fodt|gnumeric|htm|html|json|md|mml|mobi|odf|odg|odm|odp|ods|odt|otg|oth|otp|ots|ott|oxt|pot|potm|potx|ppsx|ppt|pptm|pptx|rtf|slk|sxc|sxi|t602|tsv|txt|typ|uos|uot|uof|wpd|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xml)(?:\?[^\s]*)?(?:\#[^\s]*)?$',
+  '^\/.*\.(abw|csv|dbf|dif|djvu|doc|docm|docx|dot|dotm|dotx|epub|fodg|fodp|fods|fodt|gnumeric|htm|html|json|md|mml|mobi|odf|odg|odm|odp|ods|odt|otg|oth|otp|ots|ott|oxt|pot|potm|potx|ppsx|ppt|pptm|pptx|rtf|slk|sxc|sxi|t602|tsv|txt|typ|uos|uot|uof|wpd|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xml)(?:\?[^\s]*)?(?:\#[^\s]*)?$',
 ]
