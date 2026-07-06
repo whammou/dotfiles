@@ -1,32 +1,32 @@
 # Get editor completions based on the config schema
-"$schema" = 'https://starship.rs/config-schema.json'
+"$schema" = "https://starship.rs/config-schema.json"
 
 add_newline = true
 command_timeout = 3000
 
-format = '$jobs$all $character'
+format = "$jobs$all $character"
 
 [character]
-success_symbol = "[](bold green)"
-vimcmd_symbol = "[](bold red)"
-error_symbol = "[](bold red)"
+success_symbol = "[ ](bold green)"
+vimcmd_symbol = "[ ](bold red)"
+error_symbol = "[ ](bold red)"
 
 [cmd_duration]
 disabled = true
-format = ' [ $duration ]($style)'
-style = 'bg:yellow fg:black'
+format = " [ $duration ]($style)"
+style = "bg:yellow fg:black"
 show_milliseconds = false
 
 [time]
 disabled = true
 format = "[ $time ]($style)"
 time_format = "%R"
-style = 'bg:#00FF00 fg:#000000'
+style = "bg:#00FF00 fg:#000000"
 
 [directory]
 read_only = " 󰌾"
 format = "[ $path ]($style)"
-style = 'fg:bold blue'
+style = "fg:bold blue"
 home_symbol = " "
 
 [username]
@@ -42,16 +42,16 @@ tag_symbol = " tag "
 
 [git_status]
 style = "bold red"
-conflicted = ' 󰅗 '
-ahead = ' ⇡ '
-behind = ' ⇣ '
-diverged = ' ⇕ '
-untracked = ' 󰐖 '
-stashed = ' 󰏗 '
-modified = ' 󰝤 '
-staged = '  '
-renamed = ' 󰏬 '
-deleted = '  '
+conflicted = " 󰅗 "
+ahead = " ⇡ "
+behind = " ⇣ "
+diverged = " ⇕ "
+untracked = " 󰐖 "
+stashed = " 󰏗 "
+modified = " 󰝤 "
+staged = "  "
+renamed = " 󰏬 "
+deleted = "  "
 
 [aws]
 symbol = "  "
