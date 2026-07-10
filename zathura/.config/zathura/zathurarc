@@ -30,7 +30,7 @@ set notification-warning-fg	"#282c34"
 set notification-warning-bg	"#e5c07b"
 
 set inputbar-fg			    "#abb2bf"
-set inputbar-bg 		    "#282c34"
+set inputbar-bg 		    "#3b3f4c"
 
 set recolor-lightcolor		"#282c34"
 set recolor-darkcolor		"#abb2bf"
