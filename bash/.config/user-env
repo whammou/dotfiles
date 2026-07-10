@@ -1,0 +1,27 @@
+# ─ Shared environment — single source of truth ─
+# Sourced by: .profile (shell), EnvironmentFile (systemd services)
+# Flat KEY=value format — no export, no $HOME expansion.
+
+# Theme
+GTK_THEME=adw-gtk3-dark:dark
+QT_STYLE_OVERRIDE=Fusion
+QT_QPA_PLATFORMTHEME=qt6ct
+SAL_USE_VCLPLUGIN=qt6
+OZONE_PLATFORM_HINT=auto
+ELECTRON_OZONE_PLATFORM_HINT=auto
+COLORTERM=truecolor
+
+# Input method
+QT_IM_MODULE=fcitx
+GTK_IM_MODULE=fcitx
+GLFW_IM_MODULE=ibus
+XMODIFIERS=@im=fcitx
+
+# Desktop / session
+XDG_CURRENT_DESKTOP=qtile
+XDG_SESSION_TYPE=wayland
+XDG_SESSION_DESKTOP=qtile-wayland
+WAYLAND_DISPLAY=wayland-0
+
+# Editor
+SYSTEMD_EDITOR=nvim
