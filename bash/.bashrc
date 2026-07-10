@@ -1,5 +1,14 @@
+# Source session environment (single source of truth in ~/.profile)
+[ -f "$HOME/.profile" ] && . "$HOME/.profile"
+
+PS1='[\u@\h \W]\$ '
+[ -f "$HOME/.config/fzf/fzf-lua-mimic.sh" ] && source "$HOME/.config/fzf/fzf-lua-mimic.sh"
+eval "$(starship init bash)"
+
+# Machine-local overrides (create ~/.env per-machine for secrets/addresses)
+[ -f "$HOME/.env" ] && source "$HOME/.env"
+
 if [ -n "$SSH_CONNECTION" ]; then
-  #export DBUS_SESSION_BUS_ADDRESS=unix:path=/tmp/ssh_dbus.sock
   curl \
     -H "t:Remote Warning" \
     -d "$(cat /proc/sys/kernel/hostname): SSH Login Warning
