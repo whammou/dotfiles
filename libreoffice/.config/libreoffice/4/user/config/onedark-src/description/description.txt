@@ -1,1 +1,0 @@
-OneDark color theme for LibreOffice matching the qutebrowser OneDark palette.
