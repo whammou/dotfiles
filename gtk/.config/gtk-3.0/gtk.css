@@ -1,0 +1,169 @@
+:root {
+  --blue-1: #89bff5;
+  --blue-2: #75b3f2;
+  --blue-3: #61afef;
+  --blue-4: #4d9ce0;
+  --blue-5: #3a80c0;
+  --green-1: #aedb93;
+  --green-2: #a3d486;
+  --green-3: #98c379;
+  --green-4: #7daf62;
+  --green-5: #639048;
+  --yellow-1: #edd49b;
+  --yellow-2: #e9ca8b;
+  --yellow-3: #e5c07b;
+  --yellow-4: #d4ae65;
+  --yellow-5: #b8944a;
+  --orange-1: #e2b88a;
+  --orange-2: #daa778;
+  --orange-3: #d19a66;
+  --orange-4: #c08850;
+  --orange-5: #a8733e;
+  --red-1: #f08a93;
+  --red-2: #ec7882;
+  --red-3: #e86671;
+  --red-4: #d45863;
+  --red-5: #b84550;
+  --purple-1: #da9ee9;
+  --purple-2: #d18ae3;
+  --purple-3: #c678dd;
+  --purple-4: #b064ca;
+  --purple-5: #944fb0;
+  --brown-1: #bfa88f;
+  --brown-2: #a68e75;
+  --brown-3: #8d755c;
+  --brown-4: #7a634c;
+  --brown-5: #624d39;
+  --light-1: #f0f0f0;
+  --light-2: #d8d8d8;
+  --light-3: #c0c0c0;
+  --light-4: #a8a8a8;
+  --light-5: #909090;
+  --dark-1: #5c6370;
+  --dark-2: #4b5260;
+  --dark-3: #3b3f4c;
+  --dark-4: #31353f;
+  --dark-5: #21252b; }
+
+@define-color blue_1 #89bff5;
+@define-color blue_2 #75b3f2;
+@define-color blue_3 #61afef;
+@define-color blue_4 #4d9ce0;
+@define-color blue_5 #3a80c0;
+@define-color green_1 #aedb93;
+@define-color green_2 #a3d486;
+@define-color green_3 #98c379;
+@define-color green_4 #7daf62;
+@define-color green_5 #639048;
+@define-color yellow_1 #edd49b;
+@define-color yellow_2 #e9ca8b;
+@define-color yellow_3 #e5c07b;
+@define-color yellow_4 #d4ae65;
+@define-color yellow_5 #b8944a;
+@define-color orange_1 #e2b88a;
+@define-color orange_2 #daa778;
+@define-color orange_3 #d19a66;
+@define-color orange_4 #c08850;
+@define-color orange_5 #a8733e;
+@define-color red_1 #f08a93;
+@define-color red_2 #ec7882;
+@define-color red_3 #e86671;
+@define-color red_4 #d45863;
+@define-color red_5 #b84550;
+@define-color purple_1 #da9ee9;
+@define-color purple_2 #d18ae3;
+@define-color purple_3 #c678dd;
+@define-color purple_4 #b064ca;
+@define-color purple_5 #944fb0;
+@define-color brown_1 #bfa88f;
+@define-color brown_2 #a68e75;
+@define-color brown_3 #8d755c;
+@define-color brown_4 #7a634c;
+@define-color brown_5 #624d39;
+@define-color light_1 #f0f0f0;
+@define-color light_2 #d8d8d8;
+@define-color light_3 #c0c0c0;
+@define-color light_4 #a8a8a8;
+@define-color light_5 #909090;
+@define-color dark_1 #5c6370;
+@define-color dark_2 #4b5260;
+@define-color dark_3 #3b3f4c;
+@define-color dark_4 #31353f;
+@define-color dark_5 #21252b;
+/* GTK NAMED COLORS
+   ----------------
+   use responsibly! */
+@define-color accent_bg_color @blue_3;
+@define-color accent_fg_color #282c34;
+@define-color destructive_bg_color @red_4;
+@define-color destructive_fg_color #abb2bf;
+@define-color success_bg_color @green_5;
+@define-color success_fg_color #abb2bf;
+@define-color warning_bg_color #cd9309;
+@define-color warning_fg_color RGB(0 0 0 / 80%);
+@define-color error_bg_color @red_4;
+@define-color error_fg_color #abb2bf;
+@define-color accent_color @blue_3;
+@define-color destructive_color @red_3;
+@define-color success_color @green_3;
+@define-color warning_color @yellow_3;
+@define-color error_color @red_3;
+@define-color theme_bg_color @window_bg_color;
+@define-color theme_fg_color @window_fg_color;
+@define-color theme_base_color @view_bg_color;
+@define-color theme_text_color @view_fg_color;
+@define-color theme_selected_bg_color @accent_bg_color;
+@define-color theme_selected_fg_color @accent_fg_color;
+@define-color window_bg_color #282c34;
+@define-color window_fg_color #abb2bf;
+@define-color view_bg_color #21252b;
+@define-color view_fg_color #abb2bf;
+@define-color headerbar_bg_color #31353f;
+@define-color headerbar_fg_color #abb2bf;
+@define-color headerbar_border_color #3b3f4c;
+@define-color headerbar_backdrop_color @window_bg_color;
+@define-color headerbar_shade_color RGB(0 0 6/36%);
+@define-color headerbar_darker_shade_color RGB(0 0 12/90%);
+@define-color sidebar_bg_color #31353f;
+@define-color sidebar_fg_color #abb2bf;
+@define-color sidebar_backdrop_color #2d323b;
+@define-color sidebar_shade_color RGB(0 0 6/25%);
+@define-color sidebar_border_color #3b3f4c;
+@define-color secondary_sidebar_bg_color #2d323b;
+@define-color secondary_sidebar_fg_color #abb2bf;
+@define-color secondary_sidebar_backdrop_color #2b2f37;
+@define-color secondary_sidebar_shade_color RGB(0 0 6/25%);
+@define-color secondary_sidebar_border_color #3b3f4c;
+@define-color card_bg_color RGB(255 255 255/8%);
+@define-color card_fg_color #abb2bf;
+@define-color card_shade_color RGB(0 0 6/36%);
+@define-color dialog_bg_color #31353f;
+@define-color dialog_fg_color #abb2bf;
+@define-color popover_bg_color #31353f;
+@define-color popover_fg_color #abb2bf;
+@define-color popover_shade_color RGB(0 0 6/25%);
+@define-color thumbnail_bg_color #31353f;
+@define-color thumbnail_fg_color #abb2bf;
+@define-color shade_color RGB(0 0 6/25%);
+@define-color scrollbar_outline_color RGB(0 0 12/95%);
+:root {
+  --standalone-color-oklab: max(l, 0.85) a b;
+  --accent-color: oklab(
+    from var(--accent-bg-color) var(--standalone-color-oklab)
+  );
+  --destructive-color: oklab(
+    from var(--destructive-bg-color) var(--standalone-color-oklab)
+  );
+  --success-color: oklab(
+    from var(--success-bg-color) var(--standalone-color-oklab)
+  );
+  --warning-color: oklab(
+    from var(--warning-bg-color) var(--standalone-color-oklab)
+  );
+  --error-color: oklab(
+    from var(--error-bg-color) var(--standalone-color-oklab)
+  );
+  --active-toggle-bg-color: rgb(255 255 255 / 20%);
+  --active-toggle-fg-color: #abb2bf;
+  --overview-bg-color: #282c34;
+  --overview-fg-color: #abb2bf; }
