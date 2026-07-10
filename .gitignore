@@ -39,3 +39,4 @@ opencode/.config/opencode/node_modules
 /w3m/.w3m/history
 /w3m/.w3m/cookie
 /libreoffice/.config/libreoffice/4/.lock
+/libreoffice/.config/libreoffice/4/user/registrymodifications.xcu
