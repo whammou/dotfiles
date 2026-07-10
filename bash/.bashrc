@@ -18,3 +18,7 @@ IP Address: ${SSH_CLIENT%% *}
 " \
     https://ntfy.sh/whammou-alert
 fi
+
+set -a
+source ~/.env
+set +a
