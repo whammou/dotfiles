@@ -1,4 +1,7 @@
 # Source session environment (single source of truth in ~/.profile)
+# Guard: only run in interactive shells (avoids breaking Wayland compositor startup)
+[[ $- != *i* ]] && return
+
 [ -f "$HOME/.profile" ] && . "$HOME/.profile"
 
 PS1='[\u@\h \W]\$ '
@@ -18,7 +21,3 @@ IP Address: ${SSH_CLIENT%% *}
 " \
     https://ntfy.sh/whammou-alert
 fi
-
-set -a
-source ~/.env
-set +a

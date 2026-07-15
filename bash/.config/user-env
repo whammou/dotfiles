@@ -4,7 +4,6 @@
 
 # Theme
 GTK_THEME=adw-gtk3-dark:dark
-QT_STYLE_OVERRIDE=Fusion
 QT_QPA_PLATFORMTHEME=qt6ct
 SAL_USE_VCLPLUGIN=qt6
 OZONE_PLATFORM_HINT=auto
@@ -19,9 +18,6 @@ XMODIFIERS=@im=fcitx
 
 # Desktop / session
 XDG_CURRENT_DESKTOP=qtile
-XDG_SESSION_TYPE=wayland
-XDG_SESSION_DESKTOP=qtile-wayland
-WAYLAND_DISPLAY=wayland-0
 
 # Editor
 SYSTEMD_EDITOR=nvim
