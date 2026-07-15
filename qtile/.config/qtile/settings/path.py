@@ -11,10 +11,11 @@ def run_script(script_name):
     return path.join(script_path, script_name)
 
 
-def in_terminal(package, terminal="kitty", parameters=None):
+def in_terminal(package, terminal="kitty", parameters=None, app_id=None):
+    app_id_flag = f"--app-id={app_id} " if app_id else ""
     package_launch = "-e " + package
 
     if parameters is None:
-        return " ".join([terminal, package_launch])
+        return " ".join([terminal, app_id_flag + package_launch])
     else:
-        return " ".join([terminal, parameters, package_launch])
+        return " ".join([terminal, app_id_flag + parameters, package_launch])

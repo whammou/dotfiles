@@ -1,10 +1,12 @@
 from libqtile import hook, layout, qtile
+from libqtile.command.base import expose_command
 from libqtile.config import Match
 from qtile_bonsai import Bonsai
 
 from .screens import GAP, OFFSET
 from .theme import colors
 from .smart_bonsai import smart_split
+from .group.scratchpads import scratchpad_layout
 import os
 
 _last_focused = None
@@ -94,8 +96,56 @@ def on_client_focus(window):
 class MyCustomBonsai(Bonsai):
     def __init__(self, *args, **kwargs):
         self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
+        self.float_sizes = kwargs.pop("float_sizes", {})
         super().__init__(*args, **kwargs)
         self.last_focused_window = None
+        self._pending_float = False
+
+    @expose_command
+    def spawn_float(self, program: str):
+        """
+        Launch the provided program and ensure the resulting window is floating.
+
+        Like `spawn_split` / `spawn_tab`, but the spawned window is placed on the
+        floating layer instead of being added to the Bonsai tree.
+        """
+        self._pending_float = True
+        self._spawn_program(program)
+
+    def add_client(self, window):
+        if self._pending_float:
+            self._pending_float = False
+            self._reset_next_window_handler()
+            window.enable_floating()
+            if window.group:
+                window.group.mark_floating(window, True)
+                self._apply_float_size(window)
+            return
+        super().add_client(window)
+
+    def _apply_float_size(self, window):
+        """Apply configured size preset to a floating window."""
+        wm_class = window.get_wm_class()
+        if not wm_class:
+            return
+        klass = wm_class[0].lower()
+        spec = self.float_sizes.get(klass)
+        if not spec:
+            return
+        screen = window.group.screen
+        if not screen:
+            return
+
+        if isinstance(spec, str):
+            geom = scratchpad_layout(preset=spec)
+            sw, sh = screen.width, screen.height
+            w = int(sw * geom["width"])
+            h = int(sh * geom["height"])
+        else:
+            w, h = int(spec[0]), int(spec[1])
+
+        window.set_size_floating(w, h)
+        window.center()
 
     def focus(self, window):
         if self.focused_window:
@@ -174,6 +224,67 @@ layouts = [
             "window.margin": [0, GAP, GAP * 2, GAP],
             "window.default_add_mode": smart_split,
             "excluded_wm_classes": ["mpv"],
+            "float_sizes": {
+                # -- kitty --app-id terminal apps
+                "org-agenda": "pad_large",
+                "org-backlog": "pad_large",
+                "org-browse": "pad_large",
+                "org-super-agenda": "pad_large",
+                "org-search": "pad_large",
+                "lazygit-journal": "pad_large",
+                "lazygit-dotfiles": "pad_large",
+                "org-capture": "pad_small",
+                "org-roam-capture": "pad_small",
+                "nvim": "pad_large",
+                "opencode": "pad_small",
+                "opencode-attach": "pad_small",
+                "test-session": "pad_extra_large",
+                "yazi": "pad_medium",
+                "yazi-sftp": "pad_medium",
+                "yazi-journal": "pad_large",
+                "tmux-session": "pad_large",
+                "ssh-session": "pad_large",
+                "btm": "pad_medium",
+                "mon-battery": "pad_list",
+                "mon-voltage": "pad_list",
+                "tlp-recalibrate": "pad_list",
+                "watch-cpu": "pad_list",
+                "nvtop": "pad_medium",
+                "ncdu": "pad_medium",
+                "xset": "pad_small",
+                "sysz-user": "pad_medium",
+                "sysz-system": "pad_medium",
+                "fzf-emoji": "pad_small",
+                "bluetuith": "pad_small",
+                "yt-x": "pad_small",
+                "sys-upgrade": "pad_large",
+                "chessterm": "pad_small",
+                "newsboat": "pad_large",
+                "notif-history": "pad_small",
+                "neomutt": "pad_large",
+                "mangal": "pad_small",
+                "dict": "pad_small",
+                "anifzf": "pad_small",
+                "ani-cli": "pad_small",
+                "typing-test": "pad_typing",
+                "kari": "pad_small",
+                "calculator": "pad_small",
+                # Native / GUI apps (set their own app_id)
+                "org.qutebrowser.qutebrowser": "pad_large",
+                "rnote": "pad_extra_large",
+                "discord": "pad_tall",
+                "mpv": "pad_wide",
+                "mpv-float": "pad_wide",
+                "feh": "pad_large",
+                "firefox": "pad_large",
+                "Alacritty": "pad_large",
+                "foot": "pad_large",
+                "thunar": "pad_large",
+                "gimp": "pad_extra_large",
+                "obsidian": "pad_extra_large",
+                # Fallback generic kitty (no --app-id)
+                "kitty": "pad_large",
+            },
             "container_select_mode.border_color": colors["orange"],
             "container_select_mode.border_size": BORDER_WIDTH,
             "tab_bar.height": BORDER_WIDTH * 2,

@@ -1,0 +1,338 @@
+font: "HasklugNerdFont 13"
+background: "#21252b"
+color: "#abb2bf"
+border: "#98c379"
+separator: "    ➜ "
+border_width: 2
+corner_r: 0
+padding: 15
+rows_per_column: 6
+column_padding: 25
+anchor: center
+inhibit_compositor_keyboard_shortcuts: false
+auto_kbd_layout: true
+
+menu:
+  # ── Power ────────────────────────────────────────────────────
+  #  - key: "p"
+  #    desc: "Power"
+  #    submenu:
+  #      - key: "s"
+  #        desc: "Sleep"
+  #        cmd: systemctl suspend
+  #      - key: "r"
+  #        desc: "Reboot"
+  #        cmd: reboot
+  #      - key: "o"
+  #        desc: "Off"
+  #        cmd: poweroff
+
+  # ── Laptop Screen ────────────────────────────────────────────
+  #  - key: "l"
+  #    desc: "Laptop Screen"
+  #    submenu:
+  #      - key: "t"
+  #        desc: "Toggle"
+  #        cmd: toggle-laptop-display.sh
+  #      - key: "s"
+  #        desc: "Scale"
+  #        submenu:
+  #          - key: "1"
+  #            desc: "1.0"
+  #            cmd: wlr-randr --output eDP-1 --scale 1
+  #          - key: "2"
+  #            desc: "1.1"
+  #            cmd: wlr-randr --output eDP-1 --scale 1.1
+  #          - key: "3"
+  #            desc: "1.2"
+  #            cmd: wlr-randr --output eDP-1 --scale 1.2
+  #          - key: "4"
+  #            desc: "1.3"
+  #            cmd: wlr-randr --output eDP-1 --scale 1.3
+
+  # ── Qutebrowser ──────────────────────────────────────────────
+  - key: "b"
+    desc: "qutebrowser"
+    submenu:
+      - key: "s"
+        desc: "Search"
+        cmd: qutebrowser_search
+      - key: "t"
+        desc: "Tabbed"
+        cmd: qutebrowser_tabbed
+      - key: "i"
+        desc: "Incognito"
+        cmd: "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py --set tabs.tabs_are_windows false"
+      - key: "p"
+        desc: "Quick URL"
+        cmd: qb-url
+
+  # ── Chat ─────────────────────────────────────────────────────
+  - key: "c"
+    desc: "chat"
+    submenu:
+      - key: "b"
+        desc: "Beeper"
+        cmd: "qb chat.beeper.com"
+      - key: "d"
+        desc: "Discord Web"
+        cmd: "qb discord.com/app"
+      - key: "D"
+        desc: "Discord App"
+        cmd: discord
+      - key: "z"
+        desc: "Zalo"
+        cmd: "qb chat.zalo.me/"
+
+  # ── AI ───────────────────────────────────────────────────────
+  - key: "a"
+    desc: "AI"
+    submenu:
+      - key: "o"
+        desc: "OpenCode Attach"
+        cmd: "kitty --app-id=opencode-attach --hold -e opencode attach -p Unlimitednova199- https://opencode.whammou.dedyn.io --dir /home/whammou --continue"
+      - key: "O"
+        desc: "OpenCode"
+        cmd: "kitty --app-id=opencode --hold -e opencode"
+      - key: "g"
+        desc: "ChatGPT"
+        cmd: "qb chatgpt.com"
+      - key: "e"
+        desc: "Gemini"
+        cmd: "qb gemini.google.com"
+
+  # ── Google Suite ─────────────────────────────────────────────
+  - key: "g"
+    desc: "Google Suite"
+    submenu:
+      - key: "d"
+        desc: "Docs"
+        cmd: "qb docs.google.com"
+      - key: "p"
+        desc: "Slides"
+        cmd: "qb docs.google.com/presentation"
+      - key: "s"
+        desc: "Sheets"
+        cmd: "qb docs.google.com/spreadsheets"
+      - key: "m"
+        desc: "Meet"
+        cmd: "qb meet.google.com"
+      - key: "f"
+        desc: "PDF Editor"
+        cmd: "qb simplepdf.com/editor"
+
+  # ── Orgmode ──────────────────────────────────────────────────
+  - key: "o"
+    desc: "orgmode"
+    submenu:
+      - key: "a"
+        desc: "Agenda"
+        cmd: "kitty --app-id=org-agenda -e orgmode-agenda"
+      - key: "N"
+        desc: "Test Session"
+        cmd: "kitty --app-id=test-session --session /home/whammou/Workspace/kitty-session/test.session"
+      - key: "l"
+        desc: "Backlog"
+        cmd: "kitty --app-id=org-backlog -e orgmode-backlog"
+      - key: "z"
+        desc: "Browse"
+        cmd: "kitty --app-id=org-browse -e orgmode-browse"
+      - key: "o"
+        desc: "Super Agenda"
+        cmd: "kitty --app-id=org-super-agenda -e orgmode-super-agenda"
+      - key: "g"
+        desc: "Journal Git"
+        cmd: "kitty --app-id=lazygit-journal -e lazygit -p /home/whammou/Journal"
+      - key: "c"
+        desc: "Capture"
+        cmd: "kitty --app-id=org-capture -e orgmode-capture"
+      - key: "d"
+        desc: "Roam Capture"
+        cmd: "kitty --app-id=org-roam-capture -e orgroam-capture"
+      - key: "m"
+        desc: "Search"
+        cmd: "kitty --app-id=org-search -e orgmode-search"
+
+  # ── Yazi ─────────────────────────────────────────────────────
+  - key: "e"
+    desc: "yazi"
+    submenu:
+      - key: "h"
+        desc: "Home"
+        cmd: "kitty --app-id=yazi -e yazi $HOME"
+      - key: "s"
+        desc: "SFTP Homelab"
+        cmd: "kitty --app-id=yazi-sftp -e yazi sftp://homelab"
+      - key: "n"
+        desc: "Journal"
+        cmd: "kitty --app-id=yazi-journal -e yazi /home/whammou/Journal"
+
+  # ── Tmux ─────────────────────────────────────────────────────
+  - key: "t"
+    desc: "tmux"
+    submenu:
+      - key: "0"
+        desc: "Session 0"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 0"
+      - key: "1"
+        desc: "Session 1"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 1"
+      - key: "2"
+        desc: "Session 2"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 2"
+      - key: "3"
+        desc: "Session 3"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 3"
+      - key: "4"
+        desc: "Session 4"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 4"
+      - key: "5"
+        desc: "Session 5"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 5"
+      - key: "6"
+        desc: "Session 6"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 6"
+      - key: "7"
+        desc: "Session 7"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 7"
+      - key: "8"
+        desc: "Session 8"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 8"
+      - key: "9"
+        desc: "Session 9"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 9"
+
+  # ── SSH ──────────────────────────────────────────────────────
+  - key: "s"
+    desc: "SSH"
+    submenu:
+      - key: "0"
+        desc: "Session 0"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 0''"'
+      - key: "1"
+        desc: "Session 1"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 1''"'
+      - key: "2"
+        desc: "Session 2"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 2''"'
+      - key: "3"
+        desc: "Session 3"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 3''"'
+      - key: "4"
+        desc: "Session 4"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 4''"'
+      - key: "5"
+        desc: "Session 5"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 5''"'
+      - key: "6"
+        desc: "Session 6"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 6''"'
+      - key: "7"
+        desc: "Session 7"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 7''"'
+      - key: "8"
+        desc: "Session 8"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 8''"'
+      - key: "9"
+        desc: "Session 9"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 9''"'
+
+  # ── Monitor ──────────────────────────────────────────────────
+  - key: "m"
+    desc: "monitor"
+    submenu:
+      - key: "p"
+        desc: "Process (btm)"
+        cmd: "kitty --app-id=btm -e btm"
+      - key: "b"
+        desc: "Battery"
+        cmd: "kitty --app-id=mon-battery -e monitor-battery"
+      - key: "B"
+        desc: "Recalibrate"
+        cmd: "kitty --app-id=tlp-recalibrate --hold -e sudo tlp recalibrate"
+      - key: "v"
+        desc: "Voltage"
+        cmd: "kitty --app-id=mon-voltage -e monitor-voltage"
+      - key: "c"
+        desc: "CPU"
+        cmd: "kitty --app-id=watch-cpu -e watch-cpu"
+      - key: "g"
+        desc: "GPU (nvtop)"
+        cmd: "kitty --app-id=nvtop -e nvtop"
+      - key: "d"
+        desc: "Disk (ncdu)"
+        cmd: "kitty --app-id=ncdu -e ncdu --color dark /"
+      - key: "m"
+        desc: "X Set"
+        cmd: "kitty --app-id=xset -e watch -n 1 xset q"
+      - key: "s"
+        desc: "User Services"
+        cmd: "kitty --app-id=sysz-user --hold -e sysz --user"
+      - key: "e"
+        desc: "Emoji"
+        cmd: "kitty --app-id=fzf-emoji -e fzf-emoji"
+      - key: "S"
+        desc: "System Services"
+        cmd: "kitty --app-id=sysz-system --hold -e sysz --system"
+
+  # ── Utility ──────────────────────────────────────────────────
+  - key: "u"
+    desc: "utility"
+    submenu:
+      - key: "b"
+        desc: "Bluetooth"
+        cmd: "kitty --app-id=bluetuith -e bluetuith"
+      - key: "y"
+        desc: "YouTube TV"
+        cmd: "kitty --app-id=yt-x --title='YTX | Youtube' -e yt-x"
+      - key: "g"
+        desc: "Dotfiles Git"
+        cmd: "kitty --app-id=lazygit-dotfiles -e lazygit -p /home/whammou/dotfiles/"
+      - key: "e"
+        desc: "Neovim"
+        cmd: "kitty --app-id=nvim -e nvim"
+      - key: "u"
+        desc: "System Update"
+        cmd: "kitty --app-id=sys-upgrade --hold -e sh -c 'paru -Syy && paru -Syu && alert'"
+      - key: "S"
+        desc: "Chess"
+        cmd: "kitty --app-id=chessterm -e chessterm --black_engine=/sbin/stockfish"
+      - key: "n"
+        desc: "Rnote"
+        cmd: rnote
+      - key: "s"
+        desc: "Which Key"
+        cmd: wlr-which-key
+      - key: "r"
+        desc: "RSS (newsboat)"
+        cmd: "kitty --app-id=newsboat -e newsboat"
+      - key: "N"
+        desc: "Notifications"
+        cmd: "kitty --app-id=notif-history -e notification_history"
+      - key: "m"
+        desc: "Email (neomutt)"
+        cmd: "kitty --app-id=neomutt -e neomutt"
+      - key: "M"
+        desc: "Manga"
+        cmd: "kitty --app-id=mangal -e mangal"
+      - key: "d"
+        desc: "Dictionary"
+        cmd: "kitty --app-id=dict -e dict"
+      - key: "a"
+        desc: "Anime (fzf)"
+        cmd: "kitty --app-id=anifzf -e anifzf"
+      - key: "A"
+        desc: "Anime CLI"
+        cmd: "kitty --app-id=ani-cli -e ani-cli -c"
+      - key: "t"
+        desc: "Type Test"
+        cmd: "kitty --app-id=typing-test --title='TT | Typing' -o font_size=20 -e tt --theme=mine --multi --nohighlight"
+      - key: "l"
+        desc: "Kari"
+        cmd: "kitty --app-id=kari -e kari"
+      - key: "c"
+        desc: "Calculator"
+        cmd: "kitty --app-id=calculator --title='CAL | Calculator' -e .venv/calculator/bin/python -i .local/bin/calc"
+      - key: "Y"
+        desc: "YouTube Account"
+        cmd: "firefox 'https://youtube.com/account'"

@@ -67,6 +67,34 @@ def scratchpad_layout(layout=[0.8, 0.8, 0.1, 0.1], preset="custom"):
                 "x": 0.45,
                 "y": 0.4,
             }
+        case "pad_full":
+            return {
+                "width": 0.95,
+                "height": 0.9,
+                "x": 0.025,
+                "y": 0.05,
+            }
+        case "pad_wide":
+            return {
+                "width": 0.85,
+                "height": 0.55,
+                "x": 0.075,
+                "y": 0.225,
+            }
+        case "pad_tall":
+            return {
+                "width": 0.4,
+                "height": 0.85,
+                "x": 0.3,
+                "y": 0.075,
+            }
+        case "pad_compact":
+            return {
+                "width": 0.35,
+                "height": 0.35,
+                "x": 0.325,
+                "y": 0.325,
+            }
 
 
 def dropdowns(keymap):
