@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "598cdb6"
-hash = "f0c8c378184d5f8abd1b095a443d336d"
+rev = "bb758e2"
+hash = "5b1c276b75cae91cbbdbe7863f39a540"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
@@ -20,17 +20,17 @@ hash = "57056b9728006881d580ccabe8154a9c"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "598cdb6"
+rev = "bb758e2"
 hash = "7a4b4237223aaa94e589d1c01a23542a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "598cdb6"
-hash = "6b141fbed3c74b45558fbc7088c805ee"
+rev = "bb758e2"
+hash = "bc5da419b4337d0122ac531e705fa7b6"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "598cdb6"
+rev = "bb758e2"
 hash = "88e56a64b7ce7c4314427452343fef17"
 
 [[plugin.deps]]
