@@ -4,6 +4,7 @@ from libqtile.config import Key
 from libqtile.lazy import lazy
 
 from .keymaps import keymap
+
 from .key.qtile import qtile_keys
 from .key.functional import functional_keys
 from .key.layers import focus_visible_window, change_tab_layer, focus_nth_floating

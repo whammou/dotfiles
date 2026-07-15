@@ -139,12 +139,25 @@ def maintain_focus(group, window):
 @hook.subscribe.client_killed
 def after_kill_fallback(window):
     group = window.group
-    if group and len(group.focus_history) > 1:
-        current_window = group.focus_history[-2]
+    if not group:
+        return
 
-        group.qtile.call_soon(lambda: group.focus(group.layout.last_focused_window))
-        if current_window.floating:
-            group.qtile.call_soon(lambda: group.focus(current_window))
+    def restore():
+        # The killed window has already been removed from focus_history
+        # by Qtile before this hook fires, so [-2] indexing is unreliable.
+        # Instead, scan the remaining history backward for a floating window.
+        floating_windows = [w for w in group.windows if w.floating]
+        if floating_windows:
+            for w in reversed(group.focus_history):
+                if w in floating_windows:
+                    group.focus(w)
+                    return
+            # Fallback: focus the last floating window in the list
+            group.focus(floating_windows[-1])
+        elif group.layout.last_focused_window:
+            group.focus(group.layout.last_focused_window)
+
+    group.qtile.call_soon(restore)
 
 
 BORDER_WIDTH = 3
