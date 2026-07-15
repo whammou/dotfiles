@@ -99,10 +99,135 @@ canvas, svg {
   background-color: transparent !important;
 }
 
-/* Font and text reset */
-div, li, html, body {
-  font-family: "Hasklug Nerd Font", monospace !important;
+/* ==========================================================================
+   @FONT-FACE ALIASING
+   Replace common web fonts with Hasklug Nerd Font at the font resolution
+   level. No !important, no specificity battles, no icon font breakage.
+   When a website says font-family: "Arial", the browser loads Hasklug instead.
+   ========================================================================== */
+
+/* --- Sans-serif system fonts --- */
+@font-face { font-family: "Arial"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Arial"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Helvetica"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Helvetica"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Helvetica Neue"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Helvetica Neue"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Segoe UI"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Segoe UI"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Verdana"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Verdana"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Tahoma"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Tahoma"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Trebuchet MS"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Trebuchet MS"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Calibri"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Calibri"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Geneva"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Geneva"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Lucida Grande"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Lucida Grande"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Lucida Sans"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Lucida Sans"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+
+/* --- Serif system fonts --- */
+@font-face { font-family: "Times New Roman"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Times New Roman"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Georgia"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Georgia"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Palatino Linotype"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Palatino Linotype"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Palatino"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Palatino"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Garamond"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Garamond"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Book Antiqua"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Book Antiqua"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+
+/* --- Monospace system fonts --- */
+@font-face { font-family: "Courier New"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Courier New"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Consolas"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Consolas"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Monaco"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Monaco"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Menlo"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Menlo"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "DejaVu Sans Mono"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "DejaVu Sans Mono"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Liberation Mono"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Liberation Mono"; src: local("Hasklug Nerd Font Mono"); font-weight: 100 900; font-style: italic; }
+
+/* --- Common web fonts (Google Fonts, self-hosted) --- */
+@font-face { font-family: "Roboto"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Roboto"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Open Sans"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Open Sans"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Lato"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Lato"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Inter"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Inter"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Montserrat"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Montserrat"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Source Sans Pro"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Source Sans Pro"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Noto Sans"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Noto Sans"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Poppins"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Poppins"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Nunito"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Nunito"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Ubuntu"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Ubuntu"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Oswald"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Oswald"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Raleway"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Raleway"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+
+/* RMIT-specific fonts */
+@font-face { font-family: "Museo"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Museo"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Museo300"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Museo300"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Museo500"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Museo500"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Museo700"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Museo700"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+
+/* --- Serif web fonts --- */
+@font-face { font-family: "Playfair Display"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Playfair Display"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Merriweather"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Merriweather"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "PT Serif"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "PT Serif"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+@font-face { font-family: "Source Serif Pro"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: normal; }
+@font-face { font-family: "Source Serif Pro"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
+
+/* --- Theme color reset (keeps dark theme text color, no font override) --- */
+html, body, div, span, p, a, h1, h2, h3, h4, h5, h6,
+section, article, aside, header, footer, nav, main,
+ul, ol, li, dl, dt, dd, form, label,
+table, thead, tbody, tfoot, tr, th, td,
+address, blockquote, details, summary {
   color: var(--od-fg) !important;
+}
+
+/* --- !important fallback — catches fonts loaded via page's own @font-face
+   (Google Fonts, self-hosted fonts like Inter/Museo) that our @font-face
+   aliasing above can't override. Ultra-high specificity (1,1,2) from
+   html:not(#_) beats virtually any website selector. Icon fonts excluded
+   via :not() to keep them working. --- */
+html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
+      span.fa, span.fab, span.far, span.fas, span.fal, span.fad,
+      .fa-solid, .fa-regular, .fa-brands,
+      [class^="fa-"], [class*=" fa-"],
+      [class^="fa2"], [class*=" fa2"],
+      .material-icons, .material-symbols-outlined,
+      .material-symbols-rounded, .material-symbols-sharp,
+      .bi, .glyphicon, .icon-font,
+      .emoji, .emojione, .notranslate) {
+  font-family: "Hasklug Nerd Font" !important;
 }
 
 /* Page-level backgrounds */
@@ -416,7 +541,7 @@ hr {
 code, pre, kbd, samp {
   border-radius: 4px !important;
   border: none !important;
-  font-family: "Hasklug Nerd Font", monospace !important;
+  font-family: "Hasklug Nerd Font Mono" !important;
   background-color: var(--od-bg3) !important;
   padding: 0.2em 0.4em;
   color: var(--od-green);
