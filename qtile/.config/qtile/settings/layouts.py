@@ -192,20 +192,25 @@ def after_kill_fallback(window):
     if not group:
         return
 
+    # When a floating window is killed (e.g. LibreOffice transient banner),
+    # don't run the floating-window-priority focus path — let qtile's
+    # default focus handling (focus_previous_on_window_remove) take over.
+    if window.floating:
+        return
+
     def restore():
-        # The killed window has already been removed from focus_history
-        # by Qtile before this hook fires, so [-2] indexing is unreliable.
-        # Instead, scan the remaining history backward for a floating window.
-        floating_windows = [w for w in group.windows if w.floating]
-        if floating_windows:
-            for w in reversed(group.focus_history):
-                if w in floating_windows:
-                    group.focus(w)
-                    return
-            # Fallback: focus the last floating window in the list
-            group.focus(floating_windows[-1])
-        elif group.layout.last_focused_window:
-            group.focus(group.layout.last_focused_window)
+        # Qtile's built-in focus handling (focus_previous_on_window_remove
+        # and layout.remove()) already resolved focus. Don't override it.
+        if group.current_window is not window:
+            return
+
+        # Genuine fallback: no window was focused by qtile's defaults.
+        # Restore the layout's last focused window, but only if it's
+        # tiling — focusing a floating window here would trigger a
+        # show/hide cascade that creates a flicker.
+        target = group.layout.last_focused_window
+        if target and not target.floating:
+            group.focus(target)
 
     group.qtile.call_soon(restore)
 
