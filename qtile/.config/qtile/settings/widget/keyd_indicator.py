@@ -122,6 +122,7 @@ class KeydIndicator(base._TextBox):
         self._external_text = ""
         self._prev_overlay = False
         self._last_f24_time = 0.0
+        self._pre_overlay_vim = False
         self._ui: UInput | None = None
         self._listener: _KeydListener | None = None
         self._health_handle: object | None = None
@@ -225,41 +226,25 @@ class KeydIndicator(base._TextBox):
         return False
 
     def _health_check(self) -> None:
-        """Periodic safety check: toggle vimmode for overlays and focus changes.
+        """Safety check: toggle vimmode OFF when overlay appears, restore when gone.
 
-        Layer-shell overlays (rofi, wlr-which-key) don't trigger
-        client_focus and the mapper can't see them, so old vim bindings
-        persist. This catches them within ~1s.
-
-        Also handles resuming vimmode when returning from an overlay to a
-        vim-app, in case client_focus doesn't fire on the return transition.
+        Layer-shell overlays (rofi, wlr-which-key) bypass both the mapper
+        and client_focus.  This catches them at 200ms granularity and
+        restores the pre-overlay state when the overlay is dismissed.
         """
-        win = self.qtile.current_window
-        if win is None:
-            self._schedule_health_check()
-            return
-
-        wm_class = win.get_wm_class()
-        current_app = wm_class[0] if wm_class else None
-        in_vim = current_app is not None and any(
-            fnmatch.fnmatch(current_app, p) for p in self._vim_apps
-        )
         overlay_active = self._overlay_active()
 
         if self._external_text == ICON_VIM:
-            if overlay_active or not in_vim:
-                print(
-                    "[keyd] health: vimmode ON outside vim-app -> toggle OFF",
-                    file=sys.stderr,
-                )
+            if overlay_active and not self._prev_overlay:
+                self._pre_overlay_vim = True
+                print("[keyd] health: overlay detected -> toggle OFF", file=sys.stderr)
                 self._toggle_vimmode()
         elif self._external_text == ICON_INS:
-            if in_vim and not overlay_active and self._prev_overlay:
-                print(
-                    "[keyd] health: returned from overlay to vim-app -> toggle ON",
-                    file=sys.stderr,
-                )
-                self._toggle_vimmode()
+            if not overlay_active and self._prev_overlay:
+                if self._pre_overlay_vim:
+                    print("[keyd] health: overlay gone -> restore ON", file=sys.stderr)
+                    self._toggle_vimmode()
+                self._pre_overlay_vim = False
 
         self._prev_overlay = overlay_active
         self._schedule_health_check()
@@ -310,33 +295,11 @@ class KeydIndicator(base._TextBox):
     # ------------------------------------------------------------------
 
     def _on_focus_change(self, client):
-        old_app = self._focused_app
-
         if client is None:
             self._focused_app = None
         else:
             wm_class = client.get_wm_class()
             self._focused_app = wm_class[0] if wm_class else None
-
-        apps = self._vim_apps
-        was_in = old_app is not None and any(
-            fnmatch.fnmatch(old_app, p) for p in apps
-        )
-        now_in = self._focused_app is not None and any(
-            fnmatch.fnmatch(self._focused_app, p) for p in apps
-        )
-
-        if now_in and not was_in:
-            if self._external_text == ICON_INS or self._external_text == "":
-                print("[keyd] enter vim-app -> toggle ON", file=sys.stderr)
-                self._toggle_vimmode()
-        elif was_in and not now_in:
-            if self._external_text == ICON_VIM:
-                print("[keyd] leave vim-app -> toggle OFF", file=sys.stderr)
-                self._toggle_vimmode()
-            else:
-                print("[keyd] leave vim-app (was OFF) -> skip", file=sys.stderr)
-
         self._update_display()
 
     def _update_display(self) -> None:
