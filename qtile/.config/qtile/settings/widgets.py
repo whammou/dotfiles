@@ -5,6 +5,7 @@ from qtile_bonsai import BonsaiBar
 
 from .theme import colors
 from .widget.floating_count import FloatCount
+from .widget.keyd_indicator import KeydIndicator
 
 
 def base(fg="text", bg="bg2"):
@@ -144,7 +145,7 @@ widgets = [
     # widget.Systray(background=colors["bg2"], padding=10, icon_size=20),
     # widget.Sep(**base(bg="bg2", fg="bg2"), linewidth=8),
     widget.TextBox(**base(bg="bg2", fg="fg"), text="󰧺 "),  # text_box 1
-    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 2
+    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 2 — mic status (noise-supression)
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 3
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 4
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 5
@@ -152,7 +153,7 @@ widgets = [
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 7
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 8
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 9
-    widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 10
+    KeydIndicator(**base(bg="bg2", fg="fg"), name="keyd"),  # vim-mode indicator; auto-detects apps from ~/.config/keyd/app.conf
     widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=10),
 ]
 
