@@ -8,6 +8,7 @@ import sys
 import threading
 import select
 import os
+import time
 
 ICON_VIM = "󰰓 "
 ICON_INS = "󰰄 "
@@ -119,6 +120,8 @@ class KeydIndicator(base._TextBox):
         self.add_defaults(KeydIndicator.defaults)
         self._focused_app: str | None = None
         self._external_text = ""
+        self._prev_overlay = False
+        self._last_f24_time = 0.0
         self._ui: UInput | None = None
         self._listener: _KeydListener | None = None
         self._health_handle: object | None = None
@@ -176,6 +179,14 @@ class KeydIndicator(base._TextBox):
     def _apply_state(self, text: str) -> None:
         """Called from Qtile event loop via call_soon_threadsafe."""
         self._external_text = text
+
+        # Vimmode turned ON by user (CapsLock) → also send Escape
+        # so CapsLock closes menus/dialogs even when mapper doesn't switch.
+        # If OUR F24 caused the toggle (within 100ms), skip — auto-toggle
+        # shouldn't send spurious Escape events.
+        if text == ICON_VIM and (time.time() - self._last_f24_time) > 0.1:
+            self._send_escape()
+
         self._update_display()
 
     # ------------------------------------------------------------------
@@ -186,43 +197,105 @@ class KeydIndicator(base._TextBox):
     def _schedule_health_check(self) -> None:
         loop = getattr(self.qtile, "_eventloop", None)
         if loop is not None:
-            self._health_handle = loop.call_later(1, self._health_check)
+            self._health_handle = loop.call_later(0.2, self._health_check)
+
+    def _overlay_active(self) -> bool:
+        """Detect if an overlay (rofi, wlr-which-key) is active and focused.
+
+        These layer-shell surfaces aren't tracked as regular Qtile windows,
+        so we check both the current window's class and running processes.
+        """
+        win = self.qtile.current_window
+        if win is not None:
+            wm_class = win.get_wm_class()
+            if wm_class and wm_class[0] in ("rofi", "wlr-which-key"):
+                return True
+
+        for proc in ("rofi", "wlr-which-key"):
+            try:
+                subprocess.run(
+                    ["pgrep", "-x", proc],
+                    check=True, capture_output=True,
+                    timeout=0.5,
+                )
+                return True
+            except (subprocess.CalledProcessError, FileNotFoundError, TimeoutError):
+                continue
+
+        return False
 
     def _health_check(self) -> None:
-        """If vimmode is ON but current app is not a vim-app, toggle OFF.
+        """Periodic safety check: toggle vimmode for overlays and focus changes.
 
         Layer-shell overlays (rofi, wlr-which-key) don't trigger
         client_focus and the mapper can't see them, so old vim bindings
-        persist. This catches it within ~1s.
-        """
-        if self._external_text != ICON_VIM:
-            self._schedule_health_check()
-            return
+        persist. This catches them within ~1s.
 
+        Also handles resuming vimmode when returning from an overlay to a
+        vim-app, in case client_focus doesn't fire on the return transition.
+        """
         win = self.qtile.current_window
         if win is None:
             self._schedule_health_check()
             return
+
         wm_class = win.get_wm_class()
         current_app = wm_class[0] if wm_class else None
         in_vim = current_app is not None and any(
             fnmatch.fnmatch(current_app, p) for p in self._vim_apps
         )
-        if not in_vim:
-            print("[keyd] health: vimmode ON outside vim-app -> toggle OFF", file=sys.stderr)
-            self._toggle_vimmode()
+        overlay_active = self._overlay_active()
+
+        if self._external_text == ICON_VIM:
+            if overlay_active or not in_vim:
+                print(
+                    "[keyd] health: vimmode ON outside vim-app -> toggle OFF",
+                    file=sys.stderr,
+                )
+                self._toggle_vimmode()
+        elif self._external_text == ICON_INS:
+            if in_vim and not overlay_active and self._prev_overlay:
+                print(
+                    "[keyd] health: returned from overlay to vim-app -> toggle ON",
+                    file=sys.stderr,
+                )
+                self._toggle_vimmode()
+
+        self._prev_overlay = overlay_active
         self._schedule_health_check()
+
+    # ------------------------------------------------------------------
+    # CapsLock-forwarding — send Escape via evdev when user toggles vimmode
+    # ------------------------------------------------------------------
+
+    def _send_escape(self) -> None:
+        if self._ui is None:
+            try:
+                self._ui = UInput()
+            except Exception:
+                return
+        try:
+            # Send F23 — keyd maps it to ESC via default.conf, then outputs
+            # a real Escape to the compositor.  Sending KEY_ESC directly
+            # wouldn't work because keyd would re-remap it (esc = capslock).
+            self._ui.write(e.EV_KEY, e.KEY_F23, 1)
+            self._ui.write(e.EV_KEY, e.KEY_F23, 0)
+            self._ui.syn()
+        except Exception:
+            pass
 
     # ------------------------------------------------------------------
     # Auto-toggle — lazy uinput, static f24 in default.conf
     # ------------------------------------------------------------------
 
     def _toggle_vimmode(self) -> None:
+        self._last_f24_time = time.time()
         if self._ui is None:
             try:
                 self._ui = UInput()
             except Exception as ex:
                 print(f"[keyd] uinput init failed: {ex}", file=sys.stderr)
+                self._last_f24_time = 0.0
                 return
         try:
             self._ui.write(e.EV_KEY, e.KEY_F24, 1)
@@ -230,6 +303,7 @@ class KeydIndicator(base._TextBox):
             self._ui.syn()
         except Exception as ex:
             print(f"[keyd] toggle failed: {ex}", file=sys.stderr)
+            self._last_f24_time = 0.0
 
     # ------------------------------------------------------------------
     # Focus tracking
