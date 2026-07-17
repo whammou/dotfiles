@@ -13,7 +13,6 @@ from settings.mouse import mouse
 from settings.path import qtile_path
 
 from os import path
-import subprocess
 
 # Set the log level to CRITICAL to stop regular logs
 logger.setLevel(logging.CRITICAL)
@@ -21,7 +20,7 @@ logger.setLevel(logging.CRITICAL)
 
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.call([path.join(qtile_path, "autostart.sh")])
+    qtile.spawn([path.join(qtile_path, "autostart.sh")])
 
 
 @hook.subscribe.unlocked

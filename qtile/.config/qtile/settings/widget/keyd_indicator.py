@@ -46,8 +46,9 @@ def _active_layers(initial: str) -> list[str]:
 class _KeydListener:
     """Reads keyd listen in a daemon thread and calls back on state change."""
 
-    def __init__(self, on_state: callable):
+    def __init__(self, on_state: callable, on_overlay_change: callable):
         self._on_state = on_state
+        self._on_overlay_change = on_overlay_change
         self._thread = threading.Thread(target=self._run, daemon=True)
         self._stop = threading.Event()
 
@@ -57,7 +58,31 @@ class _KeydListener:
     def stop(self):
         self._stop.set()
 
+    @staticmethod
+    def _overlay_procs_active() -> bool:
+        """Check if layer-shell overlay processes are running via /proc.
+
+        Reads /proc/{pid}/comm directly — no fork/exec overhead.
+        """
+        targets = frozenset(("rofi", "wlr-which-key"))
+        try:
+            for entry in os.listdir("/proc"):
+                if entry.isdigit():
+                    try:
+                        with open(f"/proc/{entry}/comm") as f:
+                            if f.read().strip() in targets:
+                                return True
+                    except OSError:
+                        pass
+        except OSError:
+            pass
+        return False
+
     def _run(self):
+        SCAN_INTERVAL = 0.2  # seconds between /proc scans
+        last_scan = 0.0
+        overlay_was_active = False
+
         while not self._stop.is_set():
             try:
                 proc = subprocess.Popen(
@@ -72,6 +97,17 @@ class _KeydListener:
 
                 while not self._stop.is_set():
                     events = poll.poll(500)
+                    now = time.monotonic()
+
+                    # Periodic layer-shell overlay scan — piggybacks on
+                    # the existing poll timeout, no extra wakeups.
+                    if now - last_scan >= SCAN_INTERVAL:
+                        last_scan = now
+                        active = self._overlay_procs_active()
+                        if active != overlay_was_active:
+                            overlay_was_active = active
+                            self._on_overlay_change(active)
+
                     if not events:
                         continue
                     line = proc.stdout.readline()
@@ -120,12 +156,11 @@ class KeydIndicator(base._TextBox):
         self.add_defaults(KeydIndicator.defaults)
         self._focused_app: str | None = None
         self._external_text = ""
-        self._prev_overlay = False
         self._last_f24_time = 0.0
         self._pre_overlay_vim = False
+        self._overlay_process_active = False
         self._ui: UInput | None = None
         self._listener: _KeydListener | None = None
-        self._health_handle: object | None = None
 
     @property
     def _vim_apps(self) -> list[str]:
@@ -145,9 +180,12 @@ class KeydIndicator(base._TextBox):
         # Sync initial vimmode state once
         self._sync_initial_state()
 
-        # Background listener replaces the old systemd indicator.py service
+        # Background listener replaces the old systemd indicator.py service.
+        # Also scans /proc for layer-shell overlay processes (rofi, wlr-which-key)
+        # at 200ms intervals via the existing poll timeout — zero extra wakeups.
         self._listener = _KeydListener(
-            lambda text: qtile.call_soon_threadsafe(self._apply_state, text)
+            lambda text: qtile.call_soon_threadsafe(self._apply_state, text),
+            lambda active: qtile.call_soon_threadsafe(self._set_overlay_state, active),
         )
         self._listener.start()
 
@@ -157,11 +195,8 @@ class KeydIndicator(base._TextBox):
             wm_class = win.get_wm_class()
             if wm_class:
                 self._focused_app = wm_class[0]
-                self._update_display()
-
-        # Periodic safety check: catch layer-shell overlays (rofi, wlr-which-key)
-        # that neither the mapper nor client_focus detects.
-        self._schedule_health_check()
+        self._handle_overlay()
+        self._update_display()
 
     def _sync_initial_state(self) -> None:
         try:
@@ -191,63 +226,51 @@ class KeydIndicator(base._TextBox):
         self._update_display()
 
     # ------------------------------------------------------------------
-    # Safety check — catches layer-shell overlays (rofi, wlr-which-key)
-    # that bypass both the wlr_foreign_toplevel mapper and client_focus.
+    # Overlay detection — rofi / wlr-which-key are pure layer-shell
+    # surfaces on Wayland. They don't trigger client_focus or
+    # client_managed, so the bg thread scans /proc for these processes
+    # at 200ms intervals (piggybacked on the keyd listener poll timeout).
+    # Focus-change detection covers the rare case where an overlay is
+    # registered as a regular window.
     # ------------------------------------------------------------------
 
-    def _schedule_health_check(self) -> None:
-        loop = getattr(self.qtile, "_eventloop", None)
-        if loop is not None:
-            self._health_handle = loop.call_later(0.2, self._health_check)
+    def _set_overlay_state(self, active: bool) -> None:
+        """Called from bg thread via call_soon_threadsafe when /proc scan
+        detects a layer-shell overlay process start or exit."""
+        self._overlay_process_active = active
+        self._handle_overlay()
 
     def _overlay_active(self) -> bool:
-        """Detect if an overlay (rofi, wlr-which-key) is active and focused.
-
-        These layer-shell surfaces aren't tracked as regular Qtile windows,
-        so we check both the current window's class and running processes.
-        """
+        """Check if an overlay is the current_window (rare — most
+        layer-shell surfaces aren't tracked as windows)."""
+        rofi_or_which_key = ("rofi", "wlr-which-key")
         win = self.qtile.current_window
         if win is not None:
             wm_class = win.get_wm_class()
-            if wm_class and wm_class[0] in ("rofi", "wlr-which-key"):
+            if wm_class and wm_class[0] in rofi_or_which_key:
                 return True
-
-        for proc in ("rofi", "wlr-which-key"):
-            try:
-                subprocess.run(
-                    ["pgrep", "-x", proc],
-                    check=True, capture_output=True,
-                    timeout=0.5,
-                )
-                return True
-            except (subprocess.CalledProcessError, FileNotFoundError, TimeoutError):
-                continue
-
         return False
 
-    def _health_check(self) -> None:
-        """Safety check: toggle vimmode OFF when overlay appears, restore when gone.
+    def _handle_overlay(self) -> None:
+        """Toggle vimmode when a layer-shell overlay appears or disappears.
 
-        Layer-shell overlays (rofi, wlr-which-key) bypass both the mapper
-        and client_focus.  This catches them at 200ms granularity and
-        restores the pre-overlay state when the overlay is dismissed.
+        Combines two detection sources:
+        - bg thread /proc scan (layer-shell surfaces, 200ms granularity)
+        - focus change check (overlays registered as regular windows)
         """
-        overlay_active = self._overlay_active()
-
-        if self._external_text == ICON_VIM:
-            if overlay_active and not self._prev_overlay:
+        active = self._overlay_process_active or self._overlay_active()
+        if active:
+            if self._external_text == ICON_VIM and not self._pre_overlay_vim:
                 self._pre_overlay_vim = True
-                print("[keyd] health: overlay detected -> toggle OFF", file=sys.stderr)
                 self._toggle_vimmode()
-        elif self._external_text == ICON_INS:
-            if not overlay_active and self._prev_overlay:
-                if self._pre_overlay_vim:
-                    print("[keyd] health: overlay gone -> restore ON", file=sys.stderr)
-                    self._toggle_vimmode()
-                self._pre_overlay_vim = False
-
-        self._prev_overlay = overlay_active
-        self._schedule_health_check()
+        else:
+            # Only restore if keyd is still in the OFF state we left it.
+            # If the user manually toggled vimmode back ON during the
+            # overlay (via CapsLock), _external_text is ICON_VIM and
+            # we must not toggle again.
+            if self._pre_overlay_vim and self._external_text == ICON_INS:
+                self._toggle_vimmode()
+            self._pre_overlay_vim = False
 
     # ------------------------------------------------------------------
     # CapsLock-forwarding — send Escape via evdev when user toggles vimmode
@@ -300,6 +323,7 @@ class KeydIndicator(base._TextBox):
         else:
             wm_class = client.get_wm_class()
             self._focused_app = wm_class[0] if wm_class else None
+        self._handle_overlay()
         self._update_display()
 
     def _update_display(self) -> None:
@@ -316,11 +340,6 @@ class KeydIndicator(base._TextBox):
     def finalize(self):
         if self._listener is not None:
             self._listener.stop()
-        if self._health_handle is not None:
-            try:
-                self._health_handle.cancel()
-            except Exception:
-                pass
         hook.unsubscribe.client_focus(self._on_focus_change)
         if self._ui is not None:
             try:
