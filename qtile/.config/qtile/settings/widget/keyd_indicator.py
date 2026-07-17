@@ -11,8 +11,10 @@ import os
 import time
 
 ICON_VIM = "󰰓 "
+ICON_VIS = "󰰫 "
 ICON_INS = "󰰄 "
 VIM_LAYER = "vimmode"
+VISUAL_LAYER = "visual"
 APP_CONF = os.path.expanduser("~/.config/keyd/app.conf")
 
 
@@ -83,6 +85,7 @@ class _KeydListener:
         last_scan = 0.0
         overlay_was_active = False
         vim_on = False
+        vis_on = False
 
         while not self._stop.is_set():
             try:
@@ -119,19 +122,26 @@ class _KeydListener:
                         continue
 
                     new_vim = vim_on
+                    new_vis = vis_on
                     if line.startswith("/"):
                         layers = _active_layers(line)
                         new_vim = VIM_LAYER in layers
+                        new_vis = VISUAL_LAYER in layers
                     elif line == f"+{VIM_LAYER}":
                         new_vim = True
                     elif line == f"-{VIM_LAYER}":
                         new_vim = False
+                    elif line == f"+{VISUAL_LAYER}":
+                        new_vis = True
+                    elif line == f"-{VISUAL_LAYER}":
+                        new_vis = False
                     else:
                         continue
 
-                    if new_vim != vim_on:
+                    if new_vim != vim_on or new_vis != vis_on:
                         vim_on = new_vim
-                        self._on_state(vim_on)
+                        vis_on = new_vis
+                        self._on_state(vim_on, vis_on)
                 proc.terminate()
             except Exception:
                 if not self._stop.is_set():
@@ -161,6 +171,7 @@ class KeydIndicator(base._TextBox):
         self._focused_app: str | None = None
         self._external_text = ""
         self._vimmode_active = False
+        self._visual_active = False
         self._last_f24_time = 0.0
         self._pre_overlay_vim = False
         self._overlay_process_active = False
@@ -189,7 +200,7 @@ class KeydIndicator(base._TextBox):
         # Also scans /proc for layer-shell overlay processes (rofi, wlr-which-key)
         # at 200ms intervals via the existing poll timeout — zero extra wakeups.
         self._listener = _KeydListener(
-            lambda vim: qtile.call_soon_threadsafe(self._apply_state, vim),
+            lambda vim, vis: qtile.call_soon_threadsafe(self._apply_state, vim, vis),
             lambda active: qtile.call_soon_threadsafe(self._set_overlay_state, active),
         )
         self._listener.start()
@@ -213,8 +224,12 @@ class KeydIndicator(base._TextBox):
                 if line.startswith("/"):
                     layers = _active_layers(line)
                     vim = VIM_LAYER in layers
+                    vis = VISUAL_LAYER in layers
                     self._vimmode_active = vim
-                    if vim:
+                    self._visual_active = vis
+                    if vis:
+                        self._external_text = ICON_VIS
+                    elif vim:
                         self._external_text = ICON_VIM
                     else:
                         self._external_text = ICON_INS
@@ -222,11 +237,14 @@ class KeydIndicator(base._TextBox):
         except Exception:
             pass
 
-    def _apply_state(self, vimmode_active: bool) -> None:
+    def _apply_state(self, vimmode_active: bool, visual_active: bool) -> None:
         """Called from Qtile event loop via call_soon_threadsafe."""
         self._vimmode_active = vimmode_active
+        self._visual_active = visual_active
 
-        if vimmode_active:
+        if visual_active:
+            self._external_text = ICON_VIS
+        elif vimmode_active:
             self._external_text = ICON_VIM
         else:
             self._external_text = ICON_INS
@@ -347,7 +365,7 @@ class KeydIndicator(base._TextBox):
             fnmatch.fnmatch(self._focused_app, p) for p in apps
         )
         if in_vim_app:
-            if self._vimmode_active:
+            if self._vimmode_active or self._visual_active:
                 self.foreground = theme["red"]
             else:
                 self.foreground = theme["green"]
