@@ -20,7 +20,7 @@ keys = (
     + focus_nth_floating([mod, "shift"], range(1, 10))
     + change_tab_layer([mod, "shift"], range(1, 10), range(1, 10))
     + [
-        Key([mod], "s", lazy.spawn("wlr-which-key"), desc="Spawn"),
+        Key([mod], "s", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
         Key([mod], "f", lazy.layout.spawn_float("wlr-which-key"), desc="Scratchpad (floating)"),
         Key([mod], "v", lazy.layout.spawn_split("wlr-which-key", "x"), desc="Split right"),
         Key([mod], "x", lazy.layout.spawn_split("wlr-which-key", "y"), desc="Split below"),

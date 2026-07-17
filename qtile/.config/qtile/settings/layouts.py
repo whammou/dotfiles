@@ -101,15 +101,40 @@ class MyCustomBonsai(Bonsai):
         self.last_focused_window = None
         self._pending_float = False
 
+    def _spawn_program(self, program: str):
+        """
+        Override: clear any stale ``_pending_float`` before spawning.
+
+        ``_spawn_program`` is the single gateway for all layout-initiated
+        spawns (``spawn_split``, ``spawn_tab``, ``spawn``).  By clearing
+        the flag here we cover every non-float spawn path automatically,
+        including any future methods the parent class might add.
+        """
+        self._pending_float = False
+        super()._spawn_program(program)
+
     @expose_command
     def spawn_float(self, program: str):
         """
         Launch the provided program and ensure the resulting window is floating.
 
-        Like `spawn_split` / `spawn_tab`, but the spawned window is placed on the
-        floating layer instead of being added to the Bonsai tree.
+        Like ``spawn_split`` / ``spawn_tab``, but the spawned window is placed
+        on the floating layer instead of being added to the Bonsai tree.
         """
         self._pending_float = True
+        # Bypass _spawn_program (which would clear _pending_float) by calling
+        # the parent implementation directly.
+        Bonsai._spawn_program(self, program)
+
+    @expose_command
+    def spawn(self, program: str):
+        """
+        Plain spawn — clears ``_pending_float``, then delegates.
+
+        Replacement for ``lazy.spawn()`` in keybindings that need the flag
+        cleared (e.g. ``mod+s`` which otherwise leaves a stale float flag
+        after a cancelled ``spawn_float``).
+        """
         self._spawn_program(program)
 
     def add_client(self, window):
