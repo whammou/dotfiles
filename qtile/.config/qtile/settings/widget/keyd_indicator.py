@@ -82,6 +82,7 @@ class _KeydListener:
         SCAN_INTERVAL = 0.2  # seconds between /proc scans
         last_scan = 0.0
         overlay_was_active = False
+        vim_on = False
 
         while not self._stop.is_set():
             try:
@@ -117,17 +118,20 @@ class _KeydListener:
                     if not line:
                         continue
 
-                    vim_on: bool | None = None
+                    new_vim = vim_on
                     if line.startswith("/"):
                         layers = _active_layers(line)
-                        vim_on = VIM_LAYER in layers
+                        new_vim = VIM_LAYER in layers
                     elif line == f"+{VIM_LAYER}":
-                        vim_on = True
+                        new_vim = True
                     elif line == f"-{VIM_LAYER}":
-                        vim_on = False
+                        new_vim = False
+                    else:
+                        continue
 
-                    if vim_on is not None:
-                        self._on_state(ICON_VIM if vim_on else ICON_INS)
+                    if new_vim != vim_on:
+                        vim_on = new_vim
+                        self._on_state(vim_on)
                 proc.terminate()
             except Exception:
                 if not self._stop.is_set():
@@ -156,6 +160,7 @@ class KeydIndicator(base._TextBox):
         self.add_defaults(KeydIndicator.defaults)
         self._focused_app: str | None = None
         self._external_text = ""
+        self._vimmode_active = False
         self._last_f24_time = 0.0
         self._pre_overlay_vim = False
         self._overlay_process_active = False
@@ -184,7 +189,7 @@ class KeydIndicator(base._TextBox):
         # Also scans /proc for layer-shell overlay processes (rofi, wlr-which-key)
         # at 200ms intervals via the existing poll timeout — zero extra wakeups.
         self._listener = _KeydListener(
-            lambda text: qtile.call_soon_threadsafe(self._apply_state, text),
+            lambda vim: qtile.call_soon_threadsafe(self._apply_state, vim),
             lambda active: qtile.call_soon_threadsafe(self._set_overlay_state, active),
         )
         self._listener.start()
@@ -207,20 +212,30 @@ class KeydIndicator(base._TextBox):
             for line in proc.stdout.strip().split("\n"):
                 if line.startswith("/"):
                     layers = _active_layers(line)
-                    self._external_text = ICON_VIM if VIM_LAYER in layers else ICON_INS
+                    vim = VIM_LAYER in layers
+                    self._vimmode_active = vim
+                    if vim:
+                        self._external_text = ICON_VIM
+                    else:
+                        self._external_text = ICON_INS
                     return
         except Exception:
             pass
 
-    def _apply_state(self, text: str) -> None:
+    def _apply_state(self, vimmode_active: bool) -> None:
         """Called from Qtile event loop via call_soon_threadsafe."""
-        self._external_text = text
+        self._vimmode_active = vimmode_active
+
+        if vimmode_active:
+            self._external_text = ICON_VIM
+        else:
+            self._external_text = ICON_INS
 
         # Vimmode turned ON by user (CapsLock) → also send Escape
         # so CapsLock closes menus/dialogs even when mapper doesn't switch.
         # If OUR F24 caused the toggle (within 100ms), skip — auto-toggle
         # shouldn't send spurious Escape events.
-        if text == ICON_VIM and (time.time() - self._last_f24_time) > 0.1:
+        if vimmode_active and (time.time() - self._last_f24_time) > 0.1:
             self._send_escape()
 
         self._update_display()
@@ -260,15 +275,15 @@ class KeydIndicator(base._TextBox):
         """
         active = self._overlay_process_active or self._overlay_active()
         if active:
-            if self._external_text == ICON_VIM and not self._pre_overlay_vim:
+            if self._vimmode_active and not self._pre_overlay_vim:
                 self._pre_overlay_vim = True
                 self._toggle_vimmode()
         else:
             # Only restore if keyd is still in the OFF state we left it.
             # If the user manually toggled vimmode back ON during the
-            # overlay (via CapsLock), _external_text is ICON_VIM and
+            # overlay (via CapsLock), _vimmode_active is True and
             # we must not toggle again.
-            if self._pre_overlay_vim and self._external_text == ICON_INS:
+            if self._pre_overlay_vim and not self._vimmode_active:
                 self._toggle_vimmode()
             self._pre_overlay_vim = False
 
@@ -332,7 +347,10 @@ class KeydIndicator(base._TextBox):
             fnmatch.fnmatch(self._focused_app, p) for p in apps
         )
         if in_vim_app:
-            self.foreground = theme["red"] if self._external_text == ICON_VIM else theme["green"]
+            if self._vimmode_active:
+                self.foreground = theme["red"]
+            else:
+                self.foreground = theme["green"]
         else:
             self.foreground = theme["fg"]
         self.update(self._external_text if in_vim_app else "")
