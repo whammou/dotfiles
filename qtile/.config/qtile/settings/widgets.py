@@ -153,7 +153,7 @@ widgets = [
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 7
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 8
     widget.TextBox(**base(bg="bg2", fg="fg"), text=""),  # text_box 9
-    KeydIndicator(**base(bg="bg2", fg="fg"), name="keyd"),  # vim-mode indicator; auto-detects apps from ~/.config/keyd/app.conf
+    KeydIndicator(**base(bg="bg2", fg="fg"), name="keyd"),  # vim-mode indicator
     widget.Sep(background=colors["bg2"], foreground=colors["bg2"], linewidth=10),
 ]
 
