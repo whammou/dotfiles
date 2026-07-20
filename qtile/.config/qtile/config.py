@@ -46,7 +46,9 @@ wl_input_rules = {
         dwt=True,
         events=False,
     ),
-    "type:keyboard": InputConfig(kb_options="ctrl:nocaps,compose:ralt"),
+    # keyd handles capslock→esc (not ctrl) and rightalt→nav (not compose)
+    # via default.conf — so kb_options is intentionally empty here.
+    "type:keyboard": InputConfig(),
 }
 
 dgroups_key_binder = None

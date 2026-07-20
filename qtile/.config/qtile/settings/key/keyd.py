@@ -57,5 +57,4 @@ keyd_compat_keys = [
     EzKey("M-C-S-<Right>", lazy.layout.resize("right", 300)),
     EzKey("M-C-S-<Up>", lazy.layout.resize("up", 300)),
     EzKey("M-C-S-<Down>", lazy.layout.resize("down", 300)),
-
 ]
