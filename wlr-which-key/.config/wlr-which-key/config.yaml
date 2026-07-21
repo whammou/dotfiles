@@ -36,16 +36,16 @@ menu:
     submenu:
       - key: "b"
         desc: "󰦗 Beeper"
-        cmd: "qb chat.beeper.com"
+        cmd: "qutebrowser_quick chat.beeper.com"
       - key: "d"
         desc: "󰦗 Discord Web"
-        cmd: "qb discord.com/app"
+        cmd: "qutebrowser_quick discord.com/app"
       - key: "D"
         desc: "󰦗 Discord App"
         cmd: discord
       - key: "z"
         desc: "󰦗 Zalo"
-        cmd: "qb chat.zalo.me/"
+        cmd: "qutebrowser_quick chat.zalo.me/"
 
   # ── AI ───────────────────────────────────────────────────────
   - key: "a"
@@ -59,10 +59,10 @@ menu:
         cmd: "kitty --app-id=opencode --hold -e opencode"
       - key: "g"
         desc: "󰞐 ChatGPT"
-        cmd: "qb chatgpt.com"
+        cmd: "qutebrowser_quick chatgpt.com"
       - key: "e"
         desc: "󰞐 Gemini"
-        cmd: "qb gemini.google.com"
+        cmd: "qutebrowser_quick gemini.google.com"
 
   # ── Google Suite ─────────────────────────────────────────────
   - key: "g"
@@ -70,19 +70,19 @@ menu:
     submenu:
       - key: "d"
         desc: "󰈙 Docs"
-        cmd: "qb docs.google.com"
+        cmd: "qutebrowser_quick docs.google.com"
       - key: "p"
         desc: "󰏤 Slides"
-        cmd: "qb docs.google.com/presentation"
+        cmd: "qutebrowser_quick docs.google.com/presentation"
       - key: "s"
         desc: "󰉺 Sheets"
-        cmd: "qb docs.google.com/spreadsheets"
+        cmd: "qutebrowser_quick docs.google.com/spreadsheets"
       - key: "m"
         desc: "󰕧 Meet"
-        cmd: "qb meet.google.com"
+        cmd: "qutebrowser_quick meet.google.com"
       - key: "f"
         desc: "󰇁 PDF Editor"
-        cmd: "qb simplepdf.com/editor"
+        cmd: "qutebrowser_quick simplepdf.com/editor"
 
   # ── Orgmode ──────────────────────────────────────────────────
   - key: "o"
