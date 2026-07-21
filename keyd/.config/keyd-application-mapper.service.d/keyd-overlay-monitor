@@ -1,0 +1,211 @@
+#!/usr/bin/env python3
+"""Monitor overlay processes (wlr-which-key, rofi) and auto-toggle keyd vimmode.
+
+Event-driven: scans /proc once per keyd listen event — NO timer polling.
+Uses evdev uinput to send F23 (Escape) and F24 (toggle vimmode).
+
+Maps to keyd default.conf:
+  f23 = esc           → Escape
+  f24 = toggle(vimmode) → toggle vimmode on/off
+"""
+
+import os
+import select
+import subprocess
+import sys
+import time
+
+OVERLAY_NAMES = frozenset(("wlr-which-key", "rofi"))
+VIM_LAYER = "vimmode"
+VISUAL_LAYER = "visual"
+
+try:
+    from evdev import UInput, ecodes as _ec
+except ImportError:
+    print("[overlay-mon] evdev not available — install python-evdev", file=sys.stderr)
+    sys.exit(1)
+
+
+# ---------------------------------------------------------------------------
+# uinput helpers
+# ---------------------------------------------------------------------------
+
+_ui: UInput | None = None
+
+
+def _ensure_ui():
+    global _ui
+    if _ui is not None:
+        return _ui
+    try:
+        _ui = UInput()
+        return _ui
+    except Exception as ex:
+        print(f"[overlay-mon] uinput init failed: {ex}", file=sys.stderr)
+        return None
+
+
+def _close_ui():
+    global _ui
+    if _ui is not None:
+        try:
+            _ui.close()
+        except Exception:
+            pass
+        _ui = None
+
+
+def _send_key(key):
+    ui = _ensure_ui()
+    if ui is None:
+        return
+    try:
+        ui.write(_ec.EV_KEY, key, 1)
+        ui.write(_ec.EV_KEY, key, 0)
+        ui.syn()
+    except Exception as ex:
+        print(f"[overlay-mon] send_key failed: {ex}", file=sys.stderr)
+
+
+def send_escape():
+    _send_key(_ec.KEY_F23)
+
+
+def toggle_vimmode():
+    _send_key(_ec.KEY_F24)
+
+
+# ---------------------------------------------------------------------------
+# /proc scan — one-shot, event-triggered
+# ---------------------------------------------------------------------------
+
+def check_overlay_procs() -> bool:
+    """Return True if any overlay process (wlr-which-key, rofi) is running."""
+    try:
+        for entry in os.listdir("/proc"):
+            if entry.isdigit():
+                try:
+                    with open(f"/proc/{entry}/comm") as f:
+                        if f.read().strip() in OVERLAY_NAMES:
+                            return True
+                except OSError:
+                    pass
+    except OSError:
+        pass
+    return False
+
+
+# ---------------------------------------------------------------------------
+# keyd listen line parser
+# ---------------------------------------------------------------------------
+
+def parse_layers(line: str):
+    """Return (vim_on, vis_on) from a keyd listen line."""
+    if line.startswith("/"):
+        parts = line.split("/")[-1].split("+")
+        layers = parts[1:] if len(parts) > 1 else []
+        return VIM_LAYER in layers, VISUAL_LAYER in layers
+    elif line == f"+{VIM_LAYER}":
+        return True, None
+    elif line == f"-{VIM_LAYER}":
+        return False, None
+    elif line == f"+{VISUAL_LAYER}":
+        return None, True
+    elif line == f"-{VISUAL_LAYER}":
+        return None, False
+    return None, None
+
+
+# ---------------------------------------------------------------------------
+# Main loop
+# ---------------------------------------------------------------------------
+
+def main():
+    vim_on = False
+    vis_on = False
+    overlay_active = False
+    pre_overlay_vim = False
+    last_toggle = 0.0
+
+    proc = subprocess.Popen(
+        ["keyd", "listen"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    assert proc.stdout is not None
+    buf = b""
+
+    print("[overlay-mon] started", file=sys.stderr)
+
+    try:
+        while proc.poll() is None:
+            poll = select.poll()
+            poll.register(proc.stdout, select.POLLIN)
+            events = poll.poll(100)
+
+            if not events:
+                continue
+
+            raw = os.read(proc.stdout.fileno(), 65536)
+            if not raw:
+                break
+
+            buf += raw
+            while b"\n" in buf:
+                line_bytes, buf = buf.split(b"\n", 1)
+                line = line_bytes.decode("utf-8", errors="replace").strip()
+                if not line:
+                    continue
+
+                # Event-triggered /proc scan — runs on every keyd event
+                new_ov = check_overlay_procs()
+                if new_ov != overlay_active:
+                    overlay_active = new_ov
+                    if new_ov:
+                        print(
+                            "[overlay-mon] overlay appeared → disable vimmode",
+                            file=sys.stderr,
+                        )
+                        pre_overlay_vim = vim_on
+                        if vim_on:
+                            toggle_vimmode()
+                            last_toggle = time.time()
+                    else:
+                        print(
+                            "[overlay-mon] overlay dismissed → restore vimmode",
+                            file=sys.stderr,
+                        )
+                        if pre_overlay_vim and not vim_on:
+                            toggle_vimmode()
+                            last_toggle = time.time()
+                        pre_overlay_vim = False
+
+                # Parse keyd layer state
+                nv, nvs = parse_layers(line)
+                if nv is not None:
+                    changed_vim = nv != vim_on
+                    vim_on = nv
+                    if changed_vim and vim_on and (time.time() - last_toggle) > 0.1:
+                        print(
+                            "[overlay-mon] user activated vim → send Escape",
+                            file=sys.stderr,
+                        )
+                        send_escape()
+                if nvs is not None:
+                    vis_on = nvs
+
+    finally:
+        proc.terminate()
+        proc.wait()
+        _close_ui()
+        print("[overlay-mon] stopped", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    except Exception as ex:
+        print(f"[overlay-mon] fatal: {ex}", file=sys.stderr)
+        sys.exit(1)

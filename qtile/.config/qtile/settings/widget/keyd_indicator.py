@@ -7,9 +7,6 @@ import select
 import subprocess
 import sys
 
-ICON_VIM = "󰰓 "
-ICON_VIS = "󰰫 "
-ICON_INS = "󰰄 "
 
 APP_CONF = os.path.expanduser("~/.config/keyd/app.conf")
 
@@ -35,7 +32,9 @@ class KeydIndicator(base._TextBox):
     """Qtile bar widget for keyd vimmode indicator.
 
     Spawns ``keyd listen`` as a background subprocess and parses
-    layer state changes from its output.  No daemon, no uinput, no /proc.
+    layer state from its output to show current input mode.
+    Overlay detection (wlr-which-key, rofi → auto-toggle vimmode)
+    is handled by the external ``keyd-overlay-monitor`` systemd service.
     """
 
     def _vimmode_init(self):
@@ -96,9 +95,7 @@ class KeydIndicator(base._TextBox):
             assert self._proc.stdout is not None
             os.set_blocking(self._proc.stdout.fileno(), False)
             if self._loop is not None:
-                self._loop.add_reader(
-                    self._proc.stdout.fileno(), self._on_stdout_data
-                )
+                self._loop.add_reader(self._proc.stdout.fileno(), self._on_stdout_data)
             return True
         except Exception as ex:
             print(f"[keyd] listen spawn failed: {ex}", file=sys.stderr)
@@ -191,16 +188,19 @@ class KeydIndicator(base._TextBox):
 
     def _update_display(self) -> None:
         in_vim_app = self._is_vim_app_focused()
+        icon_vim = "󰰓 "  # nf-md-keyboard-v -> vim mode icon
+        icon_vis = "󰰫 "  # nf-md-keyboard-close -> visual mode icon
+        icon_ins = "󰰄 "  # nf-md-keyboard-outline -> insert mode icon
         if in_vim_app:
             m = self._mode
             if m == "visual":
-                self._external_text = ICON_VIS
+                self._external_text = icon_vis
                 self.foreground = theme["red"]
             elif m == "vim":
-                self._external_text = ICON_VIM
+                self._external_text = icon_vim
                 self.foreground = theme["red"]
             else:
-                self._external_text = ICON_INS
+                self._external_text = icon_ins
                 self.foreground = theme["green"]
         else:
             self.foreground = theme["fg"]
@@ -227,6 +227,7 @@ class KeydIndicator(base._TextBox):
             self._configure_impl(qtile, bar)
         except Exception:
             import traceback
+
             traceback.print_exc()
 
     def _configure_impl(self, qtile, bar):
