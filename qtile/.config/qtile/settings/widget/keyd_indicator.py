@@ -2,8 +2,8 @@ from libqtile import hook
 from libqtile.widget import base
 from ..theme import colors as theme
 import fnmatch
-import json
 import os
+import select
 import subprocess
 import sys
 
@@ -12,7 +12,6 @@ ICON_VIS = "󰰫 "
 ICON_INS = "󰰄 "
 
 APP_CONF = os.path.expanduser("~/.config/keyd/app.conf")
-_SCRIPT = os.path.join(os.path.dirname(__file__), "keyd_monitor.py")
 
 
 def _parse_app_config() -> list[str]:
@@ -35,10 +34,19 @@ def _parse_app_config() -> list[str]:
 class KeydIndicator(base._TextBox):
     """Qtile bar widget for keyd vimmode indicator.
 
-    Spawns ``keyd_monitor.py`` as a background subprocess and reads
-    JSON state lines from its stdout.  Pure display — no knowledge of
-    keyd IPC, /proc scanning, or uinput.
+    Spawns ``keyd listen`` as a background subprocess and parses
+    layer state changes from its output.  No daemon, no uinput, no /proc.
     """
+
+    def _vimmode_init(self):
+        self._loop = None
+        self._finalized = False
+        self._focused_app: str | None = None
+        self._external_text = ""
+        self._vim_on = False
+        self._vis_on = False
+        self._proc: subprocess.Popen | None = None
+        self._buf = ""
 
     defaults = [
         (
@@ -51,14 +59,7 @@ class KeydIndicator(base._TextBox):
     def __init__(self, **config):
         base._TextBox.__init__(self, "", **config)
         self.add_defaults(KeydIndicator.defaults)
-        self._focused_app: str | None = None
-        self._external_text = ""
-        self._mode = "insert"  # "vim" | "visual" | "insert"
-        self._overlay_on = False
-        self._proc: subprocess.Popen | None = None
-        self._buf = ""
-        self._loop = None
-        self._finalized = False
+        self._vimmode_init()
 
     @property
     def _vim_apps(self) -> list[str]:
@@ -73,40 +74,38 @@ class KeydIndicator(base._TextBox):
             fnmatch.fnmatch(self._focused_app, p) for p in apps
         )
 
+    @property
+    def _mode(self) -> str:
+        return "visual" if self._vis_on else ("vim" if self._vim_on else "insert")
+
     # ------------------------------------------------------------------
-    # Subprocess lifecycle
+    # keyd listen subprocess
     # ------------------------------------------------------------------
 
-    def _spawn_monitor(self) -> bool:
-        """Start (or restart) the keyd_monitor.py subprocess."""
+    def _spawn_listener(self) -> bool:
+        """Start keyd listen as a background subprocess."""
         if self._proc is not None:
-            try:
-                self._proc.terminate()
-                self._proc.wait(2)
-            except Exception:
-                try:
-                    self._proc.kill()
-                except Exception:
-                    pass
-            self._proc = None
+            self._kill_listener()
 
         try:
             self._proc = subprocess.Popen(
-                [sys.executable, _SCRIPT],
+                ["keyd", "listen"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
             )
             assert self._proc.stdout is not None
             os.set_blocking(self._proc.stdout.fileno(), False)
             if self._loop is not None:
-                self._loop.add_reader(self._proc.stdout.fileno(), self._on_stdout_data)
+                self._loop.add_reader(
+                    self._proc.stdout.fileno(), self._on_stdout_data
+                )
             return True
         except Exception as ex:
-            print(f"[keyd] spawn failed: {ex}", file=sys.stderr)
+            print(f"[keyd] listen spawn failed: {ex}", file=sys.stderr)
             self._proc = None
             return False
 
-    def _kill_monitor(self) -> None:
+    def _kill_listener(self) -> None:
         if self._proc is None:
             return
         try:
@@ -130,72 +129,61 @@ class KeydIndicator(base._TextBox):
     # ------------------------------------------------------------------
 
     def _on_stdout_data(self) -> None:
-        """Event-loop callback: subprocess stdout has data."""
+        """Event-loop callback: keyd listen stdout has data."""
         if self._proc is None or self._proc.stdout is None:
             return
         try:
             raw = os.read(self._proc.stdout.fileno(), 65536)
             if not raw:
-                self._on_monitor_died()
+                self._on_listener_died()
                 return
             self._buf += raw.decode("utf-8", errors="replace")
             while "\n" in self._buf:
                 line, self._buf = self._buf.split("\n", 1)
                 line = line.strip()
-                if line:
-                    try:
-                        state = json.loads(line)
-                        self._apply_state(
-                            state.get("mode", "insert"),
-                            state.get("overlay", False),
-                        )
-                    except json.JSONDecodeError:
-                        pass
+                if not line:
+                    continue
+                self._parse_line(line)
         except (BlockingIOError, OSError, ValueError):
-            self._on_monitor_died()
+            self._on_listener_died()
 
-    def _on_monitor_died(self) -> None:
-        """Monitor process died — clean up and restart after a delay."""
-        self._kill_monitor()
+    def _on_listener_died(self) -> None:
+        """Listener died — clean up and restart after a delay."""
+        self._kill_listener()
         if self._loop is not None and not self._finalized:
-            self._loop.call_later(2.0, self._spawn_monitor)
+            self._loop.call_later(2.0, self._spawn_listener)
 
     # ------------------------------------------------------------------
-    # State application (called from event loop)
+    # keyd listen line parser
     # ------------------------------------------------------------------
 
-    def _apply_state(self, mode: str, overlay: bool) -> None:
-        self._mode = mode
-        self._overlay_on = overlay
-        self._update_display()
+    def _parse_line(self, line: str) -> None:
+        changed = False
+        if line.startswith("/"):
+            # Full state: /main or /main+vimmode or /main+vimmode+visual
+            parts = line.split("/")[-1].split("+")
+            layers = parts[1:] if len(parts) > 1 else []
+            nv = "vimmode" in layers
+            nvs = "visual" in layers
+            changed = nv != self._vim_on or nvs != self._vis_on
+            self._vim_on, self._vis_on = nv, nvs
+        elif line == "+vimmode":
+            changed = not self._vim_on
+            self._vim_on = True
+        elif line == "-vimmode":
+            changed = self._vim_on
+            self._vim_on = False
+        elif line == "+visual":
+            changed = not self._vis_on
+            self._vis_on = True
+        elif line == "-visual":
+            changed = self._vis_on
+            self._vis_on = False
+        else:
+            return  # unrecognised line
 
-    # ------------------------------------------------------------------
-    # Startup / focus hooks
-    # ------------------------------------------------------------------
-
-    def _configure(self, qtile, bar):
-        try:
-            self._configure_impl(qtile, bar)
-        except Exception:
-            import traceback
-
-            traceback.print_exc()
-
-    def _configure_impl(self, qtile, bar):
-        base._TextBox._configure(self, qtile, bar)
-        self._loop = qtile._eventloop
-        hook.subscribe.client_focus(self._on_focus_change)
-
-        # Spawn the background monitor
-        self._spawn_monitor()
-
-        # Track initial focus
-        win = qtile.current_window
-        if win is not None:
-            wm_class = win.get_wm_class()
-            if wm_class:
-                self._focused_app = wm_class[0]
-        self._update_display()
+        if changed:
+            self._update_display()
 
     # ------------------------------------------------------------------
     # Display update
@@ -204,10 +192,11 @@ class KeydIndicator(base._TextBox):
     def _update_display(self) -> None:
         in_vim_app = self._is_vim_app_focused()
         if in_vim_app:
-            if self._mode == "visual":
+            m = self._mode
+            if m == "visual":
                 self._external_text = ICON_VIS
                 self.foreground = theme["red"]
-            elif self._mode == "vim":
+            elif m == "vim":
                 self._external_text = ICON_VIM
                 self.foreground = theme["red"]
             else:
@@ -218,7 +207,7 @@ class KeydIndicator(base._TextBox):
         self.update(self._external_text if in_vim_app else "")
 
     # ------------------------------------------------------------------
-    # Focus tracking — pure display, no uinput
+    # Focus tracking
     # ------------------------------------------------------------------
 
     def _on_focus_change(self, client):
@@ -230,9 +219,34 @@ class KeydIndicator(base._TextBox):
         self._update_display()
 
     # ------------------------------------------------------------------
+    # Qtile lifecycle
+    # ------------------------------------------------------------------
+
+    def _configure(self, qtile, bar):
+        try:
+            self._configure_impl(qtile, bar)
+        except Exception:
+            import traceback
+            traceback.print_exc()
+
+    def _configure_impl(self, qtile, bar):
+        base._TextBox._configure(self, qtile, bar)
+        self._loop = qtile._eventloop
+        hook.subscribe.client_focus(self._on_focus_change)
+
+        # Spawn keyd listen
+        self._spawn_listener()
+
+        # Track initial focus
+        win = qtile.current_window
+        if win is not None:
+            wm_class = win.get_wm_class()
+            if wm_class:
+                self._focused_app = wm_class[0]
+        self._update_display()
 
     def finalize(self):
         self._finalized = True
-        self._kill_monitor()
+        self._kill_listener()
         hook.unsubscribe.client_focus(self._on_focus_change)
         base._TextBox.finalize(self)
