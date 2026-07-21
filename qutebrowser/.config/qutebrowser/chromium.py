@@ -9,15 +9,17 @@ c.qt.args = [
     "enable-native-gpu-memory-buffers",
     "enable-zero-copy",
     "gtk-version=4",
-    "enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,VaapiIgnoreDriverChecks,PlatformHEVCDecoderSupport,UseMultiPlaneFormatForHardwareVideo,WebRTCPipeWireCapturer",
+    "enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,VaapiIgnoreDriverChecks,PlatformHEVCDecoderSupport,UseMultiPlaneFormatForHardwareVideo,WebRTCPipeWireCapturer,NetworkPrediction,PrefetchPrivacyChanges,DirectCompositing,EnableRawDraw",
     "num-raster-threads=4",
     "use-gl desktop",
     "enable-accelerated-2d-canvas",
     "enable-accelerated-video-decode",
     "disable-gpu-sandbox",
     "content.prefers_reduced_motion",
+    "enable-quic",
 ]
 
+c.qt.chromium.process_model = "process-per-site"
 c.qt.workarounds.disable_accelerated_2d_canvas = "never"
 c.qt.workarounds.disable_hangouts_extension = True
 c.qt.workarounds.disable_accessibility = "always"

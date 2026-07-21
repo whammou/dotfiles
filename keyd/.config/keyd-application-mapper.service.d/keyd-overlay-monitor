@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monitor overlay processes (wlr-which-key, rofi) and auto-toggle keyd vimmode.
+"""Monitor overlay processes (wlr-which-key, rofi, swaylock) and auto-toggle keyd vimmode.
 
 Event-driven: scans /proc once per keyd listen event — NO timer polling.
 Uses evdev uinput to send F23 (Escape) and F24 (toggle vimmode).
@@ -15,7 +15,7 @@ import subprocess
 import sys
 import time
 
-OVERLAY_NAMES = frozenset(("wlr-which-key", "rofi"))
+OVERLAY_NAMES = frozenset(("wlr-which-key", "rofi", "swaylock"))
 VIM_LAYER = "vimmode"
 VISUAL_LAYER = "visual"
 
