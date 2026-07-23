@@ -82,7 +82,7 @@ def battery(bat):
         show_short_text=False,
         low_percentage=0.05,
         low_foreground=colors["red"],
-        notify_below=0.05,
+        notify_below=5,
         update_interval=60,
     )
 
