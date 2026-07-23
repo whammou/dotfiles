@@ -194,6 +194,15 @@ return {
     },
     config = function(_, opts)
       require("snacks").setup(opts)
+
+      -- LazyVim loads snacks.statuscolumn for its statuscolumn line,
+      -- which creates a 50ms cache-clearing timer (20Hz). Since we
+      -- don't need that timer (LazyVim manages its own statuscolumn),
+      -- patch setup to a no-op so the timer is never created.
+      pcall(function()
+        require("snacks.statuscolumn").setup = function() end
+      end)
+
       local convert = require("snacks.image.convert")
       local _convert = convert.convert
       ---@diagnostic disable-next-line: duplicate-set-field
