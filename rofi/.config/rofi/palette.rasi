@@ -1,0 +1,33 @@
+/*
+ * Onedark palette
+ *   bg0: #282c34  (list background)
+ *   bg1: #31353f  (cursor line)
+ *   bg2: #393f4a  (unused)
+ *   bg3: #3b3f4c  (prompt background)
+ *   fg:  #abb2bf
+ *   red: #e86671  (match highlight, selection border)
+ *   blue:#61afef  (prompt accent border)
+ */
+
+* {
+  border:  0;
+  margin:  0;
+  padding: 0;
+  spacing: 0;
+
+  bg:           #282c34;
+  bg1:          #31353f;
+  bg2:          #393f4a;
+  bg3:          #3b3f4c;
+  fg:           #abb2bf;
+  font:         "HasklugNerdFont 13";
+  blue:         #61afef;
+  blue-alt:     #61afef15;
+  red:          #e86671;
+  red-alt:      #e8667115;
+  border-col:   #5c6370;
+  bg-selected:  #31353f;
+
+  background-color: @bg;
+  text-color:       @fg;
+}

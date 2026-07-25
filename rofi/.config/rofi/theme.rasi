@@ -1,14 +1,14 @@
 /*
- * ROFI color theme
+ * ROFI theme — fzf-lua-mimic inspired
  *
- * Based on Something Found in the Internet
- *
- * User: Contributors
- * Copyright: *!
+ * Modular — imports palette + component partials.
+ * Edit the individual .rasi files to tweak each section.
  */
 
 configuration {
-  font: "HasklugNerdFont 13";
+  matching: "fuzzy";
+  sort: true;
+  sorting-method: "fzf";
 
   drun {
     display-name: "";
@@ -27,70 +27,8 @@ configuration {
   }
 }
 
-* {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  spacing: 0;
-
-  bg: #282c34;
-	fg: #abb2bf;
-	blue: #61afef;
-	blue-alt: #61afef15;
-	red: #e86671;
-  red-alt: #e8667115;
-
-  background-color: @bg;
-  text-color: @fg;
-}
-
-window {
-  location:   north;
-  width:      1906px;
-  y-offset:   8px;
-  padding:    0px 0px 0px 0px;
-  border-color: @blue-alt;
-  transparency: "real";
-}
-
-mainbox {
-  children: [inputbar, listview];
-}
-
-inputbar {
-  spacing:    8px;
-  padding:    0px 0px 1px 0px;
-  border: 0 0 0 4px;
-  border-color: @blue;
-  children: [entry];
-}
-
-entry {
-  background-color: @blue-alt;
-  padding: 3px;
-  text-color: @blue;
-}
-
-listview {
-  fixed-height: false;
-  dynamic: true;
-  reverse: false;
-}
-
-element {
-  border: 0 0 0 4px;
-  children: [element-text];
-}
-
-element selected {
-  border-color: @red;
-}
-
-element-text {
-  padding: 3px;
-}
-
-element-text selected {
-  background-color: @red-alt;
-  text-color: @red;
-}
+@import "palette"
+@import "window"
+@import "inputbar"
+@import "elements"
+@import "scrollbar"

@@ -1,0 +1,13 @@
+window {
+  location:        north;
+  width:           1906px;
+  y-offset:        8px;
+  padding:         0;
+  border:          1px;
+  border-color:    @border-col;
+  background-color: @bg;
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
