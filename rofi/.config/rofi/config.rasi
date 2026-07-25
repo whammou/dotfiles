@@ -156,4 +156,4 @@ configuration {
   }
 }
 
-@theme "theme"
+@theme "init"

@@ -1,8 +1,9 @@
 /*
- * ROFI theme — fzf-lua-mimic inspired
+ * ROFI theme entry point — fzf-lua-mimic inspired
  *
- * Modular — imports palette + component partials.
+ * Imports palette + component partials.
  * Edit the individual .rasi files to tweak each section.
+ * Switch themes by changing this file or importing a different palette.
  */
 
 configuration {
@@ -11,7 +12,7 @@ configuration {
   sorting-method: "fzf";
 
   drun {
-    display-name: "";
+    display-name: "";
   }
 
   run {
