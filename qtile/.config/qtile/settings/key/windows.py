@@ -234,8 +234,8 @@ windows_keys = [
     # Resize windows 3x
     EzKey("M-C-h", lazy.layout.resize("left", 300)),
     EzKey("M-C-l", lazy.layout.resize("right", 300)),
-    EzKey("M-C-k", lazy.layout.resize("up", 300)),
-    EzKey("M-C-j", lazy.layout.resize("down", 300)),
+    EzKey("M-C-k", lazy.layout.resize("up", 150)),
+    EzKey("M-C-j", lazy.layout.resize("down", 150)),
     # Swap Windows
     EzKey("M-S-h", lazy.layout.swap("left")),
     EzKey("M-S-l", lazy.layout.swap("right")),

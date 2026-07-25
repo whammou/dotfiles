@@ -42,8 +42,8 @@ keyd_compat_keys = [
     # Resize — M-C-arrows (hjkl originals in windows.py)
     EzKey("M-C-<Left>", lazy.layout.resize("left", 300)),
     EzKey("M-C-<Right>", lazy.layout.resize("right", 300)),
-    EzKey("M-C-<Up>", lazy.layout.resize("up", 300)),
-    EzKey("M-C-<Down>", lazy.layout.resize("down", 300)),
+    EzKey("M-C-<Up>", lazy.layout.resize("up", 150)),
+    EzKey("M-C-<Down>", lazy.layout.resize("down", 150)),
     # Swap — M-S-arrows (hjkl originals in windows.py)
     # Covers both: vimmode meta+shift+h → Left → M-S-Left (via vimmode.h = left)
     #               visual meta+shift+h → S-left → M-S-Left (via visual.h = S-left)
@@ -55,6 +55,6 @@ keyd_compat_keys = [
     # Vimmode uses M-C-arrows (bare arrows, no shift); visual adds Shift from S-
     EzKey("M-C-S-<Left>", lazy.layout.resize("left", 300)),
     EzKey("M-C-S-<Right>", lazy.layout.resize("right", 300)),
-    EzKey("M-C-S-<Up>", lazy.layout.resize("up", 300)),
-    EzKey("M-C-S-<Down>", lazy.layout.resize("down", 300)),
+    EzKey("M-C-S-<Up>", lazy.layout.resize("up", 150)),
+    EzKey("M-C-S-<Down>", lazy.layout.resize("down", 150)),
 ]

@@ -1,5 +1,5 @@
 font: "HasklugNerdFont 13"
-background: "#21252b"
+background: "#31353f"
 color: "#abb2bf"
 border: "#98c379"
 separator: "    ➜ "
@@ -21,44 +21,44 @@ menu:
         desc: "󰍉 Search"
         cmd: qutebrowser_search
       - key: "t"
-        desc: "󰩫 Tabbed"
+        desc: "󰝜 Tabbed"
         cmd: qutebrowser_tabbed
       - key: "i"
-        desc: "󰆴 Incognito"
+        desc: "󱀣 Incognito"
         cmd: "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py --set tabs.tabs_are_windows false"
       - key: "p"
-        desc: "󰖟 Quick URL"
+        desc: "󱓥 Open Clipboard"
         cmd: qb-url
 
   # ── Chat ─────────────────────────────────────────────────────
   - key: "c"
-    desc: "󰦗 chat"
+    desc: "󰭻 chat"
     submenu:
       - key: "b"
-        desc: "󰦗 Beeper"
+        desc: "󰯯 Beeper"
         cmd: "qutebrowser_quick chat.beeper.com"
       - key: "d"
-        desc: "󰦗 Discord Web"
+        desc: " Discord Web"
         cmd: "qutebrowser_quick discord.com/app"
       - key: "D"
-        desc: "󰦗 Discord App"
+        desc: "󰙯 Discord App"
         cmd: discord
       - key: "z"
-        desc: "󰦗 Zalo"
+        desc: "󱆖 Zalo"
         cmd: "qutebrowser_quick chat.zalo.me/"
 
   # ── AI ───────────────────────────────────────────────────────
   - key: "a"
-    desc: "󰞐 AI"
+    desc: "󰚩 AI"
     submenu:
       - key: "o"
         desc: "󰶤 OpenCode Attach"
         cmd: "kitty --app-id=opencode-attach --hold -e opencode attach -p Unlimitednova199- https://opencode.whammou.dedyn.io --dir /home/whammou --continue"
       - key: "O"
-        desc: "󰶤 OpenCode"
+        desc: " OpenCode"
         cmd: "kitty --app-id=opencode --hold -e opencode"
       - key: "g"
-        desc: "󰞐 ChatGPT"
+        desc: " ChatGPT"
         cmd: "qutebrowser_quick chatgpt.com"
       - key: "e"
         desc: "󰞐 Gemini"
@@ -72,10 +72,10 @@ menu:
         desc: "󰈙 Docs"
         cmd: "qutebrowser_quick docs.google.com"
       - key: "p"
-        desc: "󰏤 Slides"
+        desc: "󰐩 Slides"
         cmd: "qutebrowser_quick docs.google.com/presentation"
       - key: "s"
-        desc: "󰉺 Sheets"
+        desc: "󰮰 Sheets"
         cmd: "qutebrowser_quick docs.google.com/spreadsheets"
       - key: "m"
         desc: "󰕧 Meet"
@@ -86,7 +86,7 @@ menu:
 
   # ── Orgmode ──────────────────────────────────────────────────
   - key: "o"
-    desc: "󰊿 orgmode"
+    desc: " orgmode"
     submenu:
       - key: "a"
         desc: "󰸗 Agenda"
