@@ -205,7 +205,7 @@ canvas, svg {
 @font-face { font-family: "Source Serif Pro"; src: local("Hasklug Nerd Font"); font-weight: 100 900; font-style: italic; }
 
 /* --- Theme color reset (keeps dark theme text color, no font override) --- */
-html, body, div, span, p, a, h1, h2, h3, h4, h5, h6,
+html, body, div, p, a, h1, h2, h3, h4, h5, h6,
 section, article, aside, header, footer, nav, main,
 ul, ol, li, dl, dt, dd, form, label,
 table, thead, tbody, tfoot, tr, th, td,
@@ -226,6 +226,7 @@ html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
       .material-icons, .material-symbols-outlined,
       .material-symbols-rounded, .material-symbols-sharp,
       .bi, .glyphicon, .icon-font,
+      .bwi, [class^="bwi-"], [class*=" bwi-"],
       .emoji, .emojione, .notranslate) {
   font-family: "Hasklug Nerd Font" !important;
 }
@@ -402,7 +403,7 @@ a {
 }
 
 a:visited {
-  color: var(--od-dark-blue);
+  color: var(--od-dimmed-purple) !important;
 }
 
 a:hover, a:focus {
@@ -429,6 +430,10 @@ strong, b {
 
 em, i {
   color: var(--od-light-grey);
+}
+
+/* Only apply italic/lighter to real emphasis elements — exclude icon fonts */
+em, i:not([class*="bwi"]):not([class*="fa-"]):not([class*="material-icons"]) {
   font-weight: lighter;
   font-style: italic;
 }
@@ -702,4 +707,21 @@ section.mt-content-container p {
 /* GitHub article content */
 article.markdown-body.entry-content.container-lg details ul li {
   color: var(--od-cyan);
+}
+
+/* GitHub markdown alerts - use webpage's native title colors instead of --od-fg */
+.markdown-alert-important .markdown-alert-title {
+  color: #ab7df8 !important;
+}
+.markdown-alert-note .markdown-alert-title {
+  color: #4493f8 !important;
+}
+.markdown-alert-tip .markdown-alert-title {
+  color: #3fb950 !important;
+}
+.markdown-alert-warning .markdown-alert-title {
+  color: #d29922 !important;
+}
+.markdown-alert-caution .markdown-alert-title {
+  color: #f85149 !important;
 }
