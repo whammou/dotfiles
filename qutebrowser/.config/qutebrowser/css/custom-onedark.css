@@ -85,20 +85,6 @@
 /* ==========================================================================
    BASE & GLOBAL STYLES
    ========================================================================== */
-
-/* Apply main background - exclude specific elements */
-*:not(td) {
-  background-color: var(--od-bg0) !important;
-}
-
-/* Exceptions - elements that should remain transparent */
-input#query-builder-test,
-textarea#read-only-cursor-text-area,
-textarea#copilot-chat-textarea,
-canvas, svg {
-  background-color: transparent !important;
-}
-
 /* ==========================================================================
    @FONT-FACE ALIASING
    Replace common web fonts with Hasklug Nerd Font at the font resolution
@@ -234,6 +220,7 @@ html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
 /* Page-level backgrounds */
 html, body {
   background-image: none !important;
+  background-color: var(--od-bg0) !important;
 }
 
 /* Structural elements */
@@ -263,7 +250,7 @@ span.marketing-card-note {
 }
 
 span {
-  color: var(--od-light-grey);
+  color: var(--od-fg);
 }
 
 /* Content elements with high layering probability - prevent mismatch inside elevated containers */
@@ -725,3 +712,34 @@ article.markdown-body.entry-content.container-lg details ul li {
 .markdown-alert-caution .markdown-alert-title {
   color: #f85149 !important;
 }
+
+
+/* Github - heading: {{{*/
+.markdown-heading h1.heading-element span,
+article.markdown-body h1.heading-element span {
+  color: var(--od-cyan) !important;
+}
+.markdown-heading h2.heading-element span,
+article.markdown-body h2.heading-element span {
+  color: var(--od-purple) !important;
+}
+.markdown-heading h3.heading-element span,
+article.markdown-body h3.heading-element span {
+  color: var(--od-blue) !important;
+}
+.markdown-heading h4.heading-element span,
+article.markdown-body h4.heading-element span {
+  color: var(--od-yellow) !important;
+}
+.markdown-heading h5.heading-element span,
+article.markdown-body h5.heading-element span {
+  color: var(--od-green) !important;
+}
+.markdown-heading h6.heading-element span,
+article.markdown-body h6.heading-element span {
+  color: var(--od-red) !important;
+}
+/* }}} */
+
+/* vim:foldmethod=marker
+*/
