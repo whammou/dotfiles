@@ -263,7 +263,7 @@ windows_keys = [
     EzKey("A-S-0", floats_to_front()),
     # Rofi menu
     EzKey("M-S-w", lazy.spawn("rofi -show window")),
-    EzKey("M-S-s", lazy.spawn(rofi_run_cmd)),
+    EzKey("M-C-s", lazy.spawn(rofi_run_cmd)),
     # Container select mode
     KeyChord(
         ["mod4"],
