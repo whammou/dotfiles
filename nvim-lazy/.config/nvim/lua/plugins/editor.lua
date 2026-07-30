@@ -24,7 +24,7 @@ return {
     keys = {
       {
         "<leader>ef",
-        "<cmd>Neotree show toggle<CR>",
+        "<cmd>Neotree show toggle dir=./<CR>",
         desc = "Toggle file explorer (cwd)",
       },
       {

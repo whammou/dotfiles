@@ -52,10 +52,10 @@ return {
         ["@org.directive.org"] = { fg = "$tbg_grey", fmt = "none" },
         ["@org.block.org"] = { fg = "$tbg_grey", fmt = "none" },
         -- Orgmode markup
-        ["@org.code"] = { fg = "$green", bg = "$bg2" },
-        ["@org.code.delimeter"] = { fg = "$green", bg = "$bg2" },
-        ["@org.verbatim"] = { fg = "$green", bg = "$bg2" },
-        ["@org.verbatim.delimeter"] = { fg = "$green", bg = "$bg2" },
+        ["@org.code"] = { fg = "$green", bg = "$bg_d" },
+        ["@org.code.delimeter"] = { fg = "$green", bg = "$bg_d" },
+        ["@org.verbatim"] = { fg = "$green", bg = "$bg_d" },
+        ["@org.verbatim.delimeter"] = { fg = "$green", bg = "$bg_d" },
         -- Orgmode headlines
         ["@org.headline.level1"] = { fg = "$cyan", fmt = "bold" },
         ["@org.headline.level2"] = { fg = "$purple", fmt = "bold" },
@@ -102,8 +102,9 @@ return {
         ["SpellBad"] = { sp = "$orange", fmt = "underline" },
         ["CursorLineNr"] = { fg = "$orange", fmt = "bold" },
         ["Cursor"] = { fg = "$fg" },
-        ["CodeBlock"] = { bg = "$bg3" },
         ["FoldedDefault"] = { bg = "$dimmed_cyan" },
+        ["CodeBlock"] = { bg = "$bg_d" },
+        ["Quote"] = { bg = "$bg2" },
 
         -- Which-key
         ["WhichKeyDesc"] = { fg = "$green" },

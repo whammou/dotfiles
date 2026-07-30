@@ -15,6 +15,23 @@ vim.cmd([[highlight Headline6 guibg=#3e323a]])
 
 require("headlines").setup({
   org = {
+    query = vim.treesitter.query.parse("org", [[
+      (headline (stars) @headline)
+
+      (
+        (expr) @dash
+        (#match? @dash "^-----+$")
+      )
+
+      (block
+        name: (expr) @_name
+        (#match? @_name "(SRC|src)")
+      ) @codeblock
+
+      (paragraph . (expr) @quote
+        (#eq? @quote ">")
+      )
+    ]]),
     headline_highlights = {
       "Headline1",
       "Headline2",
