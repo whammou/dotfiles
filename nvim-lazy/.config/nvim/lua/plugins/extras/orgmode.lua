@@ -85,7 +85,12 @@ return {
     lazy = true,
     ft = { "org" },
     dependencies = { "nvim-orgmode/orgmode" },
-    opts = {},
+    opts = {
+      concealcursor = true,
+      symbols = {
+        list = "󰨓",
+      },
+    },
   },
   {
     "chipsenkbeil/org-roam.nvim",

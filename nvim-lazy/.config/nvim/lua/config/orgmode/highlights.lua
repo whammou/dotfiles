@@ -11,12 +11,12 @@ vim.api.nvim_create_autocmd("FileType", {
       syntax match orgAdmonitionImportant '\[!IMPORTANT\]'
       syntax match orgAdmonitionTip '\[!TIP\]'
       syntax match orgAdmonitionNote '\[!NOTE\]'
-      highlight orgAdmonitionWarning guifg=#d19a66 gui=bold
-      highlight orgAdmonitionCaution guifg=#e86671 gui=bold
-      highlight orgAdmonitionImportant guifg=#c678dd gui=bold
-      highlight orgAdmonitionTip guifg=#98c379 gui=bold
-      highlight orgAdmonitionNote guifg=#61afef gui=bold
     ]])
+    vim.api.nvim_set_hl(0, "orgAdmonitionWarning", { fg = "#d19a66", bold = true })
+    vim.api.nvim_set_hl(0, "orgAdmonitionCaution", { fg = "#e86671", bold = true })
+    vim.api.nvim_set_hl(0, "orgAdmonitionImportant", { fg = "#c678dd", bold = true })
+    vim.api.nvim_set_hl(0, "orgAdmonitionTip", { fg = "#98c379", bold = true })
+    vim.api.nvim_set_hl(0, "orgAdmonitionNote", { fg = "#61afef", bold = true })
 
     vim.schedule(function()
       local bufnr = vim.api.nvim_get_current_buf()
@@ -71,35 +71,4 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-require("org-bullets").setup({
-  concealcursor = true,
-  symbols = {
-    --list = "»",
-    list = "󰨓",
-  },
-})
 
-require("orgmode").setup({
-  org_todo_keyword_faces = {
-    TODO = ":foreground #775289 :weight bold :slant italic",
-    OPEN = ":foreground #775289 :weight bold :slant italic",
-    RECR = ":foreground #775289 :weight bold :slant italic",
-    DOIN = ":foreground #3F717B :weight bold :slant italic",
-    PROG = ":foreground #607857 :weight bold :slant italic",
-    PEND = ":foreground #5c6370 :weight bold :slant italic",
-    OUTL = ":foreground #5c6370 :weight bold :slant italic",
-    IDEA = ":foreground #5c6370 :weight bold :slant italic",
-    INTR = ":foreground #6e594f :weight bold :slant italic",
-    WAIT = ":foreground #6e594f :weight bold :slant italic",
-    EXPL = ":foreground #6e594f :weight bold :slant italic",
-    FDBK = ":foreground #6e594f :weight bold :slant italic",
-    TEST = ":foreground #6e594f :weight bold :slant italic",
-    NEXT = ":foreground #456E92 :weight bold :slant italic",
-    TARGET = ":foreground #775289 :weight bold :slant italic",
-    RVIW = ":foreground #e5c07b :weight bold :slant italic",
-    PRTL = ":foreground #e5c07b :weight bold :slant italic",
-    ABRT = ":foreground #e86671 :weight bold :slant italic",
-    DONE = ":foreground #98c379 :weight bold :slant italic",
-    CLSD = ":foreground #5c6370 :weight bold :slant italic",
-  },
-})
