@@ -772,6 +772,7 @@ html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
   [class^="fa2"], [class*=" fa2"],
   .material-icons, .material-symbols-outlined,
   .material-symbols-rounded, .material-symbols-sharp,
+  .google-symbols, [class*="google-symbols"],
   .bi, .glyphicon, .icon-font,
   .bwi, [class^="bwi-"], [class*=" bwi-"],
   .emoji, .emojione, .notranslate) {
@@ -1010,7 +1011,7 @@ i {
 
 /* NOTE: exclude icon fonts from italic/lighter */
 em,
-i:not([class*="bwi"]):not([class*="fa-"]):not([class*="material-icons"]) {
+i:not([class*="bwi"]):not([class*="fa-"]):not([class*="material-icons"]):not([class*=" bi-"]) {
   font-weight: lighter;
   font-style: italic;
 }
@@ -1131,7 +1132,7 @@ samp {
   border-radius: 4px !important;
   border: none !important;
   font-family: "Hasklug Nerd Font Mono" !important;
-  background-color: var(--od-bg3) !important;
+  background-color: var(--od-bg_d) !important;
   padding: 0.2em 0.4em;
   color: var(--od-green);
 }
@@ -1145,7 +1146,7 @@ div.rh-generic--component p code {
 
 div.s-prose.js-post-body p code,
 div.s-prose.js-post-body pre code {
-  background-color: var(--od-bg3) !important;
+  background-color: var(--od-bg_d) !important;
 }
 
 pre {
@@ -1163,9 +1164,8 @@ pre code {
 
 input,
 textarea,
-select,
-button {
-  background-color: var(--od-bg3) !important;
+select {
+  background-color: var(--od-bg1) !important;
   color: var(--od-fg);
   border-radius: 4px;
   padding: 0.5em 0.8em;
@@ -1181,7 +1181,7 @@ select:focus {
 
 option,
 optgroup {
-  background-color: var(--od-bg3) !important;
+  background-color: var(--od-bg1) !important;
   color: var(--od-fg);
 }
 
@@ -1195,7 +1195,7 @@ button,
 input[type="submit"],
 input[type="button"],
 input[type="reset"] {
-  background-color: var(--od-bg2);
+  background-color: var(--od-bg2) !important;
   color: var(--od-fg);
   cursor: pointer;
   font-weight: bold;
@@ -1206,13 +1206,13 @@ button:hover,
 input[type="submit"]:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover {
-  background-color: var(--od-bg3);
+  background-color: var(--od-bg3) !important;
   border-color: var(--od-light-grey);
 }
 
 button:disabled,
 input:disabled {
-  background-color: var(--od-bg1);
+  background-color: var(--od-bg1) !important;
   color: var(--od-dark-red);
   cursor: not-allowed;
 }
@@ -1486,6 +1486,89 @@ body.w3-theme-l5,
   .w3-white.w3-hide-small {
     background-color: var(--od-bg1) !important;
   }
+}
+/* }}} */
+
+/* YouTube {{{ */
+/* NOTE: Chromium darkmode doesn't set YouTube's `dark` attribute on <html>,
+   so YouTube stays in light theme with white --yt-spec-* variables. Override
+   the variables directly to break that dependency. Layer backgrounds using
+   --od-bg* to match YouTube's Material surface hierarchy. */
+html:not(.style-scope) {
+  /* Layer 0 — Canvas */
+  --yt-spec-base-background: var(--od-bg0) !important;
+  --yt-spec-general-background-a: var(--od-bg0) !important;
+
+  /* Layer 1 — Surface */
+  --yt-spec-general-background-b: var(--od-bg1) !important;
+  --yt-spec-brand-background-solid: var(--od-bg1) !important;
+  --yt-spec-brand-background-primary: rgba(40, 44, 52, 0.98) !important;
+  --yt-spec-brand-background-secondary: rgba(40, 44, 52, 0.95) !important;
+  --ytd-searchbox-background: var(--od-bg1) !important;
+
+  /* Layer 2 — Elevated */
+  --yt-spec-general-background-c: var(--od-bg2) !important;
+  --yt-spec-raised-background: var(--od-bg2) !important;
+  --yt-spec-menu-background: var(--od-bg2) !important;
+
+  /* Text */
+  --yt-spec-text-primary: var(--od-fg) !important;
+  --yt-spec-text-secondary: var(--od-grey) !important;
+  --yt-spec-text-disabled: var(--od-light-grey) !important;
+
+  /* Interactive */
+  --yt-spec-call-to-action: var(--od-blue) !important;
+  --yt-spec-icon-active-other: var(--od-fg) !important;
+  --yt-spec-icon-inactive: var(--od-grey) !important;
+  --yt-spec-icon-disabled: var(--od-light-grey) !important;
+  --yt-spec-outline: var(--od-bg3) !important;
+  --yt-spec-brand-link-text: var(--od-blue) !important;
+  --ytd-searchbox-border-color: var(--od-bg3) !important;
+
+  /* Misc */
+  --yt-spec-wordmark-text: var(--od-fg) !important;
+}
+
+ytd-app {
+  background-color: var(--od-bg0) !important;
+}
+
+#search-input #search {
+  color: var(--od-fg) !important;
+}
+
+ytd-guide-renderer,
+#guide-content {
+  background-color: var(--od-bg1) !important;
+}
+
+#chips-wrapper,
+ytd-chips-renderer {
+  background-color: var(--od-bg0) !important;
+}
+
+ytd-rich-item-renderer,
+ytd-video-renderer {
+  background-color: var(--od-bg0) !important;
+}
+
+ytd-notification-renderer,
+tp-yt-paper-dialog {
+  background-color: var(--od-bg1) !important;
+}
+
+ytd-comments,
+#comments {
+  background-color: var(--od-bg0) !important;
+}
+
+#page-header,
+#page-header-container {
+  background-color: var(--od-bg0) !important;
+}
+
+ytd-subscribe-button-renderer {
+  --yt-spec-call-to-action: var(--od-red) !important;
 }
 /* }}} */
 
