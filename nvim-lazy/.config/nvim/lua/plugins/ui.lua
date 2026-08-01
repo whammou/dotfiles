@@ -1,7 +1,14 @@
--- Getter for neo-tree source selector cached by editor.lua's after_render handler
+-- Getter for neo-tree source selector cached by editor.lua's after_render handler.
+-- Visibility is derived from live windows at render time, so the tabline is
+-- always correct the instant the tree closes, regardless of cache/event timing.
 _G.__cached_neo_tree_selector = nil
 _G.__get_selector = function()
-  return _G.__cached_neo_tree_selector or ""
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "neo-tree" then
+      return _G.__cached_neo_tree_selector or ""
+    end
+  end
+  return ""
 end
 
 return {
@@ -17,7 +24,6 @@ return {
             {
               filetype = "neo-tree",
               raw = "%{%v:lua.__get_selector()%}",
-              highlight = { sep = { link = "WinSeparator" } },
               separator = "┃",
             },
           },
@@ -49,6 +55,25 @@ return {
                 text = text()
               end
               text = text or ""
+              -- Pad to the slot width (the neo-tree window width) like the native
+              -- implementation, so the tabline expands in sync with the tree.
+              -- Measure the evaluated string with strwidth: eval_statusline's
+              -- .width miscounts ambiguous-width glyphs (e.g. the selector's
+              -- "▕" separators), and %{...} literals would inflate strwidth.
+              local ok, evaluated = pcall(vim.api.nvim_eval_statusline, text, { use_tabline = true })
+              local text_size = 0
+              if ok and evaluated and evaluated.str then
+                text_size = vim.api.nvim_strwidth((evaluated.str:gsub("%%#%w+#", ""):gsub("%%%*", "")))
+              end
+              if text_size < size then
+                local pad = size - text_size
+                local left, right = math.floor(pad / 2), math.ceil(pad / 2)
+                text = string.rep(" ", left) .. text .. string.rep(" ", right)
+              end
+              -- Prepend the offset text highlight (resolved from the tree window's
+              -- winhighlight) like the native implementation, so padded/empty cells
+              -- render with the tree's background instead of the default tabline bg.
+              text = (highlight.text or "") .. text
               if offset.separator then
                 local sep_icon = type(offset.separator) == "string" and offset.separator or "│"
                 local sep = (highlight.sep or "") .. sep_icon
@@ -199,9 +224,9 @@ return {
       -- which creates a 50ms cache-clearing timer (20Hz). Since we
       -- don't need that timer (LazyVim manages its own statuscolumn),
       -- patch setup to a no-op so the timer is never created.
-      pcall(function()
-        require("snacks.statuscolumn").setup = function() end
-      end)
+      -- pcall(function()
+      --   require("snacks.statuscolumn").setup = function() end
+      -- end)
 
       local convert = require("snacks.image.convert")
       local _convert = convert.convert
@@ -214,8 +239,7 @@ return {
         if label then
           local cache = Snacks.image.config.cache
           local base = vim.fn.fnamemodify(src, ":t:r")
-          local prefix = vim.fn.sha256(src .. "0"):sub(1, 8) .. "-"
-            .. base:gsub("[^%w%.]+", "-")
+          local prefix = vim.fn.sha256(src .. "0"):sub(1, 8) .. "-" .. base:gsub("[^%w%.]+", "-")
           local expected = cache .. "/" .. prefix .. "." .. vim.o.background .. ".png"
           local uncached = vim.fn.filereadable(expected) == 0
           if uncached then
