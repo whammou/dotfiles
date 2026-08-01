@@ -821,7 +821,8 @@ span {
   color: var(--od-fg);
 }
 
-/* NOTE: prevent bg mismatch inside elevated containers */
+/* NOTE: prevent bg mismatch inside elevated containers.
+   c-wiz: Google Material shell w/ hardcoded white full-page bg (Meet) */
 div,
 span,
 a,
@@ -829,7 +830,8 @@ p,
 ul,
 ol,
 li,
-label {
+label,
+c-wiz {
   background-color: transparent !important;
 }
 
@@ -1011,7 +1013,7 @@ i {
 
 /* NOTE: exclude icon fonts from italic/lighter */
 em,
-i:not([class*="bwi"]):not([class*="fa-"]):not([class*="material-icons"]):not([class*=" bi-"]) {
+i:not([class*="bwi"]):not([class*="fa-"]):not([class*="material-icons"]):not([class*="material-symbols"]):not([class*=" bi-"]):not([class*="google-symbols"]) {
   font-weight: lighter;
   font-style: italic;
 }
@@ -1487,6 +1489,7 @@ body.w3-theme-l5,
     background-color: var(--od-bg1) !important;
   }
 }
+
 /* }}} */
 
 /* YouTube {{{ */
@@ -1570,6 +1573,7 @@ ytd-comments,
 ytd-subscribe-button-renderer {
   --yt-spec-call-to-action: var(--od-red) !important;
 }
+
 /* }}} */
 
 /* }}} */
