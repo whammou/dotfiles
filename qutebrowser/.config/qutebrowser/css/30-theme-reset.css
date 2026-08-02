@@ -98,9 +98,11 @@ span {
   color: var(--od-fg);
 }
 
-/* NOTE: prevent bg mismatch inside elevated containers.
-   c-wiz: Google Material shell w/ hardcoded white full-page bg (Meet) */
-div,
+/* NOTE: divs paint bg0 so content never floats see-through over site
+   background images; leaf elements stay transparent to inherit their
+   container's shade. Interior divs are re-transparented in 55-depth.css. */
+
+/* c-wiz: Google Material shell w/ hardcoded white full-page bg (Meet) */
 span,
 a,
 p,

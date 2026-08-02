@@ -1,0 +1,157 @@
+/* Depth: layered background shades for visual depth {{{ */
+
+/* Frame: darker edge around the bg0 page surface (overscroll, short pages) */
+html {
+  background-color: var(--od-bg_d) !important;
+}
+
+/* --- Elevated containers ---
+   Declared after 30-theme-reset's blanket transparent rule (div/span/ul/li
+   forced transparent) so these re-shade common structural containers. */
+
+/* Sidebars: one shade above the page surface, with a flat seam on the
+   content-facing edge */
+aside,
+[role="complementary"],
+[class*="sidebar"],
+[class*="side-bar"] {
+  background-color: var(--od-bg1) !important;
+  border-inline-end: 1px solid var(--od-bg_d) !important;
+}
+
+/* Cards / panels: elevated surfaces one shade above the page */
+[class*="card"],
+[class*="panel"],
+[class*="widget"] {
+  background-color: var(--od-bg1) !important;
+}
+
+/* Floating layers: menus, dropdowns, listboxes, tooltips, popovers */
+[class*="dropdown"],
+[class*="popover"],
+[role="menu"],
+[role="listbox"],
+[role="tooltip"] {
+  background-color: var(--od-bg2) !important;
+}
+
+/* Chrome bars: site headers, toolbars, breadcrumbs, footers, tab bars */
+[class*="header"],
+[class*="toolbar"],
+[class*="navbar"],
+[class*="menubar"],
+[class*="breadcrumb"],
+[class*="pagination"],
+[class*="footer"],
+[class*="tablist"],
+[class*="tab-bar"],
+[class*="tab-list"],
+[role="banner"],
+[role="navigation"],
+[role="contentinfo"],
+[role="tablist"] {
+  background-color: var(--od-bg1) !important;
+}
+
+/* Hero / banner backdrops: recessed stage behind imagery */
+[class*="hero"],
+[class*="banner"] {
+  background-color: var(--od-bg_d) !important;
+}
+
+/* Tokens: badges and chips, slightly elevated */
+[class*="badge"],
+[class*="chip"] {
+  background-color: var(--od-bg2) !important;
+}
+
+/* --- Interactive rise, blended over time --- */
+tbody tr,
+[role="option"],
+[role="menuitem"] {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: var(--od-bg2) !important;
+}
+
+[role="option"]:hover,
+[role="menuitem"]:hover,
+[class*="dropdown"] [class*="item"]:hover {
+  background-color: var(--od-bg3) !important;
+}
+
+/* Overlay/backdrop containers stay see-through: they dim content behind
+   dialogs. Declared last, so same-specificity !important ties go to this
+   block and it beats every container rule above. */
+[class*="overlay"],
+[class*="backdrop"],
+[class*="scrim"],
+[class*="mask"],
+[class*="dimmer"],
+[class*="veil"],
+[class*="curtain"],
+[class*="lightbox"] {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Interiors of shaded containers keep the container shade: their div
+   children must not paint bg0 over the layer's own background. */
+nav div,
+header div,
+footer div,
+aside div,
+[role="complementary"] div,
+[role="banner"] div,
+[role="navigation"] div,
+[role="contentinfo"] div,
+[role="tablist"] div,
+[role="menu"] div,
+[role="menuitem"] div,
+[role="option"] div,
+[role="listbox"] div,
+[role="tooltip"] div,
+[role="dialog"] div,
+dialog div,
+[class*="sidebar"] div,
+[class*="side-bar"] div,
+[class*="card"] div,
+[class*="panel"] div,
+[class*="widget"] div,
+[class*="dropdown"] div,
+[class*="popover"] div,
+/*[class*="header"] div,*/
+[class*="toolbar"] div,
+[class*="navbar"] div,
+[class*="menubar"] div,
+[class*="breadcrumb"] div,
+[class*="pagination"] div,
+[class*="footer"] div,
+[class*="tablist"] div,
+[class*="tab-bar"] div,
+[class*="tab-list"] div,
+[class*="hero"] div,
+[class*="banner"] div,
+[class*="badge"] div,
+[class*="chip"] div,
+[class*="overlay"] div,
+[class*="backdrop"] div,
+[class*="scrim"] div,
+[class*="mask"] div,
+[class*="dimmer"] div {
+  background-color: transparent !important;
+}
+
+/* Custom-select options are divs; keep them see-through so the listbox
+   shade shows, hover still rises via the interactive rules. */
+[role="option"],
+[role="menuitem"] {
+  background-color: transparent !important;
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/
