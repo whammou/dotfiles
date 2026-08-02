@@ -1,0 +1,9 @@
+# Pyright project root for the qutebrowser config directory.
+#
+# qutebrowser executes these files with `paths` (local module) and the
+# installed qutebrowser package available on sys.path; pyright needs the same
+# search paths to resolve imports like `from paths import CSS_DIR` and
+# tabcss.py's `from qutebrowser.api import ...`. Adjust the site-packages path
+# if qutebrowser is installed elsewhere (pipx/venv).
+[tool.pyright]
+extraPaths = ["/usr/lib/python3.14/site-packages", "."]

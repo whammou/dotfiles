@@ -53,7 +53,7 @@ def _on_load_finished(tab: apitypes.Tab, ok: bool) -> None:
 
 
 def _ensure_connected(tab: apitypes.Tab) -> None:
-    """Connect load_finished for the tab once, so plain css survives navigation."""
+    """Connect load_finished for the tab once, so plain css survives navigation."""  # noqa: E501
     if tab in _connected:
         return
     tab.load_finished.connect(lambda ok: _on_load_finished(tab, ok))
@@ -64,7 +64,7 @@ try:
     @cmdutils.register()
     @cmdutils.argument("tab", value=cmdutils.Value.cur_tab)
     def toggle_tab_css(tab: apitypes.Tab) -> None:
-        """Toggle the user stylesheet on the current tab (styled <-> plain css)."""
+        """Toggle the user stylesheet on the current tab (styled <-> plain css)."""  # noqa: E501
         if tab in _plain:
             _plain.discard(tab)
             _restore(tab)

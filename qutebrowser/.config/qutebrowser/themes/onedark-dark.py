@@ -1,6 +1,9 @@
 # pylint: disable=C0111
-c = c  # noqa: F821 pylint: disable=E0602,C0103
-config = config  # noqa: F821 pylint: disable=E0602,C0103
+from typing import Any
+
+# qutebrowser injects c when sourcing; globals()[...] binds it without
+# self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
+c: Any = globals()["c"]
 
 # base16 colors but with variable names that
 # reflect what the color is mainly used for

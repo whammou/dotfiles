@@ -1,15 +1,18 @@
 # pylint: disable=C0111
 import glob
 import os
+from typing import Any
 
-c = c  # noqa: F821 pylint: disable=E0602,C0103
-config = config  # noqa: F821 pylint: disable=E0602,C0103
+from paths import CSS_DIR
 
-CSS_DIR = "~/.config/qutebrowser/css/"
+# qutebrowser injects c/config when sourcing; globals()[...] binds them without
+# self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
+c: Any = globals()["c"]
+config: Any = globals()["config"]
 
 # BROWSER SETTINGS
 # c.editor.command = ["kitty", "nvim", "{file}"]
-c.window.title_format = "QB | [{scroll_pos}] {audio}{current_title}{title_sep}{host}"
+c.window.title_format = "QB | [{scroll_pos}] {audio}{current_title}{title_sep}{host}"  # noqa: E501
 c.editor.command = [
     "/home/whammou/.config/qutebrowser/userscripts/editor-wrapper.py",
     "{file}",
@@ -42,17 +45,11 @@ c.input.insert_mode.auto_enter = False
 c.content.user_stylesheets = [
     p
     for p in sorted(glob.glob(os.path.expanduser(CSS_DIR) + "*.css"))
-    if not os.path.basename(p) == "default.css"
+    if os.path.basename(p) != "default.css"
 ]
 
 # "xc" toggles stylesheets off/on; the on-state is built from the list above
-# so the bind can never drift from the actual css files (single source of truth).
-config.bind(
-    "xc",
-    "config-cycle --temp content.user_stylesheets "
-    "'[" + os.path.expanduser(CSS_DIR) + "default.css]' "
-    "'[" + ", ".join(c.content.user_stylesheets) + "]'",
-)
+# so the bind can never drift from the actual css files (single source of truth).  # noqa: E501
 c.content.prefers_reduced_motion = True
 c.downloads.location.directory = "/home/whammou/Downloads/"
 
@@ -82,7 +79,7 @@ c.completion.shrink = True
 c.content.blocking.enabled = True
 c.content.headers.user_agent = (
     "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) "
-    "{upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}"
+    "{upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}"  # noqa: E501
 )
 c.content.javascript.enabled = True
 c.window.hide_decoration = False

@@ -1,5 +1,9 @@
 # pylint: disable=C0111
-config = config  # noqa: F821 pylint: disable=E0602,C0103
+from typing import Any
+
+# qutebrowser injects config when sourcing; globals()[...] binds it without
+# self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
+config: Any = globals()["config"]
 
 config.set(
     "content.headers.user_agent",
@@ -7,18 +11,18 @@ config.set(
     "Gecko/20100101 Firefox/115.0",
     "https://accounts.google.com/*",
 )
-config.set("content.javascript.clipboard", "access-paste", "https://docs.github.com")
-config.set("content.javascript.clipboard", "access-paste", "https://github.com")
+config.set("content.javascript.clipboard", "access-paste", "https://docs.github.com")  # noqa: E501
+config.set("content.javascript.clipboard", "access-paste", "https://github.com")  # noqa: E501
 config.set(
     "content.javascript.clipboard",
     "access-paste",
     "https://nvim-orgmode.github.io",
 )
 config.set("content.media.audio_capture", True, "https://meet.google.com")
-config.set("content.media.audio_video_capture", True, "https://meet.google.com")
+config.set("content.media.audio_video_capture", True, "https://meet.google.com")  # noqa: E501
 config.set("content.media.audio_video_capture", True, "https://teams.live.com")
 config.set("content.media.video_capture", True, "https://meet.google.com")
 config.set("content.notifications.enabled", True, "https://chat.zalo.me")
 config.set("content.notifications.enabled", True, "https://meet.google.com")
-config.set("content.notifications.enabled", True, "https://ntfy.whammou.dedyn.io")
+config.set("content.notifications.enabled", True, "https://ntfy.whammou.dedyn.io")  # noqa: E501
 config.set("content.notifications.enabled", True, "https://teams.live.com")
