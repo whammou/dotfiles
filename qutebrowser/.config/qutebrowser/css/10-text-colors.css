@@ -1,0 +1,59 @@
+/* Text colors {{{ */
+.text-primary {
+  color: var(--od-fg) !important;
+}
+
+.text-muted {
+  color: var(--od-grey) !important;
+}
+
+.text-accent {
+  color: var(--od-cyan) !important;
+}
+
+.text-link {
+  color: var(--od-blue) !important;
+}
+
+.text-link-vis {
+  color: var(--od-cyan) !important;
+}
+
+.text-link-hover {
+  color: var(--od-purple) !important;
+}
+
+/* Backgrounds */
+.bg-main {
+  background-color: var(--od-bg0) !important;
+}
+
+.bg-elevated {
+  background-color: var(--od-bg1) !important;
+}
+
+.bg-hover {
+  background-color: var(--od-bg2) !important;
+}
+
+.bg-accent {
+  background-color: var(--od-bg3) !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+/* Borders */
+.border-subtle {
+  border-color: var(--od-bg_d) !important;
+}
+
+.border-accent {
+  border-color: var(--od-blue) !important;
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

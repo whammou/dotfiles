@@ -1,0 +1,50 @@
+/* Tables {{{ */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+th,
+thead {
+  background-color: var(--od-bg1);
+  color: var(--od-yellow);
+  font-weight: bold;
+  border: 1px solid var(--od-bg1);
+  text-align: left;
+}
+
+caption {
+  background-color: var(--od-bg0);
+  color: var(--od-fg);
+  caption-side: bottom;
+}
+
+tfoot {
+  background-color: var(--od-bg1);
+}
+
+td {
+  background-color: var(--od-bg0);
+  border-color: var(--od-bg_d);
+  color: var(--od-green) !important;
+}
+
+tr,
+tbody {
+  border-color: var(--od-bg_d);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--od-bg1);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--od-bg0);
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

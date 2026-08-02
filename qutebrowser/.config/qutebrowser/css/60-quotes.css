@@ -1,0 +1,33 @@
+/* Quotes & Separators {{{ */
+
+blockquote {
+  background-color: var(--od-bg1);
+  border-left: 4px solid var(--od-cyan);
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+  color: var(--od-light-grey) !important;
+}
+
+blockquote ul li,
+blockquote p {
+  color: var(--od-light-grey) !important;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--od-bg3) !important;
+  margin: 1.5em 0;
+  background-color: var(--od-bg0);
+}
+
+/* NOTE: dim bright separators for light mode */
+@media (prefers-color-scheme: light) {
+  hr {
+    border-top-color: #dddddd !important;
+  }
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

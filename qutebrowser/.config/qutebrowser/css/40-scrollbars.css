@@ -1,0 +1,21 @@
+/* Themed Scrollbars {{{ */
+/* NOTE: no scrollbar-width/scrollbar-color — those override the
+   ::-webkit-scrollbar rules below and render round thin scrollbars */
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+::-webkit-scrollbar-track {
+  background: var(--od-bg1) !important;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--od-grey) !important;
+  border: 2px solid var(--od-bg1) !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--od-light-grey) !important;
+}
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

@@ -57,10 +57,7 @@ config.bind(
 
 # Settings
 config.bind("xb", "set statusbar.show never")
-config.bind(
-    "xc",
-    "config-cycle content.user_stylesheets ~/.config/qutebrowser/css/default.css ~/.config/qutebrowser/css/custom-onedark.css",
-)
+config.bind("<Ctrl-r>", "toggle-tab-css")
 config.bind("xd", "config-cycle colors.webpage.darkmode.enabled True False")
 config.bind("xt", "config-cycle tabs.show multiple always")
 # Qtile

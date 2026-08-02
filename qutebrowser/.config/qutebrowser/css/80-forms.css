@@ -1,0 +1,84 @@
+/* Forms & UI {{{ */
+
+input,
+textarea,
+select {
+  background-color: var(--od-bg1) !important;
+  color: var(--od-fg);
+  border-radius: 4px;
+  padding: 0.5em 0.8em;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--od-blue);
+  outline-offset: 1px;
+  border-color: var(--od-blue);
+}
+
+option,
+optgroup {
+  background-color: var(--od-bg1) !important;
+  color: var(--od-fg);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--od-orange);
+  opacity: 1;
+}
+
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  background-color: var(--od-bg2) !important;
+  color: var(--od-fg);
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover {
+  background-color: var(--od-bg3) !important;
+  border-color: var(--od-light-grey);
+}
+
+button:disabled,
+input:disabled {
+  background-color: var(--od-bg1) !important;
+  color: var(--od-dark-red);
+  cursor: not-allowed;
+}
+
+/* Fieldset & Legend */
+fieldset {
+  background-color: var(--od-bg1);
+  border: 1px solid var(--od-bg3);
+  border-radius: 4px;
+}
+
+legend {
+  background-color: var(--od-bg2);
+  color: var(--od-cyan);
+  padding: 0.2em 0.6em;
+  border-radius: 3px;
+}
+
+/* Dialog / Modal overlays */
+dialog,
+[role="dialog"] {
+  background-color: var(--od-bg2);
+  border: 1px solid var(--od-bg3);
+  border-radius: 6px;
+  color: var(--od-fg);
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

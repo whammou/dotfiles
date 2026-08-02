@@ -1,0 +1,39 @@
+/* Code Blocks {{{ */
+
+code,
+pre,
+kbd,
+samp {
+  border-radius: 4px !important;
+  border: none !important;
+  font-family: "Hasklug Nerd Font Mono" !important;
+  background-color: var(--od-bg_d) !important;
+  padding: 0.2em 0.4em;
+  color: var(--od-green);
+}
+
+/* NOTE: code in Stack Overflow posts/bodies */
+div.s-prose.js-post-body h1 code,
+div.s-prose.js-post-body ul li code,
+div.rh-generic--component p code {
+  color: var(--od-green) !important;
+}
+
+div.s-prose.js-post-body p code,
+div.s-prose.js-post-body pre code {
+  background-color: var(--od-bg_d) !important;
+}
+
+pre {
+  padding: 1em;
+  overflow-x: auto;
+}
+
+pre code {
+  padding: 0;
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

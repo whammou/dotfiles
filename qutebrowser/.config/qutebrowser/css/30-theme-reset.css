@@ -1,0 +1,128 @@
+/* --- Theme color reset {{{ */
+html,
+body,
+div,
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+section,
+article,
+aside,
+header,
+footer,
+nav,
+main,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+form,
+label,
+table,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td,
+address,
+blockquote,
+details,
+summary {
+  color: var(--od-fg) !important;
+}
+
+/* HACK: font aliasing override for page @font-face — catches fonts loaded
+   via page's own @font-face (Google Fonts, Inter, Museo) that our aliasing
+   can't override. Ultra-high specificity html:not(#_) beats website CSS. */
+html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
+  span.fa, span.fab, span.far, span.fas, span.fal, span.fad,
+  .fa-solid, .fa-regular, .fa-brands,
+  [class^="fa-"], [class*=" fa-"],
+  [class^="fa2"], [class*=" fa2"],
+  .material-icons, .material-symbols-outlined,
+  .material-symbols-rounded, .material-symbols-sharp,
+  .google-symbols, [class*="google-symbols"],
+  .bi, .glyphicon, .icon-font,
+  .bwi, [class^="bwi-"], [class*=" bwi-"],
+  .emoji, .emojione, .notranslate) {
+  font-family: "Hasklug Nerd Font" !important;
+}
+
+/* Page-level backgrounds */
+html,
+body {
+  background-image: none !important;
+  background-color: var(--od-bg0) !important;
+}
+
+/* Structural elements */
+nav,
+aside,
+header,
+footer {
+  background-color: var(--od-bg1) !important;
+}
+
+/* Semantic layout elements */
+main {
+  background-color: var(--od-bg0) !important;
+}
+
+article,
+section,
+form {
+  background-color: var(--od-bg0) !important;
+}
+
+/* HACK: site-specific background image removal */
+section.post-content.clearfix ul li,
+div.md ol li,
+div.md ul li,
+div.commtext.c00,
+div.rFY7Pc,
+div.mMsbvc,
+span#marketing-card-callout-text,
+span.marketing-card-note {
+  background-image: none !important;
+}
+
+span {
+  color: var(--od-fg);
+}
+
+/* NOTE: prevent bg mismatch inside elevated containers.
+   c-wiz: Google Material shell w/ hardcoded white full-page bg (Meet) */
+div,
+span,
+a,
+p,
+ul,
+ol,
+li,
+label,
+c-wiz {
+  background-color: transparent !important;
+}
+
+/* NOTE: never force background behind media elements */
+img,
+picture,
+video,
+iframe,
+embed,
+object {
+  background-color: transparent !important;
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/

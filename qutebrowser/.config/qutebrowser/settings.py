@@ -1,7 +1,11 @@
 # pylint: disable=C0111
+import glob
+import os
+
 c = c  # noqa: F821 pylint: disable=E0602,C0103
 config = config  # noqa: F821 pylint: disable=E0602,C0103
 
+CSS_DIR = "~/.config/qutebrowser/css/"
 
 # BROWSER SETTINGS
 # c.editor.command = ["kitty", "nvim", "{file}"]
@@ -17,21 +21,38 @@ c.search.wrap = False
 c.new_instance_open_target = "tab-bg"
 c.new_instance_open_target_window = "last-focused"
 c.input.links_included_in_focus_chain = False
-c.scrolling.bar = "when-searching"
+c.scrolling.bar = "never"
 c.scrolling.smooth = False
 c.content.cache.size = 512000
 c.content.geolocation = False
 c.content.notifications.enabled = False
-c.statusbar.show = "in-mode"
+c.statusbar.show = "never"
 c.tabs.select_on_remove = "prev"
 c.tabs.show = "multiple"
 c.tabs.tabs_are_windows = True
 c.colors.webpage.preferred_color_scheme = "dark"
-c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.darkmode.policy.images = "never"
+c.colors.webpage.darkmode.algorithm = "brightness-rgb"
+c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.policy.images = "smart-simple"
+c.colors.webpage.darkmode.policy.page = "smart"
 c.input.insert_mode.auto_enter = False
 
-c.content.user_stylesheets = "~/.config/qutebrowser/css/custom-onedark.css"
+# All css files, ordered by numeric filename prefix (00- ... 99-);
+# default.css is an empty placeholder and intentionally excluded.
+c.content.user_stylesheets = [
+    p
+    for p in sorted(glob.glob(os.path.expanduser(CSS_DIR) + "*.css"))
+    if not os.path.basename(p) == "default.css"
+]
+
+# "xc" toggles stylesheets off/on; the on-state is built from the list above
+# so the bind can never drift from the actual css files (single source of truth).
+config.bind(
+    "xc",
+    "config-cycle --temp content.user_stylesheets "
+    "'[" + os.path.expanduser(CSS_DIR) + "default.css]' "
+    "'[" + ", ".join(c.content.user_stylesheets) + "]'",
+)
 c.content.prefers_reduced_motion = True
 c.downloads.location.directory = "/home/whammou/Downloads/"
 
@@ -56,6 +77,15 @@ c.fileselect.multiple_files.command = [
     "--chooser-file",
     "{}",
 ]
+
+c.completion.shrink = True
+c.content.blocking.enabled = True
+c.content.headers.user_agent = (
+    "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) "
+    "{upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}"
+)
+c.content.javascript.enabled = True
+c.window.hide_decoration = False
 
 c.completion.open_categories = [
     "searchengines",

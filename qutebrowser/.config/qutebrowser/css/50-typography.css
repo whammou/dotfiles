@@ -1,0 +1,226 @@
+/* Typography {{{ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color-scheme: only light !important;
+  font-weight: bold !important;
+  padding: 0.25em 0.5em;
+}
+
+h1 {
+  color: var(--od-cyan) !important;
+  background-color: var(--od-dimmed-cyan) !important;
+}
+
+h2 {
+  color: var(--od-purple) !important;
+  background-color: var(--od-dimmed-purple) !important;
+}
+
+h3 {
+  color: var(--od-blue) !important;
+  background-color: var(--od-dimmed-blue) !important;
+}
+
+h4 {
+  color: var(--od-yellow) !important;
+  background-color: var(--od-dimmed-yellow) !important;
+}
+
+h5 {
+  color: var(--od-green) !important;
+  background-color: var(--od-dimmed-green) !important;
+}
+
+h6 {
+  color: var(--od-red) !important;
+  background-color: var(--od-dimmed-red) !important;
+}
+
+/* Text selection & highlighted text */
+::selection {
+  background-color: var(--od-dimmed-blue);
+  color: var(--od-fg);
+}
+
+mark {
+  background-color: var(--od-dimmed-yellow);
+  color: var(--od-fg);
+}
+
+/* Figure */
+figure {
+  background-color: var(--od-bg1);
+  padding: 0.5em;
+  border-radius: 4px;
+}
+
+figcaption {
+  background-color: var(--od-bg1) !important;
+  color: var(--od-grey) !important;
+  font-style: italic;
+}
+
+/* Details / Summary */
+details {
+  background-color: var(--od-bg0);
+}
+
+summary {
+  background-color: var(--od-bg1);
+  color: var(--od-cyan);
+  cursor: pointer;
+  padding: 0.3em 0.6em;
+  border-radius: 3px;
+}
+
+summary:hover {
+  background-color: var(--od-bg2);
+}
+
+/* NOTE: exclude alert titles from paragraph color override */
+p:not(.markdown-alert-title, .ghd-alert-title, blockquote p) {
+  color: var(--od-fg) !important;
+}
+
+/* Lists */
+li {
+  color: var(--od-fg) !important;
+}
+
+li::marker {
+  color: var(--od-cyan);
+}
+
+ul li,
+ol li {
+  color: var(--od-fg) !important;
+}
+
+/* Links */
+a {
+  color: var(--od-blue) !important;
+}
+
+a:visited {
+  color: var(--od-dimmed-purple) !important;
+}
+
+a:hover,
+a:focus {
+  color: var(--od-green);
+  text-decoration: underline;
+}
+
+/* Specialized links */
+a.columnlinklist__content--link,
+span.pre,
+span.cfc-switcher-button-label-text,
+div.s-post-summary--stats-item span,
+a.-link--channel-name,
+div.url_wrapper a,
+a.question-hyperlink {
+  color: var(--od-grey) !important;
+}
+
+/* Text elements */
+strong,
+b {
+  color: var(--od-fg);
+  font-weight: bold;
+}
+
+em,
+i {
+  color: var(--od-light-grey);
+}
+
+/* NOTE: exclude icon fonts from italic/lighter */
+em,
+i:not([class*="bwi"]):not([class*="fa-"]):not([class*="material-icons"]):not([class*="material-symbols"]):not([class*=" bi-"]):not([class*="google-symbols"]) {
+  font-weight: lighter;
+  font-style: italic;
+}
+
+/* Inline highlights */
+span.highlight,
+div.page-title,
+a.s-tag.post-tag {
+  color-scheme: only light !important;
+  color: var(--od-green);
+}
+
+/* Additional text-level elements */
+q {
+  color: var(--od-light-grey) !important;
+  font-style: italic;
+}
+
+cite {
+  color: var(--od-cyan) !important;
+}
+
+dfn {
+  color: var(--od-light-grey) !important;
+  font-style: italic;
+}
+
+abbr {
+  color: var(--od-grey) !important;
+}
+
+small {
+  color: var(--od-grey) !important;
+}
+
+sub,
+sup {
+  color: var(--od-grey) !important;
+}
+
+u {
+  color: var(--od-cyan) !important;
+  text-decoration: none;
+}
+
+s,
+del {
+  color: var(--od-dark-red) !important;
+}
+
+ins {
+  color: var(--od-green) !important;
+}
+
+var {
+  color: var(--od-orange) !important;
+  font-style: italic;
+}
+
+address {
+  color: var(--od-light-grey) !important;
+  font-style: italic;
+}
+
+output {
+  color: var(--od-cyan) !important;
+}
+
+data,
+time {
+  color: var(--od-light-grey) !important;
+}
+
+bdi,
+bdo {
+  color: var(--od-fg) !important;
+}
+
+/* }}} */
+
+/* vim:foldmethod=marker foldlevel=0
+*/
