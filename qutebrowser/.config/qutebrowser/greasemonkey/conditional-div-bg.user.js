@@ -15,6 +15,15 @@
     let bg0 = '';
     let shades = [];
     const pending = new Set();
+    // Elements already evaluated: re-inserted subtrees are skipped wholesale.
+    // An element's own background-color doesn't change when it moves, so
+    // re-running getComputedStyle on it is pure waste.
+    const visited = new WeakSet();
+    // Added nodes are queued and processed once per animation frame, so
+    // getComputedStyle work is coalesced instead of running per-mutation.
+    const queue = [];
+    let rafId = 0;
+    let styleSeen = false;
     // Diagnostics: read via `:jseval JSON.stringify(window.__cdb)`.
     const stats = { bg0: '', painted: 0, seeThrough: 0, themed: 0, pending: 0 };
     window.__cdb = stats;
@@ -72,6 +81,9 @@
     }
 
     function paint(el) {
+        if (visited.has(el)) {
+            return;
+        }
         if (!resolveTheme()) {
             // Stylesheet not injected yet (or toggled off): queue and paint
             // once the theme variables become resolvable. Bounded fail-safe.
@@ -83,6 +95,7 @@
         }
         const cs = getComputedStyle(el);
         const bg = cs.backgroundColor;
+        visited.add(el);
         if (shades.includes(bg)) {
             stats.themed++;  // already painted by the theme stylesheet
             return;
@@ -100,6 +113,9 @@
         if (node.nodeType !== Node.ELEMENT_NODE) {
             return;
         }
+        if (visited.has(node)) {
+            return;  // whole subtree already decided
+        }
         if (node.matches('div')) {
             paint(node);
         }
@@ -107,7 +123,9 @@
     }
 
     function flushPending() {
-        if (!resolveTheme()) {
+        // Iterate only when the vars are resolvable: walking a full pending
+        // set with unresolved vars is pure getComputedStyle waste.
+        if (!resolveTheme() || pending.size === 0) {
             return;
         }
         for (const el of pending) {
@@ -117,12 +135,35 @@
         stats.pending = 0;
     }
 
-    function handleAdded(node) {
-        if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === 'STYLE') {
+    function processBatch() {
+        rafId = 0;
+        if (pending.size && styleSeen) {
             flushPending();  // qutebrowser's <style> landed -> vars resolvable
+            styleSeen = false;
+        }
+        const batch = queue.splice(0, queue.length);
+        for (const node of batch) {
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+                continue;
+            }
+            if (node.nodeName === 'STYLE') {
+                styleSeen = true;
+                continue;
+            }
+            paintTree(node);
+        }
+        // Late-arriving stylesheet: drain whatever got queued before it.
+        if (pending.size && styleSeen) {
+            flushPending();
+            styleSeen = false;
+        }
+    }
+
+    function schedule() {
+        if (rafId) {
             return;
         }
-        paintTree(node);
+        rafId = requestAnimationFrame(processBatch);
     }
 
     if (document.body) {
@@ -131,11 +172,15 @@
     flushPending();
 
     new MutationObserver((mutations) => {
-        flushPending();  // cheap; catches late stylesheet arrival
         for (const mutation of mutations) {
             for (const node of mutation.addedNodes) {
-                handleAdded(node);
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    queue.push(node);
+                }
             }
+        }
+        if (queue.length) {
+            schedule();
         }
     }).observe(document, {childList: true, subtree: true});
 })();
