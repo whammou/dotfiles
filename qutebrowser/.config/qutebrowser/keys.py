@@ -11,20 +11,23 @@ config: Any = globals()["config"]
 # pylint: disable=C0111
 
 
-# KEYBINNDINGS
-# Bindings for normal mode
+# unbind: {{{
 config.unbind("d")
 config.unbind("D")
 config.unbind("F")
 config.unbind("<Control-e>", mode="insert")
 # config.unbind("j")
 # config.unbind("k")
+# }}}
 
+# proxy: {{{
 config.bind(
     "xp",
     "config-cycle --temp content.proxy socks5://127.0.0.1:1080 system ;; message-info 'Toggled proxy'",  # noqa: E501
 )
-# Input method
+# }}}
+
+# input method (fcitx5): {{{
 # config.bind("<Escape>", "spawn fcitx5-remote -s keyboard-us", mode="insert")
 # ~/.config/qutebrowser/config.py
 config.bind(
@@ -47,12 +50,17 @@ config.bind(
     "set statusbar.show in-mode ;; spawn fcitx5-remote -s unikey",
     mode="insert",
 )
+# }}}
 
+# scrolling: {{{
+config.bind("<Control-e>", "scroll-px 0 34")
+config.bind("<Control-y>", "scroll-px 0 -34")
+# }}}
+
+# statusbar/mode binds: {{{
 # Bind Escape in insert mode to switch Fcitx5 and then leave insert mode
 # This might require two presses or careful timing, as qutebrowser's own
 # Escape handling might still fire.config.bind('o', 'set statusbar.show always;; set-cmd-text -s :open')  # noqa: E501
-config.bind("<Control-e>", "scroll-px 0 34")
-config.bind("<Control-y>", "scroll-px 0 -34")
 config.bind(
     "<Escape>", "mode-enter normal;; set statusbar.show in-mode", mode="command"  # noqa: E501
 )
@@ -62,8 +70,9 @@ config.bind("/", "cmd-set-text -s :search ;; set statusbar.show always", mode="n
 config.bind(
     "?", "cmd-set-text -s :search -r;; set statusbar.show always", mode="normal"  # noqa: E501
 )
+# }}}
 
-# Settings
+# settings toggles: {{{
 config.bind("xb", "set statusbar.show never")
 config.bind("<Ctrl-r>", "toggle-tab-css")
 config.bind(
@@ -74,13 +83,17 @@ config.bind(
 )
 config.bind("xd", "config-cycle --temp colors.webpage.darkmode.enabled True False")  # noqa: E501
 config.bind("xt", "config-cycle --temp tabs.show multiple always")
-# Qtile
+# }}}
+
+# qtile aliases: {{{
 c.aliases["split"] = "spawn _qtile_spawn_split_y"
 c.aliases["vsplit"] = "spawn _qtile_spawn_split_x"
 c.aliases["tab"] = "spawn _qtile_spawn_tab"
 c.aliases["tab_new"] = "spawn _qtile_spawn_new_tab"
 c.aliases["screen"] = "spawn _qtile_spawn_screen"
+# }}}
 
+# open/cmd binds: {{{
 config.bind("o", "set statusbar.show always ;; cmd-set-text -s :open")
 config.bind("O", "set statusbar.show always ;; cmd-set-text -s :open -t")
 config.bind("<Ctrl+o>", "set statusbar.show always ;; cmd-set-text -s :screen")
@@ -88,7 +101,9 @@ config.bind("X", "set statusbar.show always ;; cmd-set-text -s :split")
 config.bind("V", "set statusbar.show always ;; cmd-set-text -s :vsplit", mode="normal")  # noqa: E501
 config.bind("T", "set statusbar.show always ;; cmd-set-text -s :tab")
 config.bind("<Ctrl-T>", "set statusbar.show always ;; cmd-set-text -s :tab_new")  # noqa: E501
+# }}}
 
+# hint binds: {{{
 config.bind("f", "set statusbar.show never ;; hint all")
 config.bind("FO", "set statusbar.show never ;; hint all tab")
 config.bind("FI", "set statusbar.show never ;; hint images spawn xdg-open {hint-url}")  # noqa: E501
@@ -119,10 +134,16 @@ config.bind(
     "set statusbar.show never ;; hint all spawn xdg-open {hint-url}",
 )
 config.bind(";a", "set statusbar.show never ;; hint all yank")
-# Medias
+# }}}
+
+# media: {{{
 config.bind(
     "M",
     "set statusbar.show never ;; hint all spawn mpv --x11-name='mpv-float' {hint-url}",  # noqa: E501
 )
-# Navigation
+# }}}
+
+# navigation: {{{
 config.bind("m", "mode-enter set_mark ;; message-info 'Set Scroll Mark:'")
+# }}}
+# vim: foldmethod=marker foldlevel=0
