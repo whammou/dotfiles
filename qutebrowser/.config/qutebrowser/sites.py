@@ -8,8 +8,7 @@ config: Any = globals()["config"]
 # user agent: {{{
 config.set(
     "content.headers.user_agent",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) "
-    "Gecko/20100101 Firefox/115.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0",
     "https://accounts.google.com/*",
 )
 # }}}
@@ -40,7 +39,7 @@ config.set("content.notifications.enabled", True, "https://teams.live.com")
 
 # darkmode: {{{
 DARKMODE_SITES = [
-    "https://www.rmit.edu.vn/*",
+    *(f"https://*.rmit.edu.{_tld}/*" for _tld in ("vn", "au")),
     "https://*.wikipedia.org/*",
     # "https://*.edu.vn/*",
 ]
