@@ -19,4 +19,4 @@ config.source("./fonts.py")
 
 # autoconfig.yml is deliberately not loaded; its values were migrated to
 # settings.py/sites.py, so re-enabling it would shadow those config values.
-config.load_autoconfig(False)
+config.load_autoconfig(True)

@@ -13,37 +13,16 @@ config.set(
 )
 # }}}
 
-# javascript.clipboard: {{{
-config.set("content.javascript.clipboard", "access-paste", "https://docs.github.com")  # noqa: E501
-config.set("content.javascript.clipboard", "access-paste", "https://github.com")  # noqa: E501
-config.set(
-    "content.javascript.clipboard",
-    "access-paste",
-    "https://nvim-orgmode.github.io",
-)
-# }}}
-
-# media capture: {{{
-config.set("content.media.audio_capture", True, "https://meet.google.com")
-config.set("content.media.audio_video_capture", True, "https://meet.google.com")  # noqa: E501
-config.set("content.media.audio_video_capture", True, "https://teams.live.com")
-config.set("content.media.video_capture", True, "https://meet.google.com")
-# }}}
-
-# notifications: {{{
-config.set("content.notifications.enabled", True, "https://chat.zalo.me")
-config.set("content.notifications.enabled", True, "https://meet.google.com")
-config.set("content.notifications.enabled", True, "https://ntfy.whammou.dedyn.io")  # noqa: E501
-config.set("content.notifications.enabled", True, "https://teams.live.com")
-# }}}
-
 # darkmode: {{{
 DARKMODE_SITES = [
     *(f"https://*.rmit.edu.{_tld}/*" for _tld in ("vn", "au")),
+    *(f"https://{_suit}.google.com/*" for _suit in ("mail", "docs", "meet")),
+    "https://www.google.com/maps/*",
     "https://*.wikipedia.org/*",
     # "https://*.edu.vn/*",
 ]
 for _site in DARKMODE_SITES:
     config.set("colors.webpage.darkmode.enabled", True, _site)
 # }}}
+
 # vim: foldmethod=marker foldlevel=0
