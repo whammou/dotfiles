@@ -11,6 +11,10 @@
   /* Accent backgrounds */
   --od-bg_d: #21252b;
   /* Borders */
+  --od-bg-blue: #73b8f1;
+  /* Blue-tinted backgrounds */
+  --od-bg-yellow: #ebd09c;
+  /* Yellow-tinted backgrounds */
 
   /* Foreground (text) */
   --od-fg: #abb2bf;
@@ -36,6 +40,7 @@
   --od-dark-yellow: #877658;
   --od-dark-purple: #775289;
   --od-dark-green: #607857;
+  --od-dark-orange: #6e594f;
 
   /* Dimmed Colors (subtle backgrounds) */
   --od-dimmed-cyan: #2b3c44;
@@ -44,6 +49,7 @@
   --od-dimmed-yellow: #3d3c39;
   --od-dimmed-purple: #393247;
   --od-dimmed-green: #333d39;
+  --od-dimmed-orange: #3c3736;
 
   /* Diff/Syntax Colors */
   --od-diff-add: #31392b;

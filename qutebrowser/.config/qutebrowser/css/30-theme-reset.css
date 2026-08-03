@@ -42,7 +42,8 @@ summary {
 /* HACK: font aliasing override for page @font-face — catches fonts loaded
    via page's own @font-face (Google Fonts, Inter, Museo) that our aliasing
    can't override. Ultra-high specificity html:not(#_) beats website CSS. */
-html:not(#_) *:not(.fa, .fab, .far, .fas, .fal, .fad,
+html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
+  span.fa, span.fab, span.far, span.fas, span.fal, span.fad,
   .fa-solid, .fa-regular, .fa-brands,
   [class^="fa-"], [class*=" fa-"],
   [class^="fa2"], [class*=" fa2"],
@@ -51,7 +52,7 @@ html:not(#_) *:not(.fa, .fab, .far, .fas, .fal, .fad,
   .google-symbols, [class*="google-symbols"],
   .bi, .glyphicon, .icon-font,
   .bwi, [class^="bwi-"], [class*=" bwi-"],
-  .notranslate) {
+  .emoji, .emojione, .notranslate) {
   font-family: "Hasklug Nerd Font" !important;
 }
 

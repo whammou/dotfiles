@@ -6,7 +6,6 @@ select {
   background-color: var(--od-bg1) !important;
   color: var(--od-fg);
   border-radius: 4px;
-  padding: 0.5em 0.8em;
 }
 
 input:focus,
@@ -65,7 +64,7 @@ fieldset {
 legend {
   background-color: var(--od-bg2);
   color: var(--od-cyan);
-  padding: 0.2em 0.6em;
+  padding: 0.15em 0.4em;
   border-radius: 3px;
 }
 

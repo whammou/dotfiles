@@ -9,20 +9,60 @@ c: Any = globals()["c"]
 # base16 colors but with variable names that
 # reflect what the color is mainly used for
 
+# Backgrounds (neutral)
+black = "#181a1f"
 bg0 = "#282c34"
 bg1 = "#31353f"
 bg2 = "#393f4a"
 bg3 = "#3b3f4c"
-grey = "#5c6370"
+bg_d = "#21252b"
+bg_blue = "#73b8f1"
+bg_yellow = "#ebd09c"
+
+# Foreground (text)
 fg = "#abb2bf"
+grey = "#5c6370"
+light_grey = "#848b98"
+
+# Accent Colors - Bright
 red = "#e86671"
 yellow = "#e5c07b"
-bg_yellow = "#ebd09c"
 green = "#98c379"
 orange = "#d19a66"
 cyan = "#56b6c2"
 blue = "#61afef"
 purple = "#c678dd"
+
+# Accent Colors - Dark (palette.lua)
+dark_cyan = "#2b6f77"
+dark_red = "#993939"
+dark_yellow = "#93691d"
+dark_purple = "#8a3fa0"
+
+# Accent Colors - Tinted backgrounds (colorscheme.lua tbg_*)
+tbg_red = "#884953"
+tbg_green = "#607857"
+tbg_blue = "#456E92"
+tbg_purple = "#775289"
+tbg_cyan = "#3F717B"
+tbg_yellow = "#877658"
+tbg_orange = "#6e594f"
+tbg_grey = "#5c6370"
+
+# Dimmed Colors - subtle backgrounds (colorscheme.lua)
+dimmed_red = "#3e323a"
+dimmed_green = "#333d39"
+dimmed_yellow = "#3d3c39"
+dimmed_blue = "#2c3949"
+dimmed_purple = "#393247"
+dimmed_cyan = "#2b3c44"
+dimmed_orange = "#3c3736"
+
+# Diff/Syntax Colors (palette.lua)
+diff_add = "#31392b"
+diff_delete = "#382b2c"
+diff_change = "#1c3448"
+diff_text = "#2c5372"
 # }}}
 
 # fonts: {{{

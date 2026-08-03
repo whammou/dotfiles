@@ -1,8 +1,9 @@
 /* Depth: layered background shades for visual depth {{{ */
 
-/* Frame: darker edge around the bg0 page surface (overscroll, short pages) */
+/* Frame: darkest edge (--od-black) around the bg0 page surface
+   (overscroll, short pages) */
 html {
-  background-color: var(--od-bg_d) !important;
+  background-color: var(--od-black) !important;
 }
 
 /* --- Elevated containers ---
@@ -13,14 +14,16 @@ html {
    content-facing edge */
 aside,
 [role="complementary"],
-[class*="sidebar"] {
+[class*="sidebar"],
+[class*="side-bar"] {
   background-color: var(--od-bg1) !important;
   border-inline-end: 1px solid var(--od-bg_d) !important;
 }
 
 /* Cards / panels: elevated surfaces one shade above the page */
 [class*="card"],
-[class*="panel"] {
+[class*="panel"],
+[class*="widget"] {
   background-color: var(--od-bg1) !important;
 }
 
@@ -33,17 +36,48 @@ aside,
   background-color: var(--od-bg2) !important;
 }
 
-/* Chrome bars: site headers, toolbars, navbars, footers, tab bars */
+/* Chrome bars: site headers, toolbars, breadcrumbs, footers, tab bars */
 [class*="header"],
 [class*="toolbar"],
 [class*="navbar"],
+[class*="menubar"],
+[class*="breadcrumb"],
+[class*="pagination"],
 [class*="footer"],
+[class*="tablist"],
 [class*="tab-bar"],
+[class*="tab-list"],
 [role="banner"],
 [role="navigation"],
 [role="contentinfo"],
 [role="tablist"] {
   background-color: var(--od-bg1) !important;
+}
+
+/* Hero / banner backdrops: recessed stage behind imagery */
+[class*="hero"],
+[class*="banner"] {
+  background-color: var(--od-bg_d) !important;
+}
+
+/* Tokens: badges and chips, slightly elevated */
+[class*="badge"],
+[class*="chip"] {
+  background-color: var(--od-bg2) !important;
+}
+
+/* Diff hunks: tinted additions/deletions (GitHub-style code review);
+   ins/del cover inline diffs on any site */
+[class*="diff-add"],
+[class*="blob-code-addition"],
+ins {
+  background-color: var(--od-diff-add) !important;
+}
+
+[class*="diff-del"],
+[class*="blob-code-deletion"],
+del {
+  background-color: var(--od-diff-delete) !important;
 }
 
 /* --- Interactive rise, blended over time --- */
@@ -70,6 +104,9 @@ tbody tr:hover {
 [class*="backdrop"],
 [class*="scrim"],
 [class*="mask"],
+[class*="dimmer"],
+[class*="veil"],
+[class*="curtain"],
 [class*="lightbox"] {
   background-color: transparent !important;
   border: none !important;
@@ -94,20 +131,31 @@ aside div,
 [role="dialog"] div,
 dialog div,
 [class*="sidebar"] div,
+[class*="side-bar"] div,
 [class*="card"] div,
 [class*="panel"] div,
+[class*="widget"] div,
 [class*="dropdown"] div,
 [class*="popover"] div,
 /*[class*="header"] div,*/
 [class*="toolbar"] div,
 [class*="navbar"] div,
+[class*="menubar"] div,
+[class*="breadcrumb"] div,
+[class*="pagination"] div,
 [class*="footer"] div,
+[class*="tablist"] div,
 [class*="tab-bar"] div,
+[class*="tab-list"] div,
+[class*="hero"] div,
+[class*="banner"] div,
+[class*="badge"] div,
+[class*="chip"] div,
 [class*="overlay"] div,
 [class*="backdrop"] div,
 [class*="scrim"] div,
 [class*="mask"] div,
-[class*="lightbox"] div {
+[class*="dimmer"] div {
   background-color: transparent !important;
 }
 
