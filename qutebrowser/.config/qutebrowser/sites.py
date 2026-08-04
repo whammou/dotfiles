@@ -15,14 +15,13 @@ config.set(
 
 # darkmode: {{{
 DARKMODE_SITES = [
-    *(f"https://*.rmit.edu.{_tld}/*" for _tld in ("vn", "au")),
-    *(f"https://{_suit}.google.com/*" for _suit in ("mail", "docs", "meet")),
-    "https://www.google.com/maps/*",
-    "https://*.wikipedia.org/*",
+    "https://github.com/*",
+    "https://chat.zalo.me/",
+    "https://chat.beeper.com/",
     # "https://*.edu.vn/*",
 ]
 for _site in DARKMODE_SITES:
-    config.set("colors.webpage.darkmode.enabled", True, _site)
+    config.set("colors.webpage.darkmode.enabled", False, _site)
 # }}}
 
 # vim: foldmethod=marker foldlevel=0

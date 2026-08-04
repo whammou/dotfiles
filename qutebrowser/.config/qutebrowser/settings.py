@@ -102,7 +102,7 @@ c.content.tls.certificate_errors = "ask-block-thirdparty"
 # darkmode: {{{
 c.colors.webpage.preferred_color_scheme = "dark"
 c.colors.webpage.darkmode.algorithm = "brightness-rgb"
-# c.colors.webpage.darkmode.enabled = False
+c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.policy.images = "smart-simple"
 c.colors.webpage.darkmode.policy.page = "smart"
 # }}}
