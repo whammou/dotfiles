@@ -10,11 +10,20 @@ local function setup_org(bufnr)
   -- ftplugin, and Snacks.quickfile all call it after we run, so re-assert
   -- on every Syntax event.
   local function assert_regex_syntax()
-    if vim.bo[bufnr].syntax == "ON" then
-      return
-    end
     vim.api.nvim_buf_call(bufnr, function()
-      vim.bo[bufnr].syntax = "ON"
+      -- Setting syntax=ON sources synload.vim, which runs `syntax clear`
+      -- (wiping the orgAdmonition* matches below) and fires a nested Syntax
+      -- event, so only set it when the option isn't already "ON" -- avoids a
+      -- re-source loop. But ALWAYS re-assert the matches afterward: an
+      -- external syntax=ON (e.g. orgmode's ftplugin, gated on
+      -- org_highlight_latex_and_related) can wipe them while the option is
+      -- already "ON", and the old early-return couldn't distinguish that
+      -- from "matches intact" -- they stayed dead until the next syntax=""
+      -- reset. Repro: `nvim file.org` highlights [!NOTE], but opening the
+      -- same file via orgmode-search's agenda jump did not.
+      if vim.bo[bufnr].syntax ~= "ON" then
+        vim.bo[bufnr].syntax = "ON"
+      end
       -- Built-in org.vim's orgVerbatimBlock swallows block contents and
       -- blocks nested matches; orgmode's org.vim doesn't define it (E28
       -- when absent, so pcall).
