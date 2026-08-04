@@ -80,9 +80,12 @@ menu:
       - key: "m"
         desc: "󰕧 Meet"
         cmd: "qutebrowser_quick meet.google.com"
-      - key: "f"
-        desc: "󰇁 PDF Editor"
-        cmd: "qutebrowser_quick simplepdf.com/editor"
+      - key: "c"
+        desc: "󰸗 Calendar"
+        cmd: "qutebrowser_quick calendar.google.com"
+      - key: "g"
+        desc: " Mail"
+        cmd: "qutebrowser_quick calendar.google.com"
 
   # ── Orgmode ──────────────────────────────────────────────────
   - key: "o"
