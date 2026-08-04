@@ -82,7 +82,7 @@
   "vim-grip": { "branch": "master", "commit": "f3dace7ce161e8aa7446eacd5a85fedf253033a2" },
   "vim-notmuch-addrlookup": { "branch": "master", "commit": "612e6240170665b3c4dbca58d512fda228df7f09" },
   "vim-suda": { "branch": "master", "commit": "c492741b4679b3cdd4d9e34138209784e061d916" },
-  "vimtex": { "branch": "master", "commit": "853eb587873a7061a083655578be56dd8027b834" },
+  "vimtex": { "branch": "master", "commit": "154eca8f68a5ad54eb12308bb378e88bdd0dfb3e" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
   "yazi.nvim": { "branch": "main", "commit": "23ed41675daf019573b748c4e801a6f73b6eebae" }
 }
