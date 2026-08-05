@@ -18,6 +18,7 @@ DARKMODE_SITES = [
     "https://github.com/*",
     "https://chat.zalo.me/",
     "https://chat.beeper.com/",
+    *(f"https://{_suit}.google.com/*" for _suit in ("docs", "drive")),
     # "https://*.edu.vn/*",
 ]
 for _site in DARKMODE_SITES:

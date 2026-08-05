@@ -11,6 +11,12 @@ config: Any = globals()["config"]
 # pylint: disable=C0111
 
 
+def bind_modes(key: str, command: str, modes: list[str]) -> None:
+    """Bind a key to the same command in several modes."""
+    for mode in modes:
+        config.bind(key, command, mode=mode)
+
+
 # unbind: {{{
 config.unbind("d")
 config.unbind("D")
@@ -45,10 +51,10 @@ config.bind(
     "spawn fcitx5-remote -s keyboard-us",
     mode="normal",
 )
-config.bind(
+bind_modes(
     "<Control-i>",
     "set statusbar.show in-mode ;; spawn fcitx5-remote -s unikey",
-    mode="insert",
+    ["insert", "command"],
 )
 # }}}
 
