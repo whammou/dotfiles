@@ -13,7 +13,7 @@ inhibit_compositor_keyboard_shortcuts: false
 auto_kbd_layout: true
 
 menu:
-  # ── Qutebrowser ──────────────────────────────────────────────
+  # Qutebrowser: {{{
   - key: "b"
     desc: "󰖟 qutebrowser"
     submenu:
@@ -29,8 +29,9 @@ menu:
       - key: "p"
         desc: "󱓥 Open Clipboard"
         cmd: qb-url
+  # }}}
 
-  # ── Chat ─────────────────────────────────────────────────────
+  # Chat: {{{
   - key: "c"
     desc: "󰭻 chat"
     submenu:
@@ -46,8 +47,9 @@ menu:
       - key: "z"
         desc: "󱆖 Zalo"
         cmd: "qutebrowser_quick chat.zalo.me/"
+  # }}}
 
-  # ── AI ───────────────────────────────────────────────────────
+  # AI: {{{
   - key: "a"
     desc: "󰚩 AI"
     submenu:
@@ -63,8 +65,9 @@ menu:
       - key: "e"
         desc: "󰞐 Gemini"
         cmd: "qutebrowser_quick gemini.google.com"
+  # }}}
 
-  # ── Google Suite ─────────────────────────────────────────────
+  # Google Suite: {{{
   - key: "g"
     desc: "󰊶 Google Suite"
     submenu:
@@ -85,9 +88,10 @@ menu:
         cmd: "qutebrowser_quick calendar.google.com"
       - key: "g"
         desc: " Mail"
-        cmd: "qutebrowser_quick calendar.google.com"
+        cmd: "qutebrowser_quick mail.google.com"
+  # }}}
 
-  # ── Orgmode ──────────────────────────────────────────────────
+  # Orgmode: {{{
   - key: "o"
     desc: " orgmode"
     submenu:
@@ -118,8 +122,9 @@ menu:
       - key: "m"
         desc: "󰍉 Search"
         cmd: "kitty --app-id=org-search -e orgmode-search"
+  # }}}
 
-  # ── Yazi ─────────────────────────────────────────────────────
+  # Yazi: {{{
   - key: "e"
     desc: "󰉋 yazi"
     submenu:
@@ -132,8 +137,9 @@ menu:
       - key: "n"
         desc: "󰌾 Journal"
         cmd: "kitty --app-id=yazi-journal -e yazi /home/whammou/Journal"
+  # }}}
 
-  # ── Tmux ─────────────────────────────────────────────────────
+  # Tmux: {{{
   - key: "t"
     desc: "󰆍 tmux"
     submenu:
@@ -167,8 +173,9 @@ menu:
       - key: "9"
         desc: "󰆍 Session 9"
         cmd: "kitty --app-id=tmux-session -e tmux-session-attach 9"
+  # }}}
 
-  # ── SSH ──────────────────────────────────────────────────────
+  # SSH: {{{
   - key: "s"
     desc: "󰒍 SSH"
     submenu:
@@ -202,8 +209,9 @@ menu:
       - key: "9"
         desc: "󰒍 Session 9"
         cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 9''"'
+  # }}}
 
-  # ── Monitor ──────────────────────────────────────────────────
+  # Monitor: {{{
   - key: "m"
     desc: "󰕾 monitor"
     submenu:
@@ -240,8 +248,9 @@ menu:
       - key: "S"
         desc: "󰅂 System Services"
         cmd: "kitty --app-id=sysz-system --hold -e sysz --system"
+  # }}}
 
-  # ── Utility ──────────────────────────────────────────────────
+  # Utility: {{{
   - key: "u"
     desc: "󰑩 utility"
     submenu:
@@ -302,3 +311,6 @@ menu:
       - key: "Y"
         desc: "󰊽 YouTube Account"
         cmd: "firefox 'https://youtube.com/account'"
+# }}}
+
+# vim: foldmethod=marker foldlevel=0
