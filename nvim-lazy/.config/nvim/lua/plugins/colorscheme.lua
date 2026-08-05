@@ -82,6 +82,7 @@ return {
         ["@org.drawer.org"] = { fg = "none" },
         ["@org.hyperlink"] = { fg = "$blue" },
         ["@org.hyperlink.desc"] = { fg = "$blue" },
+        ["@org.bullet.org"] = { fg = "$cyan" },
         ["OrgLinksLink"] = { fg = "$blue" },
 
         --Snack dashboard
