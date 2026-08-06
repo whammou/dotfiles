@@ -1,4 +1,7 @@
-# tabfreeze.py - freeze hidden tabs via QWebEnginePage lifecycle states.
+# tabfreeze.py - freeze unfocused tabs via QWebEnginePage lifecycle states.
+# The last rendered frame is pinned over a frozen tab, so a window that is
+# visible but unfocused keeps showing its last viewport instead of going
+# blank. State follows focus only: revealing a window never unfreezes it.
 # qutebrowser 3.7.0 has no built-in tab freezing; this emulates the Chromium
 # "page lifecycle" behavior by setting the QtWebEngine page state directly.
 import os
@@ -8,9 +11,10 @@ from typing import Any
 
 from qutebrowser.config import config
 from qutebrowser.misc import objects
+from qutebrowser.qt import sip
 from qutebrowser.qt.core import QEvent, QMetaObject, QObject, QTimer, Qt, pyqtSlot
 from qutebrowser.qt.gui import QPixmap, QWindow
-from qutebrowser.qt.webenginecore import QWebEnginePage
+from qutebrowser.qt.webenginecore import QWebEngineLoadingInfo, QWebEnginePage
 from qutebrowser.qt.widgets import QLabel
 from qutebrowser.utils import log, objreg
 from qutebrowser.utils.usertypes import LoadStatus
@@ -38,7 +42,7 @@ def _is_exempt(host: str, exempt: set[str]) -> bool:
     return host in exempt or host.endswith(tuple("." + d for d in exempt))
 
 # Letters for the per-pass summary log: actual page lifecycle state, or
-# "L" while a hidden tab is still loading (freeze deferred until done).
+# "L" while an unfocused tab is still loading (freeze deferred until done).
 _LIVE_LETTERS = {
     QWebEnginePage.LifecycleState.Active: "A",
     QWebEnginePage.LifecycleState.Frozen: "F",
@@ -50,6 +54,10 @@ _load_hooked: set[int] = set()
 _frozen_seen: set[int] = set()
 _previews: dict[int, QPixmap] = {}
 _overlays: dict[int, QLabel] = {}
+# Pages the engine reports as currently loading (engine-truth, because
+# qutebrowser's load_status lags urlChanged and can stay "success" from
+# a tab's initial blank page while a real navigation is in flight).
+_loading_pages: set[int] = set()
 
 
 def _apply_state() -> None:
@@ -57,6 +65,14 @@ def _apply_state() -> None:
         _apply_window_states()
     except Exception:
         log.misc.exception("tabfreeze: state pass failed")
+
+
+def _on_loading_changed(page, info: QWebEngineLoadingInfo) -> None:
+    if info.status() == QWebEngineLoadingInfo.LoadStatus.LoadStartedStatus:
+        _loading_pages.add(id(page))
+    else:
+        _loading_pages.discard(id(page))
+    _apply_state()
 
 
 def _apply_window_states() -> None:
@@ -73,6 +89,7 @@ def _apply_window_states() -> None:
             if _is_exempt(host, exempt):
                 page = tab._widget.page()
                 if page.lifecycleState() != QWebEnginePage.LifecycleState.Active:
+                    _drop_overlay(tab._widget)
                     page.setVisible(True)
                     page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
                     log.misc.debug("tabfreeze: %s -> Active (exempt)", host or url)
@@ -80,37 +97,47 @@ def _apply_window_states() -> None:
                 continue
             win_handle = window.windowHandle()
             if config.val.tabs.tabs_are_windows:
-                # Every tab is its own OS window. qtile-wayland hides one by
-                # disabling its scene node (qw/xdg-view.c: qw_xdg_view_hide);
-                # the surface survives, so Qt keeps the handle and reports
-                # the loss of exposure instead. A missing handle means Qt
-                # never showed the window at all. Either way, not exposed
-                # means it is not on screen.
-                visible = win_handle is not None and win_handle.isExposed()
+                # Every tab is its own window; the one receiving key events
+                # is active. When the whole app loses focus none is active,
+                # so every tab freezes.
+                focused = win_handle is not None and win_handle.isActive()
             else:
-                # Only the current tab of a tab bar is rendered.
-                visible = i == widget.currentIndex()
+                # Only the current tab of a focused window is active.
+                focused = (
+                    win_handle is not None
+                    and win_handle.isActive()
+                    and i == widget.currentIndex()
+                )
             state = (
                 QWebEnginePage.LifecycleState.Active
-                if visible
+                if focused
                 else QWebEnginePage.LifecycleState.Frozen
             )
             page = tab._widget.page()
             live = page.lifecycleState()
+            widget = tab._widget
             if id(tab) not in _load_hooked:
                 signal = getattr(tab, "load_status_changed", None)
                 if signal is not None:
                     signal.connect(_apply_state)
-                    _load_hooked.add(id(tab))
+                page.loadingChanged.connect(
+                    lambda info, page=page: _on_loading_changed(page, info)
+                )
+                page.destroyed.connect(
+                    lambda _obj=None, page=page: _loading_pages.discard(id(page))
+                )
+                _load_hooked.add(id(tab))
             # Freezing a page mid-navigation stalls the load and the engine
             # rejects the state change, so defer until the load is done. A
             # fresh tab reports load_status "success" from its initial blank
             # page before the real navigation starts, so an empty URL means
-            # it has not loaded anything yet either.
+            # it has not loaded anything yet either; the engine's own
+            # loadingChanged signal is the authoritative in-flight check.
             loading = (
                 state == QWebEnginePage.LifecycleState.Frozen
                 and (
                     url.isEmpty()
+                    or id(page) in _loading_pages
                     or tab.load_status in (LoadStatus.none, LoadStatus.loading)
                 )
             )
@@ -122,15 +149,25 @@ def _apply_window_states() -> None:
             if live != state and not loading:
                 # Retry on every pass: QtWebEngine ignores lifecycle
                 # changes until its visibility update has propagated, so
-                # the first attempt after a hide can fail silently; every
-                # later pass (expose, focus change, tab switch) retries it
-                # instead of waiting out a rate limit.
-                widget = tab._widget
+                # the first attempt after an unfocus can fail silently;
+                # every later pass retries it instead of waiting out a
+                # rate limit.
                 if state == QWebEnginePage.LifecycleState.Frozen:
+                    # Pin the last rendered frame before freezing: a frozen
+                    # page stops painting, so without this the window would
+                    # go blank while visible-but-unfocused. Grabbing is safe
+                    # here because losing focus keeps the window mapped,
+                    # unlike a compositor hide/teardown.
                     _drop_overlay(widget)
+                    _previews.pop(id(widget), None)
+                    _capture_preview(id(widget), widget)
+                    preview = _previews.get(id(widget))
+                    if preview is not None and not preview.isNull():
+                        _show_overlay(widget, preview)
                 else:
-                    _show_overlay(widget, _previews.pop(id(widget), None))
-                    QTimer.singleShot(600, lambda: _capture_preview(id(widget), widget))
+                    # Focus came back: the page renders again, so unpin the
+                    # last frame shortly after.
+                    _expire_overlay_soon(id(widget))
                 # QtWebEngine rejects lifecycle changes while its own page
                 # visibility flag says the page is visible; on qtile-wayland
                 # setVisible is independent of the window's isExposed().
@@ -142,10 +179,33 @@ def _apply_window_states() -> None:
             ):
                 # A navigation was already in flight when this tab froze
                 # (freeze raced the first load); resume so the load can
-                # finish, the load_status_changed hook re-freezes it after.
+                # finish, the loadingChanged hook re-freezes it after.
+                _drop_overlay(widget)
                 page.setVisible(True)
                 page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
                 log.misc.debug("tabfreeze: %s -> Active (load pending)", host or url)
+            elif loading and not page.isVisible():
+                # Load in flight while unfocused: the engine activates the
+                # page to load but does not restore visibility itself, so a
+                # freeze from before the navigation would leave it blank.
+                page.setVisible(True)
+            elif (
+                live == QWebEnginePage.LifecycleState.Frozen
+                and win_handle is not None
+                and win_handle.isExposed()
+                and id(widget) not in _overlays
+                and (
+                    config.val.tabs.tabs_are_windows
+                    or i == widget.currentIndex()
+                )
+            ):
+                # Revealed (mapped) while unfocused: the tab froze while it
+                # was hidden, so pin its frame now; only focus unfreezes.
+                if id(widget) not in _previews:
+                    _capture_preview(id(widget), widget)
+                preview = _previews.get(id(widget))
+                if preview is not None and not preview.isNull():
+                    _show_overlay(widget, preview)
             if (
                 live == QWebEnginePage.LifecycleState.Frozen
                 and id(tab) not in _frozen_seen
@@ -159,12 +219,15 @@ def _apply_window_states() -> None:
 
 def _drop_overlay(widget: Any) -> None:
     label = _overlays.pop(id(widget), None)
-    if label is not None:
+    # The tab window may have been closed since the overlay was shown,
+    # destroying the C++ label; deleteLater() on it would raise.
+    if label is not None and not sip.isdeleted(label):
         label.deleteLater()
 
 
 def _show_overlay(widget: Any, preview: QPixmap | None) -> None:
     if preview is None or preview.isNull():
+        log.misc.debug("tabfreeze: overlay skipped (no valid preview)")
         return
     label = QLabel(widget)
     label.setPixmap(preview)
@@ -173,26 +236,51 @@ def _show_overlay(widget: Any, preview: QPixmap | None) -> None:
     label.show()
     label.raise_()
     _overlays[id(widget)] = label
-    QTimer.singleShot(500, lambda: _expire_overlay(id(widget), label))
+    log.misc.debug(
+        "tabfreeze: overlay shown %sx%s on %sx%s",
+        preview.width(), preview.height(),
+        widget.width(), widget.height(),
+    )
+
+
+def _expire_overlay_soon(widget_id: int) -> None:
+    label = _overlays.get(widget_id)
+    if label is not None:
+        QTimer.singleShot(500, lambda: _expire_overlay(widget_id, label))
 
 
 def _expire_overlay(widget_id: int, label: QLabel) -> None:
     if _overlays.get(widget_id) is label:
         _overlays.pop(widget_id, None)
-        label.deleteLater()
+        # The 500 ms expiry timer can outlive the tab window: closing it
+        # destroys the C++ label, so deleteLater() on it would raise.
+        if not sip.isdeleted(label):
+            label.deleteLater()
 
 
 def _capture_preview(widget_id: int, widget: Any) -> None:
     # QtWebEngine renders via a QQuickWidget, whose textures live in the
     # window's QRhi; grabbing during the compositor hide/teardown races
     # the QRhi swap ("texture belongs to QRhi X, used with QRhi Y"), so
-    # the frame for the next freeze is captured here, on the visible side.
+    # the frame is only captured while the window is still mapped.
     try:
-        if _previews.get(widget_id) is not None:
-            return
-        handle = widget.windowHandle()
+        # tab._widget is a non-native child, so windowHandle() is null on
+        # it; the top-level MainWindow owns the actual QWindow.
+        top = widget.window()
+        handle = top.windowHandle() if top is not None else None
         if handle is not None and handle.isExposed():
             _previews[widget_id] = widget.grab()
+            pic = _previews[widget_id]
+            log.misc.debug(
+                "tabfreeze: capture win=%s exposed null=%s %sx%s",
+                handle.winId(), pic.isNull(), pic.width(), pic.height(),
+            )
+        else:
+            log.misc.debug(
+                "tabfreeze: capture skipped handle=%s exposed=%s",
+                handle is not None,
+                handle.isExposed() if handle is not None else None,
+            )
     except Exception:
         log.misc.exception("tabfreeze: preview capture failed")
 
