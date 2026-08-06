@@ -13,6 +13,7 @@ from qutebrowser.qt.gui import QPixmap, QWindow
 from qutebrowser.qt.webenginecore import QWebEnginePage
 from qutebrowser.qt.widgets import QLabel
 from qutebrowser.utils import log, objreg
+from qutebrowser.utils.usertypes import LoadStatus
 
 # Pages whose renderer must never be frozen (devtools and internal pages).
 _SKIP_SCHEMES = {"qute", "chrome", "devtools", "view-source"}
@@ -36,7 +37,8 @@ def _exempt_domains() -> set[str]:
 def _is_exempt(host: str, exempt: set[str]) -> bool:
     return host in exempt or host.endswith(tuple("." + d for d in exempt))
 
-# Letters for the per-pass summary log (actual page lifecycle state).
+# Letters for the per-pass summary log: actual page lifecycle state, or
+# "L" while a hidden tab is still loading (freeze deferred until done).
 _LIVE_LETTERS = {
     QWebEnginePage.LifecycleState.Active: "A",
     QWebEnginePage.LifecycleState.Frozen: "F",
@@ -44,7 +46,8 @@ _LIVE_LETTERS = {
 }
 
 _hooked: set[int] = set()
-_last_attempt: dict[int, float] = {}
+_load_hooked: set[int] = set()
+_frozen_seen: set[int] = set()
 _previews: dict[int, QPixmap] = {}
 _overlays: dict[int, QLabel] = {}
 
@@ -57,7 +60,6 @@ def _apply_state() -> None:
 
 
 def _apply_window_states() -> None:
-    now = time.monotonic()
     parts: list[str] = []
     exempt = _exempt_domains()
     for window in objreg.window_registry.values():
@@ -95,19 +97,37 @@ def _apply_window_states() -> None:
             )
             page = tab._widget.page()
             live = page.lifecycleState()
+            if id(tab) not in _load_hooked:
+                signal = getattr(tab, "load_status_changed", None)
+                if signal is not None:
+                    signal.connect(_apply_state)
+                    _load_hooked.add(id(tab))
+            # Freezing a page mid-navigation stalls the load and the engine
+            # rejects the state change, so defer until the load is done. A
+            # fresh tab reports load_status "success" from its initial blank
+            # page before the real navigation starts, so an empty URL means
+            # it has not loaded anything yet either.
+            loading = (
+                state == QWebEnginePage.LifecycleState.Frozen
+                and (
+                    url.isEmpty()
+                    or tab.load_status in (LoadStatus.none, LoadStatus.loading)
+                )
+            )
             parts.append(
-                f"{window.win_id}.{i}:{_LIVE_LETTERS.get(live, '?')} "
+                f"{window.win_id}.{i}:"
+                f"{'L' if loading and live != QWebEnginePage.LifecycleState.Frozen else _LIVE_LETTERS.get(live, '?')} "
                 f"{host or url}"
             )
-            if live != state and (
-                state == QWebEnginePage.LifecycleState.Active
-                or now - _last_attempt.get(id(tab), 0.0) >= 20.0
-            ):
-                _last_attempt[id(tab)] = now
+            if live != state and not loading:
+                # Retry on every pass: QtWebEngine ignores lifecycle
+                # changes until its visibility update has propagated, so
+                # the first attempt after a hide can fail silently; every
+                # later pass (expose, focus change, tab switch) retries it
+                # instead of waiting out a rate limit.
                 widget = tab._widget
                 if state == QWebEnginePage.LifecycleState.Frozen:
                     _drop_overlay(widget)
-                    log.misc.info("tabfreeze: frozen %s", host or url)
                 else:
                     _show_overlay(widget, _previews.pop(id(widget), None))
                     QTimer.singleShot(600, lambda: _capture_preview(id(widget), widget))
@@ -117,6 +137,23 @@ def _apply_window_states() -> None:
                 page.setVisible(state == QWebEnginePage.LifecycleState.Active)
                 page.setLifecycleState(state)
                 log.misc.debug("tabfreeze: %s -> %s", host or url, state)
+            elif (
+                live == QWebEnginePage.LifecycleState.Frozen and loading
+            ):
+                # A navigation was already in flight when this tab froze
+                # (freeze raced the first load); resume so the load can
+                # finish, the load_status_changed hook re-freezes it after.
+                page.setVisible(True)
+                page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+                log.misc.debug("tabfreeze: %s -> Active (load pending)", host or url)
+            if (
+                live == QWebEnginePage.LifecycleState.Frozen
+                and id(tab) not in _frozen_seen
+            ):
+                _frozen_seen.add(id(tab))
+                log.misc.info("tabfreeze: frozen %s", host or url)
+            elif live != QWebEnginePage.LifecycleState.Frozen:
+                _frozen_seen.discard(id(tab))
     log.misc.debug("tabfreeze: %s", "  ".join(parts) or "-")
 
 
@@ -185,6 +222,7 @@ def _wire_window(window) -> None:
             return
         _hooked.add(wid)
         widget.currentChanged.connect(_apply_state)
+        window.tabbed_browser.new_tab.connect(lambda _tab, _idx: _apply_state())
         widget.destroyed.connect(lambda: _hooked.discard(wid))
         log.misc.debug("tabfreeze: monitoring window %d", window.win_id)
         _apply_state()
@@ -212,9 +250,17 @@ class _Scheduler(QObject):
 
 
 def _wait_for_app() -> None:
-    while objects.qapp is None:
-        time.sleep(0.1)
-    QMetaObject.invokeMethod(_scheduler, "arm", Qt.ConnectionType.QueuedConnection)
+    # Daemon thread: at interpreter shutdown the objects module is torn
+    # down while this thread may still be polling; any error then is
+    # irrelevant (the process is exiting), just stop quietly.
+    try:
+        while objects.qapp is None:
+            time.sleep(0.1)
+        QMetaObject.invokeMethod(
+            _scheduler, "arm", Qt.ConnectionType.QueuedConnection
+        )
+    except Exception:
+        return
 
 
 _scheduler = _Scheduler()

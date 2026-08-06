@@ -44,7 +44,6 @@ summary {
    can't override. Ultra-high specificity html:not(#_) beats website CSS. */
 html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
   span.fa, span.fab, span.far, span.fas, span.fal, span.fad,
-  .fa-solid, .fa-regular, .fa-brands,
   [class^="fa-"], [class*=" fa-"],
   [class^="fa2"], [class*=" fa2"],
   .material-icons, .material-symbols-outlined,
@@ -86,8 +85,6 @@ form {
 section.post-content.clearfix ul li,
 div.md ol li,
 div.md ul li,
-div.commtext.c00,
-div.rFY7Pc,
 div.mMsbvc,
 span#marketing-card-callout-text,
 span.marketing-card-note {

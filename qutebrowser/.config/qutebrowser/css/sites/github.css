@@ -1,0 +1,54 @@
+/* GitHub Headings {{{ */
+/* :is() keeps the specificity of its most specific argument, so these are
+   selector-for-selector equivalent to the two separate rules each replaced. */
+:is(.markdown-heading, article.markdown-body) h1.heading-element span {
+  color: var(--od-cyan) !important;
+}
+
+:is(.markdown-heading, article.markdown-body) h2.heading-element span {
+  color: var(--od-purple) !important;
+}
+
+:is(.markdown-heading, article.markdown-body) h3.heading-element span {
+  color: var(--od-blue) !important;
+}
+
+:is(.markdown-heading, article.markdown-body) h4.heading-element span {
+  color: var(--od-yellow) !important;
+}
+
+:is(.markdown-heading, article.markdown-body) h5.heading-element span {
+  color: var(--od-green) !important;
+}
+
+:is(.markdown-heading, article.markdown-body) h6.heading-element span {
+  color: var(--od-red) !important;
+}
+
+/* GitHub article content */
+article.markdown-body.entry-content.container-lg details ul li {
+  color: var(--od-cyan);
+}
+
+/* NOTE: use webpage title colors for markdown alerts instead of --od-fg */
+.markdown-alert-important .markdown-alert-title {
+  color: #ab7df8 !important;
+}
+
+.markdown-alert-note .markdown-alert-title {
+  color: #4493f8 !important;
+}
+
+.markdown-alert-tip .markdown-alert-title {
+  color: #3fb950 !important;
+}
+
+.markdown-alert-warning .markdown-alert-title {
+  color: #d29922 !important;
+}
+
+.markdown-alert-caution .markdown-alert-title {
+  color: #f85149 !important;
+}
+
+/* }}} */

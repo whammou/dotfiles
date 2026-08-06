@@ -1,0 +1,5 @@
+/* Hacker News comment text (gray .c00 shade) — demoted out of the global
+   reset; loaded only on news.ycombinator.com. */
+div.commtext.c00 {
+  background-image: none !important;
+}

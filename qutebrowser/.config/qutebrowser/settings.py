@@ -1,9 +1,7 @@
 # pylint: disable=C0111
-import glob
-import os
 from typing import Any
 
-from paths import CSS_DIR
+from minicss import bundle
 
 # qutebrowser injects c/config when sourcing; globals()[...] binds them without
 # self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
@@ -103,18 +101,15 @@ c.content.tls.certificate_errors = "ask-block-thirdparty"
 c.colors.webpage.preferred_color_scheme = "dark"
 c.colors.webpage.darkmode.algorithm = "brightness-rgb"
 c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.darkmode.policy.images = "smart-simple"
+c.colors.webpage.darkmode.policy.images = "never"
 c.colors.webpage.darkmode.policy.page = "smart"
 # }}}
 
 # stylesheets: {{{
 # All css files, ordered by numeric filename prefix (00- ... 99-);
-# default.css is an empty placeholder and intentionally excluded.
-c.content.user_stylesheets = [
-    p
-    for p in sorted(glob.glob(os.path.expanduser(CSS_DIR) + "*.css"))
-    if os.path.basename(p) != "default.css"
-]
+# default.css is an empty placeholder and intentionally excluded. minicss
+# serves comment-stripped copies (~4KB lighter) from the cache dir.
+c.content.user_stylesheets = bundle()
 
 # "xc" toggles stylesheets off/on; the on-state is built from the list above
 # so the bind can never drift from the actual css files (single source of truth).  # noqa: E501
