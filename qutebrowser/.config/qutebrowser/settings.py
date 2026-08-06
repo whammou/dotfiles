@@ -72,7 +72,7 @@ c.input.insert_mode.auto_enter = False
 # }}}
 
 # scrolling: {{{
-c.scrolling.bar = "never"
+c.scrolling.bar = "overlay"
 c.scrolling.smooth = False
 # }}}
 

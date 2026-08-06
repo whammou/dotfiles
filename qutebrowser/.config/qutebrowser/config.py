@@ -9,6 +9,7 @@ config: Any = globals()["config"]
 # settings.py must be sourced before keys.py: the "xc" bind is built from
 # c.content.user_stylesheets, which settings.py populates.
 config.source("./daemon_keepalive.py")
+config.source("./tabfreeze.py")
 config.source("./themes/onedark-dark.py")
 config.source("./settings.py")
 config.source("./keys.py")

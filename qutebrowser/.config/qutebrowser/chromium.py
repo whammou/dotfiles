@@ -8,7 +8,6 @@ config: Any = globals()["config"]
 
 
 c.qt.args = [
-    "ignore-gpu-blacklist",
     "enable-gpu-rasterization",
     "enable-native-gpu-memory-buffers",
     "enable-zero-copy",
@@ -18,8 +17,6 @@ c.qt.args = [
     "use-gl desktop",
     "enable-accelerated-2d-canvas",
     "enable-accelerated-video-decode",
-    "disable-gpu-sandbox",
-    "content.prefers_reduced_motion",
     "enable-quic",
 ]
 

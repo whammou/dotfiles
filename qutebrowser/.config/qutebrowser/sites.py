@@ -25,4 +25,9 @@ for _site in DARKMODE_SITES:
     config.set("colors.webpage.darkmode.enabled", False, _site)
 # }}}
 
+# tabfreeze: domains never frozen, subdomains included {{{
+import os
+os.environ["FREEZE_EXEMPT_DOMAINS"] = "chat.zalo.me,chat.beeper.com"
+# }}}
+
 # vim: foldmethod=marker foldlevel=0
