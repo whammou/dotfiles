@@ -22,7 +22,7 @@ import threading
 import time
 import weakref
 
-from minicss import strip_comments
+from lib.minicss import strip_comments
 from qutebrowser.api import cmdutils, apitypes
 from qutebrowser.misc import objects
 from qutebrowser.qt.core import QMetaObject, QObject, Qt, pyqtSlot

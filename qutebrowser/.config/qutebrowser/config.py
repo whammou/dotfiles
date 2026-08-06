@@ -6,6 +6,13 @@ from typing import Any
 c: Any = globals()["c"]
 config: Any = globals()["config"]
 
+# Module layout: the files sourced below run in qutebrowser's injected
+# namespace (`c`, `config` available). Pure helpers (lib/paths.py,
+# lib/minicss.py) are NEVER sourced here — they are imported via regular
+# import machinery by the sourced modules and must stay free of the injected
+# globals; sys.modules entries they add are purged after each source, which is
+# harmless because they are pure.
+
 # settings.py must be sourced before keys.py: the "xc" bind is built from
 # c.content.user_stylesheets, which settings.py populates.
 config.source("./daemon_keepalive.py")

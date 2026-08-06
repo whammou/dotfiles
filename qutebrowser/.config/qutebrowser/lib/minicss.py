@@ -8,7 +8,7 @@
 import glob
 import os
 
-from paths import CSS_DIR
+from lib.paths import CSS_DIR
 
 CACHE_DIR = "~/.cache/qutebrowser/css/"
 

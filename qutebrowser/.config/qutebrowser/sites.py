@@ -2,7 +2,7 @@
 from typing import Any
 import json
 import os
-from paths import CSS_DIR
+from lib.paths import CSS_DIR
 
 # qutebrowser injects config when sourcing; globals()[...] binds it without
 # self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.

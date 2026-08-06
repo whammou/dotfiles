@@ -1,7 +1,7 @@
 # pylint: disable=C0111
 from typing import Any
 
-from minicss import bundle
+from lib.minicss import bundle
 
 # qutebrowser injects c/config when sourcing; globals()[...] binds them without
 # self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.

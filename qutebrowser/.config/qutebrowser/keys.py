@@ -1,7 +1,7 @@
 import os
 from typing import Any
 
-from paths import CSS_DIR
+from lib.paths import CSS_DIR
 
 # qutebrowser injects c/config when sourcing; globals()[...] binds them without
 # self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
