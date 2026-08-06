@@ -1,0 +1,82 @@
+{
+  "entries": [
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "RgkluvWPmeY",
+      "url": "https://www.youtube.com/watch?v=RgkluvWPmeY",
+      "title": "A Bedtime Routine Isn't The Answer",
+      "description": null,
+      "duration": 1858.0,
+      "channel_id": "UClHVl2N3jPEbkNJVx-ItQIQ",
+      "channel": "HealthyGamerGG",
+      "channel_url": "https://www.youtube.com/channel/UClHVl2N3jPEbkNJVx-ItQIQ",
+      "uploader": "HealthyGamerGG",
+      "uploader_id": "@HealthyGamerGG",
+      "uploader_url": "https://www.youtube.com/@HealthyGamerGG",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/RgkluvWPmeY/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDQKmLlT6S4OqhCbEplMFPiSjB2BA",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/RgkluvWPmeY/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCyxw0CXA3-wj4vQZdcxXcizZYxMQ",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": 1712188800,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 246010,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "Mhv4DuhXr6w",
+      "url": "https://www.youtube.com/watch?v=Mhv4DuhXr6w",
+      "title": "NHẤT BÁI THIÊN ĐỊA - The Flob (prod. CHIN) | OFFICIAL MUSIC VIDEO",
+      "description": null,
+      "duration": 415,
+      "channel_id": "UC_2y85xY58cz64hpxJHYlxg",
+      "channel": "The Flob",
+      "channel_url": "https://www.youtube.com/channel/UC_2y85xY58cz64hpxJHYlxg",
+      "uploader": "The Flob",
+      "uploader_id": null,
+      "uploader_url": null,
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/Mhv4DuhXr6w/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLB_RBr4S-PZnPMaiYhkgPwD7WWoQw",
+          "height": 94,
+          "width": 168
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Mhv4DuhXr6w/hqdefault.jpg?sqp=-oaymwEbCMQBEG5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLDbHrilQaWAx2yuxjOjjEZE59TUqA",
+          "height": 110,
+          "width": 196
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Mhv4DuhXr6w/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBksjLbamZS_qhJtlrdE1MHAO7TYw",
+          "height": 138,
+          "width": 246
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Mhv4DuhXr6w/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAvekYnEIdkmOmotSdRRLzQnETL6Q",
+          "height": 188,
+          "width": 336
+        }
+      ],
+      "timestamp": 1733702400,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 1500000,
+      "live_status": null,
+      "channel_is_verified": null,
+      "__x_forwarded_for_ip": null
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+# ==============================================================================
+# Extension: Subscribe to the channel of the currently selected video
+# Overrides the stub __menu_media_actions_subscribe_to_channel()
+# Adds to local subscriptions.json and opens the channel page in browser
+# so you can click Subscribe on your YouTube account.
+# ==============================================================================
+
+__menu_media_actions_subscribe_to_channel() {
+  local channel_url channel_id channel_title uploader_id
+  local subs subs_count new_entry tmpfile
+
+  # ---- resolve channel URL (same logic as visit_channel) ----
+  channel_url="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.channel_url // .uploader_url // empty')"
+  case "$channel_url" in //*) channel_url="https:$channel_url" ;; esac
+
+  if [ -z "$channel_url" ] || [ "$channel_url" = "null" ]; then
+    channel_id="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.channel_id // empty')"
+    uploader_id="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.uploader_id // empty')"
+    if   [ -n "$channel_id" ];   then channel_url="https://www.youtube.com/channel/$channel_id"
+    elif [ -n "$uploader_id" ];  then
+      case "$uploader_id" in
+        @*) channel_url="https://www.youtube.com/$uploader_id" ;;
+        *)  channel_url="https://www.youtube.com/channel/$uploader_id" ;;
+      esac
+    fi
+  fi
+
+  [ -z "$channel_url" ] || [ "$channel_url" = "null" ] && {
+    ui_notify_error "$TXT_MENU_MEDIA_ACTIONS_CHANNEL_NOT_FOUND"
+    return 1
+  }
+
+  # ---- resolve channel id and display name ----
+  channel_id="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.channel_id // .uploader_id // empty')"
+  channel_title="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.channel // .uploader // empty')"
+  [ -z "$channel_title" ] && channel_title="$channel_url"
+
+  # ---- confirm ----
+  local msg
+  msg="$(printf 'Subscribe to %s?' "$channel_title")"
+  ui_confirm "$msg" || { ui_notify 'Subscription cancelled'; return 0; }
+
+  # ---- build entry matching yt-dlp flat-playlist format ----
+  new_entry="$(
+    printf '%s' "$STATE_CURRENT_VIDEO" | jq -c \
+      --arg url "$channel_url" \
+      --arg id "$channel_id" \
+      --arg title "$channel_title" '
+      {
+        _type:       "url",
+        url:         $url,
+        id:          ($id | split("/")[-1]),
+        ie_key:      "YoutubeTab",
+        channel:     (.channel // .uploader // $title),
+        uploader:    (.uploader // .channel // $title),
+        channel_id:  (.channel_id // ""),
+        channel_url: $url,
+        title:       $title,
+        uploader_id: (.uploader_id // ""),
+        uploader_url:(.uploader_url // "")
+      }'
+  )"
+
+  # ---- guard: already subscribed? ----
+  if [ -s "$CLI_MY_SUBSCRIPTIONS_FILE" ]; then
+    local existing_ids
+    existing_ids="$(jq -r '[.entries[].channel_id // .entries[].id] | unique[]' "$CLI_MY_SUBSCRIPTIONS_FILE" 2>/dev/null)"
+    if printf '%s' "$existing_ids" | grep -qxF "$channel_id"; then
+      ui_notify "Already subscribed to $channel_title"
+      return 0
+    fi
+  fi
+
+  # ---- append to local subscriptions ----
+  tmpfile="$(mktemp "${TMPDIR:-/tmp}/ytx_sub.XXXXXX")"
+  if [ -s "$CLI_MY_SUBSCRIPTIONS_FILE" ]; then
+    jq -c --argjson e "$new_entry" '.entries += [$e]' "$CLI_MY_SUBSCRIPTIONS_FILE" > "$tmpfile"
+  else
+    printf '{"_type":"playlist","entries":[]}' | jq -c --argjson e "$new_entry" '.entries += [$e]' > "$tmpfile"
+  fi
+
+  mv "$tmpfile" "$CLI_MY_SUBSCRIPTIONS_FILE"
+
+  # ---- open channel page in browser ----
+  if _util_open "$channel_url"; then
+    ui_notify "Subscribed locally — browser opened: click Subscribe on YouTube"
+  else
+    ui_notify "Subscribed to $channel_title"
+    printf '[subscribe-channel] Failed to open browser for: %s\n' "$channel_url" >> "${TMPDIR:-/tmp}/yt-x.log" 2>/dev/null || true
+  fi
+}

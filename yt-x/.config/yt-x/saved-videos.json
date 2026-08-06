@@ -1,0 +1,82 @@
+{
+  "entries": [
+    {
+      "title": "Why Are You Not Abusing This Gun in 2026?",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/zORXBxUwTIQ/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBWxcVA6ZtOsGUTDDIIVN6aTbrTYw",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/zORXBxUwTIQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAT9lTT-mWYE6s4-KkhAAHZt7l_3w",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "duration": 535.0,
+      "timestamp": null,
+      "ie_key": "Youtube",
+      "id": "zORXBxUwTIQ",
+      "_type": "url",
+      "url": "https://www.youtube.com/watch?v=zORXBxUwTIQ",
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "_type": "url",
+      "ie_key": "Youtube",
+      "id": "ujkRBuCpSXE",
+      "url": "https://www.youtube.com/watch?v=ujkRBuCpSXE",
+      "title": "The ENTIRE Metro Story... So Far...",
+      "description": "22:07 Hanza – 25:14 Metro Last Light (cont.) – 26:41 The Dark Ones – 30:52 Metro Last Light (cont.) – 32:56 AD Metro Exodus ...",
+      "duration": 4767.0,
+      "channel_id": "UC2SVI9I1L9Z79YbDgZqGIpw",
+      "channel": "Gaming Harry",
+      "channel_url": "https://www.youtube.com/channel/UC2SVI9I1L9Z79YbDgZqGIpw",
+      "uploader": "Gaming Harry",
+      "uploader_id": "@GamingHarryYT",
+      "uploader_url": "https://www.youtube.com/@GamingHarryYT",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/ujkRBuCpSXE/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDGGbrZdAznoDddITz4_MsbewAXDQ",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ujkRBuCpSXE/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBYOeq1imdPyi_hVrO0H875_W6XkA",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "timestamp": null,
+      "release_timestamp": null,
+      "availability": null,
+      "view_count": 2471066,
+      "live_status": null,
+      "channel_is_verified": true,
+      "__x_forwarded_for_ip": null
+    },
+    {
+      "title": "The Internet’s Strangest Rabbit Holes",
+      "thumbnails": [
+        {
+          "url": "https://i.ytimg.com/vi/Q7eWLQmU6YQ/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC-lpew8w2FUGWltLeO6KT88VBCWg",
+          "height": 202,
+          "width": 360
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Q7eWLQmU6YQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBkb-kIVDtGAH9_C8xgY9V-T6MiIg",
+          "height": 404,
+          "width": 720
+        }
+      ],
+      "duration": 1893.0,
+      "timestamp": null,
+      "ie_key": "Youtube",
+      "id": "Q7eWLQmU6YQ",
+      "_type": "url",
+      "url": "https://www.youtube.com/watch?v=Q7eWLQmU6YQ",
+      "__x_forwarded_for_ip": null
+    }
+  ]
+}

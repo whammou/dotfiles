@@ -1,0 +1,28 @@
+# ==============================================================================
+# Monkey-patch: disown xdg-open so the spawned player survives yt-x exit
+# ==============================================================================
+_util_open() {
+  local target
+  local converted_target
+  target="$1"
+
+  if   _dep_ch open;    then open    "$target"             && return 0 || return 1
+  elif _dep_ch xdg-open; then
+    nohup xdg-open "$target" >/dev/null 2>&1 & disown
+    return 0
+  elif _dep_ch wslview; then wslview "$target"             && return 0 || return 1
+  elif _dep_ch cmd.exe; then
+    converted_target="$target"
+    case "$target" in
+    http://* | https://* | ftp://* | ftps://* | mailto:*) ;;
+    *)
+      if   _dep_ch cygpath; then converted_target="$(cygpath -w "$target" 2>/dev/null || printf "%s" "$target")"
+      elif _dep_ch wslpath; then converted_target="$(wslpath -w "$target" 2>/dev/null || printf "%s" "$target")"
+      fi ;;
+    esac
+    cmd.exe /C start "" "$converted_target" >/dev/null 2>&1 || return 1
+    return 0
+  else
+    return 1
+  fi
+}

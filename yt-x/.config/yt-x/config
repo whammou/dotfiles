@@ -1,0 +1,153 @@
+# ===================================================================================
+# 大きな力には大きな責任が伴う
+# ===================================================================================
+#
+#     ██╗░░░██╗████████╗░░░░░░██╗░░██╗  ░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░
+#     ╚██╗░██╔╝╚══██╔══╝░░░░░░╚██╗██╔╝  ██╔══██╗██╔══██╗████╗░██║██╔════╝██║██╔════╝░
+#     ░╚████╔╝░░░░██║░░░█████╗░╚███╔╝░  ██║░░╚═╝██║░░██║██╔██╗██║█████╗░░██║██║░░██╗░
+#     ░░╚██╔╝░░░░░██║░░░╚════╝░██╔██╗░  ██║░░██╗██║░░██╗██║╚████║██╔══╝░░██║██║░░╚██╗
+#     ░░░██║░░░░░░██║░░░░░░░░░██╔╝╚██╗  ╚█████╔╝╚█████╔╝██║░╚███║██║░░░░░██║╚██████╔╝
+#     ░░░╚═╝░░░░░░╚═╝░░░░░░░░░╚═╝░░╚═╝  ░╚════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░░░░╚═╝░╚═════╝░
+#
+# ===================================================================================
+#
+# !! BE CAREFUL WHAT YOU INCLUDE HERE SINCE THE CONFIG FILE IS SOURCED AS A SCRIPT  !!
+# !! ITS RECOMMENDED TO ONLY DO VARIABLE ASSIGNMENTS AND CONDITIONAL ASSIGNMENTS    !!
+# !! AND DO MORE COMPLEX STUFF USING EXTENSIONS BY CONVENTION                       !!
+# !! Environment variables (export YT_X_VAR=...) override these settings.           !!
+#
+# ===================================================================================
+
+# List of extensions to load automatically on startup
+CONFIG_AUTOLOADED_EXTENSIONS="themes/onedark-dark.theme,subscribe-channel,comments"
+
+# Enable or disable colored/formatted output
+# Options: true, false (Default: true)
+CONFIG_ENABLE_COLORS="true"
+
+# The menu launcher tool used for the ui
+# Options: fzf, rofi (Default: fzf)
+CONFIG_LAUNCHER="fzf"
+
+# Enable image/video previews within the selector
+# Options: true, false (Default: false)
+CONFIG_ENABLE_PREVIEW="true"
+CONFIG_ENABLE_PREVIEW_IMAGES="true"
+
+# The tool used to render previews in the terminal
+# Options: chafa, icat, imgcat (Default: chafa)
+CONFIG_IMAGE_RENDERER="icat"
+
+# Extra arguments for specific image renderers
+CONFIG_CHAFA_ARGS=""
+CONFIG_ICAT_ARGS=""
+CONFIG_IMGCAT_ARGS=""
+
+# custom args for yt-dlp
+CONFIG_YT_DLP_ARGS=""
+
+# The media player used for playback
+# Options: mpv, vlc, tplay (Default: mpv)
+CONFIG_PLAYER="mpv"
+
+# Extra arguments for specific media players
+CONFIG_MPV_ARGS=""
+CONFIG_VLC_ARGS=""
+CONFIG_TPLAY_ARGS=""
+
+# Preferred video resolution
+# Options: 2160, 1440, 1080, 720, 480 (Default: 1080)
+CONFIG_VIDEO_QUALITY="1080"
+
+# Whether to disown the streaming/downloading process to prevent blocking the UI
+# options: true, false (Default: false)
+CONFIG_DISOWN_STREAMING_PROCESS="true"
+CONFIG_DISOWN_DOWNLOADING_PROCESS="true"
+
+# Maximum number of search results to fetch per page
+# Options: Integer (Default: 30)
+CONFIG_PER_PAGE="30"
+
+# Browser for yt-dlp to get cookies from
+# passed to --cookies-from-browser yt-dlp option
+# Currently supported browsers are: brave, chrome, chromium, edge, firefox, opera, safari, vivaldi, whale
+# NOTE: this option is entirely dependent on what yt-dlp supports
+CONFIG_BROWSER="chromium:~/.local/share/qutebrowser"
+
+# Text editor for manual configuration/metadata editing
+# Options: vim, nano, code ... (Default: $EDITOR or vi)
+CONFIG_EDITOR="$EDITOR"
+
+# Duration in seconds for desktop notifications
+CONFIG_NOTIFICATION_DURATION="5"
+
+# Directory where downloads are saved
+# Default: /home/whammou/Videos/yt-x
+CONFIG_DOWNLOAD_DIR="/home/whammou/Videos/yt-x"
+CONFIG_DOWNLOADS_ENUMERATE="false"
+
+# Automatically check for script updates on startup
+# Options: true, false (Default: true)
+CONFIG_CHECK_FOR_UPDATES="false"
+
+# Number of items to keep in the recent history
+CONFIG_NO_OF_RECENT="10"
+
+# Enable or disable saving search queries to history
+# Options: true, false (Default: true)
+CONFIG_ENABLE_SEARCH_HISTORY="true"
+
+# Custom options passed directly to fzf
+CONFIG_FZF_HEADER="\
+"
+CONFIG_FZF_OPTS="
+  --layout=reverse
+  --info=inline-right
+  --highlight-line
+  --no-scrollbar
+  --no-margin
+  --cycle
+  --border=sharp
+  --input-border=none
+  --list-border=none
+  --preview-border=none
+  --preview-label-pos=0
+  --list-border=none
+  --header-border=none
+  --footer-border=none
+  --ansi
+  --pointer='▌'
+  --marker='▌'
+  --bind=right:accept,left:abort,ctrl-/:toggle-preview,ctrl-space:toggle-wrap+toggle-preview-wrap
+  --preview-window=border-line,right,40%,wrap,nohidden
+  --bind='ctrl-z:abort'
+  --bind='ctrl-u:half-page-up'
+  --bind='ctrl-d:half-page-down'
+  --bind='ctrl-x:jump'
+  --bind='ctrl-f:preview-page-down'
+  --bind='ctrl-b:preview-page-up'
+  --bind='ctrl-q:select-all+accept'
+  --bind='ctrl-a:beginning-of-line'
+  --bind='ctrl-e:end-of-line'
+  --bind='alt-a:toggle-all'
+  --bind='alt-g:first,alt-G:last'
+  --bind='f3:toggle-preview-wrap'
+  --bind='f4:toggle-preview'
+  --bind='shift-down:preview-page-down,shift-up:preview-page-up'
+  --bind='alt-shift-down:preview-down,alt-shift-up:preview-up'
+  --wrap"
+
+# Rofi config all are required to run rofi as a launcher
+# get the official ones from https://github.com/Benexl/yt-x
+CONFIG_ROFI_THEME_MAIN=""
+CONFIG_ROFI_THEME_PREVIEW=""
+CONFIG_ROFI_THEME_PROMPT=""
+CONFIG_ROFI_THEME_CONFIRM=""
+CONFIG_ROFI_THEME_PAGER=""
+
+# Number of days to keep cached preview images, playlists, and logs
+# Default: 7
+CONFIG_CACHE_RETENTION_DAYS="7"
+# ==============================================================================
+# 楽しんでね
+# ==============================================================================

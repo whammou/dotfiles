@@ -1,0 +1,375 @@
+#! /usr/bin/env sh
+# shellcheck disable=SC1091,SC3043
+# ==============================================================================
+# Extension: Comments
+# Adds a "Comments" action to the per-video menu that fetches and prints the
+# YouTube comments of the currently selected video (magic-tape style: the full
+# thread is rendered as a paged document, no intermediate menu).
+#
+# Data comes from yt-dlp --write-comments (same recipe as magic-tape):
+#   yt-dlp --write-comments --no-download \
+#     --extractor-args "youtube:max_comments=N,all,M;comment_sort=SORT" \
+#     --write-info-json <video-url> -o <cache>/comments/<video-id>
+#
+# The comment download itself is the slow part (yt-dlp paginates YouTube's
+# comment API for tens of seconds), so it only runs on a cache miss and is
+# kicked off in the background as soon as the per-video menu opens (the
+# prefetch). Picking "Comments" then usually finds the cache already fresh;
+# if it is picked while the fetch is still running, the action waits on the
+# fetch's lock file. A failed refresh falls back to the cached copy instead
+# of erroring out.
+#
+# Flow: pick "Comments" in the video action menu -> yt-dlp fetch (cached, or
+# background-prefetched) -> the comments (pinned first, then by like count,
+# each with its replies) are printed in the pager.
+#
+# Tunables (set in ~/.config/yt-x/config before this extension is autoloaded,
+# or via the environment YT_X_*):
+#   COMMENTS_MAX          top-level comments to fetch   (default: 50)
+#   COMMENT_REPLIES_MAX   replies per comment           (default: 3)
+#   COMMENTS_SORT         top | new                     (default: top)
+#   COMMENTS_CACHE_TTL    cache freshness, minutes      (default: 1440 = 1 day)
+#
+# Lower COMMENTS_MAX/COMMENT_REPLIES_MAX to shorten fetches (fewer YouTube API
+# round trips), raise COMMENTS_CACHE_TTL to re-download less often.
+#
+# Cache: fetched info.json files live in ~/.cache/yt-x/comments/ and are
+# reused for COMMENTS_CACHE_TTL minutes; a slimmed copy (.slim.json,
+# description + comments only) is written at fetch time so every render reads
+# ~70KB instead of a multi-MB file. Delete that dir to purge.
+#
+# NOTE: this extension overrides menu_media_actions(); do not load another
+# extension that also overrides it (they would clobber each other).
+# ==============================================================================
+
+# ---- tunables ----
+: "${COMMENTS_MAX:=50}"
+: "${COMMENT_REPLIES_MAX:=3}"
+: "${COMMENTS_SORT:=top}"
+: "${COMMENTS_CACHE_TTL:=1440}"
+
+# ---- lang strings (extension-local) ----
+TXT_MENU_COMMENTS="Comments"
+TXT_ICON_MENU_COMMENTS=""
+TXT_MENU_COMMENTS_FETCH_ERROR="Failed to fetch comments"
+TXT_MENU_COMMENTS_NONE="No comments for this video"
+TXT_MENU_COMMENTS_FETCHING="Fetching comments…"
+TXT_MENU_COMMENTS_STALE="Comments refresh failed, showing cached copy"
+
+# ---- fetch comments via yt-dlp (cached for COMMENTS_CACHE_TTL minutes) ----
+# No spinner here: callers wrap this in ui_load when running in the
+# foreground, and the background prefetch calls it directly.
+__comments_fetch() {
+  local url
+  local info
+  local slim
+  local custom_opts
+
+  url="$1"
+  info="$2"
+  slim="${info%.info.json}.slim.json"
+
+  # serve from cache if fresh (re-slim legacy caches that predate the slim file)
+  if [ -s "$info" ] && find "$info" -mmin "-$COMMENTS_CACHE_TTL" 2>/dev/null | grep -q .; then
+    [ -s "$slim" ] || jq '{description, comments}' "$info" >"$slim" 2>/dev/null || rm -f "$slim"
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$info")" || return 1
+
+  [ -n "$CONFIG_BROWSER" ] && custom_opts="--cookies-from-browser $CONFIG_BROWSER"
+  [ -n "$CONFIG_YT_DLP_OPTS" ] && custom_opts="$custom_opts $CONFIG_YT_DLP_OPTS"
+
+  # shellcheck disable=SC2086
+  yt-dlp --write-comments --no-download \
+    --extractor-args "youtube:max_comments=$COMMENTS_MAX,all,$COMMENT_REPLIES_MAX;comment_sort=$COMMENTS_SORT" \
+    --write-info-json "$url" -o "${info%.info.json}" $custom_opts >/dev/null 2>&1
+
+  [ -s "$info" ] || return 1
+
+  # slim the fetched info (MBs of formats/thumbnails) so every render is fast
+  jq '{description, comments}' "$info" >"$slim" 2>/dev/null || rm -f "$slim"
+
+  return 0
+}
+
+# ---- background prefetch ----
+# The comment download is the slow part (yt-dlp paginates YouTube's comment
+# API for tens of seconds), so it starts as soon as the per-video menu opens
+# instead of when the user picks Comments. A lock dir guards against
+# concurrent fetches; the job removes it when done. The job is detached with
+# nohup (survives yt-x exiting) and re-sources this extension in a fresh sh,
+# with the tunables passed explicitly as positional args so environment-only
+# config still applies. Locks older than 15 minutes are treated as dead
+# (a killed fetch) and cleared.
+__comments_prefetch() {
+  local url
+  local video_id
+  local info
+  local ext
+
+  url="$1"
+  video_id="$2"
+
+  [ -n "$video_id" ] && [ "$video_id" != "null" ] || return 1
+
+  info="$CLI_CACHE_DIR/comments/$video_id.info.json"
+
+  # fresh cache → nothing to do
+  if [ -s "$info" ] && find "$info" -mmin "-$COMMENTS_CACHE_TTL" 2>/dev/null | grep -q .; then
+    return 0
+  fi
+
+  # clear a stale lock left by a fetch that died
+  if [ -d "$info.lock" ] && find "$info.lock" -mmin +15 2>/dev/null | grep -q .; then
+    rm -rf "$info.lock"
+  fi
+
+  # a live fetch is already running → let it finish
+  if [ -d "$info.lock" ]; then
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$info")" || return 1
+  mkdir "$info.lock" 2>/dev/null || return 0  # lost the race to another prefetch
+
+  ext="$CLI_EXTENSIONS_DIR/comments"
+  if [ ! -s "$ext" ]; then
+    rm -rf "$info.lock"
+    return 1
+  fi
+
+  nohup sh -c '
+    COMMENTS_MAX="$4" COMMENT_REPLIES_MAX="$5" COMMENTS_SORT="$6" \
+    COMMENTS_CACHE_TTL="$7" CONFIG_BROWSER="$8" CONFIG_YT_DLP_OPTS="$9" \
+    . "$1"
+    __comments_fetch "$2" "$3"
+    rc=$?
+    rm -rf "$3.lock"
+    exit $rc
+  ' _ "$ext" "$url" "$info" \
+    "$COMMENTS_MAX" "$COMMENT_REPLIES_MAX" "$COMMENTS_SORT" \
+    "$COMMENTS_CACHE_TTL" "$CONFIG_BROWSER" "$CONFIG_YT_DLP_OPTS" \
+    >/dev/null 2>&1 &
+}
+
+# ---- render every comment as a paged document (markdown-ish, magic-tape style) ----
+# Output shape:
+#   # <title>
+#   ## Description
+#   <description>
+#   ---
+#   ## @author  ·  N likes  ·  time
+#   > PINNED
+#   <text>
+#   ### ↳ @reply_author  ·  N likes  ·  time
+#   <reply text>
+#   ---
+__comments_render() {
+  local info
+  local title
+
+  info="$1"
+  title="$2"
+
+  # shellcheck disable=SC2016
+  jq -r --arg title "$title" --argjson maxr "$COMMENT_REPLIES_MAX" '
+    ( (if $title != "" then "# \($title)\n\n" else "" end)
+      + (if (.description // "") != "" then "## Description\n\n\(.description)\n\n---\n" else "" end) ),
+    ( .comments // [] as $c
+      | [ $c[] | select((.parent == "root") or (.parent == null) or (.parent == "")) ] as $roots
+      | $roots[] as $r
+      | [ "\n## \($r.author // "?")  ·  \($r.like_count // 0) likes  ·  \($r._time_text // "")",
+          (if $r.is_pinned then "> PINNED" else "" end),
+          ($r.text // $r.html // "") ] | join("\n"),
+        ( [ $c[] | select(.parent == $r.id) ][0:$maxr]
+          | .[] | [ "\n### ↳ \(.author // "?")  ·  \(.like_count // 0) likes  ·  \(._time_text // "")",
+                    (.text // .html // "") ] | join("\n") ),
+        "\n---"
+    )
+  ' "$info"
+}
+
+# ---- colorize + word-wrap the rendered document in a single awk pass ----
+# One process instead of fold + awk: wraps at the last space before the width
+# (words are never split unless a single word is itself wider than the
+# terminal) and colorizes in the same pass. awk length()/substr() count
+# characters in the current locale, exactly matching fold -s semantics, and
+# the ANSI codes are only emitted for the first wrapped segment, so escape
+# bytes never skew the wrap width. Markdown-style heading ladder by level:
+# 1 cyan, 2 purple, 3 blue, 4 yellow, 5 green, 6 red (basic ANSI so it adapts
+# to the terminal palette); all headings are bold. The video description
+# header is bold red. Meta info (likes/time) stays in the theme's PREVIEW_VALUE
+# gray, PINNED in the theme's ACCENT, separators in DIVIDER. Falls back to
+# hardcoded ANSI if the theme variables are unset.
+__comments_colorize() {
+  local width
+  local esc
+  local c1 c2 c3 c4 c5 c6
+  local c_desc c_meta c_pinned c_div c_reset
+
+  width="${1:-80}"
+  esc="$(printf '\033')"
+  c1="$esc[1;36m"
+  c2="$esc[1;35m"
+  c3="$esc[1;34m"
+  c4="$esc[1;33m"
+  c5="$esc[1;32m"
+  c6="$esc[1;31m"
+  c_desc="$esc[1;31m"
+  c_meta="${THEME_FZF_PREVIEW_VALUE:-$esc[38;2;92;99;112m}"
+  c_pinned="${THEME_FZF_ICON_COLOR_ACCENT:-$esc[38;2;209;154;102m}"
+  c_div="${THEME_FZF_PREVIEW_DIVIDER:-$esc[38;2;57;63;74m}"
+  c_reset="${THEME_RESET:-$esc[0m}"
+
+  awk \
+    -v W="$width" \
+    -v c1="$c1" -v c2="$c2" -v c3="$c3" -v c4="$c4" -v c5="$c5" -v c6="$c6" \
+    -v h="$c_desc" -v m="$c_meta" -v p="$c_pinned" -v d="$c_div" -v z="$c_reset" '
+    function colorize(line,   n, rest, i, col) {
+      if (line ~ /^## Description$/) return h line z
+      if (line ~ /^#+ /) {
+        n = index(line, " ") - 1
+        col = (n == 1) ? c1 : (n == 2) ? c2 : (n == 3) ? c3 : (n == 4) ? c4 : (n == 5) ? c5 : c6
+        if (n >= 2) {
+          rest = substr(line, n + 2)
+          i = index(rest, "  ·  ")
+          if (i > 0) return col substr(line, 1, n + 1) substr(rest, 1, i - 1) z m substr(rest, i) z
+        }
+        return col line z
+      }
+      if (line ~ /^> PINNED/) return p line z
+      if (line == "---") return d line z
+      return line
+    }
+    {
+      line = $0
+      if (length(line) <= W) { print colorize(line); next }
+      first = 1
+      while (length(line) > W) {
+        piece = substr(line, 1, W)
+        sp = 0
+        for (i = W; i > 1; i--) { if (substr(piece, i, 1) == " ") { sp = i; break } }
+        if (sp > 0) { seg = substr(line, 1, sp); line = substr(line, sp + 1) }
+        else        { seg = piece;                 line = substr(line, W + 1) }
+        if (first) { print colorize(seg); first = 0 } else { print seg }
+      }
+      if (first) { print colorize(line) } else if (line != "") { print line }
+    }
+  '
+}
+
+# ---- pager: word-wrap + colorize in one awk pass, then display ----
+# bat <0.27 has no --wrap=word (sharkdp/bat#2751, merged 2026-03 via #3597):
+# with --wrap=auto it wraps at character boundaries, and its line-number gutter
+# shrinks the content width, so pre-wrapped lines still get cut mid-word. So we
+# pre-wrap with awk (break at the last space before the width) and pass
+# --wrap=never --style=plain so bat neither re-wraps nor adds a gutter. The
+# document carries its own theme colors, so --color=never lets them through
+# untouched. --paging=auto shows the pager only when the document is taller
+# than the terminal, so short docs render instantly.
+__comments_pager() {
+  local width
+
+  width="$(tput cols 2>/dev/null || stty size </dev/tty 2>/dev/null | awk '{print $2}')"
+  width="${width:-80}"
+  [ "$width" -lt 2 ] 2>/dev/null && width=80
+  __comments_colorize "$width" |
+  if _dep_ch bat; then
+    bat --paging=auto --color=never --style=plain --wrap=never
+  else
+    ui_pager
+  fi
+}
+
+# ---- the media action: print the comments in the pager ----
+__menu_media_actions_comments() {
+  local video_id
+  local info
+  local slim
+  local title
+  local out
+  local n
+
+  video_id="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.id // empty')"
+  if [ -z "$video_id" ] || [ "$video_id" = "null" ]; then
+    ui_notify_error "$TXT_MENU_COMMENTS_FETCH_ERROR"
+    return 1
+  fi
+
+  info="$CLI_CACHE_DIR/comments/$video_id.info.json"
+  title="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.title // empty')"
+
+  # a lock older than 15 minutes is a dead fetch (killed job) → clear it
+  if [ -d "$info.lock" ] && find "$info.lock" -mmin +15 2>/dev/null | grep -q .; then
+    rm -rf "$info.lock"
+  fi
+
+  # a background prefetch is already running → wait for it (bounded)
+  if [ -d "$info.lock" ] && [ ! -s "$info" ]; then
+    ui_notify "$TXT_MENU_COMMENTS_FETCHING"
+    n=0
+    while [ -d "$info.lock" ] && [ "$n" -lt 120 ]; do
+      sleep 1
+      n=$((n + 1))
+    done
+  fi
+
+  # fetch in the foreground only when no background fetch is (still) running
+  if [ ! -d "$info.lock" ]; then
+    if ! ui_load __comments_fetch "$STATE_CURRENT_VIDEO_URL" "$info"; then
+      # refresh failed: fall back to whatever is cached instead of failing
+      if [ -s "$info" ]; then
+        ui_notify_warning "$TXT_MENU_COMMENTS_STALE"
+      else
+        ui_notify_error "$TXT_MENU_COMMENTS_FETCH_ERROR"
+        return 1
+      fi
+    fi
+  fi
+
+  if [ ! -s "$info" ]; then
+    ui_notify_error "$TXT_MENU_COMMENTS_FETCH_ERROR"
+    return 1
+  fi
+
+  # prefer the slimmed copy for the fast path (created at fetch time)
+  slim="${info%.info.json}.slim.json"
+  [ -s "$slim" ] && info="$slim"
+
+  if ! jq -e '.comments // [] | length > 0' "$info" >/dev/null 2>&1; then
+    ui_notify "$TXT_MENU_COMMENTS_NONE"
+    return 0
+  fi
+
+  out="$(__comments_render "$info" "$title")"
+  printf '%s\n' "$out" | __comments_pager
+}
+
+__menu_media_actions_comments_handler() {
+  case "$1" in
+  "$TXT_MENU_COMMENTS") __menu_media_actions_comments ;;
+  *) return 1 ;;
+  esac
+}
+
+# ---- inject the "Comments" entry into the per-video action menu ----
+menu_media_actions() {
+  local extra_actions
+
+  # start the comment download in the background as soon as the menu opens
+  # so picking "Comments" usually finds the cache already fresh
+  __comments_prefetch "$STATE_CURRENT_VIDEO_URL" \
+    "$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.id // empty')" || true
+
+  extra_actions="\
+ ${THEME_FZF_ICON_COLOR_PRIMARY}${TXT_ICON_MENU_COMMENTS}${THEME_RESET}  ${TXT_MENU_COMMENTS}"
+  # $1 (sort) reorders the combined menu by line index: the built-in menu is
+  # lines 1..20 (Watch .. Exit), the extra option lands at line 21. Listing
+  # 1,2,3,4,5 (Watch .. Mix), then 21 (Comments), then 6..20 (Save .. Exit)
+  # places Comments directly above Save. If a future yt-x version changes the
+  # built-in action count, adjust the indices.
+  _menu_media_actions \
+    "1,2,3,4,5,21,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20" \
+    "" "$extra_actions" "__menu_media_actions_comments_handler"
+}

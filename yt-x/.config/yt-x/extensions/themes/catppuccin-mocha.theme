@@ -1,0 +1,98 @@
+#!/bin/sh
+# shellcheck disable=SC2034
+# ==============================================================================
+# yt-x Theme Extension: Catppuchin Mocha
+# ==============================================================================
+
+if $CLI_SUPPORTS_TRUE_COLOR && $CONFIG_ENABLE_COLORS; then
+  # Catppuchin Mocha: Mauve (#cba6f7)
+  THEME_FZF_ICON_COLOR_PRIMARY="$(printf '\033[38;2;203;166;247m')"
+
+  # Catppuchin Mocha: Overlay1 (#7f849c)
+  THEME_FZF_ICON_COLOR_SECONDARY="$(printf '\033[38;2;127;132;156m')"
+
+  # Catppuchin Mocha: Peach (#fab387)
+  THEME_FZF_ICON_COLOR_ACCENT="$(printf '\033[38;2;250;179;135m')"
+
+  # Catppuchin Mocha: Red (#f38ba8)
+  THEME_FZF_ICON_COLOR_ERROR="$(printf '\033[38;2;243;139;168m')"
+
+  # Catppuccin Mocha: Text (#cdd6f4)
+  THEME_FZF_PREVIEW_TITLE="$(printf '\033[38;2;205;214;244m')"
+
+  # Catppuchin Mocha: Blue (#89b4fa)
+  THEME_FZF_PREVIEW_KEY="$(printf '\033[38;2;137;180;250m')"
+
+  # Catppuccin Mocha: Surface2 (#585b70)
+  THEME_FZF_PREVIEW_VALUE="$(printf '\033[38;2;88;91;112m')"
+
+  # Catppuchin Mocha: Surface2 (#585b70)
+  THEME_FZF_PREVIEW_DIVIDER="$(printf '\033[38;2;88;91;112m')"
+
+  # Catppuchin Mocha: Green (#a6e3a1)
+  THEME_PLAYER_START="$(printf '\033[38;2;166;227;161m')"
+
+  THEME_BOLD="$(printf '\033[1m')"
+  THEME_RESET="$(printf '\033[0m')"
+
+  CONFIG_GUM_OPTS="--prompt.foreground #cba6f7 --indicator.foreground #cba6f7 --selected-indicator.foreground #cba6f7 --unselected-prefix.foreground #585858 --header.foreground #cba6f7 --text.foreground #cdd6f4 --cursor-text.foreground #cdd6f4 --match.foreground #cba6f7 --placeholder.foreground #6c7086 --prompt  > --indicator ◆ --selected-prefix  ◉  --unselected-prefix  ○  --placeholder こんにちは..."
+  CONFIG_GUM_FILTER_OPTS="--prompt.foreground #cba6f7 --indicator.foreground #cba6f7 --selected-indicator.foreground #cba6f7 --unselected-prefix.foreground #585858 --header.foreground #cba6f7 --text.foreground #cdd6f4 --cursor-text.foreground #cdd6f4 --match.foreground #cba6f7 --placeholder.foreground #6c7086 --prompt  > --indicator ◆ --selected-prefix  ◉  --unselected-prefix  ○  --placeholder こんにちは..."
+  CONFIG_GUM_INPUT_OPTS="--prompt.foreground #cba6f7 --cursor.foreground #cdd6f4 --placeholder こんにちは... --cursor.mode blink"
+  CONFIG_GUM_PAGER_OPTS="--foreground #cdd6f4 --line-number.foreground #585858 --match.foreground #cba6f7 --match-highlight.foreground #11111b --match-highlight.background #cba6f7 --help.foreground #585858 --show-line-numbers --soft-wrap --border-foreground #cba6f7"
+  CONFIG_GUM_SPIN_OPTS="--spinner dot --spinner.foreground #cba6f7 --title.foreground #585858 --align left"
+  CONFIG_GUM_CONFIRM_OPTS="--prompt.foreground #cba6f7 --selected.foreground #11111b --selected.background #cba6f7 --unselected.foreground #585858"
+
+  CONFIG_FZF_OPTS="
+  --layout=reverse
+  --info=inline-right
+  --highlight-line
+  --no-scrollbar
+  --no-margin
+  --cycle
+  --border=sharp
+  --input-border=none
+  --list-border=none
+  --preview-border=none
+  --preview-label-pos=0
+  --list-border=none
+  --header-border=none
+  --footer-border=none
+  --ansi
+  --pointer='▌'
+  --marker='▌'
+  --bind=right:accept,left:abort,ctrl-/:toggle-preview,ctrl-space:toggle-wrap+toggle-preview-wrap
+  --preview-window=border-line,right,40%,wrap,nohidden
+  --bind='ctrl-z:abort'
+  --bind='ctrl-u:half-page-up'
+  --bind='ctrl-d:half-page-down'
+  --bind='ctrl-x:jump'
+  --bind='ctrl-f:preview-page-down'
+  --bind='ctrl-b:preview-page-up'
+  --bind='ctrl-q:select-all+accept'
+  --bind='ctrl-a:beginning-of-line'
+  --bind='ctrl-e:end-of-line'
+  --bind='alt-a:toggle-all'
+  --bind='alt-g:first,alt-G:last'
+  --bind='f3:toggle-preview-wrap'
+  --bind='f4:toggle-preview'
+  --bind='shift-down:preview-page-down,shift-up:preview-page-up'
+  --bind='alt-shift-down:preview-down,alt-shift-up:preview-up'
+  --wrap
+  --color=bg+:#313244
+  --color=bg:#1e1e2e
+  --color=border:#89b4fe
+  --color=fg:#cdd6f4
+  --color=gutter:#1e1e2e
+  --color=header:#89b4fe
+  --color=hl+:#cba6f7
+  --color=hl:#cba6f7
+  --color=info:#6c7086
+  --color=marker:#f5c2e7
+  --color=pointer:#f5c2e7
+  --color=prompt:#cba6f7
+  --color=query:#cdd6f4:regular
+  --color=scrollbar:#6c7086
+  --color=separator:#f9e2af
+  --color=spinner:#f5c2e7"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $CONFIG_FZF_OPTS"
+fi
