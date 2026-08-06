@@ -54,6 +54,14 @@ _load_hooked: set[int] = set()
 _frozen_seen: set[int] = set()
 _previews: dict[int, QPixmap] = {}
 _overlays: dict[int, QLabel] = {}
+# Monotonic time (widget id) when the engine first reported Active after
+# an unfreeze; the pin stays up for a settle window so the first fresh
+# frame is presented underneath it, not a stale one.
+_active_since: dict[int, float] = {}
+# The engine flips its lifecycle state to Active before it presents the
+# first fresh frame (state reacts to activation, painting comes later),
+# so the pin must outlive the state change by this margin.
+_SETTLE_SECONDS = 0.3
 # Pages the engine reports as currently loading (engine-truth, because
 # qutebrowser's load_status lags urlChanged and can stay "success" from
 # a tab's initial blank page while a real navigation is in flight).
@@ -157,13 +165,23 @@ def _apply_window_states() -> None:
                     # page stops painting, so without this the window would
                     # go blank while visible-but-unfocused. Grabbing is safe
                     # here because losing focus keeps the window mapped,
-                    # unlike a compositor hide/teardown.
+                    # unlike a compositor hide/teardown. The previous
+                    # preview is kept until a fresh capture succeeds, so a
+                    # window hidden on another qtile group (which cannot be
+                    # grabbed, see _capture_preview) still has a frame to
+                    # pin instead of flashing blank on reveal.
                     _drop_overlay(widget)
-                    _previews.pop(id(widget), None)
                     _capture_preview(id(widget), widget)
                     preview = _previews.get(id(widget))
                     if preview is not None and not preview.isNull():
                         _show_overlay(widget, preview)
+                    elif win_handle is not None and win_handle.isExposed():
+                        # Visible but no frame to pin: freezing would leave
+                        # the window blank, so stay Active and retry.
+                        state = QWebEnginePage.LifecycleState.Active
+                    # A window that is not exposed cannot be seen, so it
+                    # freezes without a pin; the reveal branch pins it
+                    # later if it becomes visible while still unfocused.
                 else:
                     # Focus came back: the page renders again, so unpin the
                     # last frame shortly after.
@@ -219,6 +237,7 @@ def _apply_window_states() -> None:
 
 def _drop_overlay(widget: Any) -> None:
     label = _overlays.pop(id(widget), None)
+    _active_since.pop(id(widget), None)
     # The tab window may have been closed since the overlay was shown,
     # destroying the C++ label; deleteLater() on it would raise.
     if label is not None and not sip.isdeleted(label):
@@ -250,12 +269,44 @@ def _expire_overlay_soon(widget_id: int) -> None:
 
 
 def _expire_overlay(widget_id: int, label: QLabel) -> None:
-    if _overlays.get(widget_id) is label:
+    if _overlays.get(widget_id) is not label:
+        return
+    if sip.isdeleted(label):
         _overlays.pop(widget_id, None)
-        # The 500 ms expiry timer can outlive the tab window: closing it
-        # destroys the C++ label, so deleteLater() on it would raise.
-        if not sip.isdeleted(label):
-            label.deleteLater()
+        return
+    parent = label.parent()
+    page = None
+    if parent is not None and not sip.isdeleted(parent):
+        page = getattr(parent, "page", lambda: None)()
+    if (
+        page is not None
+        and not sip.isdeleted(page)
+        and page.lifecycleState() != QWebEnginePage.LifecycleState.Active
+    ):
+        # The engine is still unfreezing, so the pin must stay up: if it
+        # came off now the stale frame would flash before the first new
+        # paint arrives. Retry instead of deleting.
+        QTimer.singleShot(150, lambda: _expire_overlay(widget_id, label))
+        return
+    if page is not None and not sip.isdeleted(page):
+        # The engine reported Active before presenting the first fresh
+        # frame (state flips on activation, painting comes later), so the
+        # pin stays up for a settle window from the first Active report
+        # and the stale frame is covered by the new one, not flashed.
+        since = _active_since.get(widget_id)
+        if since is None:
+            _active_since[widget_id] = time.monotonic()
+            QTimer.singleShot(150, lambda: _expire_overlay(widget_id, label))
+            return
+        elif time.monotonic() - since < _SETTLE_SECONDS:
+            QTimer.singleShot(150, lambda: _expire_overlay(widget_id, label))
+            return
+    _active_since.pop(widget_id, None)
+    _overlays.pop(widget_id, None)
+    # The expiry timer can outlive the tab window: closing it destroys
+    # the C++ label, so deleteLater() on it would raise.
+    if not sip.isdeleted(label):
+        label.deleteLater()
 
 
 def _capture_preview(widget_id: int, widget: Any) -> None:
