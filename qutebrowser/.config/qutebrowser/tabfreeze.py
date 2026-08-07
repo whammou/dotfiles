@@ -51,6 +51,10 @@ _LIVE_LETTERS = {
 
 _hooked: set[int] = set()
 _load_hooked: set[int] = set()
+# Tab widget ids the module manages (for the resize filter): a tab that
+# froze without ever being exposed has no pin, but must still be woken
+# on resize so its first frame renders at the new size.
+_tab_widgets: set[int] = set()
 _frozen_seen: set[int] = set()
 _previews: dict[int, QPixmap] = {}
 _overlays: dict[int, QLabel] = {}
@@ -66,6 +70,13 @@ _SETTLE_SECONDS = 0.3
 # qutebrowser's load_status lags urlChanged and can stay "success" from
 # a tab's initial blank page while a real navigation is in flight).
 _loading_pages: set[int] = set()
+# Debounced re-pin state per frozen tab widget after a resize: the
+# debounce timer (id -> QTimer) and the frame poll (id -> [cycle token,
+# last grab, attempt count, paint count, had-pin flag]) that wakes the
+# page and waits for its frames to settle at the new size before
+# re-pinning.
+_resize_timers: dict[int, QTimer] = {}
+_resize_polls: dict[int, tuple[Any, Any, int, int, bool]] = {}
 
 
 def _apply_state() -> None:
@@ -134,6 +145,10 @@ def _apply_window_states() -> None:
                 page.destroyed.connect(
                     lambda _obj=None, page=page: _loading_pages.discard(id(page))
                 )
+                widget.destroyed.connect(
+                    lambda _obj=None, w=widget: _on_tab_widget_destroyed(w)
+                )
+                _tab_widgets.add(id(widget))
                 _load_hooked.add(id(tab))
             # Freezing a page mid-navigation stalls the load and the engine
             # rejects the state change, so defer until the load is done. A
@@ -250,6 +265,9 @@ def _show_overlay(widget: Any, preview: QPixmap | None) -> None:
         return
     label = QLabel(widget)
     label.setPixmap(preview)
+    # Scaled so the pin stretches with the widget: a resize while frozen
+    # otherwise leaves stale-size content that does not cover the window.
+    label.setScaledContents(True)
     label.setGeometry(widget.rect())
     label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
     label.show()
@@ -336,6 +354,155 @@ def _capture_preview(widget_id: int, widget: Any) -> None:
         log.misc.exception("tabfreeze: preview capture failed")
 
 
+def _on_tab_widget_destroyed(w: Any) -> None:
+    _tab_widgets.discard(id(w))
+    _resize_timers.pop(id(w), None)
+    _resize_polls.pop(id(w), None)
+    _active_since.pop(id(w), None)
+
+
+def _on_resized(widget: Any) -> None:
+    try:
+        wid = id(widget)
+        label = _overlays.get(wid)
+        if label is not None:
+            # The window was resized while the pin was up; a frozen page
+            # cannot repaint, so stretch the pin to the new frame right
+            # away, then wake the page to re-capture once it settles.
+            label.setGeometry(widget.rect())
+        top = widget.window()
+        handle = top.windowHandle() if top is not None else None
+        if handle is None or not handle.isExposed():
+            return
+        page = getattr(widget, "page", lambda: None)()
+        if (
+            page is None
+            or sip.isdeleted(page)
+            or page.lifecycleState() != QWebEnginePage.LifecycleState.Frozen
+        ):
+            # Not frozen: the live page repaints on its own.
+            return
+        timer = _resize_timers.get(wid)
+        if timer is None:
+            timer = QTimer()
+            timer.setSingleShot(True)
+            timer.timeout.connect(lambda: _re_pin(widget))
+            _resize_timers[wid] = timer
+        timer.start(300)
+    except Exception:
+        log.misc.exception("tabfreeze: resize handling failed")
+
+
+def _on_painted(widget: Any) -> None:
+    wid = id(widget)
+    state = _resize_polls.get(wid)
+    if state is None:
+        return
+    token, prev, attempts, paints, had_pin = state
+    _resize_polls[wid] = (token, prev, attempts, paints + 1, had_pin)
+
+
+def _re_pin(widget: Any) -> None:
+    try:
+        wid = id(widget)
+        _resize_timers.pop(wid, None)
+        if sip.isdeleted(widget):
+            return
+        page = getattr(widget, "page", lambda: None)()
+        if (
+            page is None
+            or sip.isdeleted(page)
+            or page.lifecycleState() != QWebEnginePage.LifecycleState.Frozen
+        ):
+            # Not frozen anymore (focused in the meantime): the normal
+            # passes own the transition.
+            return
+        top = widget.window()
+        handle = top.windowHandle() if top is not None else None
+        if handle is None or not handle.isExposed():
+            return
+        # The resize settled: drop the pin and wake the page so it
+        # repaints at the new size. The pin must come off before the wake
+        # (an overlay occludes the view, keeping its backing store stale),
+        # then poll for the frame to settle before re-pinning.
+        had_pin = id(widget) in _overlays
+        _drop_overlay(widget)
+        page.setVisible(True)
+        page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+        token = object()
+        _resize_polls[wid] = (token, None, 0, 0, had_pin)
+        QTimer.singleShot(150, lambda t=token: _poll_re_pin(widget, t))
+    except Exception:
+        log.misc.exception("tabfreeze: re-pin failed")
+
+
+def _poll_re_pin(widget: Any, token: Any) -> None:
+    try:
+        wid = id(widget)
+        state = _resize_polls.get(wid)
+        if (
+            state is None
+            or state[0] is not token
+            or sip.isdeleted(widget)
+        ):
+            # Superseded by a newer poll cycle, or the tab is gone.
+            return
+        page = getattr(widget, "page", lambda: None)()
+        if page is None or sip.isdeleted(page):
+            _resize_polls.pop(wid, None)
+            return
+        if page.lifecycleState() == QWebEnginePage.LifecycleState.Frozen:
+            # A state pass re-froze it during the wake (e.g. a focus
+            # event): wake it again and keep polling.
+            page.setVisible(True)
+            page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+        _drop_overlay(widget)
+        top = widget.window()
+        handle = top.windowHandle() if top is not None else None
+        if handle is not None and handle.isActive():
+            # Focused during the wake: the live page needs no pin and
+            # the normal transition logic takes over.
+            _resize_polls.pop(wid, None)
+            return
+        if handle is None or not handle.isExposed():
+            # Hidden again: leave it Active for the normal passes.
+            _resize_polls.pop(wid, None)
+            return
+        _capture_preview(wid, widget)
+        pic = _previews.get(wid)
+        img = pic.toImage() if pic is not None and not pic.isNull() else None
+        _token, prev, attempts, paints, had_pin = state
+        attempts += 1
+        _resize_polls[wid] = (token, img, attempts, paints, had_pin)
+        # Settle only once the engine delivered a frame: the paint count
+        # starts at the wake's damage repaint, so a real frame means one
+        # more paint (two if a pin was dropped). A page that never painted
+        # grabs blank until its first frame, and settling on blanks would
+        # pin a blank cover.
+        frame_paints = paints >= (2 if had_pin else 1)
+        settled = attempts >= 20 or (
+            prev is not None and prev == img and frame_paints
+        )
+        if not settled:
+            QTimer.singleShot(150, lambda t=token: _poll_re_pin(widget, t))
+            return
+        _resize_polls.pop(wid, None)
+        if widget.url().isEmpty() or id(page) in _loading_pages:
+            # Loading again: leave the freeze deferral to the passes.
+            _apply_state()
+            return
+        if img is not None:
+            _show_overlay(widget, QPixmap.fromImage(img))
+        page.setVisible(False)
+        page.setLifecycleState(QWebEnginePage.LifecycleState.Frozen)
+        log.misc.debug(
+            "tabfreeze: re-pinned %s after resize",
+            widget.url().host() or widget.url(),
+        )
+    except Exception:
+        log.misc.exception("tabfreeze: re-pin failed")
+
+
 class _ExposeFilter(QObject):
 
     def eventFilter(self, a0: QObject | None, a1: QEvent | None) -> bool:
@@ -351,6 +518,21 @@ class _ExposeFilter(QObject):
 
 
 _expose_filter = _ExposeFilter()
+
+
+class _ResizeFilter(QObject):
+
+    def eventFilter(self, a0: QObject | None, a1: QEvent | None) -> bool:
+        if a0 is None or a1 is None:
+            return False
+        if a1.type() == QEvent.Type.Resize and id(a0) in _tab_widgets:
+            _on_resized(a0)
+        elif a1.type() == QEvent.Type.Paint and id(a0) in _resize_polls:
+            _on_painted(a0)
+        return False
+
+
+_resize_filter = _ResizeFilter()
 
 
 def _wire_window(window) -> None:
@@ -380,6 +562,7 @@ class _Scheduler(QObject):
             # the QWindow, which is a separate object from the MainWindow
             # widget, so the filter has to be global on the app.
             objects.qapp.installEventFilter(_expose_filter)
+            objects.qapp.installEventFilter(_resize_filter)
             objects.qapp.new_window.connect(_wire_window)
             objects.qapp.focusWindowChanged.connect(lambda _win: _apply_state())
             for window in objreg.window_registry.values():

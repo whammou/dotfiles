@@ -29,7 +29,8 @@ for _site in DARKMODE_SITES:
 # }}}
 
 # tabfreeze: domains never frozen, subdomains included {{{
-os.environ["FREEZE_EXEMPT_DOMAINS"] = "chat.zalo.me,chat.beeper.com"
+# os.environ["FREEZE_EXEMPT_DOMAINS"] = "chat.zalo.me,chat.beeper.com"
+os.environ["FREEZE_EXEMPT_DOMAINS"] = ""
 # }}}
 
 # per-site css: host -> css module, subdomains included. tabcss.py appends
