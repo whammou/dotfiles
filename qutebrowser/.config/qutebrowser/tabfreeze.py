@@ -13,7 +13,7 @@ from qutebrowser.config import config
 from qutebrowser.misc import objects
 from qutebrowser.qt import sip
 from qutebrowser.qt.core import QEvent, QMetaObject, QObject, QTimer, Qt, pyqtSlot
-from qutebrowser.qt.gui import QPixmap, QWindow
+from qutebrowser.qt.gui import QImage, QPixmap, QWindow
 from qutebrowser.qt.webenginecore import QWebEngineLoadingInfo, QWebEnginePage
 from qutebrowser.qt.widgets import QLabel
 from qutebrowser.utils import log, objreg
@@ -436,6 +436,26 @@ def _re_pin(widget: Any) -> None:
         log.misc.exception("tabfreeze: re-pin failed")
 
 
+def _frames_match(a: QImage | None, b: QImage | None) -> bool:
+    # Compare a 1/64 nearest-neighbor sample of each frame: a full pixel
+    # scan reads ~16MB per pair of 1080p frames on every poll tick, and
+    # the settle check only needs to see any visible change, so the
+    # downsampled comparison is enough.
+    if a is None or b is None:
+        return False
+    w = max(1, a.width() // 8)
+    h = max(1, a.height() // 8)
+    return a.scaled(
+        w, h,
+        Qt.AspectRatioMode.IgnoreAspectRatio,
+        Qt.TransformationMode.FastTransformation,
+    ) == b.scaled(
+        w, h,
+        Qt.AspectRatioMode.IgnoreAspectRatio,
+        Qt.TransformationMode.FastTransformation,
+    )
+
+
 def _poll_re_pin(widget: Any, token: Any) -> None:
     try:
         wid = id(widget)
@@ -481,7 +501,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         # pin a blank cover.
         frame_paints = paints >= (2 if had_pin else 1)
         settled = attempts >= 20 or (
-            prev is not None and prev == img and frame_paints
+            prev is not None and _frames_match(prev, img) and frame_paints
         )
         if not settled:
             QTimer.singleShot(150, lambda t=token: _poll_re_pin(widget, t))
