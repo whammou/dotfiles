@@ -14,7 +14,10 @@ from qutebrowser.misc import objects
 from qutebrowser.qt import sip
 from qutebrowser.qt.core import QEvent, QMetaObject, QObject, QTimer, Qt, pyqtSlot
 from qutebrowser.qt.gui import QImage, QPixmap, QWindow
-from qutebrowser.qt.webenginecore import QWebEngineLoadingInfo, QWebEnginePage
+from qutebrowser.qt.webenginecore import (
+    QWebEngineLoadingInfo,
+    QWebEnginePage,
+)
 from qutebrowser.qt.widgets import QLabel
 from qutebrowser.utils import log, objreg
 from qutebrowser.utils.usertypes import LoadStatus
@@ -40,6 +43,38 @@ def _exempt_domains() -> set[str]:
 
 def _is_exempt(host: str, exempt: set[str]) -> bool:
     return host in exempt or host.endswith(tuple("." + d for d in exempt))
+
+
+# qutebrowser answers permission prompts via the legacy
+# setFeaturePermission() API, which never writes to the engine's
+# permission store (queryPermission always returns Ask), so grants are
+# read from qutebrowser's own config instead. Cached per origin; the
+# config-source re-exec resets the cache.
+_CAPTURE_OPTIONS = (
+    "content.media.audio_capture",
+    "content.media.video_capture",
+    "content.media.audio_video_capture",
+    "content.desktop_capture",
+)
+_capture_ok: dict[str, bool] = {}
+
+
+def _capture_granted(url: Any) -> bool:
+    origin = f"{url.scheme()}://{url.host()}"
+    if origin in _capture_ok:
+        return _capture_ok[origin]
+    granted = False
+    try:
+        granted = any(
+            config.instance.get(option, url=url) is True
+            for option in _CAPTURE_OPTIONS
+        )
+    except Exception:
+        # A bad URL must not fail the whole state pass; the origin is
+        # cached below, so this can only fire once per origin.
+        log.misc.exception("tabfreeze: capture config lookup failed")
+    _capture_ok[origin] = granted
+    return granted
 
 # Letters for the per-pass summary log: actual page lifecycle state, or
 # "L" while an unfocused tab is still loading (freeze deferred until done).
@@ -107,7 +142,8 @@ def _apply_window_states() -> None:
             host = url.host()
             page = tab._widget.page()
             audible = page.recentlyAudible()
-            if _is_exempt(host, exempt) or audible:
+            capture = _capture_granted(url)
+            if _is_exempt(host, exempt) or audible or capture:
                 if page.lifecycleState() != QWebEnginePage.LifecycleState.Active:
                     _drop_overlay(tab._widget)
                     page.setVisible(True)
@@ -115,10 +151,15 @@ def _apply_window_states() -> None:
                     log.misc.debug(
                         "tabfreeze: %s -> Active (%s)",
                         host or url,
-                        "audio" if audible else "exempt",
+                        "audio"
+                        if audible
+                        else "capture"
+                        if capture
+                        else "exempt",
                     )
                 parts.append(
-                    f"{window.win_id}.{i}:{'M' if audible else '-'} {host or url}"
+                    f"{window.win_id}.{i}:"
+                    f"{'M' if audible else 'C' if capture else '-'} {host or url}"
                 )
                 continue
             win_handle = window.windowHandle()
@@ -581,11 +622,81 @@ def _wire_window(window) -> None:
         log.misc.exception("tabfreeze: wiring window failed")
 
 
+def _on_focus_changed(_win) -> None:
+    _apply_state()
+
+
+def _retire(old: dict) -> None:
+    # qutebrowser's :config-source re-execs this file, spawning a new
+    # module generation whose filters and state are fresh; the previous
+    # generation's filters are still installed on the app, so it must
+    # hand over explicitly: remove its filters and signal handlers,
+    # re-pin its frozen tabs under the new generation, then clear its
+    # state so its remaining callbacks and pending timers become no-ops
+    # instead of fighting the new generation over the same tabs.
+    app = objects.qapp
+    app.removeEventFilter(old["expose_filter"])
+    app.removeEventFilter(old["resize_filter"])
+    try:
+        app.focusWindowChanged.disconnect(old["focus_handler"])
+    except TypeError:
+        pass
+    try:
+        app.new_window.disconnect(old["wire_window"])
+    except TypeError:
+        pass
+    for timer in old["resize_timers"].values():
+        timer.stop()
+    for widget_id, label in list(old["overlays"].items()):
+        if sip.isdeleted(label):
+            continue
+        widget = label.parentWidget()
+        preview = None
+        if widget is not None and not sip.isdeleted(widget):
+            _capture_preview(widget_id, widget)
+            preview = _previews.get(widget_id)
+            if preview is None or preview.isNull():
+                preview = old["previews"].get(widget_id)
+        if preview is not None and not preview.isNull():
+            _show_overlay(widget, preview)
+        label.deleteLater()
+    for name in (
+        "overlays", "previews", "active_since", "resize_timers",
+        "resize_polls", "tab_widgets", "loading_pages", "hooked",
+        "load_hooked", "frozen_seen", "capture_ok",
+    ):
+        old[name].clear()
+
+
 class _Scheduler(QObject):
 
     @pyqtSlot()
     def arm(self) -> None:
         try:
+            old = objreg.get("tabfreeze-runtime", default=None)
+            if old is not None:
+                _retire(old)
+            objreg.register(
+                "tabfreeze-runtime",
+                {
+                    "overlays": _overlays,
+                    "previews": _previews,
+                    "active_since": _active_since,
+                    "resize_timers": _resize_timers,
+                    "resize_polls": _resize_polls,
+                    "tab_widgets": _tab_widgets,
+                    "frozen_seen": _frozen_seen,
+                    "hooked": _hooked,
+                    "load_hooked": _load_hooked,
+                    "loading_pages": _loading_pages,
+                    "capture_ok": _capture_ok,
+                    "expose_filter": _expose_filter,
+                    "resize_filter": _resize_filter,
+                    "focus_handler": _on_focus_changed,
+                    "wire_window": _wire_window,
+                },
+                update=True,
+            )
             # Group switches move focus and every new window announces
             # itself, so all state changes arrive as events: no polling.
             # QtWayland reports compositor hide/reveal as QEvent.Expose on
@@ -594,7 +705,7 @@ class _Scheduler(QObject):
             objects.qapp.installEventFilter(_expose_filter)
             objects.qapp.installEventFilter(_resize_filter)
             objects.qapp.new_window.connect(_wire_window)
-            objects.qapp.focusWindowChanged.connect(lambda _win: _apply_state())
+            objects.qapp.focusWindowChanged.connect(_on_focus_changed)
             for window in objreg.window_registry.values():
                 _wire_window(window)
         except Exception:
