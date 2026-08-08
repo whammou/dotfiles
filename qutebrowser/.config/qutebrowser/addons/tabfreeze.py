@@ -105,14 +105,21 @@ def _apply_window_states() -> None:
                 continue
             url = tab.url()
             host = url.host()
-            if _is_exempt(host, exempt):
-                page = tab._widget.page()
+            page = tab._widget.page()
+            audible = page.recentlyAudible()
+            if _is_exempt(host, exempt) or audible:
                 if page.lifecycleState() != QWebEnginePage.LifecycleState.Active:
                     _drop_overlay(tab._widget)
                     page.setVisible(True)
                     page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
-                    log.misc.debug("tabfreeze: %s -> Active (exempt)", host or url)
-                parts.append(f"{window.win_id}.{i}:- {host or url}")
+                    log.misc.debug(
+                        "tabfreeze: %s -> Active (%s)",
+                        host or url,
+                        "audio" if audible else "exempt",
+                    )
+                parts.append(
+                    f"{window.win_id}.{i}:{'M' if audible else '-'} {host or url}"
+                )
                 continue
             win_handle = window.windowHandle()
             if config.val.tabs.tabs_are_windows:
@@ -510,6 +517,9 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         if widget.url().isEmpty() or id(page) in _loading_pages:
             # Loading again: leave the freeze deferral to the passes.
             _apply_state()
+            return
+        if page.recentlyAudible():
+            # Audio started during the wake: leave the page live.
             return
         if img is not None:
             _show_overlay(widget, QPixmap.fromImage(img))
