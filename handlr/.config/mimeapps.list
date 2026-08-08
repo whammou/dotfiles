@@ -67,6 +67,7 @@ text/x-log=nvim.desktop;
 text/x-lua=nvim.desktop;
 text/x-python=nvim.desktop;
 text/x-python3=nvim.desktop;
+text/x-shellscript=nvim.desktop;
 text/x-systemd-unit=nvim.desktop;
 text/x-tex=nvim.desktop;
 text/x-typst=zapdf.desktop;
