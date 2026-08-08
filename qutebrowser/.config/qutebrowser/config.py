@@ -1,4 +1,5 @@
 # pylint: disable=C0111
+from pathlib import Path
 from typing import Any
 
 # qutebrowser injects c/config when sourcing; globals()[...] binds them without
@@ -15,12 +16,19 @@ config: Any = globals()["config"]
 
 # settings.py must be sourced before keys.py: the "xc" bind is built from
 # c.content.user_stylesheets, which settings.py populates.
-config.source("./daemon_keepalive.py")
-config.source("./tabfreeze.py")
+
+# addons: every *.py in addons/ is sourced automatically, sorted by name.
+# These are runtime-hook modules (daemon_keepalive, tabfreeze, pinnedtitle,
+# tabcss); they arm via daemon threads once the app exists, so their order
+# relative to the config-value files below does not matter. Drop a new module
+# into addons/ to source it.
+_addons_dir = Path(__file__).resolve().parent / "addons"
+for _addon in sorted(_addons_dir.glob("*.py")):
+    config.source(str(_addon))
+
 config.source("./themes/onedark-dark.py")
 config.source("./settings.py")
 config.source("./keys.py")
-config.source("./tabcss.py")
 config.source("./chromium.py")
 config.source("./sites.py")
 config.source("./fonts.py")

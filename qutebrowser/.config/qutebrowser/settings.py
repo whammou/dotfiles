@@ -9,7 +9,7 @@ c: Any = globals()["c"]
 config: Any = globals()["config"]
 
 # window: {{{
-c.window.title_format = "QB | [{scroll_pos}] {audio}{current_title}{title_sep}{host}"  # noqa: E501
+c.window.title_format = "QB | {audio}{current_title}{title_sep}{host}"  # noqa: E501
 c.window.hide_decoration = False
 # }}}
 
@@ -93,7 +93,12 @@ c.content.headers.user_agent = (
 c.content.javascript.enabled = True
 c.content.notifications.enabled = False
 c.content.prefers_reduced_motion = True
-c.content.proxy = "socks5://127.0.0.1:1080"
+# Per-site proxy: QtWebEngine has no per-site proxy support (no setHttpProxy
+# in PyQt6 6.11, PAC unimplemented on QtWebEngine, CLI proxy flags ignored),
+# so proxysplit.py (started by qutebrowser-daemon) routes the dev server
+# through the hysteria tunnel and everything else directly; QtWebEngine is
+# fed this single global proxy via the application QNetworkProxyFactory.
+c.content.proxy = "socks5://127.0.0.1:1081"
 c.content.tls.certificate_errors = "ask-block-thirdparty"
 # }}}
 
