@@ -46,10 +46,12 @@ html:not(#_) *:not(i.fa, i.fab, i.far, i.fas, i.fal, i.fad,
   span.fa, span.fab, span.far, span.fas, span.fal, span.fad,
   [class^="fa-"], [class*=" fa-"],
   [class^="fa2"], [class*=" fa2"],
+  .fe, [class^="fe-"], [class*=" fe-"],
   .material-icons, .material-symbols-outlined,
   .material-symbols-rounded, .material-symbols-sharp,
   .google-symbols, [class*="google-symbols"],
-  .bi, .glyphicon, .icon-font,
+  .bi, .glyphicon,
+  [class^="icon-"], [class*=" icon-"],
   .bwi, [class^="bwi-"], [class*=" bwi-"],
   .emoji, .emojione, .notranslate) {
   font-family: "Hasklug Nerd Font" !important;
