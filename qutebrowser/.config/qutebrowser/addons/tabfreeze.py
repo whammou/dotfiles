@@ -12,7 +12,9 @@ from typing import Any
 from qutebrowser.config import config
 from qutebrowser.misc import objects
 from qutebrowser.qt import sip
-from qutebrowser.qt.core import QEvent, QMetaObject, QObject, QTimer, Qt, pyqtSlot
+from qutebrowser.qt.core import (
+    QEvent, QMetaObject, QObject, QSize, QTimer, Qt, pyqtSlot,
+)
 from qutebrowser.qt.gui import QImage, QPixmap, QWindow
 from qutebrowser.qt.webenginecore import (
     QWebEngineLoadingInfo,
@@ -31,14 +33,24 @@ _SKIP_SCHEMES = {"qute", "chrome", "devtools", "view-source"}
 _EXEMPT_DOMAINS = set()
 
 
+# qutebrowser purges sys.modules entries added while sourcing a config
+# file (configfiles.saved_sys_properties), so sites.py passes its list
+# through the process environment instead, which survives; that bridge
+# only changes at config-source, so the parsed set is memoized on the
+# raw string.
+_exempt_raw: str | None = None
+_exempt_cache: set[str] = set()
+
+
 def _exempt_domains() -> set[str]:
-    # qutebrowser purges sys.modules entries added while sourcing a config
-    # file (configfiles.saved_sys_properties), so sites.py passes its list
-    # through the process environment instead, which survives.
-    domains = set(_EXEMPT_DOMAINS)
+    global _exempt_raw
     raw = os.environ.get("FREEZE_EXEMPT_DOMAINS", "")
-    domains.update(d for d in raw.split(",") if d)
-    return domains
+    if raw != _exempt_raw:
+        _exempt_cache.clear()
+        _exempt_cache.update(_EXEMPT_DOMAINS)
+        _exempt_cache.update(d for d in raw.split(",") if d)
+        _exempt_raw = raw
+    return _exempt_cache
 
 
 def _is_exempt(host: str, exempt: set[str]) -> bool:
@@ -101,6 +113,9 @@ _active_since: dict[int, float] = {}
 # first fresh frame (state reacts to activation, painting comes later),
 # so the pin must outlive the state change by this margin.
 _SETTLE_SECONDS = 0.3
+# Frame poll cadence during the resize wake; slower polls grab the
+# window less often.
+_POLL_INTERVAL_MS = 200
 # Pages the engine reports as currently loading (engine-truth, because
 # qutebrowser's load_status lags urlChanged and can stay "success" from
 # a tab's initial blank page while a real navigation is in flight).
@@ -112,6 +127,10 @@ _loading_pages: set[int] = set()
 # re-pinning.
 _resize_timers: dict[int, QTimer] = {}
 _resize_polls: dict[int, tuple[Any, Any, int, int, bool]] = {}
+# Last seen top-level window size per tab widget; a Resize whose window
+# size is unchanged is an internal layout change (commandline, status or
+# keyhint bar show-hide), not a real resize.
+_win_sizes: dict[int, QSize] = {}
 
 
 def _apply_state() -> None:
@@ -121,12 +140,26 @@ def _apply_state() -> None:
         log.misc.exception("tabfreeze: state pass failed")
 
 
+# Coalesces event bursts (expose storms during resize drags and
+# animations would otherwise run a full pass per event) into at most
+# one pass per interval; the timer is created in arm() and stopped by
+# the handover.
+_state_timer: QTimer | None = None
+
+
+def _schedule_state() -> None:
+    if _state_timer is None:
+        _apply_state()
+    elif not _state_timer.isActive():
+        _state_timer.start()
+
+
 def _on_loading_changed(page, info: QWebEngineLoadingInfo) -> None:
     if info.status() == QWebEngineLoadingInfo.LoadStatus.LoadStartedStatus:
         _loading_pages.add(id(page))
     else:
         _loading_pages.discard(id(page))
-    _apply_state()
+    _schedule_state()
 
 
 def _apply_window_states() -> None:
@@ -141,9 +174,16 @@ def _apply_window_states() -> None:
             url = tab.url()
             host = url.host()
             page = tab._widget.page()
-            audible = page.recentlyAudible()
+            exempt_d = _is_exempt(host, exempt)
             capture = _capture_granted(url)
-            if _is_exempt(host, exempt) or audible or capture:
+            # The engine call only matters when neither exemption
+            # already decides the tab stays live.
+            audible = (
+                page.recentlyAudible()
+                if not exempt_d and not capture
+                else False
+            )
+            if exempt_d or audible or capture:
                 if page.lifecycleState() != QWebEnginePage.LifecycleState.Active:
                     _drop_overlay(tab._widget)
                     page.setVisible(True)
@@ -407,6 +447,7 @@ def _on_tab_widget_destroyed(w: Any) -> None:
     _resize_timers.pop(id(w), None)
     _resize_polls.pop(id(w), None)
     _active_since.pop(id(w), None)
+    _win_sizes.pop(id(w), None)
 
 
 def _on_resized(widget: Any) -> None:
@@ -422,6 +463,13 @@ def _on_resized(widget: Any) -> None:
         handle = top.windowHandle() if top is not None else None
         if handle is None or not handle.isExposed():
             return
+        win_size = handle.size()
+        if _win_sizes.get(wid) == win_size:
+            # Bar show-hide resized the layout, not the window: the pin
+            # was stretched above, and waking the page would only churn
+            # a grab/poll cycle for a frame that did not change.
+            return
+        _win_sizes[wid] = win_size
         page = getattr(widget, "page", lambda: None)()
         if (
             page is None
@@ -479,7 +527,7 @@ def _re_pin(widget: Any) -> None:
         page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
         token = object()
         _resize_polls[wid] = (token, None, 0, 0, had_pin)
-        QTimer.singleShot(150, lambda t=token: _poll_re_pin(widget, t))
+        QTimer.singleShot(_POLL_INTERVAL_MS, lambda t=token: _poll_re_pin(widget, t))
     except Exception:
         log.misc.exception("tabfreeze: re-pin failed")
 
@@ -552,12 +600,12 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
             prev is not None and _frames_match(prev, img) and frame_paints
         )
         if not settled:
-            QTimer.singleShot(150, lambda t=token: _poll_re_pin(widget, t))
+            QTimer.singleShot(_POLL_INTERVAL_MS, lambda t=token: _poll_re_pin(widget, t))
             return
         _resize_polls.pop(wid, None)
         if widget.url().isEmpty() or id(page) in _loading_pages:
             # Loading again: leave the freeze deferral to the passes.
-            _apply_state()
+            _schedule_state()
             return
         if page.recentlyAudible():
             # Audio started during the wake: leave the page live.
@@ -582,9 +630,12 @@ class _ExposeFilter(QObject):
             and a1 is not None
             and a1.type() == QEvent.Type.Expose
             and isinstance(a0, QWindow)
+            # The resize wake owns state until its frames settle, then
+            # re-runs the pass itself.
+            and not _resize_polls
         ):
             log.misc.debug("tabfreeze: expose %s", a0.winId())
-            _apply_state()
+            _schedule_state()
         return False
 
 
@@ -613,17 +664,17 @@ def _wire_window(window) -> None:
         if wid in _hooked:
             return
         _hooked.add(wid)
-        widget.currentChanged.connect(_apply_state)
-        window.tabbed_browser.new_tab.connect(lambda _tab, _idx: _apply_state())
+        widget.currentChanged.connect(_schedule_state)
+        window.tabbed_browser.new_tab.connect(lambda _tab, _idx: _schedule_state())
         widget.destroyed.connect(lambda: _hooked.discard(wid))
         log.misc.debug("tabfreeze: monitoring window %d", window.win_id)
-        _apply_state()
+        _schedule_state()
     except Exception:
         log.misc.exception("tabfreeze: wiring window failed")
 
 
 def _on_focus_changed(_win) -> None:
-    _apply_state()
+    _schedule_state()
 
 
 def _retire(old: dict) -> None:
@@ -647,6 +698,7 @@ def _retire(old: dict) -> None:
         pass
     for timer in old["resize_timers"].values():
         timer.stop()
+    old["state_timer"].stop()
     for widget_id, label in list(old["overlays"].items()):
         if sip.isdeleted(label):
             continue
@@ -663,7 +715,7 @@ def _retire(old: dict) -> None:
     for name in (
         "overlays", "previews", "active_since", "resize_timers",
         "resize_polls", "tab_widgets", "loading_pages", "hooked",
-        "load_hooked", "frozen_seen", "capture_ok",
+        "load_hooked", "frozen_seen", "capture_ok", "win_sizes",
     ):
         old[name].clear()
 
@@ -676,6 +728,12 @@ class _Scheduler(QObject):
             old = objreg.get("tabfreeze-runtime", default=None)
             if old is not None:
                 _retire(old)
+            global _state_timer
+            state_timer = QTimer(objects.qapp)
+            state_timer.setSingleShot(True)
+            state_timer.setInterval(30)
+            state_timer.timeout.connect(_apply_state)
+            _state_timer = state_timer
             objreg.register(
                 "tabfreeze-runtime",
                 {
@@ -690,6 +748,8 @@ class _Scheduler(QObject):
                     "load_hooked": _load_hooked,
                     "loading_pages": _loading_pages,
                     "capture_ok": _capture_ok,
+                    "state_timer": state_timer,
+                    "win_sizes": _win_sizes,
                     "expose_filter": _expose_filter,
                     "resize_filter": _resize_filter,
                     "focus_handler": _on_focus_changed,
