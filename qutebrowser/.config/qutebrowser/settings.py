@@ -133,6 +133,7 @@ google = "https://google.com/search?q={}"
 searxngQuery = searxngInstance + "/search?q={}"
 searxngSearch = {
     "DEFAULT": google,
+    "pa": "https://www.perplexity.ai/search?q={}",
     "xi": searxngQuery + "&categories=it",
     "xv": searxngQuery + "&categories=videos",
     "xm": searxngQuery + "&categories=images",

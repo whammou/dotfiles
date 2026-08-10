@@ -1,7 +1,10 @@
 import os
+import subprocess
 from typing import Any
 
 from lib.paths import CSS_DIR
+from qutebrowser.api import cmdutils
+from qutebrowser.completion.models import urlmodel
 
 # qutebrowser injects c/config when sourcing; globals()[...] binds them without
 # self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
@@ -91,12 +94,47 @@ config.bind("xd", "config-cycle --temp colors.webpage.darkmode.enabled True Fals
 config.bind("xt", "config-cycle --temp tabs.show multiple always")
 # }}}
 
-# qtile aliases: {{{
-c.aliases["split"] = "spawn _qtile_spawn_split_y"
-c.aliases["vsplit"] = "spawn _qtile_spawn_split_x"
-c.aliases["tab"] = "spawn _qtile_spawn_tab"
-c.aliases["tab_new"] = "spawn _qtile_spawn_new_tab"
-c.aliases["screen"] = "spawn _qtile_spawn_screen"
+# qtile commands: {{{
+# Registered commands (not aliases) so the completer offers the same URL
+# suggestions as :open; aliases are invisible to the completion system.
+def _qtile_spawn(exe: str, url: str | None) -> None:
+    subprocess.Popen([exe] + ([url] if url else []))
+
+
+try:
+    @cmdutils.register(name="split", maxsplit=0)
+    @cmdutils.argument("url", completion=urlmodel.url)
+    def split(url=None) -> None:
+        """Open URL in a new qtile split window."""
+        _qtile_spawn("_qtile_spawn_split_y", url)
+
+    @cmdutils.register(name="vsplit", maxsplit=0)
+    @cmdutils.argument("url", completion=urlmodel.url)
+    def vsplit(url=None) -> None:
+        """Open URL in a new qtile vertical split window."""
+        _qtile_spawn("_qtile_spawn_split_x", url)
+
+    @cmdutils.register(name="tab", maxsplit=0)
+    @cmdutils.argument("url", completion=urlmodel.url)
+    def tab(url=None) -> None:
+        """Open URL in a new qtile tab."""
+        _qtile_spawn("_qtile_spawn_tab", url)
+
+    @cmdutils.register(name="tab_new", maxsplit=0)
+    @cmdutils.argument("url", completion=urlmodel.url)
+    def tab_new(url=None) -> None:
+        """Open URL in a new qtile window."""
+        _qtile_spawn("_qtile_spawn_new_tab", url)
+
+    @cmdutils.register(name="screen", maxsplit=0)
+    @cmdutils.argument("url", completion=urlmodel.url)
+    def screen(url=None) -> None:
+        """Open URL on a new qtile screen."""
+        _qtile_spawn("_qtile_spawn_screen", url)
+except ValueError:
+    # Re-sourcing keys.py (e.g. :config-source) would re-register commands
+    # that already exist; keep the existing registrations.
+    pass
 # }}}
 
 # open/cmd binds: {{{
