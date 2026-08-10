@@ -202,7 +202,7 @@ def _apply_window_states() -> None:
         interacted = _input_seen.get(window.win_id, False)
         for i in range(widget.count()):
             tab = widget.widget(i)
-            if tab is None or tab.data.pinned or tab.url().scheme() in _SKIP_SCHEMES:
+            if tab is None or tab.url().scheme() in _SKIP_SCHEMES:
                 continue
             url = tab.url()
             host = url.host()
@@ -267,8 +267,24 @@ def _apply_window_states() -> None:
                     widget.destroyed,
                     lambda _obj=None, w=widget: _on_tab_widget_destroyed(w),
                 )
+                _connect(tab.pinned_changed, _schedule_state)
                 _tab_widgets.add(id(widget))
                 _load_hooked.add(id(tab))
+            if tab.data.pinned:
+                # Pinned tabs are always live: pinning is an explicit
+                # "keep this alive" signal, so a tab pinned while frozen
+                # (a non-current tab of a focused window, or before the
+                # first-input wake) is unfrozen here; the pinned_changed
+                # hook schedules this pass at pin time.
+                if page.lifecycleState() != QWebEnginePage.LifecycleState.Active:
+                    _drop_overlay(widget)
+                    page.setVisible(True)
+                    page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+                    log.misc.debug(
+                        "tabfreeze: %s -> Active (pinned)", host or url
+                    )
+                parts.append(f"{window.win_id}.{i}:P {host or url}")
+                continue
             # Freezing a page mid-navigation stalls the load and the engine
             # rejects the state change, so defer until the load is done. A
             # fresh tab reports load_status "success" from its initial blank
