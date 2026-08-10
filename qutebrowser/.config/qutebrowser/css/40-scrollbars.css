@@ -3,7 +3,7 @@
    ::-webkit-scrollbar rules below and render round thin scrollbars */
 ::-webkit-scrollbar {
   width: 4px !important;
-  height: 10px !important;
+  height: 4px !important;
 }
 
 ::-webkit-scrollbar-track {
