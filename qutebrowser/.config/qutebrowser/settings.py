@@ -98,8 +98,7 @@ c.content.prefers_reduced_motion = True
 # so proxysplit.py (started by qutebrowser-daemon) routes the dev server
 # through the hysteria tunnel and everything else directly; QtWebEngine is
 # fed this single global proxy via the application QNetworkProxyFactory.
-# c.content.proxy = "socks5://127.0.0.1:1081"
-c.content.proxy = "system"
+c.content.proxy = "socks5://127.0.0.1:1081"
 c.content.tls.certificate_errors = "ask-block-thirdparty"
 # }}}
 
