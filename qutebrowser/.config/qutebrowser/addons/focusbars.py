@@ -13,7 +13,7 @@ from typing import Any
 from qutebrowser.config import config
 from qutebrowser.misc import objects
 from qutebrowser.qt import sip
-from qutebrowser.qt.core import QMetaObject, QObject, QTimer, Qt, pyqtSlot
+from qutebrowser.qt.core import QMetaObject, QObject, Qt, pyqtSlot
 from qutebrowser.utils import log, objreg
 
 _hooked: set[int] = set()
@@ -40,9 +40,9 @@ def _sync_window(window: Any, wid: int) -> None:
         if sip.isdeleted(status):
             return
         if not _window_focused(window):
-            # Asserted on every tick, not just on transitions: the show
-            # strategy is a global config, so e.g. "o" in another window
-            # re-shows this bar between ticks.
+            # Re-asserted on every event that can re-show the bar: the
+            # show strategy is a global config, so "o" in another window
+            # re-shows this bar and the config hook re-hides it here.
             status.hide()
             _modes[wid] = "hidden"
         elif _modes.get(wid) != "shown":
@@ -100,10 +100,9 @@ def _retire(old: dict) -> None:
         objects.qapp.focusWindowChanged.disconnect(old["focus_handler"])
     except TypeError:
         pass
-    try:
-        old["poll"].stop()
-    except Exception:
-        pass
+    poll = old.get("poll")
+    if poll is not None:
+        poll.stop()
     for partial in old["config_partials"].values():
         try:
             config.instance.changed.disconnect(partial)
@@ -132,15 +131,10 @@ class _Scheduler(QObject):
                         objreg.delete(legacy_name)
                     except Exception:
                         pass
-            poll = QTimer(objects.qapp)
-            poll.setInterval(250)
-            poll.timeout.connect(_sync_all)
-            poll.start()
             focus_handler = lambda _w=None: _sync_all()  # noqa: E731
             objreg.register(
                 "focusbars-runtime",
                 {
-                    "poll": poll,
                     "focus_handler": focus_handler,
                     "windows": _windows,
                     "config_partials": _config_partials,
