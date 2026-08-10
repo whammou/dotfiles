@@ -72,6 +72,11 @@ _capture_ok: dict[str, bool] = {}
 
 
 def _capture_granted(url: Any) -> bool:
+    # A fresh tab's empty URL cannot carry a permission grant, and
+    # qutebrowser's config lookup rejects invalid URLs with an
+    # exception, so skip the lookup.
+    if not url.isValid():
+        return False
     origin = f"{url.scheme()}://{url.host()}"
     if origin in _capture_ok:
         return _capture_ok[origin]
