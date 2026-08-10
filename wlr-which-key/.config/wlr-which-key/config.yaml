@@ -89,6 +89,9 @@ menu:
       - key: "g"
         desc: " Mail"
         cmd: "qutebrowser_quick mail.google.com"
+      - key: "a"
+        desc: "󰍎 Map"
+        cmd: "qutebrowser_quick maps.google.com"
   # }}}
 
   # Orgmode: {{{
