@@ -1,8 +1,9 @@
 # tabfreeze.py - freeze unfocused tabs via QWebEnginePage lifecycle states.
 # The last rendered frame is pinned over a frozen tab, so a window that is
 # visible but unfocused keeps showing its last viewport instead of going
-# blank. State follows focus only: revealing a window never unfreezes it.
-# qutebrowser 3.7.0 has no built-in tab freezing; this emulates the Chromium
+# blank. Focus alone does not unfreeze either: a focused window's tab
+# stays pinned until its first key/mouse/wheel input. qutebrowser 3.7.0
+# has no built-in tab freezing; this emulates the Chromium
 # "page lifecycle" behavior by setting the QtWebEngine page state directly.
 import os
 import threading
@@ -20,7 +21,7 @@ from qutebrowser.qt.webenginecore import (
     QWebEngineLoadingInfo,
     QWebEnginePage,
 )
-from qutebrowser.qt.widgets import QLabel
+from qutebrowser.qt.widgets import QLabel, QWidget
 from qutebrowser.utils import log, objreg
 from qutebrowser.utils.usertypes import LoadStatus
 
@@ -137,6 +138,26 @@ _resize_polls: dict[int, tuple[Any, Any, int, int, bool]] = {}
 # keyhint bar show-hide), not a real resize.
 _win_sizes: dict[int, QSize] = {}
 
+# Window ids that have received key/mouse/wheel input since their last
+# focus; a focused window's tab stays pinned until its first input.
+_input_seen: dict[int, bool] = {}
+
+# Signals connected while monitoring windows and tabs. The handover
+# disconnects every registered pair: without this a previous module
+# generation survives :config-source and keeps running state passes
+# that fight the new generation over the same tabs.
+_hook_conns: set[tuple[Any, Any]] = set()
+
+
+def _connect(signal: Any, slot: Any) -> None:
+    try:
+        signal.connect(slot)
+    except (RuntimeError, TypeError):
+        # The receiver may have been destroyed while this file was
+        # re-executed; the hook simply is not connected then.
+        return
+    _hook_conns.add((signal, slot))
+
 
 def _apply_state() -> None:
     try:
@@ -172,6 +193,13 @@ def _apply_window_states() -> None:
     exempt = _exempt_domains()
     for window in objreg.window_registry.values():
         widget = window.tabbed_browser.widget
+        win_handle = window.windowHandle()
+        win_focused = win_handle is not None and win_handle.isActive()
+        if not win_focused:
+            # Focus left the window: the next focus cycle starts fresh,
+            # so the first input after re-focus wakes it up again.
+            _input_seen.pop(window.win_id, None)
+        interacted = _input_seen.get(window.win_id, False)
         for i in range(widget.count()):
             tab = widget.widget(i)
             if tab is None or tab.data.pinned or tab.url().scheme() in _SKIP_SCHEMES:
@@ -207,22 +235,17 @@ def _apply_window_states() -> None:
                     f"{'M' if audible else 'C' if capture else '-'} {host or url}"
                 )
                 continue
-            win_handle = window.windowHandle()
             if config.val.tabs.tabs_are_windows:
                 # Every tab is its own window; the one receiving key events
                 # is active. When the whole app loses focus none is active,
                 # so every tab freezes.
-                focused = win_handle is not None and win_handle.isActive()
+                focused = win_focused
             else:
                 # Only the current tab of a focused window is active.
-                focused = (
-                    win_handle is not None
-                    and win_handle.isActive()
-                    and i == widget.currentIndex()
-                )
+                focused = win_focused and i == widget.currentIndex()
             state = (
                 QWebEnginePage.LifecycleState.Active
-                if focused
+                if focused and interacted
                 else QWebEnginePage.LifecycleState.Frozen
             )
             page = tab._widget.page()
@@ -231,15 +254,18 @@ def _apply_window_states() -> None:
             if id(tab) not in _load_hooked:
                 signal = getattr(tab, "load_status_changed", None)
                 if signal is not None:
-                    signal.connect(_apply_state)
-                page.loadingChanged.connect(
-                    lambda info, page=page: _on_loading_changed(page, info)
+                    _connect(signal, _apply_state)
+                _connect(
+                    page.loadingChanged,
+                    lambda info, page=page: _on_loading_changed(page, info),
                 )
-                page.destroyed.connect(
-                    lambda _obj=None, page=page: _loading_pages.discard(id(page))
+                _connect(
+                    page.destroyed,
+                    lambda _obj=None, page=page: _loading_pages.discard(id(page)),
                 )
-                widget.destroyed.connect(
-                    lambda _obj=None, w=widget: _on_tab_widget_destroyed(w)
+                _connect(
+                    widget.destroyed,
+                    lambda _obj=None, w=widget: _on_tab_widget_destroyed(w),
                 )
                 _tab_widgets.add(id(widget))
                 _load_hooked.add(id(tab))
@@ -326,7 +352,7 @@ def _apply_window_states() -> None:
                 )
             ):
                 # Revealed (mapped) while unfocused: the tab froze while it
-                # was hidden, so pin its frame now; only focus unfreezes.
+                # was hidden, so pin its frame now; only input unfreezes.
                 if id(widget) not in _previews:
                     _capture_preview(id(widget), widget)
                 preview = _previews.get(id(widget))
@@ -662,6 +688,97 @@ class _ResizeFilter(QObject):
 _resize_filter = _ResizeFilter()
 
 
+def _window_id_for(a0: QObject | None) -> int | None:
+    """Map an event receiver to its qutebrowser window id.
+
+    Input events are delivered to the focused widget, usually a child
+    deep inside the tab, so the owning window is found by climbing the
+    widget chain to the one that owns a QWindow and matching that
+    handle against the registry.
+    """
+    if a0 is None:
+        return None
+    if isinstance(a0, QWindow):
+        handle = a0
+    else:
+        handle = None
+        w = a0 if isinstance(a0, QWidget) else None
+        while w is not None:
+            handle = w.windowHandle()
+            if handle is not None:
+                break
+            w = w.parentWidget()
+        if handle is None:
+            return None
+    for win_id, window in objreg.window_registry.items():
+        win_handle = window.windowHandle()
+        if win_handle is not None and win_handle.winId() == handle.winId():
+            return win_id
+    return None
+
+
+def _active_window_id() -> int | None:
+    # Only one window can hold keyboard focus, so the window whose
+    # handle isActive() is the one receiving key events.
+    for win_id, window in objreg.window_registry.items():
+        win_handle = window.windowHandle()
+        if win_handle is not None and win_handle.isActive():
+            return win_id
+    return None
+
+
+class _InputFilter(QObject):
+    """Records the first real input of each focused window.
+
+    A window that refocuses after an idle keeps its tab pinned (focus
+    alone does not unfreeze); the first key, mouse button or wheel
+    event in the now-active window marks it interacted, which lets the
+    state pass unfreeze the tab. Input on an unfocused window (pointer
+    hovering a visible-but-inactive window) must not wake it.
+    """
+
+    _INPUT_TYPES = {
+        QEvent.Type.KeyPress,
+        QEvent.Type.MouseButtonPress,
+        QEvent.Type.MouseButtonDblClick,
+        QEvent.Type.Wheel,
+    }
+
+    def eventFilter(self, a0: QObject | None, a1: QEvent | None) -> bool:
+        if a0 is None or a1 is None or a1.type() not in self._INPUT_TYPES:
+            return False
+        if a1.type() == QEvent.Type.KeyPress:
+            # Key events are only delivered to the focused window, so
+            # the receiver's widget chain does not need to be walked.
+            win_id = _active_window_id()
+            if win_id is None:
+                log.misc.info("tabfreeze: keypress while no window is active")
+                return False
+        else:
+            win_id = _window_id_for(a0)
+            if win_id is None:
+                return False
+            window = objreg.window_registry.get(win_id)
+            if window is None:
+                return False
+            win_handle = window.windowHandle()
+            if win_handle is None or not win_handle.isActive():
+                # Pointer input over an unfocused window (hover wheel,
+                # a click that has not activated it yet) must not wake
+                # the tab; the compositor activates the window before
+                # delivering the press that focuses it.
+                return False
+        if _input_seen.get(win_id):
+            return False
+        log.misc.info("tabfreeze: first input in window %d", win_id)
+        _input_seen[win_id] = True
+        _schedule_state()
+        return False
+
+
+_input_filter = _InputFilter()
+
+
 def _wire_window(window) -> None:
     try:
         widget = window.tabbed_browser.widget
@@ -669,9 +786,9 @@ def _wire_window(window) -> None:
         if wid in _hooked:
             return
         _hooked.add(wid)
-        widget.currentChanged.connect(_schedule_state)
-        window.tabbed_browser.new_tab.connect(lambda _tab, _idx: _schedule_state())
-        widget.destroyed.connect(lambda: _hooked.discard(wid))
+        _connect(widget.currentChanged, _schedule_state)
+        _connect(window.tabbed_browser.new_tab, lambda _tab, _idx: _schedule_state())
+        _connect(widget.destroyed, lambda: _hooked.discard(wid))
         log.misc.debug("tabfreeze: monitoring window %d", window.win_id)
         _schedule_state()
     except Exception:
@@ -701,9 +818,39 @@ def _retire(old: dict) -> None:
         app.new_window.disconnect(old["wire_window"])
     except TypeError:
         pass
+    input_filter = old.get("input_filter")
+    if input_filter is not None:
+        app.removeEventFilter(input_filter)
+    # Newer keys are optional: an old runtime dict (registered by an
+    # earlier version of this file) lacks them, and a KeyError here
+    # would abort the arm and leave the browser unmanaged with frozen
+    # tabs that can never wake.
+    hook_conns = old.get("hook_conns")
+    if hook_conns is not None:
+        # Per-window and per-page signals stay connected to the old
+        # generation's slots unless disconnected here; a zombie
+        # generation would keep running state passes (and re-freeze tabs
+        # the new one just unfroze) after every :config-source.
+        for signal, slot in list(hook_conns):
+            try:
+                signal.disconnect(slot)
+            except (TypeError, RuntimeError):
+                # The receiver (page or widget) may have been destroyed,
+                # taking the signal with it.
+                pass
+        hook_conns.clear()
     for timer in old["resize_timers"].values():
         timer.stop()
-    old["state_timer"].stop()
+    state_timer = old["state_timer"]
+    state_timer.stop()
+    try:
+        # Kill the old generation's pass path outright: even with its
+        # state cleared, untracked signal connections (from generations
+        # predating the connection log) would restart this timer and run
+        # the old pass logic against live pages.
+        state_timer.timeout.disconnect()
+    except (TypeError, RuntimeError):
+        pass
     for widget_id, label in list(old["overlays"].items()):
         if sip.isdeleted(label):
             continue
@@ -721,8 +868,11 @@ def _retire(old: dict) -> None:
         "overlays", "previews", "active_since", "resize_timers",
         "resize_polls", "tab_widgets", "loading_pages", "hooked",
         "load_hooked", "frozen_seen", "capture_ok", "win_sizes",
+        "input_seen",
     ):
-        old[name].clear()
+        state = old.get(name)
+        if state is not None:
+            state.clear()
 
 
 class _Scheduler(QObject):
@@ -757,6 +907,9 @@ class _Scheduler(QObject):
                     "win_sizes": _win_sizes,
                     "expose_filter": _expose_filter,
                     "resize_filter": _resize_filter,
+                    "input_filter": _input_filter,
+                    "input_seen": _input_seen,
+                    "hook_conns": _hook_conns,
                     "focus_handler": _on_focus_changed,
                     "wire_window": _wire_window,
                 },
@@ -769,10 +922,12 @@ class _Scheduler(QObject):
             # widget, so the filter has to be global on the app.
             objects.qapp.installEventFilter(_expose_filter)
             objects.qapp.installEventFilter(_resize_filter)
+            objects.qapp.installEventFilter(_input_filter)
             objects.qapp.new_window.connect(_wire_window)
             objects.qapp.focusWindowChanged.connect(_on_focus_changed)
             for window in objreg.window_registry.values():
                 _wire_window(window)
+            log.misc.info("tabfreeze: armed")
         except Exception:
             log.misc.exception("tabfreeze: arm failed")
 
