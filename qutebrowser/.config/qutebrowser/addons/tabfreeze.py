@@ -346,6 +346,11 @@ def _apply_window_states() -> bool:
                 f"{'L' if loading and live != QWebEnginePage.LifecycleState.Frozen else _LIVE_LETTERS.get(live, '?')} "
                 f"{host or url}"
             )
+            if id(widget) in _resize_polls:
+                # The resize wake owns this tab until its frames
+                # settle; transition logic must not fight the poll
+                # (a mid-wake re-freeze would blank the re-pin).
+                continue
             if live != state and not loading:
                 # Retry on every pass: QtWebEngine ignores lifecycle
                 # changes until its visibility update has propagated, so
@@ -693,8 +698,14 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         if page.recentlyAudible():
             # Audio started during the wake: leave the page live.
             return
-        if img is not None:
-            _show_overlay(widget, QPixmap.fromImage(img))
+        if img is None:
+            # No valid frame to pin (the grab raced the engine's QRhi
+            # swap or never produced content): freezing now would
+            # leave the window blank, so leave the page live and let
+            # the state pass retry the pin on its own schedule.
+            _schedule_state()
+            return
+        _show_overlay(widget, QPixmap.fromImage(img))
         page.setVisible(False)
         page.setLifecycleState(QWebEnginePage.LifecycleState.Frozen)
         log.misc.debug(
