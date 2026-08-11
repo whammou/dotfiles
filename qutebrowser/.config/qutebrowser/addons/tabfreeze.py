@@ -119,6 +119,9 @@ _active_since: dict[int, float] = {}
 # first fresh frame (state reacts to activation, painting comes later),
 # so the pin must outlive the state change by this margin.
 _SETTLE_SECONDS = 0.3
+# How long an interacted window may keep reporting itself unfocused
+# before its wake is cleared (see _unfocused_since).
+_WAKE_GRACE_SECONDS = 0.3
 # Frame poll cadence during the resize wake; slower polls grab the
 # window less often.
 _POLL_INTERVAL_MS = 200
@@ -142,6 +145,13 @@ _win_sizes: dict[int, QSize] = {}
 # focus; a focused window's tab stays pinned until its first input.
 _input_seen: dict[int, bool] = {}
 
+# Monotonic time a window was first reported unfocused. qtile-wayland
+# reports the active window flakily (no window "active" between
+# keypresses of a window the user is typing in), so a single bad focus
+# read must not clear the wake; the flag is only popped once the window
+# has been continuously unfocused for _WAKE_GRACE_SECONDS.
+_unfocused_since: dict[int, float] = {}
+
 # Signals connected while monitoring windows and tabs. The handover
 # disconnects every registered pair: without this a previous module
 # generation survives :config-source and keeps running state passes
@@ -161,9 +171,12 @@ def _connect(signal: Any, slot: Any) -> None:
 
 def _apply_state() -> None:
     try:
-        _apply_window_states()
+        pending_grace = _apply_window_states()
     except Exception:
         log.misc.exception("tabfreeze: state pass failed")
+        return
+    if pending_grace and _state_timer is not None:
+        _schedule_state()
 
 
 # Coalesces event bursts (expose storms during resize drags and
@@ -188,18 +201,42 @@ def _on_loading_changed(page, info: QWebEngineLoadingInfo) -> None:
     _schedule_state()
 
 
-def _apply_window_states() -> None:
+def _apply_window_states() -> bool:
     parts: list[str] = []
+    pending_grace = False
     exempt = _exempt_domains()
     for window in objreg.window_registry.values():
+        # A closing window leaves the registry asynchronously and can be
+        # dead by the time the pass reaches it; any attribute access on
+        # the wrapped MainWindow then raises RuntimeError.
+        if sip.isdeleted(window):
+            continue
         widget = window.tabbed_browser.widget
         win_handle = window.windowHandle()
         win_focused = win_handle is not None and win_handle.isActive()
         if not win_focused:
-            # Focus left the window: the next focus cycle starts fresh,
-            # so the first input after re-focus wakes it up again.
-            _input_seen.pop(window.win_id, None)
+            # Focus reads are flaky on qtile-wayland (the compositor can
+            # report no active window between keypresses of the window
+            # being typed in), so a single such pass must not clear the
+            # wake; only a sustained unfocused stretch does, keeping an
+            # actively used window live while one truly left behind
+            # still starts fresh on its next focus cycle.
+            now = time.monotonic()
+            if window.win_id not in _unfocused_since:
+                _unfocused_since[window.win_id] = now
+            elif now - _unfocused_since[window.win_id] >= _WAKE_GRACE_SECONDS:
+                _input_seen.pop(window.win_id, None)
+                _unfocused_since.pop(window.win_id, None)
+        else:
+            _unfocused_since.pop(window.win_id, None)
         interacted = _input_seen.get(window.win_id, False)
+        if not win_focused and interacted:
+            # The wake is still live but the window is unfocused. The
+            # pass is event-driven (single-shot timer, restarted by
+            # events only), and after focus left there are no more
+            # events, so the pass must re-arm itself until the grace
+            # expires and the tab re-freezes.
+            pending_grace = True
         for i in range(widget.count()):
             tab = widget.widget(i)
             if tab is None or tab.url().scheme() in _SKIP_SCHEMES:
@@ -235,14 +272,19 @@ def _apply_window_states() -> None:
                     f"{'M' if audible else 'C' if capture else '-'} {host or url}"
                 )
                 continue
+            # A window whose wake is still within its unfocused grace
+            # counts as focused: isActive() can blink False between
+            # keypresses, and the interaction itself proves the window
+            # is the one being used.
+            effective_focus = win_focused or interacted
             if config.val.tabs.tabs_are_windows:
                 # Every tab is its own window; the one receiving key events
                 # is active. When the whole app loses focus none is active,
                 # so every tab freezes.
-                focused = win_focused
+                focused = effective_focus
             else:
                 # Only the current tab of a focused window is active.
-                focused = win_focused and i == widget.currentIndex()
+                focused = effective_focus and i == widget.currentIndex()
             state = (
                 QWebEnginePage.LifecycleState.Active
                 if focused and interacted
@@ -383,6 +425,7 @@ def _apply_window_states() -> None:
             elif live != QWebEnginePage.LifecycleState.Frozen:
                 _frozen_seen.discard(id(tab))
     log.misc.debug("tabfreeze: %s", "  ".join(parts) or "-")
+    return pending_grace
 
 
 def _drop_overlay(widget: Any) -> None:
@@ -727,6 +770,8 @@ def _window_id_for(a0: QObject | None) -> int | None:
         if handle is None:
             return None
     for win_id, window in objreg.window_registry.items():
+        if sip.isdeleted(window):
+            continue
         win_handle = window.windowHandle()
         if win_handle is not None and win_handle.winId() == handle.winId():
             return win_id
@@ -737,6 +782,8 @@ def _active_window_id() -> int | None:
     # Only one window can hold keyboard focus, so the window whose
     # handle isActive() is the one receiving key events.
     for win_id, window in objreg.window_registry.items():
+        if sip.isdeleted(window):
+            continue
         win_handle = window.windowHandle()
         if win_handle is not None and win_handle.isActive():
             return win_id
@@ -764,9 +811,14 @@ class _InputFilter(QObject):
         if a0 is None or a1 is None or a1.type() not in self._INPUT_TYPES:
             return False
         if a1.type() == QEvent.Type.KeyPress:
-            # Key events are only delivered to the focused window, so
-            # the receiver's widget chain does not need to be walked.
-            win_id = _active_window_id()
+            # Key events are delivered to the focused widget, so the
+            # receiver's widget chain locates the owning window; the
+            # active-window state cannot be trusted here because
+            # qtile-wayland can report no active window between
+            # keypresses, and the wake would be dropped.
+            win_id = _window_id_for(a0)
+            if win_id is None:
+                win_id = _active_window_id()
             if win_id is None:
                 log.misc.info("tabfreeze: keypress while no window is active")
                 return False
@@ -775,7 +827,7 @@ class _InputFilter(QObject):
             if win_id is None:
                 return False
             window = objreg.window_registry.get(win_id)
-            if window is None:
+            if window is None or sip.isdeleted(window):
                 return False
             win_handle = window.windowHandle()
             if win_handle is None or not win_handle.isActive():
@@ -784,6 +836,10 @@ class _InputFilter(QObject):
                 # the tab; the compositor activates the window before
                 # delivering the press that focuses it.
                 return False
+        # Any input proves the window is being used: refresh the
+        # unfocused grace so a flaky focus read cannot re-freeze it
+        # mid-use.
+        _unfocused_since.pop(win_id, None)
         if _input_seen.get(win_id):
             return False
         log.misc.info("tabfreeze: first input in window %d", win_id)
@@ -884,7 +940,7 @@ def _retire(old: dict) -> None:
         "overlays", "previews", "active_since", "resize_timers",
         "resize_polls", "tab_widgets", "loading_pages", "hooked",
         "load_hooked", "frozen_seen", "capture_ok", "win_sizes",
-        "input_seen",
+        "input_seen", "unfocused_since",
     ):
         state = old.get(name)
         if state is not None:
@@ -925,6 +981,7 @@ class _Scheduler(QObject):
                     "resize_filter": _resize_filter,
                     "input_filter": _input_filter,
                     "input_seen": _input_seen,
+                    "unfocused_since": _unfocused_since,
                     "hook_conns": _hook_conns,
                     "focus_handler": _on_focus_changed,
                     "wire_window": _wire_window,
