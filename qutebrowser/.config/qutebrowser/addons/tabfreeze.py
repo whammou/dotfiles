@@ -353,27 +353,30 @@ def _apply_window_states() -> bool:
                 # every later pass retries it instead of waiting out a
                 # rate limit.
                 if state == QWebEnginePage.LifecycleState.Frozen:
-                    # Pin the last rendered frame before freezing: a frozen
-                    # page stops painting, so without this the window would
-                    # go blank while visible-but-unfocused. Grabbing is safe
-                    # here because losing focus keeps the window mapped,
-                    # unlike a compositor hide/teardown. The previous
-                    # preview is kept until a fresh capture succeeds, so a
-                    # window hidden on another qtile group (which cannot be
-                    # grabbed, see _capture_preview) still has a frame to
-                    # pin instead of flashing blank on reveal.
                     _drop_overlay(widget)
-                    _capture_preview(id(widget), widget)
-                    preview = _previews.get(id(widget))
-                    if preview is not None and not preview.isNull():
-                        _show_overlay(widget, preview)
-                    elif win_handle is not None and win_handle.isExposed():
-                        # Visible but no frame to pin: freezing would leave
-                        # the window blank, so stay Active and retry.
-                        state = QWebEnginePage.LifecycleState.Active
-                    # A window that is not exposed cannot be seen, so it
-                    # freezes without a pin; the reveal branch pins it
-                    # later if it becomes visible while still unfocused.
+                    if win_handle is not None and win_handle.isExposed():
+                        # Pin the last rendered frame before freezing: a
+                        # frozen page stops painting, so without this the
+                        # window would go blank while visible-but-
+                        # unfocused. Grabbing is safe here because losing
+                        # focus keeps the window mapped, unlike a
+                        # compositor hide/teardown.
+                        _capture_preview(id(widget), widget)
+                        preview = _previews.get(id(widget))
+                        if preview is not None and not preview.isNull():
+                            _show_overlay(widget, preview)
+                        else:
+                            # Visible but no frame to pin: freezing would
+                            # leave the window blank, so stay Active and
+                            # retry.
+                            state = QWebEnginePage.LifecycleState.Active
+                    else:
+                        # Hidden on another qtile group: nothing is
+                        # visible, so no pin is needed, and any old frame
+                        # can be stale (the page may have changed while
+                        # hidden during a deferred load), so drop it; the
+                        # reveal branch recaptures on the next map.
+                        _previews.pop(id(widget), None)
                 else:
                     # Focus came back: the page renders again, so unpin the
                     # last frame shortly after.
@@ -409,13 +412,14 @@ def _apply_window_states() -> bool:
                     or i == widget.currentIndex()
                 )
             ):
-                # Revealed (mapped) while unfocused: the tab froze while it
-                # was hidden, so pin its frame now; only input unfreezes.
-                if id(widget) not in _previews:
-                    _capture_preview(id(widget), widget)
-                preview = _previews.get(id(widget))
-                if preview is not None and not preview.isNull():
-                    _show_overlay(widget, preview)
+                # Revealed (mapped) while unfocused: the tab froze while
+                # hidden and has no pin, and a frozen page cannot
+                # paint, so the window would stay blank until input.
+                # Wake the page and re-pin once its frames settle
+                # (same path as the resize wake): the fresh frame is
+                # the true resumed state, so the pin matches and
+                # there is no blank window. Only input unfreezes.
+                _re_pin(widget, window.win_id)
             if (
                 live == QWebEnginePage.LifecycleState.Frozen
                 and id(tab) not in _frozen_seen
@@ -572,7 +576,7 @@ def _on_resized(widget: Any) -> None:
         if timer is None:
             timer = QTimer()
             timer.setSingleShot(True)
-            timer.timeout.connect(lambda: _re_pin(widget))
+            timer.timeout.connect(lambda: _re_pin(widget, _window_id_for(widget)))
             _resize_timers[wid] = timer
         timer.start(300)
     except Exception:
@@ -584,11 +588,11 @@ def _on_painted(widget: Any) -> None:
     state = _resize_polls.get(wid)
     if state is None:
         return
-    token, prev, attempts, paints, had_pin = state
-    _resize_polls[wid] = (token, prev, attempts, paints + 1, had_pin)
+    token, win_id, attempts, paints, had_pin = state
+    _resize_polls[wid] = (token, win_id, attempts, paints + 1, had_pin)
 
 
-def _re_pin(widget: Any) -> None:
+def _re_pin(widget: Any, win_id: int | None = None) -> None:
     try:
         wid = id(widget)
         _resize_timers.pop(wid, None)
@@ -611,35 +615,19 @@ def _re_pin(widget: Any) -> None:
         # repaints at the new size. The pin must come off before the wake
         # (an overlay occludes the view, keeping its backing store stale),
         # then poll for the frame to settle before re-pinning.
+        log.misc.info(
+            "tabfreeze: waking %s to re-pin",
+            widget.url().host() or widget.url(),
+        )
         had_pin = id(widget) in _overlays
         _drop_overlay(widget)
         page.setVisible(True)
         page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
         token = object()
-        _resize_polls[wid] = (token, None, 0, 0, had_pin)
+        _resize_polls[wid] = (token, win_id, 0, 0, had_pin)
         QTimer.singleShot(_POLL_INTERVAL_MS, lambda t=token: _poll_re_pin(widget, t))
     except Exception:
         log.misc.exception("tabfreeze: re-pin failed")
-
-
-def _frames_match(a: QImage | None, b: QImage | None) -> bool:
-    # Compare a 1/64 nearest-neighbor sample of each frame: a full pixel
-    # scan reads ~16MB per pair of 1080p frames on every poll tick, and
-    # the settle check only needs to see any visible change, so the
-    # downsampled comparison is enough.
-    if a is None or b is None:
-        return False
-    w = max(1, a.width() // 8)
-    h = max(1, a.height() // 8)
-    return a.scaled(
-        w, h,
-        Qt.AspectRatioMode.IgnoreAspectRatio,
-        Qt.TransformationMode.FastTransformation,
-    ) == b.scaled(
-        w, h,
-        Qt.AspectRatioMode.IgnoreAspectRatio,
-        Qt.TransformationMode.FastTransformation,
-    )
 
 
 def _poll_re_pin(widget: Any, token: Any) -> None:
@@ -665,11 +653,19 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         _drop_overlay(widget)
         top = widget.window()
         handle = top.windowHandle() if top is not None else None
-        if handle is not None and handle.isActive():
-            # Focused during the wake: the live page needs no pin and
-            # the normal transition logic takes over.
+        _token, win_id, attempts, paints, had_pin = state
+        if win_id is None:
+            win_id = _window_id_for(widget)
+        if win_id is not None and _input_seen.get(win_id, False):
+            # The window is in use: input was already seen, or its wake
+            # is still within the unfocused grace, so no pin is needed
+            # and the normal transition logic owns the tab.
             _resize_polls.pop(wid, None)
             return
+        # Not interacted (e.g. just switched back to this group): keep
+        # polling and complete the re-pin, so the tab shows the fresh
+        # frame, re-freezes, and waits for the first input instead of
+        # staying live. Focus alone does not unfreeze (deferred wake).
         if handle is None or not handle.isExposed():
             # Hidden again: leave it Active for the normal passes.
             _resize_polls.pop(wid, None)
@@ -677,18 +673,15 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         _capture_preview(wid, widget)
         pic = _previews.get(wid)
         img = pic.toImage() if pic is not None and not pic.isNull() else None
-        _token, prev, attempts, paints, had_pin = state
         attempts += 1
-        _resize_polls[wid] = (token, img, attempts, paints, had_pin)
-        # Settle only once the engine delivered a frame: the paint count
+        _resize_polls[wid] = (token, win_id, attempts, paints, had_pin)
+        # Settle as soon as the engine delivered a frame: the paint count
         # starts at the wake's damage repaint, so a real frame means one
         # more paint (two if a pin was dropped). A page that never painted
         # grabs blank until its first frame, and settling on blanks would
         # pin a blank cover.
         frame_paints = paints >= (2 if had_pin else 1)
-        settled = attempts >= 20 or (
-            prev is not None and _frames_match(prev, img) and frame_paints
-        )
+        settled = attempts >= 20 or (img is not None and frame_paints)
         if not settled:
             QTimer.singleShot(_POLL_INTERVAL_MS, lambda t=token: _poll_re_pin(widget, t))
             return
@@ -739,8 +732,15 @@ class _ResizeFilter(QObject):
             return False
         if a1.type() == QEvent.Type.Resize and id(a0) in _tab_widgets:
             _on_resized(a0)
-        elif a1.type() == QEvent.Type.Paint and id(a0) in _resize_polls:
-            _on_painted(a0)
+        elif a1.type() == QEvent.Type.Paint and _resize_polls:
+            # QtWebEngine renders into a child of the tab widget, so
+            # the Paint event lands on the render child, not the tab
+            # widget itself; count it for the nearest polled ancestor.
+            w = a0 if isinstance(a0, QWidget) else None
+            while w is not None and id(w) not in _resize_polls:
+                w = w.parentWidget()
+            if w is not None:
+                _on_painted(w)
         return False
 
 
@@ -838,12 +838,13 @@ class _InputFilter(QObject):
                 return False
         # Any input proves the window is being used: refresh the
         # unfocused grace so a flaky focus read cannot re-freeze it
-        # mid-use.
+        # mid-use. Always re-run the pass: a poll may have frozen the
+        # tab after the first input, so a later input must wake it
+        # again instead of being swallowed by the seen flag.
         _unfocused_since.pop(win_id, None)
-        if _input_seen.get(win_id):
-            return False
-        log.misc.info("tabfreeze: first input in window %d", win_id)
-        _input_seen[win_id] = True
+        if not _input_seen.get(win_id):
+            log.misc.info("tabfreeze: first input in window %d", win_id)
+            _input_seen[win_id] = True
         _schedule_state()
         return False
 
