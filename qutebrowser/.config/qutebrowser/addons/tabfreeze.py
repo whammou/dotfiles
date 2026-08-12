@@ -244,6 +244,11 @@ _preview_verdicts: dict[int, tuple[Any, bool]] = {}
 # grabbing a fresh frame each retry re-renders the whole window per
 # pass; one grab per interval is enough to pin the last rendered frame.
 _freeze_grab_ts: dict[int, float] = {}
+# Fingerprint cache for the re-pin poll: a poll iterates every 100-200ms
+# while grab=0 (held frame unchanged), and each iteration used to
+# downscale the whole window twice; the pixmap object identity gates the
+# cache, so only a fresh grab pays the analysis.
+_fp_cache: dict[int, tuple[Any, str | None]] = {}
 
 
 def _preview_ok(wid: int) -> bool:
@@ -424,11 +429,7 @@ def _apply_window_states() -> bool:
                 if state == QWebEnginePage.LifecycleState.Frozen:
                     _drop_overlay(widget)
                     if win_handle is not None and win_handle.isExposed():
-                        if _preview_ok(id(widget)):
-                            preview = _previews[id(widget)]
-                            _good_previews[id(widget)] = preview
-                            _show_overlay(widget, preview)
-                        elif (
+                        if (
                             time.monotonic()
                             - _freeze_grab_ts.get(id(widget), 0.0)
                             >= _FREEZE_GRAB_INTERVAL
@@ -719,6 +720,7 @@ def _on_tab_widget_destroyed(w: Any) -> None:
     _good_previews.pop(id(w), None)
     _preview_verdicts.pop(id(w), None)
     _freeze_grab_ts.pop(id(w), None)
+    _fp_cache.pop(id(w), None)
     # A tab was killed: the layout reflows its siblings and the
     # compositor resizes them scene-graph-only (no QResizeEvent, no
     # Expose - same gap as a bonsai switch), so no pass would run and
@@ -868,9 +870,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         # frame is held, a static page cannot change (and the paint
         # gate covers dynamic pages), so periodic grabs would only
         # re-render the same pixels: skip them.
-        held = _previews.get(wid)
-        held_img = held.toImage() if held is not None and not held.isNull() else None
-        held_clear = held_img is None or _is_clear_frame(held_img)
+        held_clear = not _preview_ok(wid)
         grabbed = (
             attempts == 0
             or paints > last_paints
@@ -886,9 +886,15 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
                 if base is not None and not base.isNull():
                     base.toImage().save(f"/tmp/tf_base_{time.time():.0f}.png")  # DEBUG: dump baseline grab
         pic = _previews.get(wid)
-        img = pic.toImage() if pic is not None and not pic.isNull() else None
-        fp = _img_fingerprint(img) if img is not None else None
-        if pic is not None and img is not None and not _is_clear_frame(img):
+        cached = _fp_cache.get(wid)
+        if cached is not None and cached[0] is pic:
+            fp = cached[1]
+        elif pic is not None and not pic.isNull():
+            fp = _img_fingerprint(pic.toImage())
+            _fp_cache[wid] = (pic, fp)
+        else:
+            fp = None
+        if pic is not None and _preview_ok(wid):
             _good_previews[wid] = pic
         # The first poll only baselines the frame: the grab right after
         # the wake is the old frame stretched over the new geometry, and
@@ -904,7 +910,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         log.misc.debug(  # re-pin frame poll
             "tabfreeze: poll win=%s attempts=%d paints=%d grab=%d img=%s fp=%s stable=%d changed=%s",
             win_id, attempts, paints, grabbed,
-            f"{img.width()}x{img.height()}" if img is not None else "None",
+            f"{pic.width()}x{pic.height()}" if pic is not None and not pic.isNull() else "None",
             fp, stable, changed_seen,
         )
         _resize_polls[wid] = (token, win_id, attempts, paints, fp, stable, changed_seen, last_paints)
@@ -914,7 +920,9 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         # identical polls after it mean the frame settled. A frame that
         # never changes cannot be told fresh from stale, so the attempt
         # cap pins whatever the engine last presented.
-        settled = attempts >= 20 or (img is not None and changed_seen and stable >= 2)
+        settled = attempts >= 20 or (
+            pic is not None and not pic.isNull() and changed_seen and stable >= 2
+        )
         log.misc.debug(  # settle decision
             "tabfreeze: settle win=%s attempts=%d paints=%d fp=%s stable=%d changed=%s settled=%s",
             win_id, attempts, paints, fp, stable, changed_seen, settled,
@@ -936,6 +944,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         if _page_audible(page):
             # Audio started during the wake: leave the page live.
             return
+        img = pic.toImage() if pic is not None and not pic.isNull() else None
         if img is None:
             # No valid frame to pin (the grab raced the engine's QRhi
             # swap or never produced content): freezing now would
@@ -943,7 +952,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
             # the state pass retry the pin on its own schedule.
             _schedule_state()
             return
-        if _is_clear_frame(img):
+        if not _preview_ok(wid):
             # The engine never presented page content within the poll
             # window (its clear color is still what grab() returns): a
             # static page can present later than the wake. Pin the last
@@ -1271,6 +1280,7 @@ class _Scheduler(QObject):
                     "expose_filter": _expose_filter,
                     "preview_verdicts": _preview_verdicts,
                     "freeze_grab_ts": _freeze_grab_ts,
+                    "fp_cache": _fp_cache,
                     "resize_filter": _resize_filter,
                     "input_filter": _input_filter,
                     "input_seen": _input_seen,
