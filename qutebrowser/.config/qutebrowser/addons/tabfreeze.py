@@ -17,7 +17,7 @@ from qutebrowser.qt import sip
 from qutebrowser.qt.core import (
     QEvent, QMetaObject, QObject, QSize, QTimer, Qt, pyqtSlot,
 )
-from qutebrowser.qt.gui import QImage, QPixmap, QWindow
+from qutebrowser.qt.gui import QImage, QKeyEvent, QPixmap, QWindow
 from qutebrowser.qt.webenginecore import (
     QWebEngineLoadingInfo,
     QWebEnginePage,
@@ -1110,6 +1110,29 @@ class _InputFilter(QObject):
         if a0 is None or a1 is None or a1.type() not in self._INPUT_TYPES:
             return False
         if a1.type() == QEvent.Type.KeyPress:
+            # A lone modifier/lock key (Shift..ScrollLock) is not real
+            # input, so it must not wake a frozen tab; return False so the
+            # event still reaches qutebrowser's own keybinding handling.
+            if (
+                isinstance(a1, QKeyEvent)
+                and a1.key()
+                in (
+                    Qt.Key.Key_Shift,
+                    Qt.Key.Key_Control,
+                    Qt.Key.Key_Alt,
+                    Qt.Key.Key_Meta,
+                    Qt.Key.Key_AltGr,
+                    Qt.Key.Key_Mode_switch,
+                    Qt.Key.Key_Super_L,
+                    Qt.Key.Key_Super_R,
+                    Qt.Key.Key_Hyper_L,
+                    Qt.Key.Key_Hyper_R,
+                    Qt.Key.Key_CapsLock,
+                    Qt.Key.Key_NumLock,
+                    Qt.Key.Key_ScrollLock,
+                )
+            ):
+                return False
             # Key events are delivered to the focused widget, so the
             # receiver's widget chain locates the owning window; the
             # active-window state cannot be trusted here because
