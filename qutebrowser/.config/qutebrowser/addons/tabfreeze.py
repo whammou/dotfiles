@@ -285,13 +285,6 @@ def _apply_window_states() -> bool:
         widget = window.tabbed_browser.widget
         win_handle = window.windowHandle()
         win_focused = win_handle is not None and win_handle.isActive()
-        log.misc.info(
-            "tabfreeze: dbg win=%d isActive=%s win_focused=%s input_seen=%s",
-            window.win_id,
-            win_handle.isActive() if win_handle is not None else None,
-            win_focused,
-            _input_seen.get(window.win_id, False),
-        )
         if not win_focused:
             # Focus reads are flaky on qtile-wayland (the compositor can
             # report no active window between keypresses of the window
@@ -371,17 +364,6 @@ def _apply_window_states() -> bool:
             )
             page = tab._widget.page()
             live = page.lifecycleState()
-            if (
-                live == QWebEnginePage.LifecycleState.Frozen
-                and state == QWebEnginePage.LifecycleState.Active
-            ):
-                log.misc.info(
-                    "tabfreeze: dbg WAKE of frozen win=%d active=%s input_seen=%s focused=%s",
-                    window.win_id,
-                    win_focused,
-                    interacted,
-                    focused,
-                )
             widget = tab._widget
             if id(tab) not in _load_hooked:
                 signal = getattr(tab, "load_status_changed", None)
@@ -1169,6 +1151,22 @@ class _InputFilter(QObject):
                     Qt.Key.Key_CapsLock,
                     Qt.Key.Key_NumLock,
                     Qt.Key.Key_ScrollLock,
+                )
+            ):
+                return False
+            # The window-manager bonsai switch is a chord: mod4 is held and a
+            # digit completes it (mod4+digit focuses a window, mod4+shift+digit
+            # a tab layer), and qtile runs window.focus() on that digit before
+            # the app sees it, so by the time the key reaches the just-focused
+            # window it is already Active and the isActive() gate below passes.
+            # That digit is a WM gesture, not real first input, so it must not
+            # wake a frozen tab; dropping it still lets it reach qutebrowser's
+            # own keybinding handling.
+            if (
+                isinstance(a1, QKeyEvent)
+                and Qt.Key.Key_0 <= a1.key() <= Qt.Key.Key_9
+                and bool(
+                    a1.modifiers() & Qt.KeyboardModifier.MetaModifier
                 )
             ):
                 return False
