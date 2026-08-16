@@ -127,9 +127,14 @@ _SETTLE_SECONDS = 0.3
 # How long after its last real input an interacted window may keep
 # reporting itself unfocused before its wake is cleared (see _last_input).
 _WAKE_GRACE_SECONDS = 0.3
-# Frame poll cadence during the resize wake; slower polls grab the
-# window less often.
-_POLL_INTERVAL_MS = 200
+# The re-pin is event-driven: a step only runs when the engine painted
+# (Paint events fire when it presents a new frame at the new size), so
+# there is no blind scan loop. These bound the wait instead:
+# _QUIET_POLL_MS is the fallback cadence when no paint arrives (a static
+# page may present a single frame), and _PAINT_BUMP_MS is how soon after
+# a paint the next step runs.
+_QUIET_POLL_MS = 300
+_PAINT_BUMP_MS = 50
 # Pages the engine reports as currently loading (engine-truth, because
 # qutebrowser's load_status lags urlChanged and can stay "success" from
 # a tab's initial blank page while a real navigation is in flight).
@@ -149,6 +154,8 @@ _audible_cache: dict[int, tuple[bool, float]] = {}
 # size before re-pinning.
 _resize_timers: dict[int, QTimer] = {}
 _resize_polls: dict[int, tuple[Any, Any, int, int, str | None, int, bool, int]] = {}
+# Single-shot poll timers for re-pin step continuation; one per tab widget.
+_poll_timers: dict[int, QTimer] = {}
 # Last seen top-level window size per tab widget; a Resize whose window
 # size is unchanged is an internal layout change (commandline, status or
 # keyhint bar show-hide), not a real resize.
@@ -727,7 +734,7 @@ def _capture_preview(widget_id: int, widget: Any) -> None:
 def _on_tab_widget_destroyed(w: Any) -> None:
     _tab_widgets.discard(id(w))
     _resize_timers.pop(id(w), None)
-    _resize_polls.pop(id(w), None)
+    _cancel_re_pin(w)
     _active_since.pop(id(w), None)
     _expire_painted.pop(id(w), None)
     _win_sizes.pop(id(w), None)
@@ -791,8 +798,31 @@ def _on_painted(widget: Any) -> None:
     state = _resize_polls.get(wid)
     if state is None:
         return
+    # A new paint means the engine presented fresh content at the new
+    # size, exactly what the re-pin step needs to see; wake the step
+    # soon instead of waiting out the quiet fallback cadence.
     token, win_id, attempts, paints, prev_fp, stable, changed_seen, last_paints = state
     _resize_polls[wid] = (token, win_id, attempts, paints + 1, prev_fp, stable, changed_seen, last_paints)
+    _arm_re_pin_step(widget, _PAINT_BUMP_MS)
+
+
+def _arm_re_pin_step(widget: Any, delay_ms: int) -> None:
+    wid = id(widget)
+    timer = _poll_timers.get(wid)
+    if timer is None:
+        timer = QTimer()
+        timer.setSingleShot(True)
+        timer.timeout.connect(lambda: _poll_re_pin(widget))
+        _poll_timers[wid] = timer
+    timer.start(delay_ms)
+
+
+def _cancel_re_pin(widget: Any) -> None:
+    wid = id(widget)
+    _resize_polls.pop(wid, None)
+    timer = _poll_timers.pop(wid, None)
+    if timer is not None:
+        timer.stop()
 
 
 def _re_pin(widget: Any, win_id: int | None = None) -> None:
@@ -827,25 +857,23 @@ def _re_pin(widget: Any, win_id: int | None = None) -> None:
         page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
         token = object()
         _resize_polls[wid] = (token, win_id, 0, 0, None, 0, False, 0)
-        QTimer.singleShot(_POLL_INTERVAL_MS, lambda t=token: _poll_re_pin(widget, t))
+        # The wake paints the first content immediately; _on_painted arms
+        # the step, and the fallback cadence covers a delayed first paint.
+        _arm_re_pin_step(widget, _PAINT_BUMP_MS)
     except Exception:
         log.misc.exception("tabfreeze: re-pin failed")
 
 
-def _poll_re_pin(widget: Any, token: Any) -> None:
+def _poll_re_pin(widget: Any) -> None:
     try:
         wid = id(widget)
         state = _resize_polls.get(wid)
-        if (
-            state is None
-            or state[0] is not token
-            or sip.isdeleted(widget)
-        ):
+        if state is None or sip.isdeleted(widget):
             # Superseded by a newer poll cycle, or the tab is gone.
             return
         page = getattr(widget, "page", lambda: None)()
         if page is None or sip.isdeleted(page):
-            _resize_polls.pop(wid, None)
+            _cancel_re_pin(widget)
             return
         if page.lifecycleState() == QWebEnginePage.LifecycleState.Frozen:
             # A state pass re-froze it during the wake (e.g. a focus
@@ -862,7 +890,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
             # The window is in use: input was already seen, or its wake
             # is still within the unfocused grace, so no pin is needed
             # and the normal transition logic owns the tab.
-            _resize_polls.pop(wid, None)
+            _cancel_re_pin(widget)
             return
         # Not interacted (e.g. just switched back to this group): keep
         # polling and complete the re-pin, so the tab shows the fresh
@@ -870,7 +898,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
         # staying live. Focus alone does not unfreeze (deferred wake).
         if handle is None or not handle.isExposed():
             # Hidden again: leave it Active for the normal passes.
-            _resize_polls.pop(wid, None)
+            _cancel_re_pin(widget)
             return
         # Grab when a new paint arrived since the last grab: the
         # engine repaints while producing a frame, so no new paint means
@@ -895,10 +923,6 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
             # Snapshot the paint count at grab time: the next poll only
             # grabs when the engine painted again after this one.
             last_paints = paints
-            if attempts == 0:
-                base = _previews.get(wid)
-                if base is not None and not base.isNull():
-                    base.toImage().save(f"/tmp/tf_base_{time.time():.0f}.png")  # DEBUG: dump baseline grab
         pic = _previews.get(wid)
         cached = _fp_cache.get(wid)
         if cached is not None and cached[0] is pic:
@@ -927,7 +951,7 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
             f"{pic.width()}x{pic.height()}" if pic is not None and not pic.isNull() else "None",
             fp, stable, changed_seen,
         )
-        _resize_polls[wid] = (token, win_id, attempts, paints, fp, stable, changed_seen, last_paints)
+        _resize_polls[wid] = (_token, win_id, attempts, paints, fp, stable, changed_seen, last_paints)
         # The wake's damage repaints satisfy any paint count long before
         # the engine presents a frame at the new size, so settle on the
         # content instead: a change marks the first fresh frame, and two
@@ -942,15 +966,12 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
             win_id, attempts, paints, fp, stable, changed_seen, settled,
         )
         if not settled:
-            # Poll quickly until the first fresh frame (the change marks
-            # it), then back off for the stability confirmation: slower
-            # polls grab the window less often.
-            QTimer.singleShot(
-                100 if not changed_seen else _POLL_INTERVAL_MS,
-                lambda t=token: _poll_re_pin(widget, t),
-            )
+            # No more work now: the next step waits for a Paint event
+            # (fresh content presented) with the quiet cadence only as a
+            # fallback for a still page that presented a single frame.
+            _arm_re_pin_step(widget, _QUIET_POLL_MS)
             return
-        _resize_polls.pop(wid, None)
+        _cancel_re_pin(widget)
         if widget.url().isEmpty() or id(page) in _loading_pages:
             # Loading again: leave the freeze deferral to the passes.
             _schedule_state()
@@ -986,7 +1007,6 @@ def _poll_re_pin(widget: Any, token: Any) -> None:
                 good.width(), good.height(),
             )
             img = good.toImage()
-        img.save(f"/tmp/tf_pin_{time.time():.0f}_{img.width()}x{img.height()}.png")  # DEBUG: dump pinned frame
         _show_overlay(widget, QPixmap.fromImage(img))
         page.setVisible(False)
         page.setLifecycleState(QWebEnginePage.LifecycleState.Frozen)
@@ -1288,6 +1308,8 @@ def _retire(old: dict) -> None:
         hook_conns.clear()
     for timer in old["resize_timers"].values():
         timer.stop()
+    for timer in old["poll_timers"].values():
+        timer.stop()
     state_timer = old["state_timer"]
     state_timer.stop()
     try:
@@ -1313,7 +1335,7 @@ def _retire(old: dict) -> None:
         label.deleteLater()
     for name in (
         "overlays", "previews", "active_since", "expire_painted",
-        "resize_timers", "resize_polls", "tab_widgets", "loading_pages",
+        "resize_timers", "resize_polls", "poll_timers", "tab_widgets", "loading_pages",
         "hooked", "load_hooked", "frozen_seen", "capture_ok", "win_sizes",
         "input_seen", "unfocused_since", "audible_cache",
     ):
@@ -1344,6 +1366,7 @@ class _Scheduler(QObject):
                     "active_since": _active_since,
                     "resize_timers": _resize_timers,
                     "resize_polls": _resize_polls,
+                    "poll_timers": _poll_timers,
                     "tab_widgets": _tab_widgets,
                     "frozen_seen": _frozen_seen,
                     "hooked": _hooked,
