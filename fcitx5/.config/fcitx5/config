@@ -47,23 +47,23 @@ ModifierOnlyKeyTimeout=250
 0=Tab
 
 [Behavior]
-# Active By Default
+# Activate input method by default
 ActiveByDefault=False
 # Reset state on Focus In
 resetStateWhenFocusIn=All
 # Share Input State
 ShareInputState=No
 # Show preedit in application
-PreeditEnabledByDefault=True
+PreeditEnabledByDefault=False
 # Show Input Method Information when switch input method
 ShowInputMethodInformation=True
 # Show Input Method Information when changing focus
-showInputMethodInformationWhenFocusIn=False
+showInputMethodInformationWhenFocusIn=True
 # Show compact input method information
 CompactInputMethodInformation=True
 # Show first input method information
 ShowFirstInputMethodInformation=True
-# Default page size
+# Default Candidates per page
 DefaultPageSize=5
 # Override XKB Option
 OverrideXkbOption=False
