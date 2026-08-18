@@ -82,33 +82,6 @@ menu:
         cmd: "kitty --app-id=yazi-sftp -e yazi sftp://homelab"
   # }}}
 
-  # Google Suite: {{{
-  - key: "g"
-    desc: "󰊶 Google Suite"
-    submenu:
-      - key: "a"
-        desc: "󰍎 Map"
-        cmd: "qutebrowser_quick maps.google.com"
-      - key: "c"
-        desc: "󰸗 Calendar"
-        cmd: "qutebrowser_quick calendar.google.com"
-      - key: "d"
-        desc: "󰈙 Docs"
-        cmd: "qutebrowser_quick docs.google.com"
-      - key: "g"
-        desc: " Mail"
-        cmd: "qutebrowser_quick mail.google.com"
-      - key: "m"
-        desc: "󰕧 Meet"
-        cmd: "qutebrowser_quick meet.google.com"
-      - key: "p"
-        desc: "󰐩 Slides"
-        cmd: "qutebrowser_quick docs.google.com/presentation"
-      - key: "s"
-        desc: "󰮰 Sheets"
-        cmd: "qutebrowser_quick docs.google.com/spreadsheets"
-  # }}}
-
   # Monitor: {{{
   - key: "m"
     desc: "󰕾 monitor"
@@ -314,6 +287,50 @@ menu:
       - key: "Y"
         desc: "󰊽 YouTube Account"
         cmd: "firefox 'https://youtube.com/account'"
-# }}}
+  # }}}
+
+  # Office Suites: {{{
+  - key: "w"
+    desc: " Office Suite"
+    submenu:
+      # Google Suite: {{{
+      - key: "g"
+        desc: "󰊶 Google Suite"
+        submenu:
+          - key: "a"
+            desc: "󰍎 Map"
+            cmd: "qutebrowser_quick maps.google.com"
+          - key: "c"
+            desc: "󰸗 Calendar"
+            cmd: "qutebrowser_quick calendar.google.com"
+          - key: "d"
+            desc: "󰈙 Docs"
+            cmd: "qutebrowser_quick docs.google.com"
+          - key: "g"
+            desc: " Mail"
+            cmd: "qutebrowser_quick mail.google.com"
+          - key: "m"
+            desc: "󰕧 Meet"
+            cmd: "qutebrowser_quick meet.google.com"
+          - key: "p"
+            desc: "󰐩 Slides"
+            cmd: "qutebrowser_quick docs.google.com/presentation"
+          - key: "s"
+            desc: "󰮰 Sheets"
+            cmd: "qutebrowser_quick docs.google.com/spreadsheets"
+            # }}}
+
+      # Canva: {{{
+      - key: "c"
+        desc: "󰐩 Canva"
+        cmd: "qutebrowser_quick www.canva.com"
+      # }}}
+
+      # PDF editor: {{{
+      - key: "p"
+        desc: " Smallpdf"
+        cmd: "qutebrowser_quick https://smallpdf.com/"
+      # }}}
+  # }}}
 
 # vim: foldmethod=marker foldlevel=0
