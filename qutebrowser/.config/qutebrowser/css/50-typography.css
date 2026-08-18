@@ -106,8 +106,15 @@ a {
   color: var(--od-blue) !important;
 }
 
+/* TEMPORARY FIX (see qutebrowser/qutebrowser#8921): QtWebEngine 6.11 no
+ * longer marks links as visited, so `:visited` matches nothing on 3.7.x.
+ * The greasemonkey/visited-links-tmp.user.js script recolors session-clicked
+ * links directly; this rule is what applies that color via the engine's own
+ * :visited machinery once the upstream fix lands. --od-dimmed-purple was
+ * ~invisible on --od-bg0; --od-purple is clearly distinct from --od-blue.
+ * REMOVE/RESTORE when #8921 is resolved. */
 a:visited {
-  color: var(--od-dimmed-purple) !important;
+  color: var(--od-dark-blue) !important;
 }
 
 a:hover,
