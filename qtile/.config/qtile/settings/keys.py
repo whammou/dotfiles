@@ -93,7 +93,7 @@ keys = (
         Key(
             [mod, "shift"],
             "t",
-            lazy.layout.spawn_tab("wlr-which-key"),
+            lazy.layout.spawn_tab("wlr-which-key", level=1),
             desc="Tab shift",
         ),
         Key(
@@ -106,6 +106,110 @@ keys = (
             [mod, "shift"],
             "p",
             lazy.layout.spawn_tab("wlr-which-key", position="previous"),
+            desc="Tab shift prev",
+        ),
+        Key(
+            [mod, "mod1"],
+            "s",
+            lazy.layout.spawn("wlr-which-key config-x11.yaml"),
+            desc="Spawn",
+        ),
+        Key(
+            [mod, "mod1"],
+            "f",
+            lazy.layout.spawn_float("wlr-which-key config-x11.yaml"),
+            desc="Scratchpad (floating)",
+        ),
+        Key(
+            [mod, "mod1", "control"],
+            "f",
+            lazy.layout.spawn_float("rofi -show drun -m -1"),
+            desc="Scratchpad (floating)",
+        ),
+        Key(
+            [mod, "mod1"],
+            "v",
+            lazy.layout.spawn_split("wlr-which-key config-x11.yaml", "x"),
+            desc="Split right",
+        ),
+        Key(
+            [mod, "mod1"],
+            "x",
+            lazy.layout.spawn_split("wlr-which-key config-x11.yaml", "y"),
+            desc="Split below",
+        ),
+        Key(
+            [mod, "mod1", "shift"],
+            "v",
+            lazy.layout.spawn_split(
+                "wlr-which-key config-x11.yaml", "x", position="previous"
+            ),
+            desc="Split left",
+        ),
+        Key(
+            [mod, "mod1", "shift"],
+            "x",
+            lazy.layout.spawn_split(
+                "wlr-which-key config-x11.yaml", "y", position="previous"
+            ),
+            desc="Split above",
+        ),
+        Key(
+            [mod, "mod1"],
+            "t",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml"),
+            desc="Tab",
+        ),
+        Key(
+            [mod, "mod1"],
+            "n",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml", position="next"),
+            desc="Tab next",
+        ),
+        Key(
+            [mod, "mod1"],
+            "p",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml", position="previous"),
+            desc="Tab prev",
+        ),
+        Key(
+            [mod, "mod1", "control"],
+            "t",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml", new_level=True),
+            desc="Tab new level",
+        ),
+        Key(
+            [mod, "mod1", "control"],
+            "n",
+            lazy.layout.spawn_tab(
+                "wlr-which-key config-x11.yaml", new_level=True, position="next"
+            ),
+            desc="Tab new level next",
+        ),
+        Key(
+            [mod, "mod1", "control"],
+            "p",
+            lazy.layout.spawn_tab(
+                "wlr-which-key config-x11.yaml", new_level=True, position="previous"
+            ),
+            desc="Tab new level prev",
+        ),
+        Key(
+            [mod, "mod1", "shift"],
+            "t",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml"),
+            desc="Tab shift",
+        ),
+        Key(
+            [mod, "mod1", "shift"],
+            "n",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml", position="next"),
+            desc="Tab shift next",
+        ),
+        Key(
+            [mod, "mod1", "shift"],
+            "p",
+            lazy.layout.spawn_tab("wlr-which-key config-x11.yaml", position="previous"),
             desc="Tab shift prev",
         ),
     ]
