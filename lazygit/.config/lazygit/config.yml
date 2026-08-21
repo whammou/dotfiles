@@ -242,7 +242,7 @@ git:
   #
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
   # for more information.
-  pagers: []
+  diffRenderers: []
   # Config relating to committing
   commit:
     # If true, pass '--signoff' flag when committing
@@ -521,7 +521,7 @@ keybinding:
     prevTab: "["
     nextScreenMode: +
     prevScreenMode: _
-    cyclePagers: "|"
+    cycleDiffRenderers: "|"
     undo: z
     redo: Z
     filteringMenu: <c-s>
