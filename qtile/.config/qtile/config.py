@@ -23,17 +23,26 @@ def autostart():
     qtile.spawn([path.join(qtile_path, "autostart.sh")])
 
 
-@hook.subscribe.unlocked
-@hook.subscribe.startup
-def session_start():
-    qtile.spawn("systemctl --user start qtile-session.target")
-    qtile.spawn("systemctl --user restart screensaver")
+# Lock state: qtile-lock.target mirrors lock/unlock.
+#   locked   -> systemctl --user start qtile-lock.target
+#   unlocked -> systemctl --user stop qtile-lock.target
+# Session services (qtile-session.target wants) declare
+# Conflicts=qtile-lock.target, so they pause while locked and are restarted
+# by `start qtile-session.target` on unlock.
+# qtile.service's PartOf=qtile-session.target is cleared via
+# qtile.service.d/lifecycle.conf, so locking never stops the compositor.
 
 
-@hook.subscribe.shutdown
 @hook.subscribe.locked
 def session_lock():
-    qtile.spawn("systemctl --user stop qtile-session.target")
+    qtile.spawn("systemctl --user stop qtile-unlock.target")
+
+
+@hook.subscribe.unlocked
+@hook.subscribe.startup
+def session_unlock():
+    qtile.spawn("systemctl --user start qtile-unlock.target")
+    qtile.spawn("systemctl --user restart screensaver")
 
 
 wl_input_rules = {
