@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "opencode/deepseek-v4-flash-free",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "variant": "max",
       "fallback_models": [
         "opencode/big-pickle",
@@ -12,7 +12,7 @@
       "color": "#c678dd"
     },
     "hephaestus": {
-      "model": "groq/openai/gpt-oss-120b",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "variant": "medium",
       "fallback_models": [
         "opencode/big-pickle",
@@ -140,7 +140,7 @@
       ]
     },
     "deep": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "variant": "medium",
       "fallback_models": [
         {
@@ -167,7 +167,7 @@
       ]
     },
     "quick": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         {
           "model": "opencode/claude-haiku-4-5"
@@ -181,7 +181,7 @@
       ]
     },
     "unspecified-low": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         {
           "model": "opencode/gpt-5.3-codex",
@@ -193,7 +193,7 @@
       ]
     },
     "unspecified-high": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         {
           "model": "opencode/gpt-5.3-codex",
