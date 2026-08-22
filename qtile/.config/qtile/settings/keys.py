@@ -24,8 +24,8 @@ keys = (
     + [
         Key([mod], "s", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
         Key(
-            [mod],
-            "f",
+            [mod, "Shift"],
+            "s",
             lazy.layout.spawn_float("wlr-which-key"),
             desc="Scratchpad (floating)",
         ),

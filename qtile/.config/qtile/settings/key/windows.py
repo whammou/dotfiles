@@ -170,12 +170,70 @@ def focus_titling(group):
     group.focus(group.layout.last_focused_window)
 
 
+@lazy.function
+def pull_floating_to_tab(qtile):
+    """Handle M-u for both floating and tiled windows.
+
+    Floating windows are not in the Bonsai tree, so they must first be
+    tiled via ``disable_floating()`` which triggers ``Group.mark_floating``
+    -> ``Layout.add_client``. Then focus the newly tiled window and pull
+    it out to a new tab at the nearest TabContainer.
+    """
+    win = qtile.current_window
+    if win is not None and win.floating:
+        try:
+            win.disable_fullscreen()
+        except Exception:
+            pass
+        win.disable_floating()
+        group = qtile.current_group
+        if group is not None:
+            group.focus(win)
+            layout = group.layout
+            pane = getattr(layout, "focused_pane", None)
+            tree = getattr(layout, "_tree", None)
+            if pane is not None and tree is not None:
+                try:
+                    tree.pull_out_to_tab(pane, normalize=True)
+                except ValueError:
+                    return
+                group.layout_all()
+            else:
+                func = getattr(layout, "pull_out_to_tab", None)
+                if func is not None:
+                    func()
+    else:
+        group = qtile.current_group
+        if group is not None:
+            layout = group.layout
+            func = getattr(layout, "pull_out_to_tab", None)
+            if func is not None:
+                func()
+
+
 windows_keys = [
     EzKey("M-m", lazy.window.keep_below()),
-    EzKey("M-h", lazy.window.move_floating(-32, 0).when(when_floating=True)),
-    EzKey("M-l", lazy.window.move_floating(+32, 0).when(when_floating=True)),
-    EzKey("M-k", lazy.window.move_floating(0, -18).when(when_floating=True)),
-    EzKey("M-j", lazy.window.move_floating(0, +18).when(when_floating=True)),
+    # Swap Windows
+    EzKey(
+        "M-S-h",
+        lazy.layout.swap("left").when(when_floating=False),
+        lazy.window.move_floating(-32, 0).when(when_floating=True),
+    ),
+    EzKey(
+        "M-S-l",
+        lazy.layout.swap("right").when(when_floating=False),
+        lazy.window.move_floating(+32, 0).when(when_floating=True),
+    ),
+    EzKey(
+        "M-S-k",
+        lazy.layout.swap("up").when(when_floating=False),
+        lazy.window.move_floating(0, -18).when(when_floating=True),
+    ),
+    EzKey(
+        "M-S-j",
+        lazy.layout.swap("down").when(when_floating=False),
+        lazy.window.move_floating(0, +18).when(when_floating=True),
+    ),
     Key(
         ["mod4", "control"],
         "equal",
@@ -208,39 +266,47 @@ windows_keys = [
         lazy.window.center(),
         desc="Shrink floating window maintaining aspect ratio",
     ),
-    Key(
-        [mod],
-        "period",
-        focus_next_floating_and_front(),
-        desc="Focus next floating window",
-    ),
-    Key(
-        [mod],
-        "comma",
-        focus_prev_floating_and_front(),
-        desc="Focus previous floating window",
-    ),
-    Key(
-        [mod, "Shift"],
-        "comma",
-        focus_prev_floating_and_front(),
-        desc="Focus previous floating window",
-    ),
+    # Key(
+    #     [mod],
+    #     "period",
+    #     focus_next_floating_and_front(),
+    #     desc="Focus next floating window",
+    # ),
+    # Key(
+    #     [mod],
+    #     "comma",
+    #     focus_prev_floating_and_front(),
+    #     desc="Focus previous floating window",
+    # ),
+    # Key(
+    #     [mod, "Shift"],
+    #     "comma",
+    #     focus_prev_floating_and_front(),
+    #     desc="Focus previous floating window",
+    # ),
     # Resize windows
     # EzKey("M-C-h", lazy.layout.resize("left", 100)),
     # EzKey("M-C-l", lazy.layout.resize("right", 100)),
     # EzKey("M-C-k", lazy.layout.resize("up", 100)),
     # EzKey("M-C-j", lazy.layout.resize("down", 100)),
+    # Navigate
+    EzKey(
+        "M-h",
+        lazy.layout.left().when(when_floating=False),
+        focus_prev_floating_and_front().when().when(when_floating=True),
+    ),
+    EzKey(
+        "M-l",
+        lazy.layout.right().when(when_floating=False),
+        focus_prev_floating_and_front().when(when_floating=True),
+    ),
+    EzKey("M-k", lazy.layout.up()),
+    EzKey("M-j", lazy.layout.down()),
     # Resize windows 3x
     EzKey("M-C-h", lazy.layout.resize("left", 300)),
     EzKey("M-C-l", lazy.layout.resize("right", 300)),
     EzKey("M-C-k", lazy.layout.resize("up", 150)),
     EzKey("M-C-j", lazy.layout.resize("down", 150)),
-    # Swap Windows
-    EzKey("M-S-h", lazy.layout.swap("left")),
-    EzKey("M-S-l", lazy.layout.swap("right")),
-    EzKey("M-S-k", lazy.layout.swap("up")),
-    EzKey("M-S-j", lazy.layout.swap("down")),
     # Swap tabs
     EzKey("A-S-b", lazy.layout.swap_tabs("previous")),
     EzKey("A-S-f", lazy.layout.swap_tabs("next")),
@@ -249,16 +315,16 @@ windows_keys = [
     EzKey("M-i", lazy.layout.select_container_inner()),
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
-    EzKey("M-<Tab>", focus_back()),
-    EzKey("M-S-<Escape>", lazy.function(toggle_tiling_floating_focus)),
+    # EzKey("M-<Tab>", focus_back()),
+    EzKey("M-<grave>", lazy.function(toggle_tiling_floating_focus)),
     EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
     EzKey(
         "M-<Escape>",
         lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
     ),
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
-    EzKey("M-z", lazy.window.toggle_fullscreen()),
-    EzKey("M-S-z", toggle_floating()),
+    EzKey("M-f", lazy.window.toggle_fullscreen()),
+    EzKey("M-<Tab>", toggle_floating()),
     # Floating Windows
     EzKey("A-S-0", floats_to_front()),
     # Rofi menu
@@ -281,7 +347,7 @@ windows_keys = [
             # Pull window out
             EzKey("M-o", lazy.layout.pull_out(position="next")),
             EzKey("S-o", lazy.layout.pull_out(position="previous")),
-            EzKey("M-u", lazy.layout.pull_out_to_tab()),
+            EzKey("M-u", pull_floating_to_tab()),
             # Merge window to tab
             KeyChord(
                 [mod],

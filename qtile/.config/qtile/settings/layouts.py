@@ -1,7 +1,10 @@
 from libqtile import hook, layout, qtile
 from libqtile.command.base import expose_command
 from libqtile.config import Match
+from typing import cast
+
 from qtile_bonsai import Bonsai
+from qtile_bonsai.tree import BonsaiPane
 
 from .screens import GAP, OFFSET
 from .theme import colors
@@ -163,6 +166,8 @@ class MyCustomBonsai(Bonsai):
 
         if isinstance(spec, str):
             geom = scratchpad_layout(preset=spec)
+            if geom is None:
+                return
             sw, sh = screen.width, screen.height
             w = int(sw * geom["width"])
             h = int(sh * geom["height"])
@@ -177,10 +182,10 @@ class MyCustomBonsai(Bonsai):
             self.last_focused_window = self.focused_window
         super().focus(window)
 
-    def _handle_add_client__normal(self, window):
+    def _handle_add_client__normal(self, window) -> BonsaiPane:
         wm_class = window.get_wm_class()
         if wm_class and self._is_excluded(wm_class):
-            pane = self._tree.tab()
+            pane = cast(BonsaiPane, self._tree.tab())
             self._reset_next_window_handler()
             return pane
         return super()._handle_add_client__normal(window)
@@ -191,6 +196,64 @@ class MyCustomBonsai(Bonsai):
             return False
         wm_lower = [c.lower() for c in wm_class]
         return any(exc.lower() in wm_lower for exc in self.excluded_wm_classes)
+
+    @expose_command
+    def pull_floating_to_tab(self, *, normalize: bool = True):
+        """Pull the currently focused floating window into a new tab.
+
+        If the focused window is floating, it is first tiled via
+        ``disable_floating()`` (which triggers ``Group.mark_floating`` ->
+        ``Layout.add_client``), focused, then pulled out to a new tab at
+        the nearest ``TabContainer`` via Bonsai's ``pull_out_to_tab``.
+        If the window is already tiled, it is simply pulled out to a tab.
+        """
+        win = self.group.current_window
+        if win is None:
+            return
+        if win.floating:
+            try:
+                win.disable_fullscreen()
+            except Exception:
+                pass
+            win.disable_floating()
+            self.group.focus(win)
+        if self._tree.is_empty:
+            return
+        pane = self.focused_pane
+        if pane is None:
+            return
+        if self._cancel_if_unsupported_container_select_mode_op():
+            return
+        try:
+            self._tree.pull_out_to_tab(pane, normalize=normalize)
+        except ValueError:
+            return
+        self._request_relayout()
+
+    @expose_command
+    def pull_out_to_tab(self, *, normalize: bool = True):
+        """Extract the currently focused window into a new tab.
+
+        Handles floating windows for backward compat by delegating to
+        ``pull_floating_to_tab`` when the focused window is floating.
+        Otherwise behaves like the parent ``Bonsai.pull_out_to_tab``.
+        """
+        win = self.group.current_window
+        if win is not None and win.floating:
+            self.pull_floating_to_tab(normalize=normalize)
+            return
+        if self._tree.is_empty:
+            return
+        pane = self.focused_pane
+        if pane is None:
+            return
+        if self._cancel_if_unsupported_container_select_mode_op():
+            return
+        try:
+            self._tree.pull_out_to_tab(pane, normalize=normalize)
+        except ValueError:
+            return
+        self._request_relayout()
 
 
 @hook.subscribe.group_window_add
@@ -253,7 +316,9 @@ layouts = [
             "window.active.border_color": BORDER_COLOR,
             "window.margin": [0, GAP, GAP * 2, GAP],
             "window.default_add_mode": smart_split,
-            "excluded_wm_classes": ["mpv"],
+            "excluded_wm_classes": [
+                # "mpv"
+            ],
             "float_sizes": {
                 # -- kitty --app-id terminal apps
                 "org-agenda": "pad_large",
@@ -354,6 +419,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(wm_class="vimiv"),
         Match(wm_class="mpv-float"),
+        Match(wm_class="mpv"),
         Match(wm_class="matplotlib"),
         Match(wm_class="feh"),
         Match(wm_class="fileselect"),
