@@ -1,16 +1,11 @@
 from libqtile import hook, layout, qtile
-from libqtile.command.base import expose_command
 from libqtile.config import Match
-from typing import cast
+import os
 
-from qtile_bonsai import Bonsai
-from qtile_bonsai.tree import BonsaiPane
-
+from .layout.custom_bonsai import MyCustomBonsai
 from .screens import GAP, OFFSET
 from .theme import colors
 from .smart_bonsai import smart_split
-from .group.scratchpads import scratchpad_layout
-import os
 
 _last_focused = None
 _suppress_floating_hide = False
@@ -53,19 +48,6 @@ def play_floating_sound(window):
         qtile.spawn(f"pw-play --media-role=Notification --volume=1.0 {sound_path}")
 
 
-def restore_tree_view(group):
-    """Restore Bonsai's tree view to show the last tiled window's tab."""
-    if group.layout.last_focused_window:
-        group.layout.focus(group.layout.last_focused_window)
-        group.layout_all()
-
-
-def restore_focus(window):
-    """Restore focus to window. The suppression flag is reset by on_client_focus."""
-    if window.group is not None:
-        window.group.focus(window)
-
-
 @hook.subscribe.client_focus
 def on_client_focus(window):
     global _last_focused, _suppress_floating_hide
@@ -85,222 +67,96 @@ def on_client_focus(window):
     _suppress_floating_hide = False
 
 
-# @hook.subscribe.group_window_add
-# def maintain_focus(group, window):
-#    history = group.focus_history
-#    prev_floating = history[-1]
-#    prev_window = history[-2]
-#
-#    if group.current_window.floating and len(history) > 1:
-#        group.qtile.call_soon(lambda: group.focus(prev_window))
-#    group.qtile.call_soon(lambda: group.focus(prev_floating))
-
-
-class MyCustomBonsai(Bonsai):
-    def __init__(self, *args, **kwargs):
-        self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
-        self.float_sizes = kwargs.pop("float_sizes", {})
-        super().__init__(*args, **kwargs)
-        self.last_focused_window = None
-        self._pending_float = False
-
-    def _spawn_program(self, program: str):
-        """
-        Override: clear any stale ``_pending_float`` before spawning.
-
-        ``_spawn_program`` is the single gateway for all layout-initiated
-        spawns (``spawn_split``, ``spawn_tab``, ``spawn``).  By clearing
-        the flag here we cover every non-float spawn path automatically,
-        including any future methods the parent class might add.
-        """
-        self._pending_float = False
-        super()._spawn_program(program)
-
-    @expose_command
-    def spawn_float(self, program: str):
-        """
-        Launch the provided program and ensure the resulting window is floating.
-
-        Like ``spawn_split`` / ``spawn_tab``, but the spawned window is placed
-        on the floating layer instead of being added to the Bonsai tree.
-        """
-        self._pending_float = True
-        # Bypass _spawn_program (which would clear _pending_float) by calling
-        # the parent implementation directly.
-        Bonsai._spawn_program(self, program)
-
-    @expose_command
-    def spawn(self, program: str):
-        """
-        Plain spawn — clears ``_pending_float``, then delegates.
-
-        Replacement for ``lazy.spawn()`` in keybindings that need the flag
-        cleared (e.g. ``mod+s`` which otherwise leaves a stale float flag
-        after a cancelled ``spawn_float``).
-        """
-        self._spawn_program(program)
-
-    def add_client(self, window):
-        if self._pending_float:
-            self._pending_float = False
-            self._reset_next_window_handler()
-            window.enable_floating()
-            if window.group:
-                window.group.mark_floating(window, True)
-                self._apply_float_size(window)
-            return
-        super().add_client(window)
-
-    def _apply_float_size(self, window):
-        """Apply configured size preset to a floating window."""
-        wm_class = window.get_wm_class()
-        if not wm_class:
-            return
-        klass = wm_class[0].lower()
-        spec = self.float_sizes.get(klass)
-        if not spec:
-            return
-        screen = window.group.screen
-        if not screen:
-            return
-
-        if isinstance(spec, str):
-            geom = scratchpad_layout(preset=spec)
-            if geom is None:
-                return
-            sw, sh = screen.width, screen.height
-            w = int(sw * geom["width"])
-            h = int(sh * geom["height"])
-        else:
-            w, h = int(spec[0]), int(spec[1])
-
-        window.set_size_floating(w, h)
-        window.center()
-
-    def focus(self, window):
-        if self.focused_window:
-            self.last_focused_window = self.focused_window
-        super().focus(window)
-
-    def _handle_add_client__normal(self, window) -> BonsaiPane:
-        wm_class = window.get_wm_class()
-        if wm_class and self._is_excluded(wm_class):
-            pane = cast(BonsaiPane, self._tree.tab())
-            self._reset_next_window_handler()
-            return pane
-        return super()._handle_add_client__normal(window)
-
-    def _is_excluded(self, wm_class):
-        """Check if a window's WM_CLASS matches any excluded class (case-insensitive)."""
-        if not self.excluded_wm_classes:
-            return False
-        wm_lower = [c.lower() for c in wm_class]
-        return any(exc.lower() in wm_lower for exc in self.excluded_wm_classes)
-
-    @expose_command
-    def pull_floating_to_tab(self, *, normalize: bool = True):
-        """Pull the currently focused floating window into a new tab.
-
-        If the focused window is floating, it is first tiled via
-        ``disable_floating()`` (which triggers ``Group.mark_floating`` ->
-        ``Layout.add_client``), focused, then pulled out to a new tab at
-        the nearest ``TabContainer`` via Bonsai's ``pull_out_to_tab``.
-        If the window is already tiled, it is simply pulled out to a tab.
-        """
-        win = self.group.current_window
-        if win is None:
-            return
-        if win.floating:
-            try:
-                win.disable_fullscreen()
-            except Exception:
-                pass
-            win.disable_floating()
-            self.group.focus(win)
-        if self._tree.is_empty:
-            return
-        pane = self.focused_pane
-        if pane is None:
-            return
-        if self._cancel_if_unsupported_container_select_mode_op():
-            return
-        try:
-            self._tree.pull_out_to_tab(pane, normalize=normalize)
-        except ValueError:
-            return
-        self._request_relayout()
-
-    @expose_command
-    def pull_out_to_tab(self, *, normalize: bool = True):
-        """Extract the currently focused window into a new tab.
-
-        Handles floating windows for backward compat by delegating to
-        ``pull_floating_to_tab`` when the focused window is floating.
-        Otherwise behaves like the parent ``Bonsai.pull_out_to_tab``.
-        """
-        win = self.group.current_window
-        if win is not None and win.floating:
-            self.pull_floating_to_tab(normalize=normalize)
-            return
-        if self._tree.is_empty:
-            return
-        pane = self.focused_pane
-        if pane is None:
-            return
-        if self._cancel_if_unsupported_container_select_mode_op():
-            return
-        try:
-            self._tree.pull_out_to_tab(pane, normalize=normalize)
-        except ValueError:
-            return
-        self._request_relayout()
-
 
 @hook.subscribe.group_window_add
-def maintain_focus(group, window):
-    global _suppress_floating_hide
-
-    prev_window = group.current_window
-    if prev_window is not None:
-        if prev_window.floating:
-            _suppress_floating_hide = True
-            # Deferred: Qtile's auto-focus of the new window will
-            # update the tree view to B's tab via Bonsai.focus(new).
-            # Run AFTER that to restore view to the last tiled tab.
-            group.qtile.call_soon(lambda: restore_tree_view(group))
-        # Keep focus on the current window when a new window spawns,
-        # regardless of window type (float or tiled). Without this,
-        # new windows steal focus on creation.
-        group.qtile.call_soon(lambda: restore_focus(prev_window))
+def no_focus_steal(group, window):
+    if group.current_window is not None:
+        window.can_steal_focus = False
 
 
-@hook.subscribe.client_killed
-def after_kill_fallback(window):
-    group = window.group
-    if not group:
+@hook.subscribe.group_window_remove
+def after_killed_focus_same_L1(group, window):
+    from qtile_bonsai import Bonsai
+    from qtile_bonsai.core.nodes import Tab
+
+    layout = group.layout
+    if not isinstance(layout, Bonsai):
         return
-
-    # When a floating window is killed (e.g. LibreOffice transient banner),
-    # don't run the floating-window-priority focus path — let qtile's
-    # default focus handling (focus_previous_on_window_remove) take over.
-    if window.floating:
+    if layout._tree.is_empty:
         return
+    try:
+        qtile_inst = getattr(group, "qtile", None)
+        is_floating = bool(getattr(window, "floating", False))
+        # capture killed window's L1 tab before Group removes it — stay in same L1, no tab switch
+        killed_L1 = None
+        try:
+            pane = layout._windows_to_panes.get(window) if not is_floating else None
+            base = pane or layout.focused_pane
+            if base is None:
+                try:
+                    base = next(layout._tree.iter_panes())
+                except StopIteration:
+                    base = None
+            if base is not None:
+                tabs = list(reversed(base.get_ancestors(Tab)))
+                if tabs:
+                    killed_L1 = tabs[0]
+        except Exception:
+            killed_L1 = None
 
-    def restore():
-        # Qtile's built-in focus handling (focus_previous_on_window_remove
-        # and layout.remove()) already resolved focus. Don't override it.
-        if group.current_window is not window:
-            return
+        if is_floating:
+            removed = []
+            try:
+                idx = group.focus_history.index(window)
+                i = idx - 1
+                while i >= 0 and getattr(group.focus_history[i], "floating", False):
+                    removed.append(group.focus_history[i])
+                    i -= 1
+                for w in removed:
+                    try:
+                        group.focus_history.remove(w)
+                    except ValueError:
+                        pass
+                if removed and qtile_inst:
 
-        # Genuine fallback: no window was focused by qtile's defaults.
-        # Restore the layout's last focused window, but only if it's
-        # tiling — focusing a floating window here would trigger a
-        # show/hide cascade that creates a flicker.
-        target = group.layout.last_focused_window
-        if target and not target.floating:
-            group.focus(target)
+                    def _reinsert():
+                        for w in removed:
+                            if w not in group.focus_history and w in group.windows:
+                                group.focus_history.append(w)
 
-    group.qtile.call_soon(restore)
+                    qtile_inst.call_soon(_reinsert)
+            except (ValueError, IndexError, AttributeError):
+                pass
+
+        def _restore():
+            if group.current_window is window:
+                return
+            try:
+                target_tab = killed_L1
+                if target_tab is None or target_tab not in list(layout._tree.iter_walk()):
+                    cur_pane = layout.focused_pane
+                    if cur_pane is None:
+                        try:
+                            cur_pane = next(layout._tree.iter_panes())
+                        except StopIteration:
+                            return
+                    tabs = list(reversed(cur_pane.get_ancestors(Tab)))
+                    if not tabs:
+                        return
+                    target_tab = tabs[0]
+                target_pane = layout._tree.find_mru_pane(start_node=target_tab)
+                target = getattr(target_pane, "window", None) if target_pane else None
+                if target and not target.floating and target.group is group:
+                    if group.current_window is not target:
+                        group.focus(target, warp=False)
+            except Exception:
+                return
+
+        if qtile_inst:
+            qtile_inst.call_soon(_restore)
+        _restore()
+    except Exception:
+        return
 
 
 BORDER_WIDTH = 3

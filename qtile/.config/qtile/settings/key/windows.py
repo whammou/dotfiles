@@ -155,19 +155,7 @@ def toggle_tiling_floating_focus(qtile):
         current_group.focus(target_window)
 
 
-@lazy.group.function
-def focus_back(group):
-    history = group.focus_history
-    if len(history) < 2:
-        return
-    target_window = history[-2]
-    if target_window:
-        group.focus(target_window)
 
-
-@lazy.group.function
-def focus_titling(group):
-    group.focus(group.layout.last_focused_window)
 
 
 @lazy.function
@@ -317,7 +305,6 @@ windows_keys = [
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     # EzKey("M-<Tab>", focus_back()),
     EzKey("M-<grave>", lazy.function(toggle_tiling_floating_focus)),
-    EzKey("M-C-<Escape>", lazy.group["scratchpad"].hide_all(), focus_titling()),
     EzKey(
         "M-<Escape>",
         lazy.function(toggle_tiling_floating_focus).when(when_floating=True),

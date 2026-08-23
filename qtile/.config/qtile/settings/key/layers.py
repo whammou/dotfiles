@@ -22,33 +22,9 @@ def focus_visible_window(mod, window_index, **spawn):
 
 @lazy.function
 def focus_nth_tab_keep_floating(qtile, n: int, level: int):
-    """Switch bonsai tab without losing focus on floating window.
-
-    If current window is floating, suppress hide_floating_win and restore
-    focus after Bonsai's _request_focus (mirrors maintain_focus pattern in
-    settings/layouts.py).
-    """
-    group = qtile.current_group
-    cur = qtile.current_window
-    layout = group.layout
-
-    if not isinstance(layout, Bonsai) or cur is None or not cur.floating:
-        if isinstance(layout, Bonsai):
-            layout.focus_nth_tab(n, level=level)
-        return
-
-    import settings.layouts as L
-
-    L._suppress_floating_hide = True
-    layout.focus_nth_tab(n, level=level)
-
-    def _restore():
-        if cur.group is not None:
-            group.focus(cur)
-            cur.bring_to_front()
-            L.show_floating_win(cur)
-
-    qtile.call_soon(_restore)
+    layout = qtile.current_group.layout
+    if isinstance(layout, Bonsai):
+        layout.focus_nth_tab(n, level=level)
 
 
 def change_tab_layer(mod, tab_layer, tab_index):
