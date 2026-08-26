@@ -85,6 +85,12 @@ def no_focus_steal(group, window):
 
 @hook.subscribe.group_window_remove
 def after_killed_focus_same_L1(group, window):
+    # ensure window in focus_history so Group.remove's index() doesn't ValueError (can_steal_focus=False leaves new window out of history → ghost + crash on M-S-2)
+    try:
+        if window not in group.focus_history:
+            group.focus_history.append(window)
+    except Exception:
+        pass
     from qtile_bonsai import Bonsai
     from qtile_bonsai.core.nodes import Tab
 
@@ -166,6 +172,77 @@ def after_killed_focus_same_L1(group, window):
         _restore()
     except Exception:
         return
+
+
+@hook.subscribe.client_killed
+def clean_ghost_panes(window):
+    try:
+        all_groups = getattr(qtile, "groups", []) or []
+        qt_inst = getattr(window, "qtile", None) or getattr(qtile, "qtile", None) or qtile
+
+        def _clean():
+            for grp in list(all_groups):
+                lay = getattr(grp, "layout", None)
+                from qtile_bonsai import Bonsai as _B
+
+                if not isinstance(lay, _B):
+                    continue
+                ghosts = []
+                try:
+                    live_panes = set(lay._tree.iter_panes())
+                    for win, pane in list(lay._windows_to_panes.items()):
+                        if pane not in live_panes or getattr(pane, "window", None) is None or getattr(pane, "window", None) not in grp.windows:
+                            if pane not in live_panes:
+                                ghosts.append((win, pane))
+                            elif getattr(pane, "window", None) is None:
+                                ghosts.append((win, pane))
+                            elif getattr(pane, "window", None) not in grp.windows:
+                                ghosts.append((win, pane))
+                    for pane in list(lay._tree.iter_panes()):
+                        if getattr(pane, "window", None) is None:
+                            for win, p in list(lay._windows_to_panes.items()):
+                                if p is pane:
+                                    ghosts.append((win, pane))
+                                    break
+                            else:
+                                try:
+                                    lay._tree.remove(pane, normalize=True)
+                                except Exception:
+                                    pass
+                except Exception:
+                    continue
+                for win, pane in ghosts:
+                    try:
+                        if pane in set(lay._tree.iter_walk()):
+                            try:
+                                lay._tree.remove(pane, normalize=True)
+                            except Exception:
+                                pass
+                    except Exception:
+                        pass
+                    try:
+                        if win in lay._windows_to_panes:
+                            del lay._windows_to_panes[win]
+                    except Exception:
+                        pass
+                if ghosts:
+                    try:
+                        lay._request_relayout()
+                    except Exception:
+                        pass
+                    try:
+                        grp.layout_all()
+                    except Exception:
+                        pass
+
+        _clean()
+        try:
+            if qt_inst:
+                qt_inst.call_soon(_clean)
+        except Exception:
+            pass
+    except Exception:
+        pass
 
 
 BORDER_WIDTH = 3

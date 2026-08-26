@@ -181,11 +181,53 @@ class MyCustomBonsai(Bonsai):
                 tc = ancestor_tcs[level - 1]
                 if not (0 < n <= len(tc.children)):
                     return
-                tc.active_child = tc.children[n - 1]
+                target_tab = tc.children[n - 1]
+                try:
+                    gpane = self._tree.find_mru_pane(start_node=target_tab)
+                    gwin = getattr(gpane, "window", None) if gpane else None
+                    if gpane is None or gwin is None or gwin not in self.group.windows:
+                        try:
+                            if gpane and gpane in set(self._tree.iter_panes()):
+                                self._tree.remove(gpane, normalize=True)
+                            else:
+                                self._tree.remove(target_tab, normalize=True)
+                        except Exception:
+                            pass
+                        self._request_relayout()
+                        return
+                except Exception:
+                    pass
+                tc.active_child = target_tab
                 self._request_relayout()
                 return
             except Exception:
                 return
+        # ghost check for non-keep path before super which would crash on window None
+        try:
+            base = self.focused_pane
+            if base is not None:
+                from qtile_bonsai.core.nodes import TabContainer as _TC2
+
+                tcs = list(reversed(base.get_ancestors(_TC2)))
+                if 0 < level <= len(tcs) or level == -1:
+                    lvl = len(tcs) if level == -1 else level
+                    tc2 = tcs[lvl - 1]
+                    if 0 < n <= len(tc2.children):
+                        tt = tc2.children[n - 1]
+                        gp = self._tree.find_mru_pane(start_node=tt)
+                        gw = getattr(gp, "window", None) if gp else None
+                        if gp is None or gw is None or gw not in self.group.windows:
+                            try:
+                                if gp and gp in set(self._tree.iter_panes()):
+                                    self._tree.remove(gp, normalize=True)
+                                else:
+                                    self._tree.remove(tt, normalize=True)
+                            except Exception:
+                                pass
+                            self._request_relayout()
+                            return
+        except Exception:
+            pass
         super().focus_nth_tab(n, level=level)
 
     @expose_command
@@ -203,6 +245,15 @@ class MyCustomBonsai(Bonsai):
             pane = self._tree.next_tab(base, level=level, wrap=wrap)
             if pane is None:
                 return
+            gw = getattr(pane, "window", None)
+            if gw is None or gw not in self.group.windows:
+                try:
+                    if pane in set(self._tree.iter_panes()):
+                        self._tree.remove(pane, normalize=True)
+                    self._request_relayout()
+                except Exception:
+                    pass
+                return
             try:
                 from qtile_bonsai.core.nodes import Tab, TabContainer
 
@@ -216,6 +267,22 @@ class MyCustomBonsai(Bonsai):
             except Exception:
                 return
             return
+        # ghost check before super which would crash on dead window
+        try:
+            base2 = self.focused_pane or next(self._tree.iter_panes(), None)
+            if base2 is not None:
+                gp = self._tree.next_tab(base2, level=level, wrap=wrap)
+                gw2 = getattr(gp, "window", None) if gp else None
+                if gp is None or gw2 is None or gw2 not in self.group.windows:
+                    if gp and gp in set(self._tree.iter_panes()):
+                        try:
+                            self._tree.remove(gp, normalize=True)
+                        except Exception:
+                            pass
+                    self._request_relayout()
+                    return
+        except Exception:
+            pass
         super().next_tab(level=level, wrap=wrap)
 
     @expose_command
@@ -233,6 +300,15 @@ class MyCustomBonsai(Bonsai):
             pane = self._tree.prev_tab(base, level=level, wrap=wrap)
             if pane is None:
                 return
+            gw = getattr(pane, "window", None)
+            if gw is None or gw not in self.group.windows:
+                try:
+                    if pane in set(self._tree.iter_panes()):
+                        self._tree.remove(pane, normalize=True)
+                    self._request_relayout()
+                except Exception:
+                    pass
+                return
             try:
                 from qtile_bonsai.core.nodes import Tab, TabContainer
 
@@ -246,6 +322,21 @@ class MyCustomBonsai(Bonsai):
             except Exception:
                 return
             return
+        try:
+            base2 = self.focused_pane or next(self._tree.iter_panes(), None)
+            if base2 is not None:
+                gp = self._tree.prev_tab(base2, level=level, wrap=wrap)
+                gw2 = getattr(gp, "window", None) if gp else None
+                if gp is None or gw2 is None or gw2 not in self.group.windows:
+                    if gp and gp in set(self._tree.iter_panes()):
+                        try:
+                            self._tree.remove(gp, normalize=True)
+                        except Exception:
+                            pass
+                    self._request_relayout()
+                    return
+        except Exception:
+            pass
         super().prev_tab(level=level, wrap=wrap)
 
     @expose_command
