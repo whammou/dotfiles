@@ -70,8 +70,17 @@ def on_client_focus(window):
 
 @hook.subscribe.group_window_add
 def no_focus_steal(group, window):
-    if group.current_window is not None:
+    prev = group.current_window
+    if prev is not None:
         window.can_steal_focus = False
+        qtile_inst = getattr(group, "qtile", None)
+        if qtile_inst:
+
+            def _reclaim():
+                if getattr(window, "floating", False) and window.group is group and prev.group is group:
+                    group.focus(prev, warp=False)
+
+            qtile_inst.call_soon(_reclaim)
 
 
 @hook.subscribe.group_window_remove

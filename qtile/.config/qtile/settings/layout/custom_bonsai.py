@@ -55,10 +55,20 @@ class MyCustomBonsai(Bonsai):
         if self._pending_float:
             self._pending_float = False
             self._reset_next_window_handler()
+            prev = self.group.current_window if self.group else None
             window.enable_floating()
             if window.group:
                 window.group.mark_floating(window, True)
                 self._apply_float_size(window)
+            if prev and prev.group is self.group:
+                qtile_inst = getattr(self.group, "qtile", None)
+                if qtile_inst:
+                    qtile_inst.call_soon(
+                        lambda: self.group.focus(prev, warp=False)
+                        if prev.group is self.group
+                        else None
+                    )
+                self.group.focus(prev, warp=False)
             return
         should_keep_tree = (
             not window.can_steal_focus
