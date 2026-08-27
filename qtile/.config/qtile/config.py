@@ -46,18 +46,22 @@ def session_unlock():
 
 
 wl_input_rules = {
-    "TPPS/2 IBM TrackPoint": InputConfig(events=False, dwt=True, left_handed=True),
+    # Disable accel for every pointer: flat profile + speed 0 = no accel (libinput)
+    # Verified via get_inputs 2026-08-28 — TrackPoint is 2:10:TPPS/2 IBM TrackPoint
+    "2:10:TPPS/2 IBM TrackPoint": InputConfig(
+        dwt=True, left_handed=True, pointer_accel=0.5, accel_profile="flat"
+    ),
     "*": InputConfig(
         left_handed=False,
-        pointer_accel=False,
-        send_events=False,
+        pointer_accel=0,
+        accel_profile="flat",
         tap=False,
         dwt=True,
-        events=False,
     ),
-    # keyd handles capslock→esc (not ctrl) and rightalt→nav (not compose)
-    # via default.conf — so kb_options is intentionally empty here.
-    "type:keyboard": InputConfig(),
+    "type:keyboard": InputConfig(
+        kb_layout="qtile-ralt-nav",
+        kb_options="caps:swapescape",
+    ),
 }
 
 dgroups_key_binder = None
