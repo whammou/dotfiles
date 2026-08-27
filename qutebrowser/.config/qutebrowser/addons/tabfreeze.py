@@ -15,14 +15,14 @@ from qutebrowser.config import config
 from qutebrowser.misc import objects
 from qutebrowser.qt import sip
 from qutebrowser.qt.core import (
-    QEvent, QMetaObject, QObject, QSize, QTimer, Qt, pyqtSlot,
+    QEvent, QMetaObject, QObject, QPointF, QSize, QTimer, Qt, pyqtSlot,
 )
-from qutebrowser.qt.gui import QImage, QKeyEvent, QPixmap, QWindow
+from qutebrowser.qt.gui import QImage, QKeyEvent, QMouseEvent, QPixmap, QWindow
 from qutebrowser.qt.webenginecore import (
     QWebEngineLoadingInfo,
     QWebEnginePage,
 )
-from qutebrowser.qt.widgets import QLabel, QWidget
+from qutebrowser.qt.widgets import QApplication, QLabel, QWidget
 from qutebrowser.utils import log, objreg
 from qutebrowser.utils.usertypes import LoadStatus
 
@@ -126,7 +126,9 @@ _expire_painted: dict[int, bool] = {}
 _SETTLE_SECONDS = 0.3
 # How long after its last real input an interacted window may keep
 # reporting itself unfocused before its wake is cleared (see _last_input).
-_WAKE_GRACE_SECONDS = 0.3
+# 1.5s keeps a mouse-woken window alive long enough for Wayland focus to
+# arrive (click → requestActivate is async), matching key-press stay-up.
+_WAKE_GRACE_SECONDS = 1.5
 # The re-pin is event-driven: a step only runs when the engine painted
 # (Paint events fire when it presents a new frame at the new size), so
 # there is no blind scan loop. These bound the wait instead:
@@ -591,6 +593,9 @@ def _show_overlay(widget: Any, preview: QPixmap | None) -> None:
     label.setPixmap(preview)
     # Scaled so the pin stretches with the widget: a resize while frozen
     # otherwise leaves stale-size content that does not cover the window.
+    # Transparent for mouse: clicks pass through to the underlying
+    # QWebEngineView, while InputFilter wakes the tab before delivery so
+    # the click lands on the live page (click-through).
     label.setScaledContents(True)
     label.setGeometry(widget.rect())
     label.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
@@ -1093,28 +1098,50 @@ def _window_id_for(a0: QObject | None) -> int | None:
     Input events are delivered to the focused widget, usually a child
     deep inside the tab, so the owning window is found by climbing the
     widget chain to the one that owns a QWindow and matching that
-    handle against the registry.
+    handle against the registry. Falls back to widget ancestry when
+    handle/winId matching fails (Wayland).
     """
     if a0 is None:
         return None
+    handle: QWindow | None = None
+    w_for_ancestry: QWidget | None = None
     if isinstance(a0, QWindow):
         handle = a0
     else:
-        handle = None
         w = a0 if isinstance(a0, QWidget) else None
+        w_for_ancestry = w
         while w is not None:
             handle = w.windowHandle()
             if handle is not None:
                 break
             w = w.parentWidget()
-        if handle is None:
-            return None
-    for win_id, window in objreg.window_registry.items():
-        if sip.isdeleted(window):
-            continue
-        win_handle = window.windowHandle()
-        if win_handle is not None and win_handle.winId() == handle.winId():
-            return win_id
+    if handle is not None:
+        for win_id, window in objreg.window_registry.items():
+            if sip.isdeleted(window):
+                continue
+            win_handle = window.windowHandle()
+            if win_handle is not None and win_handle.winId() == handle.winId():
+                return win_id
+    if w_for_ancestry is not None:
+        for win_id, window in objreg.window_registry.items():
+            if sip.isdeleted(window):
+                continue
+            try:
+                tab_widget = window.tabbed_browser.widget  # type: ignore[attr-defined]
+            except Exception:
+                continue
+            if tab_widget is None or sip.isdeleted(tab_widget):
+                continue
+            cur: QWidget | None = w_for_ancestry
+            while cur is not None:
+                if cur is tab_widget or cur is window:
+                    return win_id
+                cur = cur.parentWidget()
+            try:
+                if w_for_ancestry.window() is window:
+                    return win_id
+            except Exception:
+                pass
     return None
 
 
@@ -1218,19 +1245,54 @@ class _InputFilter(QObject):
             ):
                 return False
         else:
-            win_id = _window_id_for(a0)
-            if win_id is None:
-                return False
-            window = objreg.window_registry.get(win_id)
-            if window is None or sip.isdeleted(window):
-                return False
-            win_handle = window.windowHandle()
-            if win_handle is None or not win_handle.isActive():
-                # Pointer input over an unfocused window (hover wheel,
-                # a click that has not activated it yet) must not wake
-                # the tab; the compositor activates the window before
-                # delivering the press that focuses it.
-                return False
+            if a1.type() == QEvent.Type.Wheel:
+                win_id = _window_id_for(a0)
+                if win_id is None:
+                    return False
+                window = objreg.window_registry.get(win_id)
+                if window is None or sip.isdeleted(window):
+                    return False
+                win_handle = window.windowHandle()
+                if win_handle is None or not win_handle.isActive():
+                    # Wheel over an unfocused window (hover scroll) must
+                    # not wake; only real interaction wakes.
+                    return False
+            else:
+                win_id = _window_id_for(a0)
+                if win_id is None:
+                    return False
+                window = objreg.window_registry.get(win_id)
+                if window is None or sip.isdeleted(window):
+                    return False
+                win_handle = window.windowHandle()
+                if win_handle is not None and not win_handle.isActive():
+                    try:
+                        win_handle.requestActivate()
+                    except Exception:
+                        pass
+                # Immediate wake for click-through: if the click landed on a
+                # frozen tab (overlay present), make it live before the event
+                # is delivered to the page so the click actually hits the
+                # element instead of just waking the tab for the next click.
+                try:
+                    w = a0 if isinstance(a0, QWidget) else None
+                    frozen_widget = None
+                    while w is not None:
+                        if id(w) in _overlays:
+                            frozen_widget = w
+                            break
+                        w = w.parentWidget()
+                    if frozen_widget is not None:
+                        page = getattr(frozen_widget, "page", lambda: None)()
+                        if page is not None and not sip.isdeleted(page):
+                            if page.lifecycleState() == QWebEnginePage.LifecycleState.Frozen:
+                                _drop_overlay(frozen_widget)
+                                page.setVisible(True)
+                                page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+                            elif id(frozen_widget) in _overlays:
+                                _drop_overlay(frozen_widget)
+                except Exception:
+                    log.misc.exception("tabfreeze: click immediate wake failed")
         # Any input proves the window is being used. Always re-run the
         # pass: a poll may have frozen the tab after the first input, so
         # a later input must wake it again instead of being swallowed by
