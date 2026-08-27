@@ -14,8 +14,8 @@ auto_kbd_layout: true
 
 menu:
   - key: "f"
-    desc: "Hint click"
+    desc: "󰳽 Hint click"
     cmd: "wl-kbptr -o modes=click,floating -o mode_floating.source=detect"
   - key: "F"
-    desc: "Hint hover"
+    desc: " Hint hover"
     cmd: "wl-kbptr -o modes=floating -o mode_floating.source=detect"
