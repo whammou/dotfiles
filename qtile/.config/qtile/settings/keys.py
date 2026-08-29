@@ -22,10 +22,10 @@ keys = (
     + focus_nth_floating([mod, "shift"], range(1, 10))
     + change_tab_layer([mod, "shift"], range(1, 10), range(1, 10))
     + [
-        Key([mod], "s", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
+        Key([mod], "space", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
         Key(
             [mod, "Shift"],
-            "s",
+            "space",
             lazy.layout.spawn_float("wlr-which-key"),
             desc="Scratchpad (floating)",
         ),
@@ -110,7 +110,7 @@ keys = (
         ),
         Key(
             [mod, "mod1"],
-            "s",
+            "space",
             lazy.layout.spawn("wlr-which-key config-x11.yaml"),
             desc="Spawn",
         ),

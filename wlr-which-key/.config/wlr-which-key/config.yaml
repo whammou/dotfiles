@@ -13,23 +13,13 @@ inhibit_compositor_keyboard_shortcuts: false
 auto_kbd_layout: true
 
 menu:
-  # AI: {{{
+  - key: "Return"
+    desc: " Terminal"
+    cmd: "kitty"
+
   - key: "a"
-    desc: "󰚩 AI"
-    submenu:
-      - key: "e"
-        desc: "󰞐 Gemini"
-        cmd: "qutebrowser_quick gemini.google.com"
-      - key: "g"
-        desc: " ChatGPT"
-        cmd: "qutebrowser_quick chatgpt.com"
-      - key: "o"
-        desc: "󰶤 OpenCode Attach"
-        cmd: "kitty --app-id=opencode-attach --hold -e opencode attach -p Unlimitednova199- https://opencode.whammou.dedyn.io --dir /home/whammou --continue"
-      - key: "O"
-        desc: " OpenCode"
-        cmd: "kitty --app-id=opencode --hold -e opencode"
-  # }}}
+    desc: " Applications"
+    cmd: "rofi -show drun -m -1"
 
   # Qutebrowser: {{{
   - key: "b"
@@ -67,7 +57,7 @@ menu:
         cmd: "qutebrowser_quick chat.zalo.me/"
   # }}}
 
-  # Yazi: {{{
+  # Explorer: {{{
   - key: "e"
     desc: "󰉋 yazi"
     submenu:
@@ -80,6 +70,24 @@ menu:
       - key: "s"
         desc: "󰖩 SFTP Homelab"
         cmd: "kitty --app-id=yazi-sftp -e yazi sftp://homelab"
+  # }}}
+
+  # LLM: {{{
+  - key: "l"
+    desc: "󰚩 LLM"
+    submenu:
+      - key: "e"
+        desc: "󰞐 Gemini"
+        cmd: "qutebrowser_quick gemini.google.com"
+      - key: "g"
+        desc: " ChatGPT"
+        cmd: "qutebrowser_quick chatgpt.com"
+      - key: "o"
+        desc: "󰶤 OpenCode Attach"
+        cmd: "kitty --app-id=opencode-attach --hold -e opencode attach -p Unlimitednova199- https://opencode.whammou.dedyn.io --dir /home/whammou --continue"
+      - key: "O"
+        desc: " OpenCode"
+        cmd: "kitty --app-id=opencode --hold -e opencode"
   # }}}
 
   # Monitor: {{{

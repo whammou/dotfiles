@@ -26,8 +26,7 @@ functional_keys = [
     Key([], "XF86Explorer", lazy.spawn("adapter-switch")),
     Key([mod], "Print", lazy.spawn("flameshot screen")),
     Key([mod, "Shift"], "Print", lazy.spawn("flameshot gui")),
-    Key([mod], "Space", lazy.spawn("toggle-trackpoint")),
-    Key([mod, "Shift"], "Space", lazy.spawn("_keyboard_toggle")),
+    Key([mod], "semicolon", lazy.spawn("wlr-which-key inputs.yaml")),
     Key(
         [mod],
         "Delete",

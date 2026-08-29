@@ -1,0 +1,24 @@
+font: "HasklugNerdFont 13"
+background: "#31353f"
+color: "#abb2bf"
+border: "#98c379"
+separator: "    ➜ "
+border_width: 2
+corner_r: 0
+padding: 15
+rows_per_column: 6
+column_padding: 25
+anchor: bottom
+inhibit_compositor_keyboard_shortcuts: false
+auto_kbd_layout: true
+
+menu:
+  - key: "o"
+    desc: " Toggle Trackpoint"
+    cmd: "toggle-trackpoint 'TPPS/2 IBM TrackPoint' 󰳽"
+  - key: "a"
+    desc: " Toggle Trackpad"
+    cmd: "toggle-trackpoint 'Synaptics TM3075-002' 󰟸"
+  - key: "k"
+    desc: " Toggle Keyboard"
+    cmd: "_keyboard_toggle"
