@@ -1,6 +1,9 @@
 #!/usr/bin/bash
 
-qtile cmd-obj -o core -f hide_cursor &>/dev/null &
+wlrctl pointer move 99999 99999
+sudo noinputs -i "TPPS/2 IBM TrackPoint"
+sudo noinputs -i "Synaptics TM3075-002"
+
 #unclutter a --start-hidden & # Hide cursor
 #dunst &
 fcitx5 -d &>/dev/null &    # Input method
