@@ -11,7 +11,7 @@ regexes = [
 ]
 
 [[handlers]]
-exec = "handlr launch .mkv %u"
+exec = "mpv %u"
 terminal = false
 regexes = ['https?:\/\/[^\s\/$.?#].[^\s]*\.(?:mp4|mkv)$']
 
@@ -34,10 +34,10 @@ regexes = ['^https://[^\s/]+/.*\.org(?:\?[^\s]*)?(?:\#[^\s]*)?$']
 #  '^\/.*\.pdf(?:\?[^\s]*)?(?:\#[^\s]*)?$',
 # ]
 
-# YouTube video URLs → mpv (handlr launch .mkv routes to mpv)
+# YouTube video URLs → mpv (mpv routes to mpv)
 # Channel/playlist/feed URLs → not matched here, falls through to default browser
 [[handlers]]
-exec = "handlr launch .mkv %u"
+exec = "mpv %u"
 terminal = false
 regexes = ['https?://(www\.|m\.)?(youtube\.com/(watch\?|embed/|v/)|youtu\.be/)']
 
