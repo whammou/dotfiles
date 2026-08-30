@@ -1,0 +1,347 @@
+font: "HasklugNerdFont 13"
+background: "#31353f"
+color: "#abb2bf"
+border: "#98c379"
+separator: "    ➜ "
+border_width: 2
+corner_r: 0
+padding: 15
+rows_per_column: 6
+column_padding: 25
+anchor: bottom
+inhibit_compositor_keyboard_shortcuts: false
+auto_kbd_layout: true
+
+menu:
+  - key: "Return"
+    desc: " Terminal"
+    cmd: "kitty"
+
+  - key: "a"
+    desc: " Applications"
+    cmd: "rofi -show drun -m -1"
+
+  # Qutebrowser: {{{
+  - key: "b"
+    desc: "󰖟 qutebrowser"
+    submenu:
+      - key: "i"
+        desc: "󱀣 Incognito"
+        cmd: "qutebrowser -T -C /home/whammou/.config/qutebrowser/config.py --set tabs.tabs_are_windows false"
+      - key: "p"
+        desc: "󱓥 Open Clipboard"
+        cmd: qb-url
+      - key: "s"
+        desc: "󰍉 Search"
+        cmd: qutebrowser_search
+      - key: "t"
+        desc: "󰝜 Tabbed"
+        cmd: qutebrowser_tabbed
+  # }}}
+
+  # Chat: {{{
+  - key: "c"
+    desc: "󰭻 chat"
+    submenu:
+      - key: "b"
+        desc: "󰯯 Beeper"
+        cmd: "qutebrowser_quick chat.beeper.com"
+      - key: "d"
+        desc: " Discord Web"
+        cmd: "qutebrowser_quick discord.com/app"
+      - key: "D"
+        desc: "󰙯 Discord App"
+        cmd: discord
+      - key: "z"
+        desc: "󱆖 Zalo"
+        cmd: "qutebrowser_quick chat.zalo.me/"
+  # }}}
+
+  # Explorer: {{{
+  - key: "e"
+    desc: "󰉋 yazi"
+    submenu:
+      - key: "h"
+        desc: "󰋜 Home"
+        cmd: "kitty --app-id=yazi -e yazi $HOME"
+      - key: "n"
+        desc: "󰌾 Journal"
+        cmd: "kitty --app-id=yazi-journal -e yazi /home/whammou/Journal"
+      - key: "s"
+        desc: "󰖩 SFTP Homelab"
+        cmd: "kitty --app-id=yazi-sftp -e yazi sftp://homelab"
+  # }}}
+
+  # LLM: {{{
+  - key: "l"
+    desc: "󰚩 LLM"
+    submenu:
+      - key: "e"
+        desc: "󰞐 Gemini"
+        cmd: "qutebrowser_quick gemini.google.com"
+      - key: "g"
+        desc: " ChatGPT"
+        cmd: "qutebrowser_quick chatgpt.com"
+      - key: "o"
+        desc: "󰶤 OpenCode Attach"
+        cmd: "kitty --app-id=opencode-attach --hold -e opencode attach -p Unlimitednova199- https://opencode.whammou.dedyn.io --dir /home/whammou --continue"
+      - key: "O"
+        desc: " OpenCode"
+        cmd: "kitty --app-id=opencode --hold -e opencode"
+  # }}}
+
+  # Monitor: {{{
+  - key: "m"
+    desc: "󰕾 monitor"
+    submenu:
+      - key: "b"
+        desc: "󰂃 Battery"
+        cmd: "kitty --app-id=mon-battery -e monitor-battery"
+      - key: "B"
+        desc: "󰑐 Recalibrate"
+        cmd: "kitty --app-id=tlp-recalibrate --hold -e sudo tlp recalibrate"
+      - key: "c"
+        desc: "󰘚 CPU"
+        cmd: "kitty --app-id=watch-cpu -e watch-cpu"
+      - key: "d"
+        desc: "󰋊 Disk (ncdu)"
+        cmd: "kitty --app-id=ncdu -e ncdu --color dark /"
+      - key: "e"
+        desc: "󰄬 Emoji"
+        cmd: "kitty --app-id=fzf-emoji -e fzf-emoji"
+      - key: "g"
+        desc: "󰏓 GPU (nvtop)"
+        cmd: "kitty --app-id=nvtop -e nvtop"
+      - key: "m"
+        desc: "󰒓 X Set"
+        cmd: "kitty --app-id=xset -e watch -n 1 xset q"
+      - key: "p"
+        desc: "󰏥 Process (btm)"
+        cmd: "kitty --app-id=btm -e btm"
+      - key: "s"
+        desc: "󰅂 User Services"
+        cmd: "kitty --app-id=sysz-user -e sysz --user"
+      - key: "S"
+        desc: "󰅂 System Services"
+        cmd: "kitty --app-id=sysz-system -e sysz --system"
+      - key: "v"
+        desc: "󰁦 Voltage"
+        cmd: "kitty --app-id=mon-voltage -e monitor-voltage"
+  # }}}
+
+  # Orgmode: {{{
+  - key: "o"
+    desc: " orgmode"
+    submenu:
+      - key: "a"
+        desc: "󰸗 Agenda"
+        cmd: "kitty --app-id=org-agenda -e orgmode-agenda"
+      - key: "c"
+        desc: "󰏪 Capture"
+        cmd: "kitty --app-id=org-capture -e orgmode-capture"
+      - key: "d"
+        desc: "󰏪 Roam Capture"
+        cmd: "kitty --app-id=org-roam-capture -e orgroam-capture"
+      - key: "g"
+        desc: "󰊢 Journal Git"
+        cmd: "kitty --app-id=lazygit-journal -e lazygit -p /home/whammou/Journal"
+      - key: "l"
+        desc: "󰱭 Backlog"
+        cmd: "kitty --app-id=org-backlog -e orgmode-backlog"
+      - key: "m"
+        desc: "󰍉 Search"
+        cmd: "kitty --app-id=org-search -e orgmode-search"
+      - key: "N"
+        desc: "󰙨 Test Session"
+        cmd: "kitty --app-id=test-session --session /home/whammou/Workspace/kitty-session/test.session"
+      - key: "o"
+        desc: "󰸗 Super Agenda"
+        cmd: "kitty --app-id=org-super-agenda -e orgmode-super-agenda"
+      - key: "z"
+        desc: "󰖟 Browse"
+        cmd: "kitty --app-id=org-browse -e orgmode-browse"
+  # }}}
+
+  # SSH: {{{
+  - key: "s"
+    desc: "󰒍 SSH"
+    submenu:
+      - key: "0"
+        desc: "󰒍 Session 0"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 0''"'
+      - key: "1"
+        desc: "󰒍 Session 1"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 1''"'
+      - key: "2"
+        desc: "󰒍 Session 2"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 2''"'
+      - key: "3"
+        desc: "󰒍 Session 3"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 3''"'
+      - key: "4"
+        desc: "󰒍 Session 4"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 4''"'
+      - key: "5"
+        desc: "󰒍 Session 5"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 5''"'
+      - key: "6"
+        desc: "󰒍 Session 6"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 6''"'
+      - key: "7"
+        desc: "󰒍 Session 7"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 7''"'
+      - key: "8"
+        desc: "󰒍 Session 8"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 8''"'
+      - key: "9"
+        desc: "󰒍 Session 9"
+        cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 9''"'
+  # }}}
+
+  # Tmux: {{{
+  - key: "t"
+    desc: "󰆍 tmux"
+    submenu:
+      - key: "0"
+        desc: "󰆍 Session 0"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 0"
+      - key: "1"
+        desc: "󰆍 Session 1"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 1"
+      - key: "2"
+        desc: "󰆍 Session 2"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 2"
+      - key: "3"
+        desc: "󰆍 Session 3"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 3"
+      - key: "4"
+        desc: "󰆍 Session 4"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 4"
+      - key: "5"
+        desc: "󰆍 Session 5"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 5"
+      - key: "6"
+        desc: "󰆍 Session 6"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 6"
+      - key: "7"
+        desc: "󰆍 Session 7"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 7"
+      - key: "8"
+        desc: "󰆍 Session 8"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 8"
+      - key: "9"
+        desc: "󰆍 Session 9"
+        cmd: "kitty --app-id=tmux-session -e tmux-session-attach 9"
+  # }}}
+
+  # Utility: {{{
+  - key: "u"
+    desc: "󰑩 utility"
+    submenu:
+      - key: "a"
+        desc: "󰈰 Anime (fzf)"
+        cmd: "kitty --app-id=anifzf -e anifzf"
+      - key: "A"
+        desc: "󰈰 Anime CLI"
+        cmd: "kitty --app-id=ani-cli -e ani-cli -c"
+      - key: "b"
+        desc: "󰂯 Bluetooth"
+        cmd: "kitty --app-id=bluetuith -e bluetuith"
+      - key: "c"
+        desc: "󰃬 Calculator"
+        cmd: "kitty --app-id=calculator --title='CAL | Calculator' -e .venv/calculator/bin/python -i .local/bin/calc"
+      - key: "d"
+        desc: "󰈮 Dictionary"
+        cmd: "kitty --app-id=dict -e dict"
+      - key: "e"
+        desc: "󰏪 Neovim"
+        cmd: "kitty --app-id=nvim -e nvim"
+      - key: "g"
+        desc: "󰊢 Dotfiles Git"
+        cmd: "kitty --app-id=lazygit-dotfiles -e lazygit -p /home/whammou/dotfiles/"
+      - key: "l"
+        desc: "󰞐 Kari"
+        cmd: "kitty --app-id=kari -e kari"
+      - key: "m"
+        desc: "󰇮 Email (neomutt)"
+        cmd: "kitty --app-id=neomutt -e neomutt"
+      - key: "M"
+        desc: "󰈮 Manga"
+        cmd: "kitty --app-id=mangal -e mangal"
+      - key: "n"
+        desc: "󰏪 Rnote"
+        cmd: rnote
+      - key: "N"
+        desc: "󰂢 Notifications"
+        cmd: "kitty --app-id=notif-history -e notification_history"
+      - key: "r"
+        desc: "󰃵 RSS (newsboat)"
+        cmd: "kitty --app-id=newsboat -e newsboat"
+      - key: "s"
+        desc: "󰌜 Which Key"
+        cmd: wlr-which-key
+      - key: "S"
+        desc: "󰁟 Chess"
+        cmd: "kitty --app-id=chessterm -e chessterm --black_engine=/sbin/stockfish"
+      - key: "t"
+        desc: "󰌜 Type Test"
+        cmd: "kitty --app-id=typing-test --title='TT | Typing' -o font_size=20 -e tt --theme=mine --multi --nohighlight"
+      - key: "u"
+        desc: "󰑐 System Update"
+        cmd: "kitty --app-id=sys-upgrade --hold -e sh -c 'paru -Syy && paru -Syu && alert'"
+      - key: "y"
+        desc: "󰋼 YouTube TV"
+        cmd: "kitty --app-id=yt-x --title='YTX | Youtube' -e yt-x"
+      - key: "Y"
+        desc: "󰊽 YouTube Account"
+        cmd: "firefox 'https://youtube.com/account'"
+  # }}}
+
+  # Office Suites: {{{
+  - key: "w"
+    desc: " Office Suite"
+    submenu:
+      # Google Suite: {{{
+      - key: "g"
+        desc: "󰊶 Google Suite"
+        submenu:
+          - key: "a"
+            desc: "󰍎 Map"
+            cmd: "qutebrowser_quick maps.google.com"
+          - key: "c"
+            desc: "󰸗 Calendar"
+            cmd: "qutebrowser_quick calendar.google.com"
+          - key: "d"
+            desc: "󰈙 Docs"
+            cmd: "qutebrowser_quick docs.google.com"
+          - key: "g"
+            desc: " Mail"
+            cmd: "qutebrowser_quick mail.google.com"
+          - key: "m"
+            desc: "󰕧 Meet"
+            cmd: "qutebrowser_quick meet.google.com"
+          - key: "p"
+            desc: "󰐩 Slides"
+            cmd: "qutebrowser_quick docs.google.com/presentation"
+          - key: "s"
+            desc: "󰮰 Sheets"
+            cmd: "qutebrowser_quick docs.google.com/spreadsheets"
+            # }}}
+
+      # Canva: {{{
+      - key: "c"
+        desc: "󰐩 Canva"
+        cmd: "qutebrowser_quick www.canva.com"
+      # }}}
+
+      # PDF editor: {{{
+      - key: "s"
+        desc: " Smallpdf"
+        cmd: "qutebrowser_quick https://smallpdf.com/"
+      - key: "i"
+        desc: " Ihatepdf"
+        cmd: "qutebrowser_quick https://ihatepdf.cv/"
+      # }}}
+  # }}}
+
+# vim: foldmethod=marker foldlevel=0
