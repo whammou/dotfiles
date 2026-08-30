@@ -8,7 +8,7 @@ local heading_drawer = "\n\n* %?\n:PROPERTIES:\n:ID: %(return vim.fn.system('uui
 
 --- Task preamble: DOIN/PROG/NEXT/WAIT state sequence. Order matches actual task/*.org.
 local task_preamble =
-  [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+  [[#+TODO: TODO(t) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
 #+FILETAGS:]]
 
@@ -17,23 +17,23 @@ local task_preamble_recurring = task_preamble:gsub("#%+TODO: ", "#+TODO: RECR(l)
 
 --- Dev preamble: OPEN/PROG/NEXT state sequence.
 local dev_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: OPEN(y) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+#+TODO: OPEN(y) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
 #+FILETAGS:]] .. heading_drawer
 
 --- Milestone preamble: TODO state sequence.
 local milestone_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil
-#+TODO: TODO (t) (e) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
+#+TODO: TODO(t) PROG(g) INTR(q) NEXT(n) | ABRT(a) DONE(f) CLSD(c)
 #+FILETAGS:]] .. heading_drawer
 
 --- List preamble: different TODO with EXPL(s), TARGET(g), IDEA(i) + title:nil.
 local list_preamble = [[#+OPTIONS: todo:t tags:nil tasks:t ^:nil toc:nil title:nil
-#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(s) FDBK(b) NEXT(n) TARGET(g) | IDEA(i) ABRT(a) PRTL(r) RVIW(v) DONE(f)
+#+TODO: TODO(t) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(s) FDBK(b) NEXT(n) TARGET(h) | IDEA(i) ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+FILETAGS:]]
 
 --- Draft preamble: uses same full TODO as tasks, with draft-specific OPTIONS.
 --- Matches actual docs/draft.org (minus TITLE, which is file-specific).
 local draft_preamble =
-  [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+  [[#+TODO: TODO(t) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+FILETAGS:]]
 

@@ -42,9 +42,9 @@ require("orgmode").setup({
   org_deadline_warning_days = 7,
   org_todo_repeat_to_state = "RECR",
   org_todo_keywords = {
-    "TODO(t)", "OPEN(y)", "DOIN(d)", "PROG(g)", "INTR(q)", "(e)",
+    "TODO(t)", "OPEN(y)", "DOIN(d)", "PROG(g)", "INTR(q)",
     "PEND(p)", "OUTL(o)", "WAIT(w)", "EXPL(x)", "FDBK(b)", "NEXT(n)",
-    "TARGET(g)", "IDEA(i)", "TEST(s)", "RECR(l)", "|",
+    "TARGET(h)", "IDEA(i)", "TEST(s)", "RECR(l)", "|",
     "PRTL(r)", "DONE(f)", "RVIW(v)", "ABRT(a)", "CLSD(c)",
   },
   input = { use_vim_ui = true },
@@ -84,7 +84,7 @@ require("orgmode").setup({
     },
     menu = {
       handler = function(data)
-        Menu:new({
+        return Menu:new({
           window = {
             margin = { 1, 0, 1, 0 },
             padding = { 0, 1, 0, 1 },

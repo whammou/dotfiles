@@ -17,10 +17,10 @@ local roam_templates = {
   },
   n = {
     description = "New Document",
-    template = [[#+TODO: TODO(t) (e) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
+    template = [[#+TODO: TODO(t) DOIN(d) PROG(g) PEND(p) OUTL(o) EXPL(x) FDBK(b) WAIT(w) NEXT(n) IDEA(i) | ABRT(a) PRTL(r) RVIW(v) DONE(f)
 #+OPTIONS: title:nil tags:nil todo:nil ^:nil f:t num:t pri:nil toc:t
 #+FILETAGS:
-%?]],
+ %?]],
     target = "%^{Topic|" .. utils.get_topic_dirs() .. "}" .. "/docs/%[slug].org",
   },
 }
