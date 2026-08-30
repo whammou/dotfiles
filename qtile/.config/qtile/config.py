@@ -48,14 +48,18 @@ def session_unlock():
 wl_input_rules = {
     # Disable accel for every pointer: flat profile + speed 0 = no accel (libinput)
     # Verified via get_inputs 2026-08-28 — TrackPoint is 2:10:TPPS/2 IBM TrackPoint
-    "2:10:TPPS/2 IBM TrackPoint": InputConfig(
-        dwt=True, left_handed=True, pointer_accel=0.5, accel_profile="flat"
+    "type:pointer": InputConfig(
+        left_handed=False,
+        pointer_accel=0.5,
+        accel_profile="flat",
+        tap=False,
+        dwt=True,
     ),
-    "*": InputConfig(
+    "type:touchpad": InputConfig(
         left_handed=False,
         pointer_accel=0,
         accel_profile="flat",
-        tap=False,
+        tap=True,
         dwt=True,
     ),
     "type:keyboard": InputConfig(
