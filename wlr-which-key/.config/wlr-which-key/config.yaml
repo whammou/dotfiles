@@ -3,9 +3,9 @@ background: "#31353f"
 color: "#abb2bf"
 border: "#98c379"
 separator: "    ➜ "
-border_width: 2
+border_width: 1
 corner_r: 0
-padding: 15
+padding: 10
 rows_per_column: 6
 column_padding: 25
 anchor: bottom
