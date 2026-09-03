@@ -3,7 +3,7 @@ background: "#31353f"
 color: "#abb2bf"
 border: "#98c379"
 separator: "    ➜ "
-border_width: 1
+border_width: 2
 corner_r: 0
 padding: 10
 rows_per_column: 6
@@ -82,6 +82,32 @@ menu:
         desc: "󰝜 Tab New"
         cmd: "qspawn --tab --new-level 'wlr-which-key spawn.yaml'"
     # }}}
+  # Power Menu: {{{
+  - key: "q"
+    desc: "⏻ Power Menu"
+    submenu:
+      - key: "b"
+        desc: " Reboot"
+        cmd: "systemctl reboot"
+      - key: "g"
+        desc: "󰶐 Log Out"
+        cmd: "systemctl --user stop qtile.service"
+      - key: "h"
+        desc: " Hibernate"
+        cmd: "systemctl hibernate"
+      - key: "k"
+        desc: "󰷛 Lock Screen"
+        cmd: "swaylock"
+      - key: "l"
+        desc: " Reload Desktop"
+        cmd: "systemctl --user restart qtile.service"
+      - key: "s"
+        desc: "⏼ Shut Down"
+        cmd: "systemctl poweroff"
+      - key: "p"
+        desc: "󰒲 Suspend"
+        cmd: "systemctl suspend"
+  # }}}
 # }}}
 
 # vim: foldmethod=marker foldlevel=0

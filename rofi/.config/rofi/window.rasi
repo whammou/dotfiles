@@ -1,10 +1,9 @@
 window {
   location:        north;
-  width:           1906px;
-  y-offset:        8px;
+  width:           1912px;
+  y-offset:        4px;
   padding:         0;
-  border:          1px;
-  border-color:    @border-col;
+  border:          0;
   background-color: @bg;
 }
 

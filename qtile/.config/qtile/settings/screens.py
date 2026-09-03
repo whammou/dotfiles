@@ -7,7 +7,7 @@ from .path import wallpaper_path
 from os import path
 
 
-GAP = 2
+GAP = 1
 OFFSET = 1
 
 
@@ -22,9 +22,9 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        # wallpaper=select_wallpaper("od_qtile_bg_d.png"),
-        # wallpaper_mode="fill",
-        background="#181a1f",
+        wallpaper=select_wallpaper("/home/whammou/test.jpg"),
+        wallpaper_mode="fill",
+        # background="#181a1f",
         top=status_bar(
             widgets,
             margin=[

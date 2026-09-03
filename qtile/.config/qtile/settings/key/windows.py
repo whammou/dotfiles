@@ -155,9 +155,6 @@ def toggle_tiling_floating_focus(qtile):
         current_group.focus(target_window)
 
 
-
-
-
 @lazy.function
 def pull_floating_to_tab(qtile):
     """Handle M-u for both floating and tiled windows.
@@ -304,7 +301,7 @@ windows_keys = [
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     # EzKey("M-<Tab>", focus_back()),
-    EzKey("M-<grave>", lazy.function(toggle_tiling_floating_focus)),
+    EzKey("M-S-<grave>", lazy.function(toggle_tiling_floating_focus)),
     EzKey(
         "M-<Escape>",
         lazy.function(toggle_tiling_floating_focus).when(when_floating=True),

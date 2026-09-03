@@ -3,7 +3,7 @@ background: "#31353f"
 color: "#abb2bf"
 border: "#98c379"
 separator: "    ➜ "
-border_width: 1
+border_width: 2
 corner_r: 0
 padding: 10
 rows_per_column: 6
@@ -282,9 +282,6 @@ menu:
         desc: "󰃵 RSS (newsboat)"
         cmd: "kitty --app-id=newsboat -e newsboat"
       - key: "s"
-        desc: "󰌜 Which Key"
-        cmd: wlr-which-key
-      - key: "S"
         desc: "󰁟 Chess"
         cmd: "kitty --app-id=chessterm -e chessterm --black_engine=/sbin/stockfish"
       - key: "t"
@@ -299,6 +296,9 @@ menu:
       - key: "Y"
         desc: "󰊽 YouTube Account"
         cmd: "firefox 'https://youtube.com/account'"
+      - key: "w"
+        desc: "󰖩 Wifi Menu"
+        cmd: "kitty --class=nmcli-fzf -e sh nmwifi-fzf"
   # }}}
 
   # Office Suites: {{{
