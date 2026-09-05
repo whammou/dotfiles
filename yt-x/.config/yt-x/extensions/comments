@@ -365,11 +365,12 @@ menu_media_actions() {
   extra_actions="\
  ${THEME_FZF_ICON_COLOR_PRIMARY}${TXT_ICON_MENU_COMMENTS}${THEME_RESET}  ${TXT_MENU_COMMENTS}"
   # $1 (sort) reorders the combined menu by line index: the built-in menu is
-  # lines 1..20 (Watch .. Exit), the extra option lands at line 21. Listing
-  # 1,2,3,4,5 (Watch .. Mix), then 21 (Comments), then 6..20 (Save .. Exit)
+  # lines 1..21 (Watch .. Exit; this yt-x build adds "Open in browser
+  # (playlist)" as line 17), the extra option lands at line 22. Listing
+  # 1,2,3,4,5 (Watch .. Mix), then 22 (Comments), then 6..21 (Save .. Exit)
   # places Comments directly above Save. If a future yt-x version changes the
   # built-in action count, adjust the indices.
   _menu_media_actions \
-    "1,2,3,4,5,21,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20" \
+    "1,2,3,4,5,22,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21" \
     "" "$extra_actions" "__menu_media_actions_comments_handler"
 }
