@@ -1,28 +1,25 @@
 # yazi configs
 [opener]
 edit = [
-    { run = 'nvim %S', block = true, for = 'unix' },
+  { run = "nvim %S", block = true, for = "unix" },
 ]
 url_opener = [
-    { run = 'open-url "$@"', block = false, for = 'unix' },
+  { run = "open-url %S", block = false, for = "unix" },
 ]
 open = [
-    { run = 'xdg-open "$@"' ,block = false, for = 'unix' },
+  { run = "xdg-open %S", block = false, for = "unix" },
 ]
-mpv-audio = [
-    { run = 'mpv --no-video "$@"' ,block = true, for = 'unix' }
-]
-pdf-viewer = [
-    { run = 'zaread %S' ,block = true, for = 'unix' }
-]
+mpv-audio = [{ run = 'mpv --no-video "$@"', block = true, for = "unix" }]
+pdf-viewer = [{ run = "zaread %S", block = true, for = "unix" }]
+
 [open]
 prepend_rules = [
-    { url = "*.url", use = 'url_opener' },
-    { url = "*.html", use = 'open' },
-    { url = "*.mp3", use = 'mpv-audio' },
-    { url = "*.wav", use = 'mpv-audio' },
-    { mime = "text/*" , use = "edit" },
-    { url = "*.tmpl" , use = "edit" },
+  { url = "*.url", use = "url_opener" },
+  { url = "*.html", use = "open" },
+  { url = "*.mp3", use = "mpv-audio" },
+  { url = "*.wav", use = "mpv-audio" },
+  { mime = "text/*", use = "edit" },
+  { url = "*.tmpl", use = "edit" },
 ]
 
 [preview]
@@ -34,29 +31,36 @@ run = "noop"
 
 [[plugin.prepend_previewers]]
 url = "*/"
-run  = 'piper -- eza -TL=2 --color=always --icons=always --group-directories-first --no-quotes "$1"'
+run = 'piper -- eza -TL=2 --color=always --icons=always --group-directories-first --no-quotes "$1"'
 
 [[plugin.append_previewers]]
 url = "*"
-run  = 'piper -- hexyl --border=none --terminal-width=$w "$1"'
+run = 'piper -- hexyl --border=none --terminal-width=$w "$1"'
 
-# Disable preloaders and previewer for /server
+# mime-ext: use local+remote fetchers per 26.8.15 README (was url="*" run="mime-ext" which now stub-returns {})
 [[plugin.prepend_fetchers]]
-id   = "mime"
+id = "mime"
 group = "mime"
-url = "*"
-run  = "mime-ext"
+url = "local://*"
+run = "mime-ext.local"
+prio = "high"
+
+[[plugin.prepend_fetchers]]
+id = "mime"
+group = "mime"
+url = "remote://*"
+run = "mime-ext.remote"
 prio = "high"
 
 # Git change indicators
 [[plugin.prepend_fetchers]]
-id   = "git"
+id = "git"
 group = "git"
 url = "*"
-run  = "git"
+run = "git"
 
 [[plugin.prepend_fetchers]]
-id   = "git"
+id = "git"
 group = "git"
 url = "*/"
-run  = "git"
+run = "git"

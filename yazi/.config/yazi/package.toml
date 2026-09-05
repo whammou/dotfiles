@@ -1,12 +1,12 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "bb758e2"
-hash = "5b1c276b75cae91cbbdbe7863f39a540"
+rev = "4dc7f1b"
+hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "159eaba"
-hash = "7de446280b1ba8c49ffd86dbc24bbbe6"
+rev = "ea92cf4"
+hash = "9776f378459072b6c2875eae5addc49d"
 
 [[plugin.deps]]
 use = "Ape/open-with-cmd"
@@ -15,23 +15,23 @@ hash = "722a60eca1b338c9c24bb508d2d48578"
 
 [[plugin.deps]]
 use = "pirafrank/what-size"
-rev = "179ebf6"
-hash = "57056b9728006881d580ccabe8154a9c"
+rev = "1cb456f"
+hash = "7699acf73a1079f8a4afef5cec84ce73"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "bb758e2"
+rev = "4dc7f1b"
 hash = "7a4b4237223aaa94e589d1c01a23542a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "bb758e2"
-hash = "bc5da419b4337d0122ac531e705fa7b6"
+rev = "4dc7f1b"
+hash = "853240b2454c93a93fd03fc9fd7e06e8"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "bb758e2"
-hash = "88e56a64b7ce7c4314427452343fef17"
+rev = "4dc7f1b"
+hash = "5bb0bfab901d3601c370eafdd66edd31"
 
 [[plugin.deps]]
 use = "Ape/reflink"
@@ -45,28 +45,28 @@ hash = "6ea5f37c7f219671ec504cb8311f889d"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "406ce6c"
-hash = "f5afc904d5106ee368c8aa2ded43bd74"
+rev = "cfe4f50"
+hash = "eff5702573b6cfba61e4ac8b1969629a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "8f1d971"
-hash = "64713dcd74daf9ec644883a5895e5d1"
+rev = "4dc7f1b"
+hash = "45a533508a9840cc5a10cf6129f63e6a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "8f1d971"
-hash = "4fccaaf10c36dc2466e2438a386ff017"
+rev = "4dc7f1b"
+hash = "b95f898e6dc60b52edbc415952e14395"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "8f1d971"
-hash = "4c49c446328c4553a4ccab7facc10b21"
+rev = "4dc7f1b"
+hash = "3bcc00df11efc3ae5d15f2dba860be7"
 
 [[plugin.deps]]
 use = "boydaihungst/gvfs"
-rev = "6db0c60"
-hash = "4351334ef72ea0fb3bbafc6eec8738cf"
+rev = "a85d659"
+hash = "1866f00532ba80f895544f7348e89e53"
 
 [flavor]
 deps = []

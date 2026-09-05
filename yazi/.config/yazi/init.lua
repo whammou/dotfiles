@@ -21,7 +21,7 @@ require("git"):setup({
 })
 
 require("starship"):setup()
-require("mime-ext"):setup({
+require("mime-ext.local"):setup({
 	with_exts = {
 		org = "text/org",
 		target = "text/x-systemd-unit",
