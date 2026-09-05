@@ -60,6 +60,14 @@ class MyCustomBonsai(Bonsai):
             if window.group:
                 window.group.mark_floating(window, True)
                 self._apply_float_size(window)
+                # Hide immediately before window is drawn — prevents flash
+                # (deferred hide via hook would show then hide).
+                try:
+                    from settings.layouts import hide_floating_win
+
+                    hide_floating_win(window)
+                except Exception:
+                    pass
             if prev and prev.group is self.group:
                 qtile_inst = getattr(self.group, "qtile", None)
                 if qtile_inst:

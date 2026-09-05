@@ -42,26 +42,26 @@ def change_tab_layer(mod, tab_layer, tab_index):
     return keymaps
 
 
-# FOCUS FLOATING WINDOW
+# FOCUS FLOATING WINDOW — per-window hide/show with geometry restore
 @lazy.function
 def focus_nth_floating_window(qtile, index):
+    from settings.layouts import is_floating_hidden, show_floating_win
+
     group = qtile.current_group
     floating_windows = [w for w in group.windows if w.floating]
 
     try:
         window_to_focus = floating_windows[index]
+        if is_floating_hidden(window_to_focus):
+            show_floating_win(window_to_focus)
         window_to_focus.group.focus(window_to_focus)
         window_to_focus.bring_to_front()
     except IndexError:
-        # This block runs only if the index is out of range.
-        # 'pass' means "do nothing".
         pass
 
 
 def focus_nth_floating(mod, index):
     key_list = []
     for i in index:
-        key_list.append(
-            Key([], str(i), focus_nth_floating_window(i - 1), lazy.window.center())
-        )
+        key_list.append(Key([], str(i), focus_nth_floating_window(i - 1)))
     return [KeyChord(mod, "0", key_list)]

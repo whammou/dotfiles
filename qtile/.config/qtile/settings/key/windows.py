@@ -1,6 +1,6 @@
 from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
-from settings.layouts import hide_floating_win, show_floating_win
+from settings.layouts import hide_floating_win, is_floating_hidden, show_floating_win
 
 mod = "mod4"
 alt = "mod1"
@@ -12,14 +12,49 @@ def hide_all_floating(qtile):
     for window in group.windows:
         if window.floating:
             hide_floating_win(window)
-            window.keep_below()
 
 
 @lazy.window.function
 def toggle_floating(window):
-    window.disable_fullscreen()
-    window.toggle_floating()
-    show_floating_win(window)
+    from settings.layouts import (
+        _forget,
+        _remember_toggle_geom,
+        _restore_toggle_geom,
+        show_floating_win,
+    )
+
+    was_floating = bool(getattr(window, "floating", False))
+    try:
+        window.disable_fullscreen()
+    except Exception:
+        pass
+    if was_floating:
+        try:
+            _remember_toggle_geom(window)
+        except Exception:
+            pass
+        try:
+            _forget(window.wid)
+        except Exception:
+            pass
+        window.toggle_floating()
+    else:
+        window.toggle_floating()
+        try:
+            restored = _restore_toggle_geom(window)
+            if not restored:
+                # _restore already centers on miss, no extra work
+                pass
+        except Exception:
+            try:
+                window.center()
+            except Exception:
+                pass
+        try:
+            show_floating_win(window)
+            window.bring_to_front()
+        except Exception:
+            pass
 
 
 @lazy.function
@@ -27,8 +62,14 @@ def floats_to_front(qtile):
     for group in qtile.groups:
         for window in group.windows:
             if window.floating:
-                window.focus()
-                window.bring_to_front()
+                if is_floating_hidden(window):
+                    show_floating_win(window)
+                else:
+                    window.bring_to_front()
+                try:
+                    window.focus()
+                except Exception:
+                    pass
 
 
 @lazy.function
@@ -36,7 +77,6 @@ def floats_to_bottom(qtile):
     for group in qtile.groups:
         for window in group.windows:
             if window.floating:
-                window.keep_below()
                 hide_floating_win(window)
 
 
@@ -78,13 +118,13 @@ def focus_next_floating_and_front(qtile):
             next_index = (current_index + 1) % len(floating_windows)
             window_to_focus = floating_windows[next_index]
         except ValueError:
-            # Current window not in floating_windows (e.g., it was just made floating)
             window_to_focus = floating_windows[0]
     elif floating_windows:
-        # If currently focused is tiled, focus the first floating window
         window_to_focus = floating_windows[0]
 
     if window_to_focus:
+        if is_floating_hidden(window_to_focus):
+            show_floating_win(window_to_focus)
         window_to_focus.group.focus(window_to_focus)
 
 
@@ -112,6 +152,8 @@ def focus_prev_floating_and_front(qtile):
         window_to_focus = floating_windows[-1]
 
     if window_to_focus:
+        if is_floating_hidden(window_to_focus):
+            show_floating_win(window_to_focus)
         window_to_focus.group.focus(window_to_focus)
 
 
@@ -309,7 +351,6 @@ windows_keys = [
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
     EzKey("M-f", lazy.window.toggle_fullscreen()),
     EzKey("M-<Tab>", toggle_floating()),
-    # Floating Windows
     EzKey("A-S-0", floats_to_front()),
     # Rofi menu
     EzKey("M-S-w", lazy.spawn("rofi -show window")),

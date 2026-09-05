@@ -22,7 +22,7 @@ def select_wallpaper(wallpaper):
 
 screens = [
     Screen(
-        wallpaper=select_wallpaper("/home/whammou/test.jpg"),
+        wallpaper=select_wallpaper("monotone.jpg"),
         wallpaper_mode="fill",
         # background="#181a1f",
         top=status_bar(
