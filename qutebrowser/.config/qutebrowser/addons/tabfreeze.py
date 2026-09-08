@@ -203,11 +203,15 @@ def _connect(signal: Any, slot: Any) -> None:
 def _apply_state() -> None:
     global _last_pass_ts
     _last_pass_ts = time.monotonic()
+    start = time.monotonic()
     try:
         pending_grace = _apply_window_states()
     except Exception:
         log.misc.exception("tabfreeze: state pass failed")
         return
+    elapsed_ms = (time.monotonic() - start) * 1000
+    if elapsed_ms > 30:
+        log.misc.warning("tabfreeze: slow pass %.1fms", elapsed_ms)
     if pending_grace and _state_timer is not None:
         _schedule_state()
 
@@ -737,16 +741,40 @@ def _capture_preview(widget_id: int, widget: Any) -> None:
 
 
 def _on_tab_widget_destroyed(w: Any) -> None:
-    _tab_widgets.discard(id(w))
-    _resize_timers.pop(id(w), None)
+    wid = id(w)
+    _tab_widgets.discard(wid)
+    _hooked.discard(wid)
+    _resize_timers.pop(wid, None)
     _cancel_re_pin(w)
-    _active_since.pop(id(w), None)
-    _expire_painted.pop(id(w), None)
-    _win_sizes.pop(id(w), None)
-    _good_previews.pop(id(w), None)
-    _preview_verdicts.pop(id(w), None)
-    _freeze_grab_ts.pop(id(w), None)
-    _fp_cache.pop(id(w), None)
+    _active_since.pop(wid, None)
+    _expire_painted.pop(wid, None)
+    _win_sizes.pop(wid, None)
+    _previews.pop(wid, None)
+    label = _overlays.pop(wid, None)
+    if label is not None and not sip.isdeleted(label):
+        try:
+            label.deleteLater()
+        except Exception:
+            pass
+    _good_previews.pop(wid, None)
+    _preview_verdicts.pop(wid, None)
+    _freeze_grab_ts.pop(wid, None)
+    _fp_cache.pop(wid, None)
+    # _frozen_seen and _load_hooked are keyed by tab id, not widget id;
+    # they are cleaned when the tab's page is destroyed via _forget_page
+    # and in _apply_window_states, but also purge any stale widget-based
+    # entries that may have leaked via id reuse.
+    # Keep hook_conns bounded: remove any connections whose receiver is
+    # the destroyed widget (otherwise _hook_conns grows unbounded).
+    try:
+        for sig, slot in list(_hook_conns):
+            # Heuristic: if slot is a lambda capturing w, check closure
+            # We can't reliably detect, so just drop disconnected signals;
+            # _retire already handles full cleanup on config-source.
+            if getattr(sig, "__self__", None) is w:
+                _hook_conns.discard((sig, slot))
+    except Exception:
+        pass
     # A tab was killed: the layout reflows its siblings and the
     # compositor resizes them scene-graph-only (no QResizeEvent, no
     # Expose - same gap as a bonsai switch), so no pass would run and
@@ -1108,7 +1136,19 @@ def _window_id_for(a0: QObject | None) -> int | None:
     if isinstance(a0, QWindow):
         handle = a0
     else:
+        # Input (esp. wheel) often lands on non-QWidget receivers like
+        # the RenderWidgetHostViewQtDelegateItem; climb the QObject
+        # parent chain to the nearest QWidget ancestor first.
         w = a0 if isinstance(a0, QWidget) else None
+        if w is None:
+            try:
+                p = a0.parent()
+                while p is not None and not isinstance(p, QWidget):
+                    p = p.parent()
+                if isinstance(p, QWidget):
+                    w = p
+            except Exception:
+                w = None
         w_for_ancestry = w
         while w is not None:
             handle = w.windowHandle()
@@ -1142,6 +1182,19 @@ def _window_id_for(a0: QObject | None) -> int | None:
                     return win_id
             except Exception:
                 pass
+    return None
+
+
+def _overlay_widget_for_win(win_id: int) -> Any | None:
+    for wid, label in _overlays.items():
+        try:
+            widget = label.parentWidget()
+            if widget is None or sip.isdeleted(widget):
+                continue
+            if _window_id_for(widget) == win_id:
+                return widget
+        except Exception:
+            continue
     return None
 
 
@@ -1252,11 +1305,51 @@ class _InputFilter(QObject):
                 window = objreg.window_registry.get(win_id)
                 if window is None or sip.isdeleted(window):
                     return False
-                win_handle = window.windowHandle()
-                if win_handle is None or not win_handle.isActive():
-                    # Wheel over an unfocused window (hover scroll) must
-                    # not wake; only real interaction wakes.
-                    return False
+                # Immediate wake for scroll-through: make the page live
+                # before the wheel is delivered, otherwise the wheel that
+                # woke the tab is lost and the user must scroll again.
+                # This also covers the "focus AND wake in one wheel": the
+                # wheel is delivered to the frozen window's own overlay, so
+                # finding a frozen widget here means it is genuine
+                # interaction, not hover over a neighbouring window.
+                try:
+                    w = a0 if isinstance(a0, QWidget) else None
+                    if w is None:
+                        try:
+                            p = a0.parent() if a0 is not None else None
+                            while p is not None and not isinstance(p, QWidget):
+                                p = p.parent()
+                            if isinstance(p, QWidget):
+                                w = p
+                        except Exception:
+                            w = None
+                    frozen_widget = None
+                    while w is not None:
+                        if id(w) in _overlays:
+                            frozen_widget = w
+                            break
+                        w = w.parentWidget()
+                    if frozen_widget is None:
+                        frozen_widget = _overlay_widget_for_win(win_id)
+                    win_handle = window.windowHandle()
+                    if win_handle is not None and not win_handle.isActive():
+                        requestActivate = getattr(win_handle, "requestActivate", None)
+                        if requestActivate is not None:
+                            try:
+                                requestActivate()
+                            except Exception:
+                                pass
+                    if frozen_widget is not None:
+                        page = getattr(frozen_widget, "page", lambda: None)()
+                        if page is not None and not sip.isdeleted(page):
+                            if page.lifecycleState() == QWebEnginePage.LifecycleState.Frozen:
+                                _drop_overlay(frozen_widget)
+                                page.setVisible(True)
+                                page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+                            elif id(frozen_widget) in _overlays:
+                                _drop_overlay(frozen_widget)
+                except Exception:
+                    log.misc.exception("tabfreeze: wheel immediate wake failed")
             else:
                 win_id = _window_id_for(a0)
                 if win_id is None:
@@ -1276,12 +1369,23 @@ class _InputFilter(QObject):
                 # element instead of just waking the tab for the next click.
                 try:
                     w = a0 if isinstance(a0, QWidget) else None
+                    if w is None:
+                        try:
+                            p = a0.parent() if a0 is not None else None
+                            while p is not None and not isinstance(p, QWidget):
+                                p = p.parent()
+                            if isinstance(p, QWidget):
+                                w = p
+                        except Exception:
+                            w = None
                     frozen_widget = None
                     while w is not None:
                         if id(w) in _overlays:
                             frozen_widget = w
                             break
                         w = w.parentWidget()
+                    if frozen_widget is None:
+                        frozen_widget = _overlay_widget_for_win(win_id)
                     if frozen_widget is not None:
                         page = getattr(frozen_widget, "page", lambda: None)()
                         if page is not None and not sip.isdeleted(page):
