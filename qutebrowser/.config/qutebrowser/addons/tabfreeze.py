@@ -135,8 +135,8 @@ _WAKE_GRACE_SECONDS = 1.5
 # _QUIET_POLL_MS is the fallback cadence when no paint arrives (a static
 # page may present a single frame), and _PAINT_BUMP_MS is how soon after
 # a paint the next step runs.
-_QUIET_POLL_MS = 80
-_PAINT_BUMP_MS = 20
+_QUIET_POLL_MS = 300
+_PAINT_BUMP_MS = 50
 # Pages the engine reports as currently loading (engine-truth, because
 # qutebrowser's load_status lags urlChanged and can stay "success" from
 # a tab's initial blank page while a real navigation is in flight).
@@ -162,6 +162,13 @@ _poll_timers: dict[int, QTimer] = {}
 # size is unchanged is an internal layout change (commandline, status or
 # keyhint bar show-hide), not a real resize.
 _win_sizes: dict[int, QSize] = {}
+_resize_seq: int = 0
+_resize_seen: dict[int, int] = {}
+# Grade timer: after a resize, if no input arrives for this long the tab
+# refreezes anyway (no ugly fallback) — liennha/webvps were stuck Active
+# for a minute when the engine kept returning clear.
+_GRADE_SECONDS = 4.0
+_grade_timers: dict[int, QTimer] = {}
 # Last frame that actually contained page content (non-clear-color) per
 # tab widget; a wake whose grabs only return the engine's clear color
 # falls back to this frame instead of pinning a blank window. A frozen
@@ -344,7 +351,21 @@ def _apply_window_states() -> bool:
             continue
         widget = window.tabbed_browser.widget
         win_handle = window.windowHandle()
+        # On qtile-wayland focusing an external window (nvim) can leave
+        # the last qutebrowser window reporting isActive() True (stale).
+        # If the app's activeWindow is not a qutebrowser window, treat
+        # all as unfocused so the wake grace can expire and liennha can
+        # refreeze.
         win_focused = win_handle is not None and win_handle.isActive()
+        try:
+            app_active = objects.qapp.activeWindow()
+            if app_active is not None and not any(
+                not sip.isdeleted(w) and (app_active is w or app_active is w.windowHandle() or (hasattr(app_active, "window") and app_active.window() is w))
+                for w in objreg.window_registry.values() if not sip.isdeleted(w)
+            ):
+                win_focused = False
+        except Exception:
+            pass
         if not win_focused:
             # Focus reads are flaky on qtile-wayland (the compositor can
             # report no active window between keypresses of the window
@@ -744,9 +765,9 @@ def _img_fingerprint(img: Any) -> str | None:
 
 
 def _is_clear_frame(img: Any) -> bool:
-    # The engine's clear color (unrendered surface) is a single dark
-    # color: qutebrowser's default dark background. A rendered page is
-    # never a flat dark frame, so uniform+dark identifies "no content".
+    # The engine's clear color is a uniform very dark frame
+    # (qutebrowser dark background). webvps.vn is also dark but
+    # not uniform, so require 95% uniform and luma <32.
     try:
         small = img.scaled(
             32, 32,
@@ -757,15 +778,78 @@ def _is_clear_frame(img: Any) -> bool:
         r = (first >> 16) & 0xFF
         g = (first >> 8) & 0xFF
         b = first & 0xFF
-        if (r + g + b) / 3 >= 64:
+        if (r + g + b) / 3 >= 32:
             return False
+        total = small.width() * small.height()
+        diff = 0
         for y in range(small.height()):
             for x in range(small.width()):
                 if small.pixel(x, y) != first:
-                    return False
+                    diff += 1
+                    if diff * 20 > total:
+                        return False
         return True
     except Exception:
         return True
+
+
+def _arm_grade(widget: Any) -> None:
+    wid = id(widget)
+    timer = _grade_timers.get(wid)
+    if timer is None:
+        timer = QTimer()
+        timer.setSingleShot(True)
+        timer.timeout.connect(lambda: _grade_freeze(widget))
+        _grade_timers[wid] = timer
+    timer.start(int(_GRADE_SECONDS * 1000))
+
+
+def _cancel_grade(widget: Any) -> None:
+    wid = id(widget)
+    timer = _grade_timers.pop(wid, None)
+    if timer is not None:
+        timer.stop()
+
+
+def _grade_freeze(widget: Any) -> None:
+    try:
+        wid = id(widget)
+        _grade_timers.pop(wid, None)
+        _cancel_re_pin(widget)
+        if sip.isdeleted(widget):
+            return
+        page = getattr(widget, "page", lambda: None)()
+        if page is None or sip.isdeleted(page):
+            return
+        if page.lifecycleState() != QWebEnginePage.LifecycleState.Active:
+            return
+        win_id = _window_id_for(widget)
+        if win_id is not None and _input_seen.get(win_id, False):
+            return
+        top = widget.window()
+        handle = top.windowHandle() if top is not None else None
+        if handle is None or not handle.isExposed():
+            return
+        _capture_preview(wid, widget)
+        preview = _previews.get(wid)
+        if preview is None or preview.isNull() or _is_clear_frame(preview.toImage()):
+            good = _good_previews.get(wid)
+            if good is not None and not good.isNull() and good.size() == handle.size() and not _is_clear_frame(good.toImage()):
+                preview = good
+            else:
+                return
+        else:
+            _good_previews[wid] = preview
+        _show_overlay(widget, preview)
+        page.setVisible(False)
+        page.setLifecycleState(QWebEnginePage.LifecycleState.Frozen)
+        if win_id is not None:
+            _input_seen.pop(win_id, None)
+            _last_input.pop(win_id, None)
+        log.misc.info("tabfreeze: grade freeze %s", widget.url().host() or widget.url())
+        _schedule_state()
+    except Exception:
+        log.misc.exception("tabfreeze: grade freeze failed")
 
 
 def _capture_preview(widget_id: int, widget: Any) -> None:
@@ -801,6 +885,7 @@ def _on_tab_widget_destroyed(w: Any) -> None:
     _hooked.discard(wid)
     _resize_timers.pop(wid, None)
     _cancel_re_pin(w)
+    _cancel_grade(w)
     _active_since.pop(wid, None)
     _expire_painted.pop(wid, None)
     _win_sizes.pop(wid, None)
@@ -868,13 +953,27 @@ def _on_resized(widget: Any) -> None:
             # a grab/poll cycle for a frame that did not change.
             return
         _win_sizes[wid] = win_size
+        # Any resize clears the input latch for that window: a
+        # scrolled-then-resized Active tab would otherwise stay
+        # Active via _WAKE_GRACE and never refreeze when unfocused.
+        try:
+            win_id = _window_id_for(widget)
+            if win_id is not None:
+                _input_seen.pop(win_id, None)
+                _last_input.pop(win_id, None)
+                _arm_grade(widget)
+        except Exception:
+            pass
         page = getattr(widget, "page", lambda: None)()
         if (
             page is None
             or sip.isdeleted(page)
             or page.lifecycleState() != QWebEnginePage.LifecycleState.Frozen
         ):
-            # Not frozen: the live page repaints on its own.
+            # Active: clearing the latch above means a focused
+            # window that was scrolled then resized must refreeze
+            # until its next input (focus alone does not unfreeze).
+            _schedule_state()
             return
         # Frozen: the pin was stretched over the new geometry above. Do
         # not wake to re-pin: a frozen page cannot repaint, so a wake only
@@ -1062,8 +1161,10 @@ def _poll_re_pin(widget: Any) -> None:
         # identical polls after it mean the frame settled. A frame that
         # never changes cannot be told fresh from stale, so the attempt
         # cap pins whatever the engine last presented.
-        settled = attempts >= 10 or (
+        settled = attempts >= 20 or (
             pic is not None and not pic.isNull() and changed_seen and stable >= 2
+        ) or (
+            pic is not None and not pic.isNull() and not changed_seen and stable >= 3 and attempts >= 4
         )
         log.misc.debug(  # settle decision
             "tabfreeze: settle win=%s attempts=%d paints=%d fp=%s stable=%d changed=%s settled=%s",
@@ -1092,28 +1193,26 @@ def _poll_re_pin(widget: Any) -> None:
             _schedule_state()
             return
         if not _preview_ok(wid):
-            # The engine never presented page content within the poll
-            # window (its clear color is still what grab() returns): a
-            # static page can present later than the wake. Pin the last
-            # good frame instead if there is one - the page is frozen,
-            # so its content cannot have changed, and the overlay
-            # stretches it to the current size. Without one, stay live
-            # rather than pinning a blank window.
             good = _good_previews.get(wid)
-            if good is None or good.isNull():
-                log.misc.debug(
-                    "tabfreeze: clear frame settled, no good preview, staying live"
-                )
+            good_ok = (
+                good is not None
+                and not good.isNull()
+                and handle is not None
+                and good.size() == handle.size()
+                and not _is_clear_frame(good.toImage())
+            )
+            if good_ok:
+                assert good is not None
+                log.misc.debug("tabfreeze: clear frame settled, reusing good preview %sx%s", good.width(), good.height())
+                img = good.toImage()
+            else:
+                log.misc.debug("tabfreeze: clear frame settled, staying live")
                 _schedule_state()
                 return
-            log.misc.debug(
-                "tabfreeze: clear frame settled, reusing good preview %sx%s",
-                good.width(), good.height(),
-            )
-            img = good.toImage()
         _show_overlay(widget, QPixmap.fromImage(img))
         page.setVisible(False)
         page.setLifecycleState(QWebEnginePage.LifecycleState.Frozen)
+        _cancel_grade(widget)
         if win_id is not None:
             # This re-pin is committing the page back to Frozen; clear any
             # interaction flag so a future focus-return must re-awaken it
@@ -1477,6 +1576,14 @@ class _InputFilter(QObject):
             _input_seen[win_id] = True
         _last_input[win_id] = time.monotonic()
         _drop_window_caches(window)
+        try:
+            if window is not None and not sip.isdeleted(window):
+                for i in range(window.tabbed_browser.widget.count()):
+                    tab = window.tabbed_browser.widget.widget(i)
+                    if tab is not None and not sip.isdeleted(tab):
+                        _cancel_grade(tab._widget)
+        except Exception:
+            pass
         _schedule_state()
         return False
 
@@ -1548,6 +1655,8 @@ def _retire(old: dict) -> None:
         timer.stop()
     for timer in old["poll_timers"].values():
         timer.stop()
+    for timer in old.get("grade_timers", {}).values():
+        timer.stop()
     state_timer = old["state_timer"]
     state_timer.stop()
     try:
@@ -1577,11 +1686,16 @@ def _retire(old: dict) -> None:
         "hooked", "load_hooked", "frozen_seen", "capture_ok", "win_sizes",
         "input_seen", "unfocused_since", "audible_cache",
         "good_previews", "preview_verdicts", "freeze_grab_ts", "fp_cache",
-        "last_input", "page_widget",
+        "last_input", "page_widget", "grade_timers", "resize_seen",
     ):
         state = old.get(name)
         if state is not None:
-            state.clear()
+            try:
+                state.clear()
+            except AttributeError:
+                pass
+    global _resize_seq
+    _resize_seq = 0
 
 
 class _Scheduler(QObject):
@@ -1628,6 +1742,9 @@ class _Scheduler(QObject):
                     "fp_cache": _fp_cache,
                     "page_widget": _page_widget,
                     "last_input": _last_input,
+                    "grade_timers": _grade_timers,
+                    "resize_seq": _resize_seq,
+                    "resize_seen": _resize_seen,
                     "hook_conns": _hook_conns,
                     "focus_handler": _on_focus_changed,
                     "wire_window": _wire_window,
