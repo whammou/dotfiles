@@ -135,8 +135,8 @@ _WAKE_GRACE_SECONDS = 1.5
 # _QUIET_POLL_MS is the fallback cadence when no paint arrives (a static
 # page may present a single frame), and _PAINT_BUMP_MS is how soon after
 # a paint the next step runs.
-_QUIET_POLL_MS = 300
-_PAINT_BUMP_MS = 50
+_QUIET_POLL_MS = 80
+_PAINT_BUMP_MS = 20
 # Pages the engine reports as currently loading (engine-truth, because
 # qutebrowser's load_status lags urlChanged and can stay "success" from
 # a tab's initial blank page while a real navigation is in flight).
@@ -166,7 +166,12 @@ _win_sizes: dict[int, QSize] = {}
 # tab widget; a wake whose grabs only return the engine's clear color
 # falls back to this frame instead of pinning a blank window. A frozen
 # page cannot change content, so reusing it after a resize is safe.
+# Cleared on navigation (see _on_loading_changed): without this the
+# reveal branch would re-show page A's frame over page B.
 _good_previews: dict[int, QPixmap] = {}
+# Engine page id -> tab widget id, so the loading hook (which only gets
+# the page) can invalidate that widget's cached frames on navigation.
+_page_widget: dict[int, int] = {}
 
 # Window ids that have received key/mouse/wheel input since their last
 # focus; a focused window's tab stays pinned until its first input.
@@ -235,11 +240,52 @@ def _schedule_state() -> None:
         _state_timer.start(max(30, remaining))
 
 
+def _drop_caches(wid: int) -> None:
+    _good_previews.pop(wid, None)
+    _previews.pop(wid, None)
+    _preview_verdicts.pop(wid, None)
+    _fp_cache.pop(wid, None)
+
+
+def _drop_window_caches(window: Any) -> None:
+    # Any real input may move the viewport (scroll) or start a
+    # navigation, so cached frames of this window's tabs no longer
+    # describe the live page; the reveal branch would otherwise re-show
+    # the pre-scroll frame after a hide/show cycle.
+    try:
+        if window is None or sip.isdeleted(window):
+            return
+        tabs = window.tabbed_browser.widget
+        for i in range(tabs.count()):
+            tab = tabs.widget(i)
+            if tab is None:
+                continue
+            _drop_caches(id(tab._widget))
+    except Exception:
+        pass
+
+
 def _on_loading_changed(page, info: QWebEngineLoadingInfo) -> None:
     if info.status() == QWebEngineLoadingInfo.LoadStatus.LoadStartedStatus:
         _loading_pages.add(id(page))
+        wid = _page_widget.get(id(page))
+        if wid is not None:
+            _drop_caches(wid)
     else:
         _loading_pages.discard(id(page))
+        wid = _page_widget.get(id(page))
+        if wid is not None:
+            _drop_caches(wid)
+            label = _overlays.get(wid)
+            if label is not None:
+                try:
+                    w = label.parentWidget()
+                except Exception:
+                    w = None
+                if w is not None and not sip.isdeleted(w):
+                    _drop_overlay(w)
+                else:
+                    _overlays.pop(wid, None)
     _schedule_state()
 
 
@@ -283,6 +329,7 @@ def _preview_ok(wid: int) -> bool:
 def _forget_page(page: Any) -> None:
     _loading_pages.discard(id(page))
     _audible_cache.pop(id(page), None)
+    _page_widget.pop(id(page), None)
 
 
 def _apply_window_states() -> bool:
@@ -396,6 +443,7 @@ def _apply_window_states() -> bool:
                 )
                 _connect(tab.pinned_changed, _schedule_state)
                 _tab_widgets.add(id(widget))
+                _page_widget[id(page)] = id(widget)
                 _load_hooked.add(id(tab))
             if tab.data.pinned:
                 # Pinned tabs are always live: pinning is an explicit
@@ -529,12 +577,19 @@ def _apply_window_states() -> bool:
             ):
                 # Revealed (mapped) while unfocused: the tab froze while
                 # hidden and has no pin, and a frozen page cannot
-                # paint, so the window would stay blank until input.
-                # Wake the page and re-pin once its frames settle
-                # (same path as the resize wake): the fresh frame is
-                # the true resumed state, so the pin matches and
-                # there is no blank window. Only input unfreezes.
-                _re_pin(widget, window.win_id)
+                # paint, so the window would stay blank until input. A
+                # frozen page cannot change content either, so the last
+                # good frame is still current: re-show it stretched
+                # instead of waking (a wake would run the page Active
+                # through a whole poll just to re-pin identical pixels).
+                # Only input unfreezes. Without any good frame there is
+                # nothing to show, so fall back to the wake re-pin.
+                good = _good_previews.get(id(widget))
+                if good is not None and not good.isNull():
+                    _show_overlay(widget, good)
+                    _win_sizes[id(widget)] = win_handle.size()
+                else:
+                    _re_pin(widget, window.win_id)
             elif (
                 live == QWebEnginePage.LifecycleState.Frozen
                 and win_handle is not None
@@ -760,6 +815,12 @@ def _on_tab_widget_destroyed(w: Any) -> None:
     _preview_verdicts.pop(wid, None)
     _freeze_grab_ts.pop(wid, None)
     _fp_cache.pop(wid, None)
+    try:
+        for pid, mwid in list(_page_widget.items()):
+            if mwid == wid:
+                _page_widget.pop(pid, None)
+    except Exception:
+        pass
     # _frozen_seen and _load_hooked are keyed by tab id, not widget id;
     # they are cleaned when the tab's page is destroyed via _forget_page
     # and in _apply_window_states, but also purge any stale widget-based
@@ -815,13 +876,14 @@ def _on_resized(widget: Any) -> None:
         ):
             # Not frozen: the live page repaints on its own.
             return
-        timer = _resize_timers.get(wid)
-        if timer is None:
-            timer = QTimer()
-            timer.setSingleShot(True)
-            timer.timeout.connect(lambda: _re_pin(widget, _window_id_for(widget)))
-            _resize_timers[wid] = timer
-        timer.start(300)
+        # Frozen: the pin was stretched over the new geometry above. Do
+        # not wake to re-pin: a frozen page cannot repaint, so a wake only
+        # runs the page Active through a poll (and fights the state pass,
+        # which re-freezes an uninteracted tab mid-poll) for pixels
+        # identical to the stretched pin. The first real input wakes and
+        # repaints live. Schedule a pass so the stale-pin branch converges
+        # the overlay geometry even when no expose follows the resize.
+        _schedule_state()
     except Exception:
         log.misc.exception("tabfreeze: resize handling failed")
 
@@ -930,8 +992,17 @@ def _poll_re_pin(widget: Any) -> None:
         # frame, re-freezes, and waits for the first input instead of
         # staying live. Focus alone does not unfreeze (deferred wake).
         if handle is None or not handle.isExposed():
-            # Hidden again: leave it Active for the normal passes.
             _cancel_re_pin(widget)
+            try:
+                if not sip.isdeleted(page) and page.lifecycleState() != QWebEnginePage.LifecycleState.Frozen:
+                    page.setVisible(False)
+                    page.setLifecycleState(QWebEnginePage.LifecycleState.Frozen)
+                    if win_id is not None:
+                        _input_seen.pop(win_id, None)
+                        _last_input.pop(win_id, None)
+            except Exception:
+                pass
+            _schedule_state()
             return
         # Grab when a new paint arrived since the last grab: the
         # engine repaints while producing a frame, so no new paint means
@@ -991,7 +1062,7 @@ def _poll_re_pin(widget: Any) -> None:
         # identical polls after it mean the frame settled. A frame that
         # never changes cannot be told fresh from stale, so the attempt
         # cap pins whatever the engine last presented.
-        settled = attempts >= 20 or (
+        settled = attempts >= 10 or (
             pic is not None and not pic.isNull() and changed_seen and stable >= 2
         )
         log.misc.debug(  # settle decision
@@ -1405,6 +1476,7 @@ class _InputFilter(QObject):
             log.misc.info("tabfreeze: first input in window %d", win_id)
             _input_seen[win_id] = True
         _last_input[win_id] = time.monotonic()
+        _drop_window_caches(window)
         _schedule_state()
         return False
 
@@ -1504,6 +1576,8 @@ def _retire(old: dict) -> None:
         "resize_timers", "resize_polls", "poll_timers", "tab_widgets", "loading_pages",
         "hooked", "load_hooked", "frozen_seen", "capture_ok", "win_sizes",
         "input_seen", "unfocused_since", "audible_cache",
+        "good_previews", "preview_verdicts", "freeze_grab_ts", "fp_cache",
+        "last_input", "page_widget",
     ):
         state = old.get(name)
         if state is not None:
@@ -1548,6 +1622,11 @@ class _Scheduler(QObject):
                     "resize_filter": _resize_filter,
                     "input_filter": _input_filter,
                     "input_seen": _input_seen,
+                    "good_previews": _good_previews,
+                    "preview_verdicts": _preview_verdicts,
+                    "freeze_grab_ts": _freeze_grab_ts,
+                    "fp_cache": _fp_cache,
+                    "page_widget": _page_widget,
                     "last_input": _last_input,
                     "hook_conns": _hook_conns,
                     "focus_handler": _on_focus_changed,
