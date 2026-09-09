@@ -953,14 +953,9 @@ def _on_resized(widget: Any) -> None:
             # a grab/poll cycle for a frame that did not change.
             return
         _win_sizes[wid] = win_size
-        # Any resize clears the input latch for that window: a
-        # scrolled-then-resized Active tab would otherwise stay
-        # Active via _WAKE_GRACE and never refreeze when unfocused.
         try:
             win_id = _window_id_for(widget)
             if win_id is not None:
-                _input_seen.pop(win_id, None)
-                _last_input.pop(win_id, None)
                 _arm_grade(widget)
         except Exception:
             pass
@@ -1603,6 +1598,36 @@ def _wire_window(window) -> None:
         _connect(widget.destroyed, lambda: _hooked.discard(wid))
         log.misc.debug("tabfreeze: monitoring window %d", window.win_id)
         _schedule_state()
+        # New qutebrowser window tiles the existing ones via qtile but
+        # does not fire QResizeEvent on them (scene-graph only). Bump the
+        # resize generation so the stale-pin pass wakes every frozen
+        # window once and re-captures at the new geometry.
+        # New window tiles existing ones via qtile, but their
+        # handle sizes update asynchronously after the layout reflows.
+        # Check immediately and again after the reflow so frozen previews
+        # are re-captured at the new geometry (not just stretched).
+        def _check_resize():
+            for w in objreg.window_registry.values():
+                if sip.isdeleted(w):
+                    continue
+                try:
+                    wwid = id(w.tabbed_browser.widget)
+                    if wwid != wid and wwid in _overlays:
+                        h = w.windowHandle()
+                        preview = _previews.get(wwid)
+                        if h is not None and preview is not None and preview.size() != h.size():
+                            _win_sizes[wwid] = h.size()
+                            _arm_grade(w.tabbed_browser.widget)
+                            _re_pin(w.tabbed_browser.widget, w.win_id)
+                        elif h is not None and preview is not None and _win_sizes.get(wwid) != h.size():
+                            _win_sizes[wwid] = h.size()
+                            _arm_grade(w.tabbed_browser.widget)
+                            _re_pin(w.tabbed_browser.widget, w.win_id)
+                except Exception:
+                    pass
+        _check_resize()
+        QTimer.singleShot(150, _check_resize)
+        QTimer.singleShot(400, _check_resize)
     except Exception:
         log.misc.exception("tabfreeze: wiring window failed")
 
