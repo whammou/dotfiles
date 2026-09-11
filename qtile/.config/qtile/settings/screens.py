@@ -12,6 +12,7 @@ OFFSET = 1
 
 
 def status_bar(widgets, **kargs):
+    kargs.setdefault("background", "#21252b")
     return bar.Bar(widgets, 28, **kargs)
 
 
