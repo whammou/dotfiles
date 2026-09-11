@@ -16,15 +16,27 @@ return {
     "akinsho/bufferline.nvim",
     config = function()
       local bufferline = require("bufferline")
+      vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#21252b", fg = "#21252b" })
+      vim.api.nvim_set_hl(0, "BufferLineFill", { bg = "#21252b", fg = "#21252b" })
       bufferline.setup({
         options = {
-          buffer_close_icon = " ",
+          buffer_close_icon = "",
+          show_buffer_close_icons = false,
+          show_close_icon = false,
+          show_tab_indicators = false,
+          modified_icon = "●",
+          separator_style = "none",
+          enforce_regular_tabs = false,
+          tab_size = 0,
           always_show_bufferline = true,
+          indicator = {
+            style = "none",
+          },
           offsets = {
             {
               filetype = "neo-tree",
               raw = "%{%v:lua.__get_selector()%}",
-              separator = "┃",
+              separator = "",
             },
           },
           hover = {
@@ -35,6 +47,57 @@ return {
         },
         highlights = {
           fill = {
+            bg = "#21252b",
+            fg = "#21252b",
+          },
+          background = {
+            fg = "#848b98",
+            bg = "#21252b",
+          },
+          tab = {
+            fg = "#848b98",
+            bg = "#21252b",
+          },
+          buffer_selected = {
+            fg = "#848b98",
+            bg = "#282c34",
+            bold = true,
+            italic = false,
+          },
+          tab_selected = {
+            fg = "#848b98",
+            bg = "#282c34",
+            bold = true,
+            italic = false,
+          },
+          duplicate = {
+            fg = "#848b98",
+            bg = "#21252b",
+          },
+          duplicate_selected = {
+            fg = "#848b98",
+            bg = "#282c34",
+            bold = true,
+            italic = false,
+          },
+          tab_close = {
+            fg = "#848b98",
+            bg = "#21252b",
+          },
+          separator = {
+            fg = "#21252b",
+            bg = "#21252b",
+          },
+          separator_selected = {
+            fg = "#282c34",
+            bg = "#282c34",
+          },
+          indicator_selected = {
+            fg = "#21252b",
+            bg = "#21252b",
+          },
+          trunc_marker = {
+            fg = "#848b98",
             bg = "#21252b",
           },
         },
@@ -92,7 +155,7 @@ return {
     "nvim-lualine/lualine.nvim",
     lazy = true,
     config = function()
-      require("config.ui.evilline")
+      require("config.ui.vscode_onedark")
     end,
     -- opts = {
     --   sections = {

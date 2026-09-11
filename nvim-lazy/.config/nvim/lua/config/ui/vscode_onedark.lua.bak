@@ -1,0 +1,212 @@
+local lualine = require("lualine")
+
+-- VSCode One Dark Pro palette using your onedark colors
+-- statusBar.background #21252b (bg_d), tab.activeBackground #282c34 (bg0)
+-- stylua: ignore
+local colors = {
+  bg       = '#21252b',
+  bg0      = '#282c34',
+  bg1      = '#31353f',
+  fg       = '#abb2bf',
+  grey     = '#5c6370',
+  yellow   = '#e5c07b',
+  cyan     = '#56b6c2',
+  darkblue = '#081633',
+  green    = '#98c379',
+  orange   = '#d19a66',
+  violet   = '#c678dd',
+  magenta  = '#c678dd',
+  blue     = '#61afef',
+  red      = '#e86671',
+}
+
+local conditions = {
+  buffer_not_empty = function()
+    return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
+  end,
+  hide_in_width = function()
+    return vim.fn.winwidth(0) > 80
+  end,
+  check_git_workspace = function()
+    local filepath = vim.fn.expand("%:p:h")
+    local gitdir = vim.fn.finddir(".git", filepath .. ";")
+    return gitdir and #gitdir > 0 and #gitdir < #filepath
+  end,
+}
+
+local config = {
+  options = {
+    component_separators = "",
+    section_separators = "",
+    theme = {
+      normal = { c = { fg = colors.fg, bg = colors.bg } },
+      inactive = { c = { fg = colors.fg, bg = colors.bg } },
+    },
+    globalstatus = true,
+  },
+  sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    lualine_c = {},
+    lualine_x = {},
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_z = {},
+    lualine_c = {},
+    lualine_x = {},
+  },
+}
+
+local function ins_left(component)
+  table.insert(config.sections.lualine_c, component)
+end
+
+local function ins_right(component)
+  table.insert(config.sections.lualine_x, component)
+end
+
+ins_left({
+  function()
+    return "▌"
+  end,
+  color = { fg = colors.blue },
+  padding = { left = 0, right = 1 },
+})
+
+ins_left({
+  function()
+    local mode_icon = {
+      n = "󰰓",
+      i = "󰰄",
+      v = "󰰫",
+      [""] = "󰰫",
+      V = "󰰫",
+      c = "󰞷",
+      no = "󰆍",
+      s = "󰒉",
+      S = "󰒉",
+      [""] = "󰒉",
+      ic = "󰰄",
+      R = "󰓡",
+      Rv = "󰓡",
+      cv = "󰞷",
+      ce = "󰞷",
+      r = "󰔟",
+      rm = "󰔟",
+      ["r?"] = "󰔟",
+      ["!"] = "󰆍",
+      t = "󰆍",
+    }
+    return mode_icon[vim.fn.mode()] or "󰰓"
+  end,
+  color = { fg = colors.fg },
+  padding = { right = 1 },
+})
+
+ins_left({
+  "branch",
+  icon = "",
+  color = { fg = colors.violet, gui = "bold" },
+})
+
+ins_left({
+  "diagnostics",
+  sources = { "nvim_diagnostic" },
+  symbols = { error = " ", warn = " ", info = " " },
+  diagnostics_color = {
+    error = { fg = colors.red },
+    warn = { fg = colors.yellow },
+    info = { fg = colors.cyan },
+  },
+})
+
+ins_left({
+  "diff",
+  symbols = { added = " ", modified = "󰝤 ", removed = " " },
+  diff_color = {
+    added = { fg = colors.green, gui = "bold" },
+    modified = { fg = colors.orange, gui = "bold" },
+    removed = { fg = colors.red, gui = "bold" },
+  },
+})
+
+ins_left({
+  "filesize",
+  cond = conditions.buffer_not_empty,
+})
+
+ins_left({
+  function()
+    return "%="
+  end,
+})
+
+ins_left({
+  function()
+    local msg = "inactive"
+    local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+    local clients = vim.lsp.get_clients()
+    if next(clients) == nil then
+      return msg
+    end
+    for _, client in ipairs(clients) do
+      local filetypes = client.config.filetypes
+      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        return client.name
+      end
+    end
+    return msg
+  end,
+  icon = "󰔳",
+  color = { fg = colors.fg },
+})
+
+ins_right({
+  "progress",
+  fmt = string.upper,
+  icon = "",
+  color = { fg = colors.green, gui = "bold" },
+})
+
+ins_right({
+  "location",
+  icon = "",
+  color = { fg = colors.cyan, gui = "bold" },
+})
+
+ins_right({
+  "o:encoding",
+  fmt = string.upper,
+  cond = conditions.hide_in_width,
+  icon = "",
+  color = { fg = colors.yellow, gui = "bold" },
+})
+
+ins_right({
+  "fileformat",
+  fmt = string.upper,
+  icons_enabled = true,
+  color = { fg = colors.blue, gui = "bold" },
+})
+
+ins_right({
+  "filetype",
+  cond = conditions.buffer_not_empty,
+  icon_only = false,
+  color = { fg = colors.violet, gui = "bold" },
+})
+
+ins_right({
+  function()
+    return "▐"
+  end,
+  color = { fg = colors.blue },
+  padding = { left = 0 },
+})
+
+lualine.setup(config)
