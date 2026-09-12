@@ -42,6 +42,8 @@ for k, v in pairs(opts) do
 	end
 end
 local cachePath = opts.temp
+-- ensure cache directory exists (fixes Lua error: ftd nil when dir missing)
+os.execute("mkdir -p '" .. cachePath .. "'")
 
 local restrictFilenames = "--no-restrict-filenames"
 local chapter_list = {}
@@ -358,16 +360,21 @@ local function clearCache()
 	-- 	print("remove: " .. v)
 	-- 	os.remove(v)
 	-- end
+	os.execute("mkdir -p '" .. cachePath .. "'")
 	local ftd = io.open(cachePath .. "/temp.files", "a")
-	for k, v in pairs(filesToDelete) do
-		ftd:write(v .. "\n")
-		if package.config:sub(1, 1) ~= "/" then
-			os.execute('del /Q /F "' .. cachePath .. "\\" .. v .. '*"')
-		else
-			os.execute("rm -f " .. cachePath .. "/" .. v .. "*")
+	if not ftd then
+		msg.warn("ytdl-preload: could not open temp.files for writing at " .. cachePath)
+	else
+		for k, v in pairs(filesToDelete) do
+			ftd:write(v .. "\n")
+			if package.config:sub(1, 1) ~= "/" then
+				os.execute('del /Q /F "' .. cachePath .. "\\" .. v .. '*"')
+			else
+				os.execute("rm -f " .. cachePath .. "/" .. v .. "*")
+			end
 		end
+		ftd:close()
 	end
-	ftd:close()
 	print("clear")
 	mp.command("quit")
 	--end
@@ -455,18 +462,23 @@ end
 
 mp.register_event("start-file", DL)
 mp.register_event("shutdown", clearCache)
-local ftd = io.open(cachePath .. "/temp.files", "r")
-while ftd ~= nil do
-	local line = ftd:read()
-	if line == nil or line == "" then
-		ftd:close()
-		io.open(cachePath .. "/temp.files", "w"):close()
-		break
-	end
-	-- print("DEL::"..line)
-	if package.config:sub(1, 1) ~= "/" then
-		os.execute('del /Q /F "' .. cachePath .. "\\" .. line .. '*" >nul 2>nul')
-	else
-		os.execute("rm -f " .. cachePath .. "/" .. line .. "* &> /dev/null")
+-- cleanup leftover temp files from previous session (guarded against missing dir/file)
+do
+	local ftd = io.open(cachePath .. "/temp.files", "r")
+	if ftd then
+		while true do
+			local line = ftd:read()
+			if line == nil or line == "" then
+				ftd:close()
+				local w = io.open(cachePath .. "/temp.files", "w")
+				if w then w:close() end
+				break
+			end
+			if package.config:sub(1, 1) ~= "/" then
+				os.execute('del /Q /F "' .. cachePath .. "\\" .. line .. '*" >nul 2>nul')
+			else
+				os.execute("rm -f " .. cachePath .. "/" .. line .. "* &> /dev/null")
+			end
+		end
 	end
 end
