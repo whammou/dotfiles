@@ -66,11 +66,11 @@ def workspaces():
 def checkupdate(command="checkupdates"):
     return widget.CheckUpdates(
         background=colors["bg_d"],
-        colour_have_updates=colors["yellow"],
-        colour_no_updates=colors["yellow"],
+        colour_have_updates=colors["cyan"],
+        colour_no_updates=colors["cyan"],
         display_format=" 󰮯 {updates} ",
         no_update_string=" 󰮯 0 ",
-        foreground=colors["yellow"],
+        foreground=colors["cyan"],
         font=WIDGET_ICON_FONT,
         update_interval=1800,
         custom_command=command,
@@ -102,7 +102,7 @@ def disk_free():
         background=colors["bg_d"],
         partition="/home",
         format="{uf:.0f}{m}",
-        fmt="󰋊 {}  ",
+        fmt=" 󰋊 {}  ",
         foreground=colors["red"],
         font=WIDGET_ICON_FONT,
         visible_on_warn=False,
@@ -227,18 +227,30 @@ def _dnd_poll():
 def dnd():
     return widget.DoNotDisturb(
         background=colors["bg_d"],
-        foreground=colors["yellow"],
+        foreground=colors["fg"],
         font=WIDGET_ICON_FONT,
-        padding=5,
-        enabled_icon=" 󰂛 ",
-        disabled_icon=" 󰂚 ",
+        padding=0,
+        enabled_icon="󰂛 ",
+        disabled_icon="󰂚 ",
         poll_function=_dnd_poll,
         update_interval=1,
     )
 
 
+def window_count():
+    return widget.WindowCount(
+        background=colors["bg_d"],
+        foreground=colors["blue"],
+        font=WIDGET_ICON_FONT,
+        text_format=" 󰖯 {num} ",
+        show_zero=True,
+    )
+
+
 widgets = [
     *workspaces(),
+    icon_separator(),
+    checkupdate(),
     icon_separator(),
     disk_free(),
     icon_separator(),
@@ -246,18 +258,17 @@ widgets = [
     icon_separator(),
     battery(1),
     icon_separator(),
-    checkupdate(),
-    icon_separator(),
     FloatCount(
         background=colors["bg_d"],
         format=" 󰖲 {count} ",
-        foreground=colors["blue"],
+        foreground=colors["yellow"],
         font=WIDGET_ICON_FONT,
     ),
     icon_separator(),
+    window_count(),
+    icon_separator(),
     wlan(),
     icon_separator(),
-    dnd(),
     widget.Spacer(length=bar.STRETCH, background=colors["bg_d"]),
     CenteredClock(
         background=colors["bg_d"],
@@ -304,8 +315,9 @@ widgets = [
         name="clock_date",
     ),
     separator(),
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 2
     widget.TextBox(
-        foreground=colors["light_grey"],
+        foreground=colors["fg"],
         background=colors["bg_d"],
         font=WIDGET_ICON_FONT,
         text=" 󰧺 ",
@@ -319,12 +331,15 @@ widgets = [
     widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 7
     widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 8
     widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 9
+    separator(),
+    dnd(),
     KeydIndicator(
         foreground=colors["light_grey"],
         background=colors["bg_d"],
         font=WIDGET_ICON_FONT,
         name="keyd",
     ),  # vim-mode indicator
+    separator(),
     separator(),
 ]
 
