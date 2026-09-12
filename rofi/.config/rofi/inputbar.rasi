@@ -1,8 +1,8 @@
 inputbar {
   spacing:          8px;
   padding:          0px 0px 1px 12px;
-  background-color: @bg3;
-  border:           0 0 0 4px;
+  background-color: @bg-d;
+  border:           0 0 0 3px;
   border-color:     @blue;
   children:         [prompt, entry];
 }
@@ -10,12 +10,12 @@ inputbar {
 prompt {
   font:             "HasklugNerdFont 13 bold";
   text-color:       @blue;
-  background-color: @bg3;
+  background-color: @bg-d;
   padding:          3px 6px;
 }
 
 entry {
-  background-color: @bg3;
+  background-color: @bg-d;
   padding:          3px;
   text-color:       @fg;
 }

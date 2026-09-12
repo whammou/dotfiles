@@ -8,16 +8,16 @@ listview {
 }
 
 element {
-  border:     0 0 0 4px;
+  border:     0 0 0 3px;
   border-color: @bg1;
-  padding:    0 0 0 4px;
+  padding:    0 0 0 3px;
   children:   [element-text];
 }
 
 element selected {
   background-color: @bg-selected;
   text-color:       @fg;
-  border:           0 0 0 4px;
+  border:           0 0 0 3px;
   border-color:     @red;
 }
 
