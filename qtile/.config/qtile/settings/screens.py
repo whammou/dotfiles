@@ -1,8 +1,9 @@
 from libqtile.config import Screen
 from libqtile import bar
 
-from .widgets import widgets
+from .theme import colors
 from .path import wallpaper_path
+from .widgets import widgets
 
 from os import path
 
@@ -12,7 +13,7 @@ OFFSET = 1
 
 
 def status_bar(widgets, **kargs):
-    kargs.setdefault("background", "#21252b")
+    kargs.setdefault("background", colors["bg_d"])
     return bar.Bar(widgets, 28, **kargs)
 
 

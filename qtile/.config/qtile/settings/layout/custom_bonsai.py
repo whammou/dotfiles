@@ -9,6 +9,8 @@ from ..group.scratchpads import scratchpad_layout
 
 
 class MyCustomBonsai(Bonsai):
+    name = "CustomBonsai"
+
     def __init__(self, *args, **kwargs):
         self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
         self.float_sizes = kwargs.pop("float_sizes", {})
