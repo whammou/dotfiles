@@ -1,12 +1,7 @@
 /*
- * Onedark palette
- *   bg0: #282c34  (list background)
- *   bg1: #31353f  (cursor line)
- *   bg2: #393f4a  (unused)
- *   bg3: #3b3f4c  (prompt background)
- *   fg:  #abb2bf
- *   red: #e86671  (match highlight, selection border)
- *   blue:#61afef  (prompt accent border)
+ * Onedark full palette — from onedark-dark.json + nvim onedark dark
+ * Matches qtile/nvim onedark with bg_d #21252b, bg0 #282c34, etc.
+ * Keep dimension/position from config.rasi, only colors here.
  */
 
 * {
@@ -15,15 +10,55 @@
   padding: 0;
   spacing: 0;
 
+  /* Core backgrounds */
+  bg-d:         #21252b;
   bg:           #282c34;
+  bg0:          #282c34;
   bg1:          #31353f;
   bg2:          #393f4a;
   bg3:          #3b3f4c;
+
+  /* Foregrounds */
   fg:           #abb2bf;
-  font:         "HasklugNerdFont 13";
-  blue:         #61afef;
-  blue-alt:     #61afef15;
+  grey:         #5c6370;
+  light-grey:   #848b98;
+  light:        #ffffff;
+  text:         #282C34;
+  focus:        #61afef;
+  active:       #f1ffff;
+  inactive:     #4c566a;
+  urgent:       #e86671;
+
+  /* Accents — bright */
   red:          #e86671;
+  green:        #98c379;
+  yellow:       #e5c07b;
+  blue:         #61afef;
+  purple:       #c678dd;
+  cyan:         #56b6c2;
+  orange:       #d19a66;
+
+  /* Dimmed — 50/50 with bg0 */
+  red-dimmed:     #884953;
+  green-dimmed:   #607857;
+  yellow-dimmed:  #877658;
+  blue-dimmed:    #456E92;
+  purple-dimmed:  #775289;
+  cyan-dimmed:    #3F717B;
+  orange-dimmed:  #6e594f;
+
+  /* Dimmed heading BGs — from nvim custom */
+  dimmed-red:     #3e323a;
+  dimmed-green:   #333d39;
+  dimmed-yellow:  #3d3c39;
+  dimmed-blue:    #2c3949;
+  dimmed-purple:  #393247;
+  dimmed-cyan:    #2b3c44;
+  dimmed-orange:  #3c3736;
+
+  /* Rofi specific */
+  font:         "HasklugNerdFont 13";
+  blue-alt:     #61afef15;
   red-alt:      #e8667115;
   border-col:   #5c6370;
   bg-selected:  #31353f;

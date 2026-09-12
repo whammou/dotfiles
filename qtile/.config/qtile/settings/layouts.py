@@ -1,7 +1,7 @@
 from libqtile import hook, layout, qtile
 from libqtile.config import Match
 
-from .layout.custom_bonsai import MyCustomBonsai
+from .layout.custom_bonsai import SmartBonsai
 from .screens import GAP
 from .theme import colors
 from .smart_bonsai import smart_split
@@ -390,7 +390,7 @@ BORDER_WIDTH = 3
 BORDER_COLOR = colors["grey"]
 
 layouts = [
-    MyCustomBonsai(
+    SmartBonsai(
         **{
             "auto_cwd_for_terminals": False,
             "window.border_size": BORDER_WIDTH,

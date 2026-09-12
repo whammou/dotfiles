@@ -8,7 +8,9 @@ from qtile_bonsai.tree import BonsaiPane
 from ..group.scratchpads import scratchpad_layout
 
 
-class MyCustomBonsai(Bonsai):
+class SmartBonsai(Bonsai):
+    name = "SmartBonsai"
+
     def __init__(self, *args, **kwargs):
         self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
         self.float_sizes = kwargs.pop("float_sizes", {})
@@ -404,3 +406,6 @@ class MyCustomBonsai(Bonsai):
         except ValueError:
             return
         self._request_relayout()
+
+
+MyCustomBonsai = SmartBonsai

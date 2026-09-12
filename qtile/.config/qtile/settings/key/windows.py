@@ -353,7 +353,8 @@ windows_keys = [
     EzKey("M-<Tab>", toggle_floating()),
     EzKey("A-S-0", floats_to_front()),
     # Rofi menu
-    EzKey("M-S-w", lazy.spawn("rofi -show window")),
+    # EzKey("M-S-w", lazy.spawn("rofi -show window")),  # temporarily disabled for WindowName toggle
+    EzKey("M-S-w", lazy.widget["windowname_box"].toggle(), desc="Toggle WindowName"),
     EzKey("M-C-s", lazy.spawn(rofi_run_cmd)),
     # Container select mode
     KeyChord(
