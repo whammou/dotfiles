@@ -6,6 +6,7 @@ from .theme import colors
 from .widget.centered_clock import CenteredClock
 from .widget.floating_count import FloatCount
 from .widget.keyd_indicator import KeydIndicator
+from .widget.window_count import WindowCount
 
 WIDGET_ICON_FONT = "HasklugNerdFont Medium"
 WIDGET_TEXT_FONT = "HasklugNerdFont"
@@ -66,11 +67,11 @@ def workspaces():
 def checkupdate(command="checkupdates"):
     return widget.CheckUpdates(
         background=colors["bg_d"],
-        colour_have_updates=colors["cyan"],
-        colour_no_updates=colors["cyan"],
+        colour_have_updates=colors["blue"],
+        colour_no_updates=colors["blue"],
         display_format=" 󰮯 {updates} ",
         no_update_string=" 󰮯 0 ",
-        foreground=colors["cyan"],
+        foreground=colors["blue"],
         font=WIDGET_ICON_FONT,
         update_interval=1800,
         custom_command=command,
@@ -102,8 +103,8 @@ def disk_free():
         background=colors["bg_d"],
         partition="/home",
         format="{uf:.0f}{m}",
-        fmt=" 󰋊 {}  ",
-        foreground=colors["red"],
+        fmt=" 󰋊 {} ",
+        foreground=colors["yellow"],
         font=WIDGET_ICON_FONT,
         visible_on_warn=False,
         update_interval=600,
@@ -115,7 +116,7 @@ def net():
         **base(bg="bg_d", fg="light_grey"),
         interface="wlan0",
         format="  {down:03.0f}{down_suffix:<2}  {up:03.0f}{up_suffix:<2} ",
-        foreground=colors["blue"],
+        foreground=colors["red"],
         font=WIDGET_ICON_FONT,
         prefix="k",
         update_interval=60,
@@ -125,9 +126,9 @@ def net():
 def wlan():
     return widget.Wlan(
         background=colors["bg_d"],
-        format=" 󰢾 {percent:2.0%} ",
-        disconnected_message=" 󰢿 offline ",
-        foreground=colors["purple"],
+        format=" 󰢾 {percent:2.0%}  ",
+        disconnected_message=" 󰢿 offline  ",
+        foreground=colors["red"],
         font=WIDGET_ICON_FONT,
         update_interval=60,
     )
@@ -238,36 +239,38 @@ def dnd():
 
 
 def window_count():
-    return widget.WindowCount(
+    return WindowCount(
         background=colors["bg_d"],
-        foreground=colors["blue"],
+        foreground=colors["cyan"],
         font=WIDGET_ICON_FONT,
         text_format=" 󰖯 {num} ",
         show_zero=True,
     )
 
 
+
+
 widgets = [
     *workspaces(),
     icon_separator(),
-    checkupdate(),
-    icon_separator(),
-    disk_free(),
+    wlan(),
     icon_separator(),
     battery(0),
     icon_separator(),
     battery(1),
     icon_separator(),
+    disk_free(),
+    icon_separator(),
+    checkupdate(),
+    icon_separator(),
     FloatCount(
         background=colors["bg_d"],
         format=" 󰖲 {count} ",
-        foreground=colors["yellow"],
+        foreground=colors["purple"],
         font=WIDGET_ICON_FONT,
     ),
     icon_separator(),
     window_count(),
-    icon_separator(),
-    wlan(),
     icon_separator(),
     widget.Spacer(length=bar.STRETCH, background=colors["bg_d"]),
     CenteredClock(
@@ -280,27 +283,27 @@ widgets = [
     ),
     widget.Spacer(length=bar.STRETCH, background=colors["bg_d"]),
     separator(),
-    widget.WidgetBox(
-        name="windowname_box",
-        widgets=[
-            widget.WindowName(
-                **base(fg="light_grey"),
-                font=WIDGET_TEXT_FONT,
-                fontsize=16,
-                padding=3,
-                format="{name} - {class}  ",
-                max_chars=60,
-                stretch=False,
-            )
-        ],
-        text_closed=" 󰘖 ",
-        text_open=" 󰘕 ",
-        fontsize=16,
-        font=WIDGET_TEXT_FONT,
-        foreground=colors["light_grey"],
-        background=colors["bg_d"],
-        close_button_location="left",
-    ),
+        widget.WidgetBox(
+            name="windowname_box",
+            widgets=[
+                widget.WindowName(
+                    **base(fg="light_grey"),
+                    font=WIDGET_TEXT_FONT,
+                    fontsize=16,
+                    padding=3,
+                    format="{name} - {class}  ",
+                    max_chars=60,
+                    stretch=False,
+                )
+            ],
+            text_closed=" 󰘖 ",
+            text_open=" 󰘕 ",
+            fontsize=16,
+            font=WIDGET_TEXT_FONT,
+            foreground=colors["light_grey"],
+            background=colors["bg_d"],
+            close_button_location="left",
+        ),
     separator(),
     bluetooth(),
     separator(),
