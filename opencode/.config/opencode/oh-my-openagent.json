@@ -44,15 +44,15 @@
       "model": "google/gemini-3.1-flash-lite",
       "variant": "medium",
       "fallback_models": [
-        "opencode/big-pickle",
+        "opencode/muse-spark-1.3-contributor-free",
         "google/gemini-3.1-flash-lite",
-        "google/gemini-2.5-flash"
+        "opencode/big-pickle"
       ],
       "color": "#d19a66"
     },
     "prometheus": {
       "model": "google/gemini-3.1-flash-lite",
-      "variant": "max",
+      "variant": "high",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
@@ -62,7 +62,7 @@
     },
     "metis": {
       "model": "google/gemini-3.1-flash-lite",
-      "variant": "max",
+      "variant": "high",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
@@ -71,11 +71,11 @@
       "color": "#c678dd"
     },
     "momus": {
-      "model": "google/gemini-3.1-flash-lite",
+      "model": "opencode/muse-spark-1.3-contributor-free",
       "variant": "xhigh",
       "fallback_models": [
-        "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
+        "opencode/big-pickle",
         "google/gemini-2.5-flash"
       ],
       "color": "#61afef"
@@ -113,29 +113,28 @@
   ],
   "categories": {
     "visual-engineering": {
-      "model": "opencode/mimo-v2-pro-free",
-      "variant": "high",
+      "model": "opencode/mimo-v2.5-free",
       "fallback_models": [
         {
-          "model": "opencode/glm-5"
+          "model": "opencode/muse-spark-1.3-contributor-free",
+          "variant": "high"
         },
         {
-          "model": "opencode/claude-opus-4-6",
-          "variant": "max"
+          "model": "google/gemini-3.1-flash-lite",
+          "variant": "high"
         }
       ]
     },
     "ultrabrain": {
-      "model": "opencode/nemotron-3-super-free",
-      "variant": "xhigh",
+      "model": "opencode/nemotron-3-ultra-free",
       "fallback_models": [
         {
-          "model": "opencode/gemini-3.1-pro",
-          "variant": "high"
+          "model": "opencode/muse-spark-1.3-contributor-free",
+          "variant": "xhigh"
         },
         {
-          "model": "opencode/claude-opus-4-6",
-          "variant": "max"
+          "model": "google/gemini-3.1-flash-lite",
+          "variant": "high"
         }
       ]
     },
@@ -144,25 +143,24 @@
       "variant": "medium",
       "fallback_models": [
         {
-          "model": "opencode/claude-opus-4-6",
-          "variant": "max"
+          "model": "opencode/nemotron-3-ultra-free"
         },
         {
-          "model": "opencode/gemini-3.1-pro",
-          "variant": "high"
+          "model": "google/gemini-3.1-flash-lite",
+          "variant": "medium"
         }
       ]
     },
     "artistry": {
-      "model": "opencode/mimo-v2-pro-free",
-      "variant": "high",
+      "model": "opencode/mimo-v2.5-free",
       "fallback_models": [
         {
-          "model": "opencode/claude-opus-4-6",
-          "variant": "max"
+          "model": "opencode/muse-spark-1.3-contributor-free",
+          "variant": "high"
         },
         {
-          "model": "opencode/gpt-5.4"
+          "model": "google/gemini-3.1-flash-lite",
+          "variant": "high"
         }
       ]
     },
@@ -170,13 +168,13 @@
       "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         {
-          "model": "opencode/claude-haiku-4-5"
+          "model": "opencode/ling-3.0-flash-fin-free"
         },
         {
-          "model": "opencode/gemini-3-flash"
+          "model": "google/gemini-3.1-flash-lite"
         },
         {
-          "model": "opencode/gpt-5-nano"
+          "model": "opencode/nemotron-3.5-lightning-free"
         }
       ]
     },
@@ -184,11 +182,12 @@
       "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         {
-          "model": "opencode/gpt-5.3-codex",
+          "model": "opencode/ling-3.0-flash-fin-free",
           "variant": "medium"
         },
         {
-          "model": "opencode/gemini-3-flash"
+          "model": "google/gemini-3.1-flash-lite",
+          "variant": "medium"
         }
       ]
     },
@@ -196,19 +195,23 @@
       "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         {
-          "model": "opencode/gpt-5.3-codex",
+          "model": "opencode/ling-3.0-flash-fin-free",
           "variant": "medium"
         },
         {
-          "model": "opencode/gemini-3-flash"
+          "model": "google/gemini-3.1-flash-lite",
+          "variant": "medium"
         }
       ]
     },
     "writing": {
-      "model": "openrouter/openrouter/free",
+      "model": "opencode/muse-spark-1.3-contributor-free",
       "fallback_models": [
         {
-          "model": "opencode/claude-sonnet-4-6"
+          "model": "opencode/mimo-v2.5-free"
+        },
+        {
+          "model": "google/gemini-3.1-flash-lite"
         }
       ]
     }
