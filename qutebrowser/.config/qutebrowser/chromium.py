@@ -30,9 +30,10 @@ config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")
 config.set("content.headers.accept_language", "", "https://matchmaker.krunker.io/*")  # noqa: E501
 c.content.headers.user_agent = "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}"  # noqa: E501
-c.content.headers.custom = {
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-}
+# Global Accept override removed: a static text/html Accept breaks image CDNs
+# (e.g. preview.redd.it) which require image/webp,image/*; QtWebEngine sends
+# the correct per-resource Accept automatically (text/html for docs, image/* for images).
+c.content.headers.custom = {}
 config.set("content.javascript.enabled", True, "chrome-devtools://*")
 config.set("content.javascript.enabled", True, "devtools://*")
 config.set("content.javascript.enabled", True, "chrome://*/*")
