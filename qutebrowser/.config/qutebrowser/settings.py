@@ -84,6 +84,20 @@ c.statusbar.show = "never"
 
 # content: {{{
 c.content.blocking.enabled = True
+c.content.blocking.method = "both"
+c.content.blocking.adblock.lists = [
+    "https://easylist.to/easylist/easylist.txt",
+    "https://easylist.to/easylist/easyprivacy.txt",
+    "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt",
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt",
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt",
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
+    "https://raw.githubusercontent.com/abpvn/abpvn/master/filter/abpvn.txt",
+]
+c.content.blocking.hosts.lists = [
+    "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
+]
 c.content.cache.size = 512000
 c.content.geolocation = False
 c.content.headers.user_agent = (
@@ -98,7 +112,7 @@ c.content.prefers_reduced_motion = True
 # so proxysplit.py (started by qutebrowser-daemon) routes the dev server
 # through the hysteria tunnel and everything else directly; QtWebEngine is
 # fed this single global proxy via the application QNetworkProxyFactory.
-c.content.proxy = "socks5://127.0.0.1:1081"
+c.content.proxy = "system"
 c.content.tls.certificate_errors = "ask-block-thirdparty"
 # }}}
 

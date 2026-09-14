@@ -38,6 +38,27 @@ os.environ["FREEZE_EXEMPT_DOMAINS"] = ""
 # the environment because qutebrowser purges sys.modules entries added while
 
 # sourcing a config file, so no attribute survives from here. {{{
+def _vn_ads_mapping():
+    """Map every domain in css/sites/vn-ads.domains to vn-ads.css.
+
+    The domains file is generated from abpvn.txt alongside vn-ads.css (see
+    the header of that file); only domains with at least one kept cosmetic
+    selector are listed. Missing/unreadable file -> no mapping (never fatal).
+    """
+    path = os.path.expanduser(CSS_DIR + "sites/vn-ads.domains")
+    try:
+        with open(path, encoding="utf-8") as f:
+            domains = [
+                line.strip().lower()
+                for line in f
+                if line.strip() and not line.startswith("#")
+            ]
+    except OSError:
+        return {}
+    module = CSS_DIR + "sites/vn-ads.css"
+    return {domain: module for domain in domains}
+
+
 os.environ["SITE_CSS"] = json.dumps(
     {
         "youtube.com": CSS_DIR + "sites/youtube.css",
@@ -46,6 +67,7 @@ os.environ["SITE_CSS"] = json.dumps(
         "stackoverflow.com": CSS_DIR + "sites/stackoverflow.css",
         "news.ycombinator.com": CSS_DIR + "sites/news.ycombinator.com.css",
         "google.com": CSS_DIR + "sites/google.com.css",
+        **_vn_ads_mapping(),
     }
 )
 # }}}
