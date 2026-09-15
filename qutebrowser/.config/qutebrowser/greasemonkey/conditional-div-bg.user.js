@@ -3,6 +3,9 @@
 // @description Paint divs with --od-bg0 only when the site gave them a
 //              solid background; keep transparent, translucent, and
 //              gradient-only divs see-through so they never cover content.
+//              Viewport-gated: only divs intersecting the viewport are ever
+//              probed (IntersectionObserver), so streaming/infinite-scroll
+//              pages never stall on off-screen content.
 //              Reacts to stylesheet toggles: `xc` (config-cycle
 //              content.user_stylesheets) and `toggle-tab-css` (Ctrl-r) both
 //              rewrite qutebrowser's injected <style> in place via set_css(),
@@ -57,8 +60,20 @@
     // variable can be told apart from "stylesheet hasn't landed yet".
     let seenCandidateStyle = false;
     let recheckRaf = 0;
+    // Viewport gating: getComputedStyle forces a synchronous style recalc,
+    // so divs are only probed once the IntersectionObserver reports them
+    // visible. Off-screen streaming content (chat history, feeds) is
+    // observed but never probed until scrolled into view.
+    let io = null;
+    const awaitingView = new Set();
+    const readyQueue = [];
+    // Bound the tracked set: on endless streams observation count would
+    // otherwise grow with the DOM and cost CPU per mutation. Overflow divs
+    // are probed via the budgeted readyQueue instead of dropped, so nothing
+    // stays unpainted — it just waits its turn.
+    const MAX_AWAIT_VIEW = 3000;
     // Diagnostics: read via `:jseval JSON.stringify(window.__cdb)`.
-    const stats = { theme: 'unknown', bg0: '', painted: 0, seeThrough: 0, themed: 0, pending: 0 };
+    const stats = { theme: 'unknown', bg0: '', painted: 0, seeThrough: 0, themed: 0, pending: 0, awaiting: 0 };
     window.__cdb = stats;
 
     // Diagnostic mode: appending `#cdb` to a URL shows live stats in the tab
@@ -135,6 +150,13 @@
         paintedEls.clear();
         pending.clear();
         toPaint.clear();
+        if (io !== null) {
+            io.disconnect();
+            io = null;
+        }
+        awaitingView.clear();
+        readyQueue.length = 0;
+        stats.awaiting = 0;
         suspendedWalk = null;  // unprobed elements; re-enable re-probes all
         stats.painted = 0;
         stats.pending = 0;
@@ -173,6 +195,13 @@
             visited = new WeakSet();
             paintedEls = new Set();
             coveredRoots = new WeakSet();
+            if (io !== null) {
+                io.disconnect();
+                io = null;
+            }
+            awaitingView.clear();
+            readyQueue.length = 0;
+            stats.awaiting = 0;
             if (document.body) {
                 probeTree(document.body, Infinity);
             }
@@ -214,6 +243,9 @@
         return image !== 'none' && !image.startsWith('url(');
     }
 
+    // Funnel every candidate div through the viewport gate: observing is
+    // cheap (no style recalc); the getComputedStyle probe itself happens in
+    // probeNow(), only once the IntersectionObserver reports the div visible.
     function probe(el, budget) {
         if (themeState === 'off') {
             return budget;  // stylesheet stripped: leave the site's own colors alone
@@ -233,9 +265,26 @@
             }
             return budget;
         }
+        visited.add(el);
+        observeForView(el);
+        return budget;
+    }
+
+    // The expensive half of probe(): runs only for divs known to intersect
+    // the viewport, under the per-frame readyQueue budget in processBatch().
+    function probeNow(el, budget) {
+        if (themeState === 'off' || budget <= 0) {
+            return budget;
+        }
+        if (!resolveTheme()) {
+            if (pending.size < 2000) {
+                pending.add(el);
+                stats.pending = pending.size;
+            }
+            return budget;
+        }
         const cs = getComputedStyle(el);
         const bg = cs.backgroundColor;
-        visited.add(el);
         budget--;
         if (shades.includes(bg)) {
             stats.themed++;  // already painted by the theme stylesheet
@@ -248,6 +297,46 @@
         }
         toPaint.add(el);
         return budget;
+    }
+
+    function observeForView(el) {
+        if (io === null) {
+            io = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    const target = entry.target;
+                    if (!target.isConnected) {
+                        // Detached (virtualized lists prune nodes): stop
+                        // tracking instead of leaking the observation.
+                        io.unobserve(target);
+                        awaitingView.delete(target);
+                        stats.awaiting = awaitingView.size;
+                        continue;
+                    }
+                    if (entry.isIntersecting) {
+                        io.unobserve(target);
+                        awaitingView.delete(target);
+                        stats.awaiting = awaitingView.size;
+                        readyQueue.push(target);
+                    }
+                }
+                if (readyQueue.length) {
+                    schedule();
+                }
+            });
+        }
+        awaitingView.add(el);
+        stats.awaiting = awaitingView.size;
+        io.observe(el);
+        if (awaitingView.size > MAX_AWAIT_VIEW) {
+            // Oldest tracked div, FIFO (Sets iterate insertion order):
+            // probe it through the budgeted queue instead of tracking it.
+            const oldest = awaitingView.values().next().value;
+            io.unobserve(oldest);
+            awaitingView.delete(oldest);
+            stats.awaiting = awaitingView.size;
+            readyQueue.push(oldest);
+            schedule();
+        }
     }
 
     function applyPaint() {
@@ -299,7 +388,7 @@
         }
         // Deliberately no visited early-return: budget-exhausted subtrees are
         // re-walked (from the saved stack) next frame; probe() skips decided
-        // elements, so resumed walks only probe what's left.
+        // elements, so resumed walks only pick up what's left.
         const stack = [node];
         budget = walkStack(stack, budget);
         if (budget <= 0) {
@@ -378,13 +467,23 @@
                 coveredRoots.add(node);
             }
         }
+        // Probe divs the viewport gate released, capped per frame so a flood
+        // of newly-visible nodes (initial load, long scroll jump) can't stall.
+        let readyBudget = MAX_STYLE_PROBES;
+        while (readyQueue.length && readyBudget > 0) {
+            // pop() instead of shift(): paint order is irrelevant, LIFO is O(1).
+            const el = readyQueue.pop();
+            if (el.isConnected) {
+                readyBudget = probeNow(el, readyBudget);
+            }
+        }
         // Writes only after all reads: no per-probe forced style recalc.
         applyPaint();
         // Late-arriving stylesheet: drain whatever got queued before it.
         if (pending.size) {
             scheduleRecheck();
         }
-        if (queue.length || suspendedWalk) {
+        if (queue.length || suspendedWalk || readyQueue.length) {
             schedule();
         }
     }

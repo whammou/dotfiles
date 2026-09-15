@@ -40,7 +40,7 @@
     const visited = new Set(stored);
 
     // Diagnostics: read via `:jseval JSON.stringify(window.__vltmp)`.
-    const stats = { clicks: 0, recolored: 0, stored: visited.size };
+    const stats = { clicks: 0, recolored: 0, stored: visited.size, queued: 0 };
     window.__vltmp = stats;
 
     let styleEl = null;
@@ -132,18 +132,90 @@
 
     // Initial pass plus incremental sweeps over added subtrees only, so SPA
     // navigation and infinite feeds do not force full-document rescans.
+    // Sweeps are batched: streaming pages add thousands of nodes per minute
+    // and sweeping synchronously per mutation stalls input, so added
+    // subtrees drain at most MAX_SWEEPS_PER_FRAME per animation frame.
+    const MAX_SWEEPS_PER_FRAME = 128;
+    const sweepQueue = [];
+    let sweepHead = 0;
+    // Nodes whose subtree sweep is still queued: a node is skipped when any
+    // ancestor is already queued, because that ancestor's sweep will cover it
+    // (an SPA burst adds a container and its children as separate records).
+    const sweepQueued = new Set();
+    let sweepRafId = 0;
+
+    function queueSweep(node) {
+        if (node.nodeType !== Node.ELEMENT_NODE) {
+            return;
+        }
+        for (let p = node.parentNode; p; p = p.parentNode) {
+            if (sweepQueued.has(p)) {
+                return;
+            }
+        }
+        if (!sweepQueued.has(node)) {
+            sweepQueued.add(node);
+            sweepQueue.push(node);
+            // Bound memory on endless streams: oldest subtrees simply miss
+            // recoloring (their links stay unmarked, nothing breaks).
+            if (sweepQueue.length - sweepHead > 2000) {
+                sweepQueued.delete(sweepQueue[sweepHead++]);
+            }
+            stats.queued = sweepQueue.length - sweepHead;
+        }
+    }
+
+    function processSweeps() {
+        sweepRafId = 0;
+        let processed = 0;
+        while (sweepHead < sweepQueue.length && processed < MAX_SWEEPS_PER_FRAME) {
+            const node = sweepQueue[sweepHead++];
+            sweepQueued.delete(node);
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                // Dropped when a queued ancestor will sweep this subtree anyway
+                // (the ancestor was queued after this node in the same burst).
+                let covered = false;
+                for (let p = node.parentNode; p; p = p.parentNode) {
+                    if (sweepQueued.has(p)) {
+                        covered = true;
+                        break;
+                    }
+                }
+                if (!covered) {
+                    if (node.matches('a[href]')) {
+                        recolor(node);
+                    }
+                    sweep(node);
+                }
+            }
+            processed++;
+        }
+        if (sweepHead > 0) {
+            sweepQueue.splice(0, sweepHead);
+            sweepHead = 0;
+        }
+        stats.queued = sweepQueue.length - sweepHead;
+        if (stats.queued) {
+            scheduleSweep();
+        }
+    }
+
+    function scheduleSweep() {
+        if (sweepRafId) {
+            return;
+        }
+        sweepRafId = requestAnimationFrame(processSweeps);
+    }
+
     sweep(document);
     const observer = new MutationObserver((records) => {
         for (const record of records) {
             for (const node of record.addedNodes) {
-                if (node.nodeType !== Node.ELEMENT_NODE) {
-                    continue;
-                }
-                if (node.matches('a[href]')) {
-                    recolor(node);
-                }
-                sweep(node);
+                queueSweep(node);
             }
+        }
+        if (sweepQueue.length - sweepHead) {
+            scheduleSweep();
         }
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });

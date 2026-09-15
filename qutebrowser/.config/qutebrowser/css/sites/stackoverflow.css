@@ -3,4 +3,12 @@ section.mt-content-container p {
   color: var(--od-fg) !important;
 }
 
+/* Relocated from the global bundle (50-typography.css): Stacks design
+   system classes. Kept per-site so the global bundle pays no
+   descendant-selector cost on other pages. */
+div.s-post-summary--stats-item span,
+a.question-hyperlink {
+  color: var(--od-grey) !important;
+}
+
 /* }}} */

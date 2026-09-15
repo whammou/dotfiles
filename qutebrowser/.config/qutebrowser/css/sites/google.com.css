@@ -3,3 +3,12 @@
 div.rFY7Pc {
   background-image: none !important;
 }
+
+/* Relocated from the global bundle (30-theme-reset.css): Google-obfuscated
+   classes with hardcoded background images. Kept per-site so the global
+   bundle pays no descendant-selector cost on other pages. */
+div.mMsbvc,
+span#marketing-card-callout-text,
+span.marketing-card-note {
+  background-image: none !important;
+}

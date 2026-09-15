@@ -123,14 +123,13 @@ a:focus {
   text-decoration: underline;
 }
 
-/* Specialized links */
+/* Specialized links (generic leftovers; Stack Overflow's Stacks classes
+   moved to css/sites/stackoverflow.css) */
 a.columnlinklist__content--link,
 span.pre,
 span.cfc-switcher-button-label-text,
-div.s-post-summary--stats-item span,
-a.-link--channel-name,
 div.url_wrapper a,
-a.question-hyperlink {
+a.-link--channel-name {
   color: var(--od-grey) !important;
 }
 

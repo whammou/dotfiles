@@ -80,13 +80,10 @@ del {
   background-color: var(--od-diff-delete) !important;
 }
 
-/* --- Interactive rise, blended over time --- */
-tbody tr,
-[role="option"],
-[role="menuitem"] {
-  transition: background-color 0.2s ease;
-}
-
+/* --- Interactive rise, blended over time ---
+   NOTE: no `transition` here on purpose: background-color transitions run
+   on the main thread, so on streaming/infinite-scroll pages every mutation
+   would keep an animation alive and stall input. Hovers apply instantly. */
 tbody tr:hover {
   background-color: var(--od-bg2) !important;
 }
@@ -112,52 +109,11 @@ tbody tr:hover {
   border: none !important;
 }
 
-/* Interiors of shaded containers keep the container shade: their div
-   children must not paint bg0 over the layer's own background. */
-nav div,
-header div,
-footer div,
-aside div,
-[role="complementary"] div,
-[role="banner"] div,
-[role="navigation"] div,
-[role="contentinfo"] div,
-[role="tablist"] div,
-[role="menu"] div,
-[role="menuitem"] div,
-[role="option"] div,
-[role="listbox"] div,
-[role="tooltip"] div,
-[role="dialog"] div,
-dialog div,
-[class*="sidebar"] div,
-[class*="side-bar"] div,
-[class*="card"] div,
-[class*="panel"] div,
-[class*="widget"] div,
-[class*="dropdown"] div,
-[class*="popover"] div,
-/*[class*="header"] div,*/
-[class*="toolbar"] div,
-[class*="navbar"] div,
-[class*="menubar"] div,
-[class*="breadcrumb"] div,
-[class*="pagination"] div,
-[class*="footer"] div,
-[class*="tablist"] div,
-[class*="tab-bar"] div,
-[class*="tab-list"] div,
-[class*="hero"] div,
-[class*="banner"] div,
-[class*="badge"] div,
-[class*="chip"] div,
-[class*="overlay"] div,
-[class*="backdrop"] div,
-[class*="scrim"] div,
-[class*="mask"] div,
-[class*="dimmer"] div {
-  background-color: transparent !important;
-}
+/* Interiors of shaded containers keep the container shade via
+   greasemonkey/conditional-div-bg.user.js, which paints only solid-bg divs
+   and leaves transparent ones alone per element. A static `X div` selector
+   block lived here before; it forced an ancestor walk per div per selector
+   on every DOM mutation and stalled streaming pages, so it was removed. */
 
 /* Custom-select options are divs; keep them see-through so the listbox
    shade shows, hover still rises via the interactive rules. */
