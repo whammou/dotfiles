@@ -10,7 +10,7 @@ Usage:
     export-qutebrowser-cookies.py [OUTPUT_PATH]
 
 Writes a Netscape-format cookies.txt (the format yt-dlp's --cookies expects),
-defaulting to /tmp/qutebrowser-cookies.txt. The .txt file is only read by
+defaulting to ~/.cache/qutebrowser-cookies.txt (persistent, per-host). The .txt file is only read by
 yt-dlp at fetch time, so running this just before mpv launch keeps auth fresh.
 """
 
@@ -88,7 +88,7 @@ def convert(profile_dir: Path, out_path: Path) -> int:
 
 def main() -> int:
     home = Path.home()
-    out_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("/tmp/qutebrowser-cookies.txt")
+    out_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.home() / ".cache" / "qutebrowser-cookies.txt"
     # qutebrowser's data dir can be overridden via QUTE_WEBENGINE_DATADIR; default is ~/.local/share/qutebrowser.
     profile_dir = Path(os.environ.get("QUTE_WEBENGINE_DATADIR", str(home / ".local" / "share" / "qutebrowser")))
     return convert(profile_dir, out_path)
