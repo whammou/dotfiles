@@ -2,6 +2,20 @@
 -- to avoid being wiped by onedark's `hi clear` during colorscheme application.
 
 return {
+
+  {
+    "m00qek/baleia.nvim",
+    lazy = true,
+    config = function()
+      require("baleia").setup({ strip_ansi_codes = true })
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "kitty-scrollback",
+        callback = function()
+          require("baleia").once(vim.api.nvim_get_current_buf())
+        end,
+      })
+    end,
+  },
   {
     "lukas-reineke/headlines.nvim",
     lazy = true,
