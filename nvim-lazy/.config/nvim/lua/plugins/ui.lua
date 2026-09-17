@@ -14,142 +14,43 @@ end
 return {
   {
     "akinsho/bufferline.nvim",
-    config = function()
-      local bufferline = require("bufferline")
-      vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#21252b", fg = "#21252b" })
-      vim.api.nvim_set_hl(0, "BufferLineFill", { bg = "#21252b", fg = "#21252b" })
-      bufferline.setup({
-        options = {
-          buffer_close_icon = "",
-          show_buffer_close_icons = false,
-          show_close_icon = false,
-          show_tab_indicators = false,
-          modified_icon = "●",
-          separator_style = "none",
-          enforce_regular_tabs = false,
-          tab_size = 0,
-          always_show_bufferline = true,
-          indicator = {
-            style = "none",
-          },
-          offsets = {
-            {
-              filetype = "neo-tree",
-              raw = "%{%v:lua.__get_selector()%}",
-              separator = "",
-            },
-          },
-          hover = {
-            enabled = false,
-            delay = 200,
-            reveal = { "close" },
+    opts = {
+      options = {
+        always_show_bufferline = true,
+        indicator = {
+          style = "none",
+        },
+        separator_style = { "", "" },
+        style_preset = require("bufferline").style_preset.no_italic,
+        show_buffer_close_icons = false,
+        show_close_icon = false,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "Explorer",
+            highlight = "Directory",
+            text_align = "left",
+            separator = true,
           },
         },
-        highlights = {
-          fill = {
-            bg = "#21252b",
-            fg = "#21252b",
-          },
-          background = {
-            fg = "#848b98",
-            bg = "#21252b",
-          },
-          tab = {
-            fg = "#848b98",
-            bg = "#21252b",
-          },
-          buffer_selected = {
-            fg = "#848b98",
-            bg = "#282c34",
-            bold = true,
-            italic = false,
-          },
-          tab_selected = {
-            fg = "#848b98",
-            bg = "#282c34",
-            bold = true,
-            italic = false,
-          },
-          duplicate = {
-            fg = "#848b98",
-            bg = "#21252b",
-          },
-          duplicate_selected = {
-            fg = "#848b98",
-            bg = "#282c34",
-            bold = true,
-            italic = false,
-          },
-          tab_close = {
-            fg = "#848b98",
-            bg = "#21252b",
-          },
-          separator = {
-            fg = "#21252b",
-            bg = "#21252b",
-          },
-          separator_selected = {
-            fg = "#282c34",
-            bg = "#282c34",
-          },
-          indicator_selected = {
-            fg = "#21252b",
-            bg = "#21252b",
-          },
-          trunc_marker = {
-            fg = "#848b98",
-            bg = "#21252b",
-          },
-        },
-      })
-
-      -- Patch bufferline's internal get_section_text to support raw offset field
-      -- Reference: https://github.com/nvim-neo-tree/neo-tree.nvim/issues/1368
-      local Offset = require("bufferline.offset")
-      local get_func = Offset.get
-      for i = 1, 100 do
-        local name, val = debug.getupvalue(get_func, i)
-        if name == "get_section_text" then
-          local orig = val
-          debug.setupvalue(get_func, i, function(size, highlight, offset, is_left)
-            if offset.raw then
-              local text = offset.raw
-              if type(text) == "function" then
-                text = text()
-              end
-              text = text or ""
-              -- Pad to the slot width (the neo-tree window width) like the native
-              -- implementation, so the tabline expands in sync with the tree.
-              -- Measure the evaluated string with strwidth: eval_statusline's
-              -- .width miscounts ambiguous-width glyphs (e.g. the selector's
-              -- "▕" separators), and %{...} literals would inflate strwidth.
-              local ok, evaluated = pcall(vim.api.nvim_eval_statusline, text, { use_tabline = true })
-              local text_size = 0
-              if ok and evaluated and evaluated.str then
-                text_size = vim.api.nvim_strwidth((evaluated.str:gsub("%%#%w+#", ""):gsub("%%%*", "")))
-              end
-              if text_size < size then
-                local pad = size - text_size
-                local left, right = math.floor(pad / 2), math.ceil(pad / 2)
-                text = string.rep(" ", left) .. text .. string.rep(" ", right)
-              end
-              -- Prepend the offset text highlight (resolved from the tree window's
-              -- winhighlight) like the native implementation, so padded/empty cells
-              -- render with the tree's background instead of the default tabline bg.
-              text = (highlight.text or "") .. text
-              if offset.separator then
-                local sep_icon = type(offset.separator) == "string" and offset.separator or "│"
-                local sep = (highlight.sep or "") .. sep_icon
-                return (not is_left and sep or "") .. text .. (is_left and sep or "")
-              end
-              return text
-            end
-            return orig(size, highlight, offset, is_left)
-          end)
-          break
-        end
-      end
-    end,
+      },
+      highlights = {
+        fill = { bg = "#21252b" },
+        background = { fg = "#abb2bf", italic = false },
+        buffer_visible = { fg = "#abb2bf", italic = false },
+        buffer_selected = { fg = "#abb2bf", bold = true, italic = false },
+        duplicate = { fg = "#abb2bf", italic = false },
+        duplicate_visible = { fg = "#abb2bf", italic = false },
+        duplicate_selected = { fg = "#abb2bf", bold = true, italic = false },
+        tab = { fg = "#abb2bf", italic = false },
+        tab_selected = { fg = "#abb2bf", bold = true, italic = false },
+        tab_close = { fg = "#abb2bf", italic = false },
+      },
+    },
+    keys = {
+      { "<leader>bs", "<cmd>BufferLinePick<cr>", desc = "Pick buffer" },
+      { "<leader>bx", "<cmd>BufferLinePickClose<cr>", desc = "Pick buffer to close" },
+    },
   },
   {
     "nvim-lualine/lualine.nvim",
