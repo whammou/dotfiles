@@ -7,6 +7,7 @@ from .widget.centered_clock import CenteredClock
 from .widget.floating_count import FloatCount
 from .widget.keyd_indicator import KeydIndicator
 from .widget.window_count import WindowCount
+from .widget.popup_windowname import PopupWindowBox
 
 WIDGET_ICON_FONT = "HasklugNerdFont Medium"
 WIDGET_TEXT_FONT = "HasklugNerdFont"
@@ -273,6 +274,7 @@ widgets = [
     window_count(),
     icon_separator(),
     widget.Spacer(length=bar.STRETCH, background=colors["bg_d"]),
+    icon_separator(),
     CenteredClock(
         background=colors["bg_d"],
         format="%H:%M",
@@ -281,21 +283,13 @@ widgets = [
         font=WIDGET_ICON_FONT,
         name="clock_time",
     ),
+    icon_separator(),
     widget.Spacer(length=bar.STRETCH, background=colors["bg_d"]),
+    icon_separator(),
     separator(),
-        widget.WidgetBox(
+        PopupWindowBox(
             name="windowname_box",
-            widgets=[
-                widget.WindowName(
-                    **base(fg="light_grey"),
-                    font=WIDGET_TEXT_FONT,
-                    fontsize=16,
-                    padding=3,
-                    format="{name} - {class}  ",
-                    max_chars=60,
-                    stretch=False,
-                )
-            ],
+            widgets=[],
             text_closed=" 󰘖 ",
             text_open=" 󰘕 ",
             fontsize=16,
