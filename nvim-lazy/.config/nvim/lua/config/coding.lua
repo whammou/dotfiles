@@ -62,7 +62,8 @@ blink.setup({
           trailing_slash = true,
           label_trailing_slash = true,
           get_cwd = function()
-            return vim.fn.getcwd()
+            local buf_dir = vim.fn.expand("%:p:h")
+            return buf_dir ~= "" and buf_dir or vim.fn.getcwd()
           end,
           show_hidden_files_by_default = true,
           ignore_root_slash = false,
