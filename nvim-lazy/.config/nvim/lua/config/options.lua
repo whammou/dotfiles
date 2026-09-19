@@ -11,7 +11,7 @@ vim.opt.title = true
 vim.opt.titlelen = 0 -- do not shorten title
 vim.opt.titlestring = "NVIM | %F"
 
-opt.autochdir = true
+-- opt.autochdir = true -- DISABLED: breaks gitsigns/neo-tree git_status (watch_gitdir loses .git root); LazyVim uses Snacks.root + lsp root instead
 opt.autoread = true
 opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,winpos,terminal,localoptions,resize"
 

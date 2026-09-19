@@ -157,3 +157,22 @@ end
 --  silent = true,
 --  desc = "Copy relative path to project root",
 --})
+
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "DirChanged", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("git_status_refresh", { clear = true }),
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+    if package.loaded["gitsigns"] then
+      pcall(function()
+        require("gitsigns").refresh()
+      end)
+    end
+    if package.loaded["neo-tree.sources.git_status"] then
+      pcall(function()
+        require("neo-tree.sources.git_status").refresh()
+      end)
+    end
+  end,
+})
