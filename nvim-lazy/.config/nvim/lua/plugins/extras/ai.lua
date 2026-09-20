@@ -1,6 +1,8 @@
 return {
   {
     "folke/sidekick.nvim",
+    lazy = true,
+    cmd = "Sidekick",
     config = function()
       require("config.ai")
       vim.lsp.enable("org")
