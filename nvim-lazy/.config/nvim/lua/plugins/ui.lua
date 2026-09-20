@@ -14,6 +14,7 @@ end
 return {
   {
     "akinsho/bufferline.nvim",
+    event = "UIEnter",
     opts = {
       options = {
         always_show_bufferline = true,
@@ -42,7 +43,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    lazy = true,
+    event = "UIEnter",
     config = function()
       require("config.ui.vscode_onedark")
     end,
