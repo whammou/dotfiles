@@ -90,7 +90,7 @@
       "color": "#abb2bf"
     },
     "sisyphus-junior": {
-      "model": "google/gemini-3.1-flash-lite",
+      "model": "opencode/muse-spark-1.2-contributor-free",
       "fallback_models": [
         "opencode/big-pickle",
         "google/gemini-3.1-flash-lite",
