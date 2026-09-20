@@ -38,18 +38,65 @@ return {
     keys = {
       {
         "<leader>ef",
-        "<cmd>Neotree show toggle dir=./<CR>",
-        desc = "Toggle file explorer (cwd)",
+        function()
+          local dir = vim.fn.expand("%:p:h")
+          if dir == "" or vim.fn.isdirectory(dir) == 0 then
+            dir = vim.fn.getcwd()
+          end
+          require("neo-tree.command").execute({
+            action = "show",
+            dir = dir,
+            reveal = true,
+            reveal_force_cwd = true,
+          })
+        end,
+        desc = "Show file explorer (buffer dir)",
       },
       {
-        "<leader>eh",
-        "<cmd>Neotree show toggle dir=~<cr>",
-        desc = "Neotree go HOME",
+        "<leader>ep",
+        function()
+          local function git_root()
+            local path = vim.fn.expand("%:p:h")
+            if path == "" or vim.fn.isdirectory(path) == 0 then
+              path = vim.fn.getcwd()
+            end
+            local found = vim.fs.find(".git", { upward = true, path = path })
+            if found and #found > 0 then
+              return vim.fn.fnamemodify(found[1], ":h")
+            end
+            local out = vim.fn.system({ "git", "-C", path, "rev-parse", "--show-toplevel" })
+            if vim.v.shell_error == 0 then
+              return vim.trim(out)
+            end
+            return nil
+          end
+          local dir = git_root()
+          if dir then
+            require("neo-tree.command").execute({
+              action = "show",
+              dir = dir,
+              reveal = true,
+              reveal_force_cwd = true,
+            })
+          else
+            require("neo-tree.command").execute({ action = "show", dir = vim.fn.expand("~") })
+          end
+        end,
+        desc = "Show file explorer (git root or HOME)",
       },
       {
-        "<leader>es",
-        "<cmd>Neotree show toggle remote<cr>",
-        desc = "Open remote home via netrw",
+        "<leader>er",
+        function()
+          require("neo-tree.command").execute({ action = "show", source = "remote" })
+        end,
+        desc = "Show remote home via netrw",
+      },
+      {
+        "<leader>ex",
+        function()
+          require("neo-tree.command").execute({ action = "close" })
+        end,
+        desc = "Hide file explorer",
       },
     },
     opts = {
