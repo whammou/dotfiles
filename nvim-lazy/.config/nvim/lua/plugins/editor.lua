@@ -30,6 +30,14 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     lazy = true,
+    init = function()
+      if vim.fn.argc() == 1 then
+        local stat = (vim.uv or vim.loop).fs_stat(vim.fn.argv(0))
+        if stat and stat.type == "directory" then
+          require("lazy").load({ plugins = { "neo-tree.nvim" } })
+        end
+      end
+    end,
     dependencies = {
       "whammou/netman.nvim",
       lazy = true,
@@ -100,6 +108,9 @@ return {
       },
     },
     opts = {
+      filesystem = {
+        hijack_netrw_behavior = "open_default",
+      },
       sources = {
         "filesystem",
         "git_status",
@@ -198,6 +209,24 @@ return {
             end)
           end,
         },
+        -- Clean up the hijack's listed empty [No Name] buffer when nvim is
+        -- launched with a directory (e.g. `nvim ~/.config/qtile`). netrw hijack
+        -- creates a listed empty buffer to replace the directory buffer; after
+        -- opening a file via neo-tree that empty buffer stays listed as No Name.
+        {
+          event = "file_opened",
+          handler = function(file_path)
+            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+              if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) == "" and vim.bo[buf].buftype == "" then
+                if vim.api.nvim_buf_line_count(buf) == 1 and vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] == "" then
+                  if #vim.api.nvim_list_wins() > 1 then
+                    pcall(vim.api.nvim_buf_delete, buf, { force = true })
+                  end
+                end
+              end
+            end
+          end,
+        },
       },
     },
     config = function(_, opts)
@@ -278,6 +307,28 @@ return {
     cmd = { "WebdavFzf" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
+      actions = {
+        files = {
+          ["enter"] = function(selected, opts)
+            if #selected > 1 then
+              return require("fzf-lua.actions").file_edit_or_qf(selected, opts)
+            end
+            local entry = require("fzf-lua.path").entry_to_file(selected[1], opts)
+            local path = entry.path or entry.bufname or entry.uri
+            if path then
+              if not require("fzf-lua.path").is_absolute(path) then
+                path = require("fzf-lua.path").join({ opts.cwd or opts._cwd or vim.fn.getcwd(), path })
+              end
+              local stat = (vim.uv or vim.loop).fs_stat(path)
+              if (stat and stat.type == "directory") or vim.fn.isdirectory(path) == 1 then
+                require("neo-tree.command").execute({ action = "show", dir = path })
+                return
+              end
+            end
+            require("fzf-lua.actions").file_edit_or_qf(selected, opts)
+          end,
+        },
+      },
       winopts = {
         split = "belowright new",
         border = "single",
