@@ -351,6 +351,7 @@ windows_keys = [
     EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
     EzKey("M-f", lazy.window.toggle_fullscreen()),
     EzKey("M-<Tab>", toggle_floating()),
+    EzKey("M-S-<Tab>", pull_floating_to_tab()),
     EzKey("A-S-0", floats_to_front()),
     # Rofi menu
     # EzKey("M-S-w", lazy.spawn("rofi -show window")),  # temporarily disabled for WindowName toggle
