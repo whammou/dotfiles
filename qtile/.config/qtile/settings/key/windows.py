@@ -199,43 +199,20 @@ def toggle_tiling_floating_focus(qtile):
 
 @lazy.function
 def pull_floating_to_tab(qtile):
-    """Handle M-u for both floating and tiled windows.
-
-    Floating windows are not in the Bonsai tree, so they must first be
-    tiled via ``disable_floating()`` which triggers ``Group.mark_floating``
-    -> ``Layout.add_client``. Then focus the newly tiled window and pull
-    it out to a new tab at the nearest TabContainer.
-    """
-    win = qtile.current_window
-    if win is not None and win.floating:
+    group = qtile.current_group
+    if group is None:
+        return
+    layout = group.layout
+    if hasattr(layout, "pull_floating_to_tab"):
         try:
-            win.disable_fullscreen()
+            layout.pull_floating_to_tab()
         except Exception:
             pass
-        win.disable_floating()
-        group = qtile.current_group
-        if group is not None:
-            group.focus(win)
-            layout = group.layout
-            pane = getattr(layout, "focused_pane", None)
-            tree = getattr(layout, "_tree", None)
-            if pane is not None and tree is not None:
-                try:
-                    tree.pull_out_to_tab(pane, normalize=True)
-                except ValueError:
-                    return
-                group.layout_all()
-            else:
-                func = getattr(layout, "pull_out_to_tab", None)
-                if func is not None:
-                    func()
-    else:
-        group = qtile.current_group
-        if group is not None:
-            layout = group.layout
-            func = getattr(layout, "pull_out_to_tab", None)
-            if func is not None:
-                func()
+    elif hasattr(layout, "pull_out_to_tab"):
+        try:
+            layout.pull_out_to_tab()
+        except Exception:
+            pass
 
 
 windows_keys = [
@@ -334,9 +311,10 @@ windows_keys = [
     EzKey("M-C-l", lazy.layout.resize("right", 300)),
     EzKey("M-C-k", lazy.layout.resize("up", 150)),
     EzKey("M-C-j", lazy.layout.resize("down", 150)),
-    # Swap tabs
-    EzKey("A-S-b", lazy.layout.swap_tabs("previous")),
-    EzKey("A-S-f", lazy.layout.swap_tabs("next")),
+    # Swap tabs — brackets must use keysym names bracketleft/bracketright
+    # EzKey parses "<bracketleft>" → "bracketleft" (keysyms["bracketleft"]=91), while "[" is NOT a valid keysym
+    EzKey("M-<bracketleft>", lazy.layout.swap_tabs("previous")),
+    EzKey("M-<bracketright>", lazy.layout.swap_tabs("next")),
     # Select containers
     EzKey("M-o", lazy.layout.select_container_outer()),
     EzKey("M-i", lazy.layout.select_container_inner()),

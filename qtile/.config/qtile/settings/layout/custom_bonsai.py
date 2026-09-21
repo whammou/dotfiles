@@ -16,6 +16,7 @@ class SmartBonsai(Bonsai):
         self.float_sizes = kwargs.pop("float_sizes", {})
         super().__init__(*args, **kwargs)
         self._pending_float = False
+        self._in_pull = False
 
     def _spawn_program(self, program: str):
         """
@@ -54,6 +55,9 @@ class SmartBonsai(Bonsai):
         self._spawn_program(program)
 
     def add_client(self, window):
+        if getattr(self, "_in_pull", False):
+            super().add_client(window)
+            return
         if self._pending_float:
             self._pending_float = False
             self._reset_next_window_handler()
@@ -353,11 +357,9 @@ class SmartBonsai(Bonsai):
     def pull_floating_to_tab(self, *, normalize: bool = True):
         """Pull the currently focused floating window into a new tab.
 
-        If the focused window is floating, it is first tiled via
-        ``disable_floating()`` (which triggers ``Group.mark_floating`` ->
-        ``Layout.add_client``), focused, then pulled out to a new tab at
-        the nearest ``TabContainer`` via Bonsai's ``pull_out_to_tab``.
-        If the window is already tiled, it is simply pulled out to a tab.
+        Directly creates a new tab for floating windows without using the
+        current tab as an intermediate, so the previous tab never resizes
+        (fixes nvim internal reflow on spurious ConfigureNotify).
         """
         win = self.group.current_window
         if win is None:
@@ -367,8 +369,38 @@ class SmartBonsai(Bonsai):
                 win.disable_fullscreen()
             except Exception:
                 pass
-            win.disable_floating()
+            orig_handler = getattr(self, "_next_window_handler", None)
+            try:
+                base = self.focused_pane
+                if base is None:
+                    try:
+                        base = next(self._tree.iter_panes())
+                    except StopIteration:
+                        base = None
+                if base is not None:
+                    self._next_window_handler = lambda tree, b=base: tree.tab(at_node=b)  # type: ignore[assignment]
+                else:
+                    self._next_window_handler = lambda tree: tree.tab()  # type: ignore[assignment]
+            except Exception:
+                pass
+            orig_relayout = self._request_relayout
+            self._request_relayout = lambda: None
+            self._in_pull = True
+            try:
+                win.disable_floating()
+            finally:
+                self._in_pull = False
+                self._request_relayout = orig_relayout
+                try:
+                    if orig_handler is not None:
+                        self._next_window_handler = orig_handler
+                    else:
+                        self._reset_next_window_handler()
+                except Exception:
+                    pass
             self.group.focus(win)
+            self._request_relayout()
+            return
         if self._tree.is_empty:
             return
         pane = self.focused_pane
