@@ -15,9 +15,22 @@ auto_kbd_layout: true
 menu:
   - key: "Return"
     desc: " Terminal"
-    cmd: "kitty"
-
-  # AI: {{{
+    cmd: kitty
+  # Toggle Inputs: {{{
+  - key: ";"
+    desc: "󰍿 Toggle Inputs"
+    submenu:
+      - key: "a"
+        desc: " Toggle Trackpad"
+        cmd: "toggle-trackpoint 'Synaptics TM3075-002' 󰟸"
+      - key: "k"
+        desc: " Toggle Keyboard"
+        cmd: _keyboard_toggle
+      - key: "o"
+        desc: " Toggle Trackpoint"
+        cmd: "toggle-trackpoint 'TPPS/2 IBM TrackPoint' 󰳽"
+  # }}
+  # AI Tools: {{{
   - key: "a"
     desc: "󰚩 AI Tools"
     submenu:
@@ -33,9 +46,11 @@ menu:
       - key: "O"
         desc: " OpenCode"
         cmd: "kitty --app-id=opencode --hold -e opencode"
-  # }}}
-
-  # Qutebrowser: {{{
+  # }}
+  - key: "A"
+    desc: " Applications List"
+    cmd: "rofi -show drun -m -1"
+  # qutebrowser: {{{
   - key: "b"
     desc: "󰖟 qutebrowser"
     submenu:
@@ -51,9 +66,8 @@ menu:
       - key: "t"
         desc: "󰝜 Tabbed"
         cmd: qutebrowser_tabbed
-  # }}}
-
-  # Chat: {{{
+  # }}
+  # chat: {{{
   - key: "c"
     desc: "󰭻 chat"
     submenu:
@@ -69,9 +83,8 @@ menu:
       - key: "z"
         desc: "󱆖 Zalo"
         cmd: "qutebrowser_quick chat.zalo.me/"
-  # }}}
-
-  # Explorer: {{{
+  # }}
+  # yazi: {{{
   - key: "e"
     desc: "󰉋 yazi"
     submenu:
@@ -84,17 +97,14 @@ menu:
       - key: "s"
         desc: "󰖩 SFTP Homelab"
         cmd: "kitty --app-id=yazi-sftp -e yazi sftp://homelab"
-  # }}}
-
+  # }}
   - key: "g"
     desc: "Lazygit Dotfiles"
     cmd: "kitty sh -c 'lazygit -p ~/dotfiles'"
-
-  - key: "l"
-    desc: " List Applications"
-    cmd: "rofi -show drun -m -1"
-
-  # Monitor: {{{
+  - key: "i"
+    desc: "󰢾 Discover Networks"
+    cmd: "rofi -show wifi -iface wlan0"
+  # monitor: {{{
   - key: "m"
     desc: "󰕾 monitor"
     submenu:
@@ -131,9 +141,14 @@ menu:
       - key: "v"
         desc: "󰁦 Voltage"
         cmd: "kitty --app-id=mon-voltage -e monitor-voltage"
-  # }}}
-
-  # Orgmode: {{{
+  # }}
+  - key: "M"
+    desc: " Cloud Drives"
+    cmd: rofi-mount
+  - key: "n"
+    desc: " Notification History"
+    cmd: "qspawn --float kitty notification_history"
+  # orgmode: {{{
   - key: "o"
     desc: " orgmode"
     submenu:
@@ -164,8 +179,36 @@ menu:
       - key: "z"
         desc: "󰖟 Browse"
         cmd: "kitty --app-id=org-browse -e orgmode-browse"
-  # }}}
-
+  # }}
+  - key: "p"
+    desc: "󰋋 PlayerCtl"
+    cmd: rofi-playerctl
+  # Power Menu: {{{
+  - key: "q"
+    desc: "⏻ Power Menu"
+    submenu:
+      - key: "b"
+        desc: " Reboot"
+        cmd: "systemctl reboot"
+      - key: "g"
+        desc: "󰶐 Log Out"
+        cmd: "systemctl --user stop qtile.service"
+      - key: "h"
+        desc: " Hibernate"
+        cmd: "systemctl hibernate"
+      - key: "k"
+        desc: "󰷛 Lock Screen"
+        cmd: swaylock
+      - key: "l"
+        desc: " Reload Desktop"
+        cmd: "systemctl --user restart qtile.service"
+      - key: "p"
+        desc: "󰒲 Suspend"
+        cmd: "systemctl suspend"
+      - key: "space"
+        desc: "⏼ Shut Down"
+        cmd: "systemctl poweroff"
+  # }}
   # SSH: {{{
   - key: "s"
     desc: "󰒍 SSH"
@@ -200,9 +243,8 @@ menu:
       - key: "9"
         desc: "󰒍 Session 9"
         cmd: 'kitty --app-id=ssh-session -e ssh homelab-fs -o RemoteCommand=none "exec $SHELL -lc ''tmux new -A -s 9''"'
-  # }}}
-
-  # Tmux: {{{
+  # }}
+  # tmux: {{{
   - key: "t"
     desc: "󰆍 tmux"
     submenu:
@@ -236,9 +278,8 @@ menu:
       - key: "9"
         desc: "󰆍 Session 9"
         cmd: "kitty --app-id=tmux-session -e tmux-session-attach 9"
-  # }}}
-
-  # Utility: {{{
+  # }}
+  # utility: {{{
   - key: "u"
     desc: "󰑩 utility"
     submenu:
@@ -290,21 +331,26 @@ menu:
       - key: "u"
         desc: "󰑐 System Update"
         cmd: "kitty --app-id=sys-upgrade --hold -e sh -c 'paru -Syy && paru -Syu && alert'"
+      - key: "w"
+        desc: "󰖩 Wifi Menu"
+        cmd: "kitty --class=nmcli-fzf -e sh nmwifi-fzf"
       - key: "y"
         desc: "󰋼 YouTube TV"
         cmd: "kitty --app-id=yt-x --title='YTX | Youtube' -e yt-x"
       - key: "Y"
         desc: "󰊽 YouTube Account"
         cmd: "firefox 'https://youtube.com/account'"
-      - key: "w"
-        desc: "󰖩 Wifi Menu"
-        cmd: "kitty --class=nmcli-fzf -e sh nmwifi-fzf"
-  # }}}
-
-  # Office Suites: {{{
+  # }}
+  - key: "v"
+    desc: " Clipboard History"
+    cmd: _cliphist-list
+  # Office Suite: {{{
   - key: "w"
     desc: " Office Suite"
     submenu:
+      - key: "c"
+        desc: "󰐩 Canva"
+        cmd: "qutebrowser_quick www.canva.com"
       # Google Suite: {{{
       - key: "g"
         desc: "󰊶 Google Suite"
@@ -330,22 +376,16 @@ menu:
           - key: "s"
             desc: "󰮰 Sheets"
             cmd: "qutebrowser_quick docs.google.com/spreadsheets"
-            # }}}
-
-      # Canva: {{{
-      - key: "c"
-        desc: "󰐩 Canva"
-        cmd: "qutebrowser_quick www.canva.com"
-      # }}}
-
-      # PDF editor: {{{
-      - key: "s"
-        desc: " Smallpdf"
-        cmd: "qutebrowser_quick https://smallpdf.com/"
+      # }}
       - key: "i"
         desc: " Ihatepdf"
         cmd: "qutebrowser_quick https://ihatepdf.cv/"
-      # }}}
-  # }}}
+      - key: "s"
+        desc: " Smallpdf"
+        cmd: "qutebrowser_quick https://smallpdf.com/"
+  # }}
+  - key: "W"
+    desc: "󱂬 Current Windows"
+    cmd: "rofi -show window"
 
 # vim: foldmethod=marker foldlevel=0

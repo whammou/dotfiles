@@ -14,30 +14,13 @@ auto_kbd_layout: true
 
 menu:
   # Spawning: {{{
-  # Inputs: {{{
-  - key: ";"
-    desc: "󰍿 Toggle Inputs"
-    submenu:
-      - key: "a"
-        desc: " Toggle Trackpad"
-        cmd: "toggle-trackpoint 'Synaptics TM3075-002' 󰟸"
-      - key: "k"
-        desc: " Toggle Keyboard"
-        cmd: "_keyboard_toggle"
-      - key: "o"
-        desc: " Toggle Trackpoint"
-        cmd: "toggle-trackpoint 'TPPS/2 IBM TrackPoint' 󰳽"
-  # }}}
   - key: "f"
     desc: " Spawn Float"
     cmd: "qspawn --float 'wlr-which-key spawn.yaml'"
   - key: "g"
     desc: " Spawn New-Group"
     cmd: "qspawn --tab --level 1 'wlr-which-key spawn.yaml'"
-  - key: "s"
-    desc: " Spawn Split"
-    cmd: "qspawn 'wlr-which-key spawn.yaml'"
-  # Spliting: {{{
+  # Split Position: {{{
   - key: "S"
     desc: "󰃻 Split Position"
     submenu:
@@ -53,61 +36,38 @@ menu:
       - key: "l"
         desc: "󰤼 Split Right"
         cmd: "qspawn --split-x 'wlr-which-key spawn.yaml'"
-  # }}}
-  # Tab: {{{
+  # }}
+  - key: "space"
+    desc: " Spawn Split"
+    cmd: "wlr-which-key spawn.yaml"
+  # Spawn Tab: {{{
   - key: "t"
     desc: "󰓩 Spawn Tab"
     submenu:
+      - key: "space"
+        desc: "󰓩 Split Tab"
+        cmd: "qspawn --tab 'wlr-which-key spawn.yaml'"
       - key: "h"
         desc: "󰘌 Tab Prev"
         cmd: "qspawn --tab --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰘍 Tab Next"
         cmd: "qspawn --tab --pos next 'wlr-which-key spawn.yaml'"
-      - key: "s"
-        desc: "󰓩 Split Tab"
-        cmd: "qspawn --tab 'wlr-which-key spawn.yaml'"
-    # }}}
-  # Tab new: {{{
+  # }}
+  # Tab New: {{{
   - key: "T"
     desc: "󰝜 Tab New"
     submenu:
+      - key: "space"
+        desc: "󰝜 Tab New"
+        cmd: "qspawn --tab --new-level 'wlr-which-key spawn.yaml'"
       - key: "h"
         desc: "󰝜 Tab New Prev"
         cmd: "qspawn --tab --new-level --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰝜 Tab New Next"
         cmd: "qspawn --tab --new-level --pos next 'wlr-which-key spawn.yaml'"
-      - key: "s"
-        desc: "󰝜 Tab New"
-        cmd: "qspawn --tab --new-level 'wlr-which-key spawn.yaml'"
-    # }}}
-  # Power Menu: {{{
-  - key: "q"
-    desc: "⏻ Power Menu"
-    submenu:
-      - key: "b"
-        desc: " Reboot"
-        cmd: "systemctl reboot"
-      - key: "g"
-        desc: "󰶐 Log Out"
-        cmd: "systemctl --user stop qtile.service"
-      - key: "h"
-        desc: " Hibernate"
-        cmd: "systemctl hibernate"
-      - key: "k"
-        desc: "󰷛 Lock Screen"
-        cmd: "swaylock"
-      - key: "l"
-        desc: " Reload Desktop"
-        cmd: "systemctl --user restart qtile.service"
-      - key: "s"
-        desc: "⏼ Shut Down"
-        cmd: "systemctl poweroff"
-      - key: "p"
-        desc: "󰒲 Suspend"
-        cmd: "systemctl suspend"
+  # }}
   # }}}
-# }}}
 
 # vim: foldmethod=marker foldlevel=0
