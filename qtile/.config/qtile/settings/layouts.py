@@ -4,7 +4,7 @@ from libqtile.config import Match
 from .layout.custom_bonsai import SmartBonsai
 from .screens import GAP
 from .theme import colors
-from .smart_bonsai import smart_split
+from .smart_bonsai import smart_split, smart_split_optimal
 
 _last_focused = None
 _suppress_floating_hide = False
@@ -398,7 +398,7 @@ layouts = [
             "window.border_color": colors["bg0"],
             "window.active.border_color": BORDER_COLOR,
             "window.margin": [0, GAP, GAP * 2, GAP],
-            "window.default_add_mode": smart_split,
+            "window.default_add_mode": smart_split_optimal,
             "excluded_wm_classes": [],
             "float_sizes": {
                 "org-agenda": "pad_large",
