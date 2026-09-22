@@ -2,6 +2,9 @@
 -- to avoid being wiped by onedark's `hi clear` during colorscheme application.
 
 return {
+  -- Disable LazyVim's default <leader>e explorer remap (neo-tree / snacks_explorer extra)
+  { "nvim-neo-tree/neo-tree.nvim", keys = { { "<leader>e", false }, { "<leader>E", false } } },
+  { "folke/snacks.nvim", keys = { { "<leader>e", false }, { "<leader>E", false } } },
 
   {
     "m00qek/baleia.nvim",
@@ -106,10 +109,13 @@ return {
         end,
         desc = "Hide file explorer",
       },
+      { "<leader>e", false },
+      { "<leader>E", false },
     },
     opts = {
       filesystem = {
         hijack_netrw_behavior = "open_default",
+        use_libuv_file_watcher = true,
       },
       sources = {
         "filesystem",
