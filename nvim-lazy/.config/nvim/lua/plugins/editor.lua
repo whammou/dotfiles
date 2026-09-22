@@ -51,14 +51,26 @@ return {
         "<leader>ef",
         function()
           local dir = vim.fn.expand("%:p:h")
+          if dir ~= "" then
+            local resolved = vim.fn.resolve(dir)
+            if resolved ~= "" then dir = resolved end
+          end
           if dir == "" or vim.fn.isdirectory(dir) == 0 then
-            dir = vim.fn.getcwd()
+            dir = vim.fn.resolve(vim.fn.getcwd())
+          end
+          local reveal_file = vim.fn.expand("%:p")
+          if reveal_file ~= "" then
+            local resolved = vim.fn.resolve(reveal_file)
+            if resolved ~= "" then reveal_file = resolved end
+          else
+            reveal_file = nil
           end
           require("neo-tree.command").execute({
             action = "show",
             dir = dir,
             reveal = true,
             reveal_force_cwd = true,
+            reveal_file = reveal_file,
           })
         end,
         desc = "Show file explorer (buffer dir)",
@@ -237,6 +249,35 @@ return {
     },
     config = function(_, opts)
       require("neo-tree").setup(opts)
+      local git = require("neo-tree.git")
+      local uv = vim.uv or vim.loop
+      local function resolve_path(p)
+        if not p or p == "" then return p end
+        local expanded = vim.fn.expand(p)
+        local real = uv.fs_realpath(expanded)
+        if real then return real end
+        local resolved = vim.fn.resolve(expanded)
+        if resolved ~= "" then return resolved end
+        return expanded
+      end
+      if git.find_existing_worktree then
+        local orig = git.find_existing_worktree
+        git.find_existing_worktree = function(path, ...)
+          return orig(resolve_path(path), ...)
+        end
+      end
+      if git.find_existing_status_code then
+        local orig2 = git.find_existing_status_code
+        git.find_existing_status_code = function(path, ...)
+          return orig2(resolve_path(path), ...)
+        end
+      end
+      if git._find_existing_status_code_in_git_status then
+        local orig3 = git._find_existing_status_code_in_git_status
+        git._find_existing_status_code_in_git_status = function(status, worktree_root, path, ...)
+          return orig3(status, resolve_path(worktree_root), resolve_path(path), ...)
+        end
+      end
       -- Collapsing the auto-expanded width (`e` inside the tree buffer runs
       -- toggle_auto_expand_width, which resizes the window and calls
       -- renderer.redraw -> render_tree) never fires after_render, so the
@@ -325,6 +366,9 @@ return {
               if not require("fzf-lua.path").is_absolute(path) then
                 path = require("fzf-lua.path").join({ opts.cwd or opts._cwd or vim.fn.getcwd(), path })
               end
+              path = vim.fn.expand(path)
+              local resolved = vim.fn.resolve(path)
+              if resolved ~= "" then path = resolved end
               local stat = (vim.uv or vim.loop).fs_stat(path)
               if (stat and stat.type == "directory") or vim.fn.isdirectory(path) == 1 then
                 require("neo-tree.command").execute({ action = "show", dir = path })
