@@ -37,7 +37,7 @@ def workspaces():
                 "tab.fg_color": colors["light_grey"],
                 "tab.active.bg_color": colors["bg0"],
                 "tab.active.fg_color": colors["fg"],
-                "container_select_mode.indicator.bg_color": colors["blue"],
+                "container_select_mode.indicator.bg_color": colors["green"],
                 "container_select_mode.indicator.fg_color": colors["bg_d"],
                 "length": bar.CALCULATED,
                 "font_size": 16,
@@ -249,8 +249,6 @@ def window_count():
     )
 
 
-
-
 widgets = [
     *workspaces(),
     icon_separator(),
@@ -287,17 +285,17 @@ widgets = [
     widget.Spacer(length=bar.STRETCH, background=colors["bg_d"]),
     icon_separator(),
     separator(),
-        PopupWindowBox(
-            name="windowname_box",
-            widgets=[],
-            text_closed=" 󰘖 ",
-            text_open=" 󰘕 ",
-            fontsize=16,
-            font=WIDGET_TEXT_FONT,
-            foreground=colors["light_grey"],
-            background=colors["bg_d"],
-            close_button_location="left",
-        ),
+    PopupWindowBox(
+        name="windowname_box",
+        widgets=[],
+        text_closed=" 󰘖 ",
+        text_open=" 󰘕 ",
+        fontsize=16,
+        font=WIDGET_TEXT_FONT,
+        foreground=colors["light_grey"],
+        background=colors["bg_d"],
+        close_button_location="left",
+    ),
     separator(),
     bluetooth(),
     separator(),

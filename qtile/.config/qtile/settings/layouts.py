@@ -36,7 +36,11 @@ def _hide_all_in_group(group, exclude=None) -> None:
     if group is None:
         return
     for w in list(getattr(group, "windows", [])):
-        if w is exclude or getattr(w, "fullscreen", False) or not getattr(w, "floating", False):
+        if (
+            w is exclude
+            or getattr(w, "fullscreen", False)
+            or not getattr(w, "floating", False)
+        ):
             continue
         if _is_visible(w):
             hide_floating_win(w)
@@ -76,7 +80,16 @@ def _restore_toggle_geom(win) -> bool:
     if geom is not None:
         try:
             x, y, w, h = geom
-            win.place(x, y, w, h, win.borderwidth, win.bordercolor, above=False, respect_hints=False)
+            win.place(
+                x,
+                y,
+                w,
+                h,
+                win.borderwidth,
+                win.bordercolor,
+                above=False,
+                respect_hints=False,
+            )
             try:
                 win.bring_to_front()
             except Exception:
@@ -127,7 +140,16 @@ def show_floating_win(win) -> None:
     if geom is not None:
         try:
             x, y, w, h = geom
-            win.place(x, y, w, h, win.borderwidth, win.bordercolor, above=False, respect_hints=False)
+            win.place(
+                x,
+                y,
+                w,
+                h,
+                win.borderwidth,
+                win.bordercolor,
+                above=False,
+                respect_hints=False,
+            )
         except Exception:
             pass
     try:
@@ -228,7 +250,11 @@ def no_focus_steal(group, window):
     if qtile_inst:
 
         def _reclaim():
-            if getattr(window, "floating", False) and window.group is group and prev.group is group:
+            if (
+                getattr(window, "floating", False)
+                and window.group is group
+                and prev.group is group
+            ):
                 group.focus(prev, warp=False)
 
         qtile_inst.call_soon(_reclaim)
@@ -295,7 +321,9 @@ def after_killed_focus_same_L1(group, window):
                 return
             try:
                 target_tab = killed_L1
-                if target_tab is None or target_tab not in list(layout._tree.iter_walk()):
+                if target_tab is None or target_tab not in list(
+                    layout._tree.iter_walk()
+                ):
                     cur_pane = layout.focused_pane
                     if cur_pane is None:
                         try:
@@ -308,7 +336,12 @@ def after_killed_focus_same_L1(group, window):
                     target_tab = tabs[0]
                 target_pane = layout._tree.find_mru_pane(start_node=target_tab)
                 target = getattr(target_pane, "window", None) if target_pane else None
-                if target and not target.floating and target.group is group and group.current_window is not target:
+                if (
+                    target
+                    and not target.floating
+                    and target.group is group
+                    and group.current_window is not target
+                ):
                     group.focus(target, warp=False)
             except Exception:
                 return
@@ -324,7 +357,9 @@ def after_killed_focus_same_L1(group, window):
 def clean_ghost_panes(window):
     try:
         all_groups = getattr(qtile, "groups", []) or []
-        qt_inst = getattr(window, "qtile", None) or getattr(qtile, "qtile", None) or qtile
+        qt_inst = (
+            getattr(window, "qtile", None) or getattr(qtile, "qtile", None) or qtile
+        )
 
         def _clean():
             for grp in list(all_groups):
@@ -337,7 +372,11 @@ def clean_ghost_panes(window):
                 try:
                     live_panes = set(lay._tree.iter_panes())
                     for win, pane in list(lay._windows_to_panes.items()):
-                        if pane not in live_panes or getattr(pane, "window", None) is None or getattr(pane, "window", None) not in grp.windows:
+                        if (
+                            pane not in live_panes
+                            or getattr(pane, "window", None) is None
+                            or getattr(pane, "window", None) not in grp.windows
+                        ):
                             ghosts.append((win, pane))
                     for pane in list(lay._tree.iter_panes()):
                         if getattr(pane, "window", None) is None:
@@ -458,7 +497,7 @@ layouts = [
                 "obsidian": "pad_extra_large",
                 "kitty": "pad_large",
             },
-            "container_select_mode.border_color": colors["orange"],
+            "container_select_mode.border_color": colors["green"],
             "container_select_mode.border_size": BORDER_WIDTH,
             "tab_bar.height": BORDER_WIDTH * 2,
             "tab_bar.margin": [0, GAP, 0, GAP],
