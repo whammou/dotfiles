@@ -297,7 +297,7 @@ windows_keys = [
     EzKey(
         "M-h",
         lazy.layout.left().when(when_floating=False),
-        focus_prev_floating_and_front().when().when(when_floating=True),
+        focus_next_floating_and_front().when(when_floating=True),
     ),
     EzKey(
         "M-l",
