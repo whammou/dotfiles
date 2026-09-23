@@ -37,36 +37,36 @@ menu:
         desc: "󰤼 Split Right"
         cmd: "qspawn --split-x 'wlr-which-key spawn.yaml'"
   # }}
-  - key: "space"
+  - key: "s"
     desc: " Spawn Split"
     cmd: "wlr-which-key spawn.yaml"
   # Spawn Tab: {{{
   - key: "t"
     desc: "󰓩 Spawn Tab"
     submenu:
-      - key: "space"
-        desc: "󰓩 Split Tab"
-        cmd: "qspawn --tab 'wlr-which-key spawn.yaml'"
       - key: "h"
         desc: "󰘌 Tab Prev"
         cmd: "qspawn --tab --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰘍 Tab Next"
         cmd: "qspawn --tab --pos next 'wlr-which-key spawn.yaml'"
+      - key: "s"
+        desc: "󰓩 Split Tab"
+        cmd: "qspawn --tab 'wlr-which-key spawn.yaml'"
   # }}
   # Tab New: {{{
   - key: "T"
     desc: "󰝜 Tab New"
     submenu:
-      - key: "space"
-        desc: "󰝜 Tab New"
-        cmd: "qspawn --tab --new-level 'wlr-which-key spawn.yaml'"
       - key: "h"
         desc: "󰝜 Tab New Prev"
         cmd: "qspawn --tab --new-level --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰝜 Tab New Next"
         cmd: "qspawn --tab --new-level --pos next 'wlr-which-key spawn.yaml'"
+      - key: "s"
+        desc: "󰝜 Tab New"
+        cmd: "qspawn --tab --new-level 'wlr-which-key spawn.yaml'"
   # }}
   # }}}
 

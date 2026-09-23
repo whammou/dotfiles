@@ -99,7 +99,7 @@ menu:
         cmd: "kitty --app-id=yazi-sftp -e yazi sftp://homelab"
   # }}
   - key: "g"
-    desc: "Lazygit Dotfiles"
+    desc: " Git Dotfiles"
     cmd: "kitty sh -c 'lazygit -p ~/dotfiles'"
   - key: "i"
     desc: "󰢾 Discover Networks"
