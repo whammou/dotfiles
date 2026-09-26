@@ -73,7 +73,7 @@ require("sidekick").setup({
     },
     tools = {
       opencode = {
-        cmd = { "opencode", "--continue", "--dir", "/tmp/placeholder" },
+        cmd = { "opencode", "--continue", "/tmp/placeholder" },
       },
       opencode_attach = {
         cmd = {
