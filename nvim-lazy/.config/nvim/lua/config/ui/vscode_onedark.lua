@@ -132,14 +132,34 @@ ins_left({
 })
 
 ins_left({
-  "diagnostics",
-  sources = { "nvim_diagnostic" },
-  symbols = { error = " ", warn = " ", info = " " },
-  diagnostics_color = {
-    error = { fg = colors.red },
-    warn = { fg = colors.yellow },
-    info = { fg = colors.cyan },
-  },
+  function()
+    local ok, result = pcall(function()
+      local dir = vim.fn.expand("%:p:h")
+      if dir == "" then
+        dir = vim.fn.getcwd()
+      end
+      local cmd = "git -C " .. vim.fn.shellescape(dir) .. " stash list 2>/dev/null | wc -l"
+      local handle = io.popen(cmd)
+      if not handle then
+        return ""
+      end
+      local out = handle:read("*a")
+      handle:close()
+      local count = tonumber(out) or 0
+      if count > 0 then
+        return " " .. count
+      end
+      return ""
+    end)
+    if ok then
+      return result
+    end
+    return ""
+  end,
+  cond = conditions.check_git_workspace,
+  color = { fg = colors.cyan, gui = "bold" },
+  padding = { left = 1, right = 0 },
+  separator = "",
 })
 
 ins_left({
@@ -151,6 +171,17 @@ ins_left({
     removed = { fg = colors.red, gui = "bold" },
   },
   colored = true,
+})
+
+ins_left({
+  "diagnostics",
+  sources = { "nvim_diagnostic" },
+  symbols = { error = " ", warn = " ", info = " " },
+  diagnostics_color = {
+    error = { fg = colors.red },
+    warn = { fg = colors.yellow },
+    info = { fg = colors.cyan },
+  },
 })
 
 ins_left({
