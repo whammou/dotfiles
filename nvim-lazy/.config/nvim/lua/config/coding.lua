@@ -21,27 +21,42 @@ blink.setup({
   snippets = {
     preset = "luasnip",
   },
+  signature = { enabled = false },
   completion = {
     list = {
+      max_items = 50,
       selection = {
         preselect = false,
         auto_insert = false,
       },
     },
     trigger = {
+      prefetch_on_insert = true,
       show_on_keyword = false,
       show_on_trigger_character = true,
-      show_on_blocked_trigger_characters = {},
-      show_on_backspace = true,
+      show_on_blocked_trigger_characters = { " ", "\n", "\t" },
+      show_on_x_blocked_trigger_characters = { "'", '"', "(" },
+      show_on_insert = false,
+      show_on_backspace = false,
       show_on_backspace_in_keyword = false,
-      show_on_backspace_after_accept = true,
-      show_on_backspace_after_insert_enter = true,
+      show_on_backspace_after_accept = false,
+      show_on_backspace_after_insert_enter = false,
+      show_on_accept_on_trigger_character = true,
+      show_on_insert_on_trigger_character = true,
+    },
+    documentation = {
+      auto_show = false,
+      auto_show_delay_ms = 500,
+      treesitter_highlighting = false,
     },
     ghost_text = {
       enabled = false,
-      show_with_selection = true,
-      show_without_selection = true,
-      show_with_menu = true,
+    },
+    accept = {
+      auto_brackets = { enabled = false },
+    },
+    menu = {
+      max_height = 10,
     },
   },
   sources = {
@@ -52,11 +67,24 @@ blink.setup({
         fallbacks = { "buffer" },
         opts = { tailwind_color_icon = "██" },
         async = true,
+        min_keyword_length = 1,
         transform_items = nil,
+      },
+      buffer = {
+        max_items = 5,
+        min_keyword_length = 3,
+        opts = {
+          get_bufnrs = function()
+            return vim.tbl_filter(function(b)
+              return vim.bo[b].buflisted
+            end, vim.api.nvim_list_bufs())
+          end,
+        },
       },
       omni = {
         module = "blink.cmp.sources.complete_func",
         async = true,
+        min_keyword_length = 2,
         enabled = function()
           return vim.bo.omnifunc ~= "v:lua.vim.lsp.omnifunc"
         end,
@@ -69,6 +97,7 @@ blink.setup({
       path = {
         module = "blink.cmp.sources.path",
         async = true,
+        min_keyword_length = 0,
         score_offset = 5,
         opts = {
           trailing_slash = true,
@@ -82,6 +111,7 @@ blink.setup({
         },
       },
       snippets = {
+        min_keyword_length = 1,
         opts = {
           use_label_description = true,
         },
@@ -91,6 +121,7 @@ blink.setup({
         name = "Orgmode",
         module = "orgmode.org.autocompletion.blink",
         fallbacks = { "path" },
+        min_keyword_length = 2,
       },
     },
     default = { "lsp", "path", "snippets", "buffer" },
