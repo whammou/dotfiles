@@ -85,31 +85,49 @@ local backlog = {
   },
 }
 
-local function setup_org_capture_template()
-  require("orgmode").setup({
-    org_capture_templates = capture_templates,
-    org_agenda_custom_commands = {
-      K = {
-        description = "Tracker Agenda",
-        types = tracker_agenda,
-      },
-      k = {
-        description = "Task Agenda",
-        types = task_agenda,
-      },
+local extended_agenda_commands = {
+  K = { description = "Tracker Agenda", types = tracker_agenda },
+  k = { description = "Task Agenda", types = task_agenda },
+  c = { description = "Combined View", types = task_doc_agenda },
+  L = { description = "Backlog", types = backlog },
+  h = {
+    description = "HOME+Name tags searches",
+    submenu = {
+      l = { description = "Lisa  — home+Lisa", types = { { type = "tags", match = "+home+Lisa", org_agenda_overriding_header = "HOME Lisa" } } },
+      p = { description = "Peter — home+Peter", types = { { type = "tags", match = "+home+Peter", org_agenda_overriding_header = "HOME Peter" } } },
+      k = { description = "Kim   — home+Kim", types = { { type = "tags", match = "+home+Kim", org_agenda_overriding_header = "HOME Kim" } } },
+    },
+  },
+  Q = {
+    description = "Queries (subpage)",
+    submenu = {
+      a = { description = "Project A — project-A", types = { { type = "tags", match = "project-A", org_agenda_overriding_header = "Project A" } } },
+      b = { description = "Project B — project-B", types = { { type = "tags", match = "project-B", org_agenda_overriding_header = "Project B" } } },
       c = {
-        description = "Combined View",
-        types = task_doc_agenda,
-      },
-      L = {
-        description = "Backlog",
-        types = backlog,
+        description = "Combined HQ (agenda + tags)",
+        types = {
+          { type = "agenda", org_agenda_span = "day" },
+          { type = "tags", match = "project-A", org_agenda_overriding_header = "Project A Tasks" },
+        },
       },
     },
-  })
-end
-setup_org_capture_template()
+  },
+  T = {
+    description = "Entry points",
+    submenu = {
+      k = { description = "Task Agenda  (task_agenda)", types = task_agenda },
+      K = { description = "Tracker Agenda", types = tracker_agenda },
+      c = { description = "Combined View (task_doc_agenda)", types = task_doc_agenda },
+      L = { description = "Backlog", types = backlog },
+      n = {
+        description = "Nested demo ▶",
+        submenu = {
+          a = { description = "Nested A", types = { { type = "tags", match = "project-A" } } },
+          b = { description = "Nested B", types = { { type = "tags", match = "project-B" } } },
+        },
+      },
+    },
+  },
+}
 
-vim.api.nvim_create_user_command("ReloadOrgConfig", setup_org_capture_template, {
-  desc = "Reloads Orgmode capture templates and related configuration",
-})
+require("orgmode.extensions.extended_agenda").setup(extended_agenda_commands, capture_templates)
