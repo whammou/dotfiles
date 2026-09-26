@@ -22,12 +22,23 @@ blink.setup({
     preset = "luasnip",
   },
   completion = {
+    list = {
+      selection = {
+        preselect = false,
+        auto_insert = false,
+      },
+    },
     trigger = {
       show_on_keyword = false,
       show_on_trigger_character = true,
+      show_on_blocked_trigger_characters = {},
+      show_on_backspace = true,
+      show_on_backspace_in_keyword = false,
+      show_on_backspace_after_accept = true,
+      show_on_backspace_after_insert_enter = true,
     },
     ghost_text = {
-      enabled = true,
+      enabled = false,
       show_with_selection = true,
       show_without_selection = true,
       show_with_menu = true,
@@ -38,7 +49,7 @@ blink.setup({
       lsp = {
         name = "LSP",
         module = "blink.cmp.sources.lsp",
-        fallbacks = { "path" },
+        fallbacks = { "buffer" },
         opts = { tailwind_color_icon = "██" },
         async = true,
         transform_items = nil,
@@ -58,6 +69,7 @@ blink.setup({
       path = {
         module = "blink.cmp.sources.path",
         async = true,
+        score_offset = 5,
         opts = {
           trailing_slash = true,
           label_trailing_slash = true,
@@ -66,7 +78,7 @@ blink.setup({
             return buf_dir ~= "" and buf_dir or vim.fn.getcwd()
           end,
           show_hidden_files_by_default = true,
-          ignore_root_slash = false,
+          ignore_root_slash = true,
         },
       },
       snippets = {
@@ -90,5 +102,8 @@ blink.setup({
   },
   keymap = {
     preset = "default",
+    ["<C-j>"] = { "select_next", "fallback" },
+    ["<C-k>"] = { "select_prev", "fallback" },
+    ["<C-l>"] = { "select_and_accept", "fallback" },
   },
 })
