@@ -1,3 +1,5 @@
+local dir = require("config.orgmode.directories")
+local base_dir = dir.base_dir
 local templates = require("config.orgmode.templates")
 local capture_templates = templates.capture
 
@@ -82,6 +84,7 @@ local backlog = {
     match = "/PEND|OUTL",
     org_agenda_overriding_header = "Document Tasks",
     org_agenda_span = "week",
+    org_agenda_files = { base_dir .. "**/*.org", base_dir .. "**/.logs/**/*.org" },
   },
 }
 
