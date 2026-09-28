@@ -27,6 +27,12 @@
         "timeout": 600000,
         "chunkTimeout": 1200000
       }
+    },
+    "opencode": {
+      "options": {
+        "timeout": 600000,
+        "chunkTimeout": 1200000
+      }
     }
   },
   "permission": {
