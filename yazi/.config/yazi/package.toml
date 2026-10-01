@@ -1,6 +1,6 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "4dc7f1b"
+rev = "33dde28"
 hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
@@ -10,8 +10,8 @@ hash = "9776f378459072b6c2875eae5addc49d"
 
 [[plugin.deps]]
 use = "Ape/open-with-cmd"
-rev = "eba191d"
-hash = "722a60eca1b338c9c24bb508d2d48578"
+rev = "56705e2"
+hash = "7c84fff414a652c86c44523dbb08026f"
 
 [[plugin.deps]]
 use = "pirafrank/what-size"
@@ -20,18 +20,18 @@ hash = "7699acf73a1079f8a4afef5cec84ce73"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "4dc7f1b"
+rev = "33dde28"
 hash = "7a4b4237223aaa94e589d1c01a23542a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:vcs-files"
-rev = "4dc7f1b"
-hash = "853240b2454c93a93fd03fc9fd7e06e8"
+rev = "33dde28"
+hash = "4f2a05edce73aef2bceb2ee2c134c8f2"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "4dc7f1b"
-hash = "5bb0bfab901d3601c370eafdd66edd31"
+rev = "33dde28"
+hash = "347cc6b190eb0c2fd60513cc7ae37412"
 
 [[plugin.deps]]
 use = "Ape/reflink"
@@ -45,28 +45,28 @@ hash = "6ea5f37c7f219671ec504cb8311f889d"
 
 [[plugin.deps]]
 use = "ndtoan96/ouch"
-rev = "cfe4f50"
-hash = "eff5702573b6cfba61e4ac8b1969629a"
+rev = "596b666"
+hash = "c2f4f4aca257dcceafa9e3b828dbf1c9"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "4dc7f1b"
-hash = "45a533508a9840cc5a10cf6129f63e6a"
+rev = "33dde28"
+hash = "d1e0499cae5f3aeb628c267616d4b682"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mount"
-rev = "4dc7f1b"
+rev = "33dde28"
 hash = "b95f898e6dc60b52edbc415952e14395"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "4dc7f1b"
-hash = "3bcc00df11efc3ae5d15f2dba860be7"
+rev = "33dde28"
+hash = "7d3b7f99e600fd7e77ebc5eb8423a897"
 
 [[plugin.deps]]
 use = "boydaihungst/gvfs"
-rev = "a85d659"
-hash = "1866f00532ba80f895544f7348e89e53"
+rev = "c92953c"
+hash = "d1e8d33ed36d339d5588f036dc3a9204"
 
 [flavor]
 deps = []
