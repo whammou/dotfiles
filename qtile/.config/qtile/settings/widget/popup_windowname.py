@@ -32,11 +32,62 @@ def _get_text():
         return " "
 
 
+def _on_layer_change(*args, **kwargs):
+    global popup, visible
+    if popup is None or not visible:
+        return
+    try:
+        current = None
+        try:
+            current = qtile.current_window
+        except Exception:
+            current = None
+        is_full = False
+        is_float = False
+        try:
+            if current is not None:
+                is_full = bool(getattr(current, "fullscreen", False))
+                is_float = bool(getattr(current, "floating", False))
+        except Exception:
+            pass
+        if is_full or is_float:
+            try:
+                popup.hide()
+            except Exception:
+                pass
+        else:
+            try:
+                popup.unhide()
+                popup.place()
+                _update_popup()
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+
 def _update_popup(*args, **kwargs):
     global popup, visible
     if popup is None or not visible:
         return
     try:
+        current = None
+        try:
+            current = qtile.current_window
+        except Exception:
+            current = None
+        try:
+            if current is not None and (
+                bool(getattr(current, "fullscreen", False))
+                or bool(getattr(current, "floating", False))
+            ):
+                try:
+                    popup.hide()
+                except Exception:
+                    pass
+                return
+        except Exception:
+            pass
         text = _get_text()
         popup.layout.text = text
         try:
@@ -95,11 +146,24 @@ def _create_popup():
 
         popup.win.process_button_click = _on_click
 
+        try:
+            popup.win.keep_below()
+        except Exception:
+            pass
+
         hook.subscribe.client_focus(_update_popup)
         hook.subscribe.focus_change(_update_popup)
         hook.subscribe.float_change(_update_popup)
         hook.subscribe.client_name_updated(_update_popup)
         hook.subscribe.current_screen_change(_update_popup)
+        hook.subscribe.fullscreen_toggle(_on_layer_change)
+
+        def _hide_on_layer(*args, **kwargs):
+            if visible:
+                _on_layer_change(*args, **kwargs)
+
+        hook.subscribe.client_focus(_hide_on_layer)
+        hook.subscribe.float_change(_hide_on_layer)
     except Exception:
         pass
 
