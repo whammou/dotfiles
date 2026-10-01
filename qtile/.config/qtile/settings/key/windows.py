@@ -297,12 +297,12 @@ windows_keys = [
     EzKey(
         "M-h",
         lazy.layout.left().when(when_floating=False),
-        focus_next_floating_and_front().when(when_floating=True),
+        focus_prev_floating_and_front().when(when_floating=True),
     ),
     EzKey(
         "M-l",
         lazy.layout.right().when(when_floating=False),
-        focus_prev_floating_and_front().when(when_floating=True),
+        focus_next_floating_and_front().when(when_floating=True),
     ),
     EzKey("M-k", lazy.layout.up()),
     EzKey("M-j", lazy.layout.down()),

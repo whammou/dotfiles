@@ -45,6 +45,21 @@ def session_unlock():
     qtile.spawn("systemctl --user restart screensaver")
 
 
+# Session marker: qtile-session.target is active iff qtile is running.
+# Shallow integration only — qtile is launched by the display manager, not by
+# systemd, so hooks drive the marker explicitly. qspawn.service is WantedBy=
+# this target and follows it. Note: SIGKILL (kill -9) skips the shutdown hook
+# and leaves a stale-active marker until next stop/start.
+@hook.subscribe.startup_complete
+def session_start():
+    qtile.spawn("systemctl --user start qtile-session.target")
+
+
+@hook.subscribe.shutdown
+def session_stop():
+    qtile.spawn("systemctl --user stop qtile-session.target")
+
+
 wl_input_rules = {
     # Disable accel for every pointer: flat profile + speed 0 = no accel (libinput)
     # Verified via get_inputs 2026-08-28 — TrackPoint is 2:10:TPPS/2 IBM TrackPoint
