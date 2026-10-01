@@ -15,10 +15,26 @@ local caught = true
 -- local pop = false
 local ytdl = "yt-dlp"
 local utils = require("mp.utils")
+local msg = require("mp.msg")
+
+local function notify(level, text, osd_seconds)
+	if level == "error" then
+		msg.error(text)
+	elseif level == "warn" then
+		msg.warn(text)
+	elseif level == "info" then
+		msg.info(text)
+	else
+		msg.verbose(text)
+	end
+	if osd_seconds then
+		mp.osd_message("ytdl-preload: " .. text, osd_seconds)
+	end
+end
 
 local options = require("mp.options")
 local opts = {
-	temp = "/tmp/R:\\ytdl",
+	temp = "/tmp/ytdl-preload",
 	subLangs = "en",
 	format = mp.get_property("ytdl-format"),
 	ytdl_opt1 = "",
@@ -118,10 +134,10 @@ local fAudio = ""
 local function load_files(dtitle, destination, audio, wait)
 	if wait then
 		if exists(destination .. ".mka") then
-			print("---wait success: found mka---")
+			msg.verbose("audio found after wait, loading with separate audio")
 			audio = "audio-file=" .. destination .. ".mka,"
 		else
-			print("---could not find mka after wait, audio may be missing---")
+			notify("warn", "audio missing after wait, loading video-only", 4)
 		end
 	end
 	-- if audio ~= "" then
@@ -154,31 +170,58 @@ local function load_files(dtitle, destination, audio, wait)
 end
 
 local listenID = ""
+local swapped = false
+local function on_destination(destination)
+	if swapped then
+		return
+	end
+	if not (destination and string.find(destination, string.gsub(cachePath, "~/", ""), 1, true)) then
+		return
+	end
+	swapped = true
+	mp.unregister_event(listener)
+	_, title = utils.split_path(destination)
+	local audio = ""
+	if fAudio == "" then
+		load_files(title, destination, audio, false)
+	else
+		if exists(destination .. ".mka") then
+			audio = "audio-file=" .. destination .. ".mka,"
+			load_files(title, destination, audio, false)
+		else
+			notify("warn", "separate audio not ready yet, retrying shortly", 3)
+			mp.add_timeout(2, function()
+				load_files(title, destination, audio, true)
+			end)
+		end
+	end
+end
 local function listener(event)
-	if not caught and event.prefix == mp.get_script_name() and string.find(event.text, listenID) then
+	if not caught and event.prefix == mp.get_script_name() and string.find(event.text, listenID, 1, true) then
 		local destination = string.match(event.text, "%[download%] Destination: (.+).mkv")
 			or string.match(event.text, "%[download%] (.+).mkv has already been downloaded")
 		-- if destination then print("---"..cachePath) end;
-		if destination and string.find(destination, string.gsub(cachePath, "~/", "")) then
-			-- print(listenID)
-			mp.unregister_event(listener)
-			_, title = utils.split_path(destination)
-			local audio = ""
-			if fAudio == "" then
-				load_files(title, destination, audio, false)
-			else
-				if exists(destination .. ".mka") then
-					audio = "audio-file=" .. destination .. ".mka,"
-					load_files(title, destination, audio, false)
-				else
-					print("---expected mka but could not find it, waiting for 2 seconds---")
-					mp.add_timeout(2, function()
-						load_files(title, destination, audio, true)
-					end)
-				end
-			end
+		on_destination(destination)
+	end
+end
+local function find_destination(output)
+	if not output or output == "" then
+		return nil
+	end
+	return string.match(output, "%[download%] Destination: (.+).mkv")
+		or string.match(output, "%[download%] (.+).mkv has already been downloaded")
+end
+local function find_cached(prefix, ext)
+	local files = utils.readdir(cachePath)
+	if not files then
+		return nil
+	end
+	for _, f in ipairs(files) do
+		if f:sub(1, #prefix) == prefix and f:sub(-#ext) == ext then
+			return cachePath .. "/" .. f:sub(1, -#ext - 1)
 		end
 	end
+	return nil
 end
 
 --from ytdl_hook
@@ -228,26 +271,58 @@ local AudioDownloadHandle = {}
 local VideoDownloadHandle = {}
 local JsonDownloadHandle = {}
 local function download_files(id, success, result, error)
-	if result.killed_by_us then
+	if not result or result.killed_by_us then
 		mp.unregister_event(listener)
+		caught = true
 		return
 	end
-	if result.stderr ~= "" and result.stderr:find("ERROR") then
-		print(result.stderr)
+	local stderr = result.stderr or ""
+	if result.status ~= 0 or success == false or stderr:lower():find("error") then
+		if stderr ~= "" then
+			msg.error(stderr)
+		end
+		notify("error", "dump failed, removing entry " .. tostring((nextIndex or 0) + 1) .. " from playlist", 5)
 		mp.unregister_event(listener)
-		print("removing faulty video (entry number: " .. nextIndex + 1 .. ") from playlist")
 		caught = true
-		mp.commandv("playlist-remove", nextIndex)
+		if nextIndex ~= nil then
+			mp.commandv("playlist-remove", nextIndex)
+		end
 		return
+	end
+	local stdout = result.stdout or ""
+	if stdout == "" then
+		notify("warn", "empty dump output, skipping preload (entry will stream)", 4)
+		mp.unregister_event(listener)
+		caught = true
+		return
+	end
+	-- yt-dlp may prepend non-JSON progress lines (e.g. [download]) when
+	-- --write-sub fetches subtitles; strip everything before the first '{'
+	local json_start = stdout:find("{", 1, true)
+	if json_start and json_start > 1 then
+		stdout = stdout:sub(json_start)
 	end
 	local jfile = cachePath .. "/" .. id .. ".json"
 
 	local jfileIO = io.open(jfile, "w")
-	jfileIO:write(result.stdout)
+	if not jfileIO then
+		notify("error", "cannot write " .. jfile .. ", skipping preload", 5)
+		mp.unregister_event(listener)
+		caught = true
+		return
+	end
+	jfileIO:write(stdout)
 	jfileIO:close()
-	json = utils.parse_json(result.stdout)
+	json = utils.parse_json(stdout)
+	if json == nil then
+		notify("error", "could not parse dump JSON, skipping preload (entry will stream)", 5)
+		mp.unregister_event(listener)
+		caught = true
+		return
+	end
 	-- print(dump(json))
-	if json.requested_downloads[1].requested_formats ~= nil then
+	local requested = json.requested_downloads and json.requested_downloads[1]
+	if requested and requested.requested_formats ~= nil then
 		local args = {
 			ytdl,
 			"--no-continue",
@@ -257,6 +332,7 @@ local function download_files(id, success, result, error)
 			restrictFilenames,
 			"--no-playlist",
 			"--no-part",
+			"--no-embed-subs",
 			"-o",
 			cachePath .. "/" .. id .. "-%(title)s-%(id)s.mka",
 			"--load-info-json",
@@ -282,6 +358,7 @@ local function download_files(id, success, result, error)
 		restrictFilenames,
 		"--no-playlist",
 		"--no-part",
+		"--no-embed-subs",
 		"-o",
 		cachePath .. "/" .. id .. "-%(title)s-%(id)s.mkv",
 		"--load-info-json",
@@ -292,7 +369,25 @@ local function download_files(id, success, result, error)
 		name = "subprocess",
 		args = args,
 		playback_only = false,
-	}, function() end)
+		capture_stdout = true,
+		capture_stderr = true,
+	}, function(success, result, error)
+		if not result or result.killed_by_us then
+			return
+		end
+		local output = (result.stdout or "") .. "\n" .. (result.stderr or "")
+		local destination = find_destination(output)
+		if not destination then
+			destination = find_cached(id .. "-", ".mkv")
+		end
+		if destination then
+			on_destination(destination)
+		elseif not swapped then
+			notify("warn", "video download left no local file, entry will stream instead", 4)
+			mp.unregister_event(listener)
+			caught = true
+		end
+	end)
 end
 
 local function DL()
@@ -312,17 +407,20 @@ local function DL()
 		local nextFile = mp.get_property("playlist/" .. nextIndex .. "/filename")
 		if nextFile and caught and nextFile:find("://", 0, false) then
 			caught = false
+			swapped = false
+			notify("info", "preloading playlist entry " .. tostring(nextIndex + 1), 3)
 			mp.enable_messages("info")
 			mp.register_event("log-message", listener)
-			local ytFormat = opts.format
+			local ytFormat = opts.format or ""
 			fVideo = string.match(ytFormat, "([^/+]+)%+") or "bestvideo"
 			fAudio = string.match(ytFormat, "%+([^/]+)") or "bestaudio"
-			listenID = tostring(os.time())
+			listenID = tostring(os.time()) .. "-" .. tostring(math.random(1000, 9999))
 			local args = {
 				ytdl,
 				"--dump-single-json",
 				"--no-simulate",
 				"--skip-download",
+				"--no-progress",
 				restrictFilenames,
 				"--no-playlist",
 				"--sub-langs",
@@ -375,7 +473,7 @@ local function clearCache()
 		end
 		ftd:close()
 	end
-	print("clear")
+	msg.verbose("clear")
 	mp.command("quit")
 	--end
 end
@@ -430,7 +528,6 @@ local function exec(args)
 	return ret.status, ret.stdout, ret, ret.killed_by_us
 end
 
-local msg = require("mp.msg")
 local command = {}
 for _, path in pairs(paths_to_search) do
 	-- search for youtube-dl in mpv's config dir
