@@ -147,7 +147,7 @@ menu:
     cmd: rofi-mount
   - key: "n"
     desc: " Notification History"
-    cmd: "qspawn --float kitty notification_history"
+    cmd: "qobj --float kitty notification_history"
   # orgmode: {{{
   - key: "o"
     desc: " orgmode"

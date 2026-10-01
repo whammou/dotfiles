@@ -16,43 +16,43 @@ menu:
   # Spawning: {{{
   - key: "f"
     desc: " Spawn Float"
-    cmd: "qspawn --float 'wlr-which-key spawn.yaml'"
+    cmd: "qobj --float 'wlr-which-key spawn.yaml'"
   - key: "g"
     desc: " Spawn New-Group"
-    cmd: "qspawn --tab --level 1 'wlr-which-key spawn.yaml'"
+    cmd: "qobj --tab --level 1 'wlr-which-key spawn.yaml'"
   # Split Position: {{{
   - key: "S"
     desc: "󰃻 Split Position"
     submenu:
       - key: "h"
         desc: "󰤼 Split Left"
-        cmd: "qspawn --split-x --pos previous 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --split-x --pos previous 'wlr-which-key spawn.yaml'"
       - key: "j"
         desc: "󰤻 Split Down"
-        cmd: "qspawn --split-y 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --split-y 'wlr-which-key spawn.yaml'"
       - key: "k"
         desc: "󰤻 Split Above"
-        cmd: "qspawn --split-y --pos previous 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --split-y --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰤼 Split Right"
-        cmd: "qspawn --split-x 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --split-x 'wlr-which-key spawn.yaml'"
   # }}
   - key: "s"
     desc: " Spawn Split"
-    cmd: "wlr-which-key spawn.yaml"
+    cmd: "qobj 'wlr-which-key spawn.yaml'"
   # Spawn Tab: {{{
   - key: "t"
     desc: "󰓩 Spawn Tab"
     submenu:
       - key: "h"
         desc: "󰘌 Tab Prev"
-        cmd: "qspawn --tab --pos previous 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --tab --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰘍 Tab Next"
-        cmd: "qspawn --tab --pos next 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --tab --pos next 'wlr-which-key spawn.yaml'"
       - key: "s"
         desc: "󰓩 Split Tab"
-        cmd: "qspawn --tab 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --tab 'wlr-which-key spawn.yaml'"
   # }}
   # Tab New: {{{
   - key: "T"
@@ -60,13 +60,13 @@ menu:
     submenu:
       - key: "h"
         desc: "󰝜 Tab New Prev"
-        cmd: "qspawn --tab --new-level --pos previous 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --tab --new-level --pos previous 'wlr-which-key spawn.yaml'"
       - key: "l"
         desc: "󰝜 Tab New Next"
-        cmd: "qspawn --tab --new-level --pos next 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --tab --new-level --pos next 'wlr-which-key spawn.yaml'"
       - key: "s"
         desc: "󰝜 Tab New"
-        cmd: "qspawn --tab --new-level 'wlr-which-key spawn.yaml'"
+        cmd: "qobj --tab --new-level 'wlr-which-key spawn.yaml'"
   # }}
   # }}}
 

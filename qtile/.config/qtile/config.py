@@ -47,7 +47,7 @@ def session_unlock():
 
 # Session marker: qtile-session.target is active iff qtile is running.
 # Shallow integration only — qtile is launched by the display manager, not by
-# systemd, so hooks drive the marker explicitly. qspawn.service is WantedBy=
+# systemd, so hooks drive the marker explicitly. qobj.service is WantedBy=
 # this target and follows it. Note: SIGKILL (kill -9) skips the shutdown hook
 # and leaves a stale-active marker until next stop/start.
 @hook.subscribe.startup_complete
