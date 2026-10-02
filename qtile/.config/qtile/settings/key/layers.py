@@ -1,8 +1,5 @@
 from libqtile.config import KeyChord, Key, EzKey
 from libqtile.lazy import lazy
-from qtile_bonsai import Bonsai
-
-from .windows import hide_all_floating
 
 
 def focus_visible_window(mod, window_index, **spawn):
@@ -14,17 +11,10 @@ def focus_visible_window(mod, window_index, **spawn):
                 str(i),
                 lazy.layout.focus_nth_window(i, **spawn),
                 # lazy.window.bring_to_front(),
-                # lazy.function(hide_all_floating),
+                # lazy.layout.floats_to_bottom(),
             )
         )
     return keymaps
-
-
-@lazy.function
-def focus_nth_tab_keep_floating(qtile, n: int, level: int):
-    layout = qtile.current_group.layout
-    if isinstance(layout, Bonsai):
-        layout.focus_nth_tab(n, level=level)
 
 
 def change_tab_layer(mod, tab_layer, tab_index):
@@ -35,33 +25,15 @@ def change_tab_layer(mod, tab_layer, tab_index):
             index_list.append(
                 EzKey(
                     str(index),
-                    focus_nth_tab_keep_floating(index, level=tab),
+                    lazy.layout.focus_nth_tab(index, level=tab),
                 )
             )
         keymaps.append(KeyChord(mod, str(tab), index_list))
     return keymaps
 
 
-# FOCUS FLOATING WINDOW — per-window hide/show with geometry restore
-@lazy.function
-def focus_nth_floating_window(qtile, index):
-    from settings.layouts import is_floating_hidden, show_floating_win
-
-    group = qtile.current_group
-    floating_windows = [w for w in group.windows if w.floating]
-
-    try:
-        window_to_focus = floating_windows[index]
-        if is_floating_hidden(window_to_focus):
-            show_floating_win(window_to_focus)
-        window_to_focus.group.focus(window_to_focus)
-        window_to_focus.bring_to_front()
-    except IndexError:
-        pass
-
-
 def focus_nth_floating(mod, index):
     key_list = []
     for i in index:
-        key_list.append(Key([], str(i), focus_nth_floating_window(i - 1)))
+        key_list.append(Key([], str(i), lazy.layout.focus_nth_floating(i - 1)))
     return [KeyChord(mod, "0", key_list)]

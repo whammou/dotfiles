@@ -15,12 +15,12 @@ keys = (
     qtile_keys
     + functional_keys
     + windows_keys
-    + keyd_compat_keys
-    + focus_visible_window(
-        [mod], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
-    )
-    + focus_nth_floating([mod, "shift"], range(1, 10))
-    + change_tab_layer([mod, "shift"], range(1, 10), range(1, 10))
+    # + keyd_compat_keys
+    # + focus_visible_window(
+    #     [mod], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
+    # )
+    # + focus_nth_floating([mod, "shift"], range(1, 10))
+    # + change_tab_layer([mod, "shift"], range(1, 10), range(1, 10))
     + [
         Key([mod], "space", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
     ]

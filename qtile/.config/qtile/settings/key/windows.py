@@ -1,218 +1,9 @@
 from libqtile.config import EzKey, KeyChord, Key
 from libqtile.lazy import lazy
-from settings.layouts import hide_floating_win, is_floating_hidden, show_floating_win
 
 mod = "mod4"
 alt = "mod1"
 rofi_run_cmd = "rofi -show drun -m -1"
-
-
-def hide_all_floating(qtile):
-    group = qtile.current_group
-    for window in group.windows:
-        if window.floating:
-            hide_floating_win(window)
-
-
-@lazy.window.function
-def toggle_floating(window):
-    from settings.layouts import (
-        _forget,
-        _remember_toggle_geom,
-        _restore_toggle_geom,
-        show_floating_win,
-    )
-
-    was_floating = bool(getattr(window, "floating", False))
-    try:
-        window.disable_fullscreen()
-    except Exception:
-        pass
-    if was_floating:
-        try:
-            _remember_toggle_geom(window)
-        except Exception:
-            pass
-        try:
-            _forget(window.wid)
-        except Exception:
-            pass
-        window.toggle_floating()
-    else:
-        window.toggle_floating()
-        try:
-            restored = _restore_toggle_geom(window)
-            if not restored:
-                # _restore already centers on miss, no extra work
-                pass
-        except Exception:
-            try:
-                window.center()
-            except Exception:
-                pass
-        try:
-            show_floating_win(window)
-            window.bring_to_front()
-        except Exception:
-            pass
-
-
-@lazy.function
-def floats_to_front(qtile):
-    for group in qtile.groups:
-        for window in group.windows:
-            if window.floating:
-                if is_floating_hidden(window):
-                    show_floating_win(window)
-                else:
-                    window.bring_to_front()
-                try:
-                    window.focus()
-                except Exception:
-                    pass
-
-
-@lazy.function
-def floats_to_bottom(qtile):
-    for group in qtile.groups:
-        for window in group.windows:
-            if window.floating:
-                hide_floating_win(window)
-
-
-@lazy.window.function
-def float_to_front(window):
-    if window.floating:
-        show_floating_win(window)
-    else:
-        window.disable_floating()
-
-
-def grow_window_maintain_aspect_ratio(qtile, factor):
-    win = qtile.current_window
-    w, h = (
-        win.info()["width"],
-        win.info()["height"],
-    )
-
-    new_w = int(w * factor)
-    new_h = int(h * factor)
-
-    win.set_size_floating(new_w, new_h)
-
-
-@lazy.function
-def focus_next_floating_and_front(qtile):
-    group = qtile.current_group
-    floating_windows = [w for w in group.windows if w.floating]
-
-    if not floating_windows:
-        return
-
-    current_focused = qtile.current_window
-    window_to_focus = None
-
-    if current_focused and current_focused.floating:
-        try:
-            current_index = floating_windows.index(current_focused)
-            next_index = (current_index + 1) % len(floating_windows)
-            window_to_focus = floating_windows[next_index]
-        except ValueError:
-            window_to_focus = floating_windows[0]
-    elif floating_windows:
-        window_to_focus = floating_windows[0]
-
-    if window_to_focus:
-        if is_floating_hidden(window_to_focus):
-            show_floating_win(window_to_focus)
-        window_to_focus.group.focus(window_to_focus)
-
-
-@lazy.function
-def focus_prev_floating_and_front(qtile):
-    group = qtile.current_group
-    floating_windows = [w for w in group.windows if w.floating]
-
-    if not floating_windows:
-        return
-
-    current_focused = qtile.current_window
-    window_to_focus = None
-
-    if current_focused and current_focused.floating:
-        try:
-            current_index = floating_windows.index(current_focused)
-            prev_index = (current_index - 1 + len(floating_windows)) % len(
-                floating_windows
-            )
-            window_to_focus = floating_windows[prev_index]
-        except ValueError:
-            window_to_focus = floating_windows[-1]
-    elif floating_windows:
-        window_to_focus = floating_windows[-1]
-
-    if window_to_focus:
-        if is_floating_hidden(window_to_focus):
-            show_floating_win(window_to_focus)
-        window_to_focus.group.focus(window_to_focus)
-
-
-def toggle_tiling_floating_focus(qtile):
-    current_group = qtile.current_group
-    if not current_group:
-        return
-
-    last_tiling = None
-    last_floating = None
-
-    # Iterate through the focus history to find the most recent of each type
-    for window in reversed(current_group.focus_history):
-        if window not in current_group.windows:
-            continue
-        if window.floating and not last_floating:
-            last_floating = window
-        elif not window.floating and not last_tiling:
-            last_tiling = window
-        # Stop searching once both are found
-        if last_tiling and last_floating:
-            break
-
-    # Decide which window to focus
-    if not last_tiling and not last_floating:
-        return  # No valid windows to switch between
-
-    target_window = None
-    # If currently on the last tiling window, switch to floating
-    if qtile.current_window == last_tiling and last_floating:
-        target_window = last_floating
-    # Otherwise, switch to the last tiling window (or if it's the only one available)
-    elif last_tiling:
-        target_window = last_tiling
-    # Fallback to floating if tiling doesn't exist
-    elif last_floating:
-        target_window = last_floating
-
-    # Focus the target window if it's not already focused
-    if target_window and qtile.current_window != target_window:
-        current_group.focus(target_window)
-
-
-@lazy.function
-def pull_floating_to_tab(qtile):
-    group = qtile.current_group
-    if group is None:
-        return
-    layout = group.layout
-    if hasattr(layout, "pull_floating_to_tab"):
-        try:
-            layout.pull_floating_to_tab()
-        except Exception:
-            pass
-    elif hasattr(layout, "pull_out_to_tab"):
-        try:
-            layout.pull_out_to_tab()
-        except Exception:
-            pass
 
 
 windows_keys = [
@@ -241,27 +32,27 @@ windows_keys = [
     Key(
         ["mod4", "control"],
         "equal",
-        lazy.function(grow_window_maintain_aspect_ratio, 1.05).when(when_floating=True),
+        lazy.layout.grow_window_maintain_aspect_ratio(1.05).when(when_floating=True),
         lazy.window.center(),
         desc="Grow floating window maintaining aspect ratio",
     ),
     Key(
         ["mod4", "control"],
         "minus",
-        lazy.function(grow_window_maintain_aspect_ratio, 0.95).when(when_floating=True),
+        lazy.layout.grow_window_maintain_aspect_ratio(0.95).when(when_floating=True),
         lazy.window.center(),
         desc="Shrink floating window maintaining aspect ratio",
     ),
     Key(
         ["mod4"],
         "equal",
-        lazy.function(grow_window_maintain_aspect_ratio, 1.05).when(when_floating=True),
+        lazy.layout.grow_window_maintain_aspect_ratio(1.05).when(when_floating=True),
         desc="Grow floating window maintaining aspect ratio",
     ),
     Key(
         ["mod4"],
         "minus",
-        lazy.function(grow_window_maintain_aspect_ratio, 0.95).when(when_floating=True),
+        lazy.layout.grow_window_maintain_aspect_ratio(0.95).when(when_floating=True),
         desc="Shrink floating window maintaining aspect ratio",
     ),
     Key(
@@ -273,19 +64,19 @@ windows_keys = [
     # Key(
     #     [mod],
     #     "period",
-    #     focus_next_floating_and_front(),
+    #     lazy.layout.focus_next_floating(),
     #     desc="Focus next floating window",
     # ),
     # Key(
     #     [mod],
     #     "comma",
-    #     focus_prev_floating_and_front(),
+    #     lazy.layout.focus_prev_floating(),
     #     desc="Focus previous floating window",
     # ),
     # Key(
     #     [mod, "Shift"],
     #     "comma",
-    #     focus_prev_floating_and_front(),
+    #     lazy.layout.focus_prev_floating(),
     #     desc="Focus previous floating window",
     # ),
     # Resize windows
@@ -297,12 +88,12 @@ windows_keys = [
     EzKey(
         "M-h",
         lazy.layout.left().when(when_floating=False),
-        focus_prev_floating_and_front().when(when_floating=True),
+        lazy.layout.focus_prev_floating().when(when_floating=True),
     ),
     EzKey(
         "M-l",
         lazy.layout.right().when(when_floating=False),
-        focus_next_floating_and_front().when(when_floating=True),
+        lazy.layout.focus_next_floating().when(when_floating=True),
     ),
     EzKey("M-k", lazy.layout.up()),
     EzKey("M-j", lazy.layout.down()),
@@ -321,20 +112,25 @@ windows_keys = [
     # Windows States
     # EzKey("A-<Tab>", lazy.window.toggle_fullscreen()),
     # EzKey("M-<Tab>", focus_back()),
-    EzKey("M-S-<grave>", lazy.function(toggle_tiling_floating_focus)),
+    EzKey("M-S-<grave>", lazy.layout.toggle_tiling_floating_focus()),
     EzKey(
         "M-<Escape>",
-        lazy.function(toggle_tiling_floating_focus).when(when_floating=True),
+        lazy.layout.toggle_tiling_floating_focus().when(when_floating=True),
     ),
-    EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), floats_to_bottom()),
+    EzKey("M-S-C-<Escape>", lazy.group["scratchpad"].hide_all(), lazy.layout.floats_to_bottom()),
     EzKey("M-f", lazy.window.toggle_fullscreen()),
-    EzKey("M-<Tab>", toggle_floating()),
-    EzKey("M-S-<Tab>", pull_floating_to_tab()),
-    EzKey("A-S-0", floats_to_front()),
+    EzKey("M-<Tab>", lazy.layout.toggle_floating()),
+    EzKey("M-S-<Tab>", lazy.layout.pull_floating_to_tab()),
+    EzKey("A-S-0", lazy.layout.floats_to_front()),
     # Rofi menu
     # EzKey("M-S-w", lazy.spawn("rofi -show window")),  # temporarily disabled for WindowName toggle
     EzKey("M-S-w", lazy.widget["windowname_box"].toggle(), desc="Toggle WindowName"),
     EzKey("M-C-s", lazy.spawn(rofi_run_cmd)),
+    EzKey(
+        "M-C-w",
+        lazy.layout.spawn("wlr-which-key ops.yaml"),
+        desc="Window ops menu",
+    ),
     # Container select mode
     KeyChord(
         ["mod4"],
@@ -352,7 +148,7 @@ windows_keys = [
             # Pull window out
             EzKey("o", lazy.layout.pull_out(position="next")),
             EzKey("S-o", lazy.layout.pull_out(position="previous")),
-            EzKey("u", pull_floating_to_tab()),
+            EzKey("u", lazy.layout.pull_floating_to_tab()),
             # Merge window to tab
             KeyChord(
                 [],

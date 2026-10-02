@@ -440,4 +440,207 @@ class SmartBonsai(Bonsai):
         self._request_relayout()
 
 
+    # --- Float helpers (ported from settings/key/windows.py + layers.py) ---
+    # Exposed so keybinds and `qtlcmd -o layout -f …` share one implementation.
+    # IPC args arrive as strings — coerce defensively, return None.
+
+    @expose_command
+    def focus_next_floating(self):
+        """Focus next floating window in current group (wraps). No-op if none."""
+        from settings.layouts import is_floating_hidden, show_floating_win
+
+        group = self.group
+        if group is None:
+            return
+        floating = [w for w in group.windows if w.floating]
+        if not floating:
+            return
+        cur = group.current_window
+        try:
+            target = (
+                floating[(floating.index(cur) + 1) % len(floating)]
+                if cur is not None and cur.floating
+                else floating[0]
+            )
+        except ValueError:
+            target = floating[0]
+        if is_floating_hidden(target):
+            show_floating_win(target)
+        group.focus(target)
+
+    @expose_command
+    def focus_prev_floating(self):
+        """Focus previous floating window in current group (wraps). No-op if none."""
+        from settings.layouts import is_floating_hidden, show_floating_win
+
+        group = self.group
+        if group is None:
+            return
+        floating = [w for w in group.windows if w.floating]
+        if not floating:
+            return
+        cur = group.current_window
+        try:
+            target = (
+                floating[(floating.index(cur) - 1) % len(floating)]
+                if cur is not None and cur.floating
+                else floating[-1]
+            )
+        except ValueError:
+            target = floating[-1]
+        if is_floating_hidden(target):
+            show_floating_win(target)
+        group.focus(target)
+
+    @expose_command
+    def focus_nth_floating(self, index):
+        """Focus n-th floating window (0-based). Index coerced from IPC string."""
+        from settings.layouts import is_floating_hidden, show_floating_win
+
+        try:
+            index = int(index)
+        except (TypeError, ValueError):
+            return
+        group = self.group
+        if group is None:
+            return
+        floating = [w for w in group.windows if w.floating]
+        try:
+            target = floating[index]
+        except IndexError:
+            return
+        if is_floating_hidden(target):
+            show_floating_win(target)
+        group.focus(target)
+        try:
+            target.bring_to_front()
+        except Exception:
+            pass
+
+    @expose_command
+    def toggle_tiling_floating_focus(self):
+        """Toggle focus between last tiling and last floating window."""
+        group = self.group
+        if group is None:
+            return
+        last_tiling = None
+        last_floating = None
+        for window in reversed(group.focus_history):
+            if window not in group.windows:
+                continue
+            if window.floating and not last_floating:
+                last_floating = window
+            elif not window.floating and not last_tiling:
+                last_tiling = window
+            if last_tiling and last_floating:
+                break
+        if not last_tiling and not last_floating:
+            return
+        cur = group.current_window
+        if cur == last_tiling and last_floating:
+            target = last_floating
+        elif last_tiling:
+            target = last_tiling
+        elif last_floating:
+            target = last_floating
+        else:
+            return
+        if target is not None and cur != target:
+            group.focus(target)
+
+    @expose_command
+    def floats_to_front(self):
+        """Bring all floating windows to front and focus the top one."""
+        from settings.layouts import is_floating_hidden, show_floating_win
+
+        qtile_inst = getattr(self.group, "qtile", None)
+        if qtile_inst is None:
+            return
+        for group in qtile_inst.groups:
+            for window in group.windows:
+                if window.floating:
+                    if is_floating_hidden(window):
+                        show_floating_win(window)
+                    else:
+                        window.bring_to_front()
+                    try:
+                        window.focus()
+                    except Exception:
+                        pass
+
+    @expose_command
+    def floats_to_bottom(self):
+        """Hide all floating windows (send to bottom)."""
+        from settings.layouts import hide_floating_win
+
+        qtile_inst = getattr(self.group, "qtile", None)
+        if qtile_inst is None:
+            return
+        for group in qtile_inst.groups:
+            for window in group.windows:
+                if window.floating:
+                    hide_floating_win(window)
+
+
+    @expose_command
+    def toggle_floating(self):
+        """Toggle floating on current window, preserving toggle geometry."""
+        from settings.layouts import (
+            _forget,
+            _remember_toggle_geom,
+            _restore_toggle_geom,
+            show_floating_win,
+        )
+
+        group = self.group
+        window = group.current_window if group is not None else None
+        if window is None:
+            return
+        was_floating = bool(getattr(window, "floating", False))
+        try:
+            window.disable_fullscreen()
+        except Exception:
+            pass
+        if was_floating:
+            try:
+                _remember_toggle_geom(window)
+            except Exception:
+                pass
+            try:
+                _forget(window.wid)
+            except Exception:
+                pass
+            window.toggle_floating()
+        else:
+            window.toggle_floating()
+            try:
+                restored = _restore_toggle_geom(window)
+                if not restored:
+                    pass
+            except Exception:
+                try:
+                    window.center()
+                except Exception:
+                    pass
+            try:
+                show_floating_win(window)
+                window.bring_to_front()
+            except Exception:
+                pass
+
+    @expose_command
+    def grow_window_maintain_aspect_ratio(self, factor):
+        """Grow/shrink focused floating window, keeping aspect ratio. Factor coerced from IPC string."""
+        try:
+            factor = float(factor)
+        except (TypeError, ValueError):
+            return
+        group = self.group
+        win = group.current_window if group is not None else None
+        if win is None:
+            return
+        w, h = win.info()["width"], win.info()["height"]
+        win.set_size_floating(int(w * factor), int(h * factor))
+
+
 MyCustomBonsai = SmartBonsai
