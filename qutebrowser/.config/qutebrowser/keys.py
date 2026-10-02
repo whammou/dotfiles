@@ -97,9 +97,9 @@ config.bind("xt", "config-cycle --temp tabs.show multiple always")
 # qtile commands: {{{
 # Registered commands (not aliases) so the completer offers the same URL
 # suggestions as :open; aliases are invisible to the completion system.
-def _qspawn(cmd: str, url: str | None) -> None:
+def _qtlcmd(func: str, url: str | None, *extra: str) -> None:
     prog = f"qb '{url}'" if url else "qb"
-    subprocess.Popen(["qspawn"] + cmd.split() + ["--", prog])
+    subprocess.Popen(["qtlcmd", "-o", "layout", "-f", func, "-a", prog, *extra])
 
 
 try:
@@ -107,31 +107,31 @@ try:
     @cmdutils.argument("url", completion=urlmodel.url)
     def split(url=None) -> None:
         """Open URL in a new qtile split window."""
-        _qspawn("--split-y", url)
+        _qtlcmd("spawn_split", url, "-a", "y")
 
     @cmdutils.register(name="vsplit", maxsplit=0)
     @cmdutils.argument("url", completion=urlmodel.url)
     def vsplit(url=None) -> None:
         """Open URL in a new qtile vertical split window."""
-        _qspawn("--split-x", url)
+        _qtlcmd("spawn_split", url, "-a", "x")
 
     @cmdutils.register(name="tab", maxsplit=0)
     @cmdutils.argument("url", completion=urlmodel.url)
     def tab(url=None) -> None:
         """Open URL in a new qtile tab."""
-        _qspawn("--tab", url)
+        _qtlcmd("spawn_tab", url)
 
     @cmdutils.register(name="tab_new", maxsplit=0)
     @cmdutils.argument("url", completion=urlmodel.url)
     def tab_new(url=None) -> None:
         """Open URL in a new qtile window."""
-        _qspawn("--tab --new-level", url)
+        _qtlcmd("spawn_tab", url, "-k", "new_level=True")
 
     @cmdutils.register(name="screen", maxsplit=0)
     @cmdutils.argument("url", completion=urlmodel.url)
     def screen(url=None) -> None:
         """Open URL on a new qtile screen."""
-        _qspawn("--tab --level 1", url)
+        _qtlcmd("spawn_tab", url, "-k", "level=1")
 except ValueError:
     # Re-sourcing keys.py (e.g. :config-source) would re-register commands
     # that already exist; keep the existing registrations.
@@ -155,24 +155,24 @@ config.bind("FI", "set statusbar.show never ;; hint images spawn xdg-open {hint-
 config.bind("Fi", "set statusbar.show never ;; hint inputs")
 config.bind(
     "Fv",
-    "set statusbar.show never ;; hint all spawn qspawn --split-x -- 'xdg-open {hint-url}'",  # noqa: E501
+    "set statusbar.show never ;; hint all spawn qtlcmd -o layout -f spawn_split -a 'xdg-open {hint-url}' -a x",  # noqa: E501
 )
 config.bind(
     "Fx",
-    "set statusbar.show never ;; hint all spawn qspawn --split-y -- 'xdg-open {hint-url}'",  # noqa: E501
+    "set statusbar.show never ;; hint all spawn qtlcmd -o layout -f spawn_split -a 'xdg-open {hint-url}' -a y",  # noqa: E501
 )
 config.bind(
     "Ft",
-    "set statusbar.show never ;; hint all spawn qspawn --tab -- 'xdg-open {hint-url}'",  # noqa: E501
+    "set statusbar.show never ;; hint all spawn qtlcmd -o layout -f spawn_tab -a 'xdg-open {hint-url}'",  # noqa: E501
 )
 config.bind(
     "FT",
-    "set statusbar.show never ;; hint all spawn qspawn --tab --new-level -- \"qb '{hint-url}'\"",  # noqa: E501
+    "set statusbar.show never ;; hint all spawn qtlcmd -o layout -f spawn_tab -a \"qb '{hint-url}'\" -k new_level=True",  # noqa: E501
 )
 config.bind(
     "FF",
     # "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",  # noqa: E501
-    "set statusbar.show never ;; hint all spawn qspawn --tab --level 1 -- \"qb '{hint-url}'\"",  # noqa: E501
+    "set statusbar.show never ;; hint all spawn qtlcmd -o layout -f spawn_tab -a \"qb '{hint-url}'\" -k level=1",  # noqa: E501
 )
 config.bind(
     "Ff",
