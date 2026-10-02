@@ -32,6 +32,46 @@ def _get_text():
         return " "
 
 
+def _show_popup():
+    global popup
+    try:
+        current_screen = None
+        try:
+            current_screen = qtile.current_screen
+        except Exception:
+            current_screen = None
+        try:
+            bar = current_screen.top if current_screen is not None else qtile.screens[0].top
+        except Exception:
+            bar = None
+        if bar is not None:
+            try:
+                box = qtile.widgets_map.get("windowname_box")
+            except Exception:
+                box = None
+            if box is not None and hasattr(box, "offsetx"):
+                popup.x = box.offsetx - popup.width
+                if popup.x < bar.x:
+                    popup.x = bar.x
+            else:
+                popup.x = bar.x + bar.width - popup.width
+            popup.y = bar.y
+            popup.height = bar.height
+            try:
+                popup.win.x = popup.x
+                popup.win.y = popup.y
+                popup.win.width = popup.width
+                popup.win.height = popup.height
+                popup.drawer.width = popup.width
+                popup.drawer.height = popup.height
+            except Exception:
+                pass
+        popup.unhide()
+        popup.place()
+    except Exception:
+        pass
+
+
 def _on_layer_change(*args, **kwargs):
     global popup, visible
     if popup is None or not visible:
@@ -40,25 +80,26 @@ def _on_layer_change(*args, **kwargs):
         current = None
         try:
             current = qtile.current_window
+            if current is None:
+                win = args[0] if args else kwargs.get("window")
+                if win is not None and hasattr(win, "fullscreen"):
+                    current = win
         except Exception:
             current = None
         is_full = False
-        is_float = False
         try:
             if current is not None:
                 is_full = bool(getattr(current, "fullscreen", False))
-                is_float = bool(getattr(current, "floating", False))
         except Exception:
             pass
-        if is_full or is_float:
+        if is_full:
             try:
                 popup.hide()
             except Exception:
                 pass
         else:
             try:
-                popup.unhide()
-                popup.place()
+                _show_popup()
                 _update_popup()
             except Exception:
                 pass
@@ -77,10 +118,7 @@ def _update_popup(*args, **kwargs):
         except Exception:
             current = None
         try:
-            if current is not None and (
-                bool(getattr(current, "fullscreen", False))
-                or bool(getattr(current, "floating", False))
-            ):
+            if current is not None and bool(getattr(current, "fullscreen", False)):
                 try:
                     popup.hide()
                 except Exception:
@@ -153,17 +191,10 @@ def _create_popup():
 
         hook.subscribe.client_focus(_update_popup)
         hook.subscribe.focus_change(_update_popup)
-        hook.subscribe.float_change(_update_popup)
         hook.subscribe.client_name_updated(_update_popup)
         hook.subscribe.current_screen_change(_update_popup)
-        hook.subscribe.fullscreen_toggle(_on_layer_change)
-
-        def _hide_on_layer(*args, **kwargs):
-            if visible:
-                _on_layer_change(*args, **kwargs)
-
-        hook.subscribe.client_focus(_hide_on_layer)
-        hook.subscribe.float_change(_hide_on_layer)
+        hook.subscribe.float_change(_on_layer_change)
+        hook.subscribe.client_focus(_on_layer_change)
     except Exception:
         pass
 
