@@ -276,7 +276,7 @@ widgets = [
     CenteredClock(
         background=colors["bg_d"],
         format="%H:%M",
-        fmt=" 󰞌 {} ",
+        fmt=" 󰥔 {} ",
         foreground=colors["orange"],
         font=WIDGET_ICON_FONT,
         name="clock_time",

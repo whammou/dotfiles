@@ -365,13 +365,32 @@ menu:
             cmd: "qtlcmd -o layout -f spawn_tab -a 'wlr-which-key ' -k position=next"
       - key: "c"
         desc: "Container Select"
-        cmd: "qtlcmd -o layout -f toggle_container_select_mode"
-      - key: "o"
-        desc: "Container Outer"
-        cmd: "qtlcmd -o layout -f select_container_outer"
+        submenu:
+          - key: "t"
+            desc: "Toggle Container Mode"
+            cmd: "qtlcmd -o layout -f toggle_container_select_mode"
+          - key: "o"
+            desc: "Container Outer"
+            cmd: "qtlcmd -o layout -f select_container_outer"
+          - key: "i"
+            desc: "Container Inner"
+            cmd: "qtlcmd -o layout -f select_container_inner"
       - key: "i"
-        desc: "Container Inner"
-        cmd: "qtlcmd -o layout -f select_container_inner"
+        desc: "Push Tab In"
+        submenu:
+          - key: "j"
+            desc: "Push Window Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("down", dest_selection="mru_deepest")'''
+          - key: "k"
+            desc: "Push Window Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("up", dest_selection="mru_deepest")'''
+          - key: "h"
+            desc: "Push Window Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("left", dest_selection="mru_deepest")'''
+          - key: "l"
+            desc: "Push Window Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right", dest_selection="mru_deepest")'''
+
       - key: "l"
         desc: "󰝜 Level Tab New"
         cmd: "qtlcmd -o layout -f spawn_tab -a 'wlr-which-key ' -k new_level=True"
@@ -445,6 +464,21 @@ menu:
       - key: "f"
         desc: "Toggle Fullscreen"
         cmd: "qtlcmd -o window -f toggle_fullscreen"
+      - key: "i"
+        desc: "Push In"
+        submenu:
+          - key: "j"
+            desc: "Push Window Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("down")'''
+          - key: "k"
+            desc: "Push Window Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("up")'''
+          - key: "h"
+            desc: "Push Window Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("left")'''
+          - key: "l"
+            desc: "Push Window Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right")'''
       - key: "m"
         desc: "Merge Windows"
         submenu:
