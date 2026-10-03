@@ -18,8 +18,8 @@ menu:
     desc: "Floating Mode"
     submenu:
       - key: "equal"
-        desc: "Grow Floating +5%"
-        cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 1.05"
+        desc: "Grow Floating +10%"
+        cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 1.10 && qtlcmd -o window -f center"
       # - key: "f"
       #   desc: "󰍉 Focus Floating"
       #   submenu:
@@ -54,8 +54,8 @@ menu:
         desc: " Spawn Float"
         cmd: "qtlcmd -o layout -f spawn_float -a 'wlr-which-key '"
       - key: "minus"
-        desc: "Shrink Floating -5%"
-        cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 0.95"
+        desc: "Shrink Floating -10%"
+        cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 0.90 && qtlcmd -o window -f center"
       - key: "f"
         desc: "Toggle Fullscreen"
         cmd: "qtlcmd -o window -f toggle_fullscreen"
@@ -68,8 +68,8 @@ menu:
       - key: "t"
         desc: "Toggle Floating"
         cmd: "qtlcmd -o layout -f toggle_floating"
-      - key: "q"
-        desc: "Kill Window"
+      - key: "d"
+        desc: "Kill Floating"
         cmd: "qtlcmd -o window -f kill"
       - key: "u"
         desc: "Pull Floating To Tab"
@@ -399,10 +399,10 @@ menu:
         submenu:
           - key: "h"
             desc: "Merge Tab Left"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("previous", "x")'''
+            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("previous", "x"); self.normalize_all()'''
           - key: "l"
             desc: "Merge Tab Right"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("next", "x")'''
+            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("next", "x"); self.normalize_all()'''
       - key: "n"
         desc: " Tab New"
         cmd: "qtlcmd -o layout -f spawn_tab -a 'wlr-which-key ' -k level=1"
@@ -464,6 +464,18 @@ menu:
       - key: "f"
         desc: "Toggle Fullscreen"
         cmd: "qtlcmd -o window -f toggle_fullscreen"
+      - key: "h"
+        desc: "Resize Window Left"
+        cmd: 'qtlcmd -o layout -f eval -a ''self.resize("left", 300)'''
+      - key: "l"
+        desc: "Resize Window Right"
+        cmd: 'qtlcmd -o layout -f eval -a ''self.resize("right", 300)'''
+      - key: "k"
+        desc: "Resize Window Up"
+        cmd: 'qtlcmd -o layout -f eval -a ''self.resize("up", 150)'''
+      - key: "j"
+        desc: "Resize Window Down"
+        cmd: 'qtlcmd -o layout -f eval -a ''self.resize("down", 150)'''
       - key: "i"
         desc: "Push In"
         submenu:
@@ -499,11 +511,11 @@ menu:
         cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(position="next")'''
       - key: "s"
         desc: " Spawn Split"
-        cmd: "qtlcmd 'wlr-which-key '"
+        cmd: "wlr-which-key"
       - key: "t"
         desc: "Toggle Floating"
         cmd: "qtlcmd -o layout -f toggle_floating"
-      - key: "q"
+      - key: "d"
         desc: "Kill Window"
         cmd: "qtlcmd -o window -f kill"
         # - key: "T"
@@ -665,8 +677,26 @@ menu:
     desc: " Cloud Drives"
     cmd: rofi-mount
   - key: "n"
-    desc: " Notification History"
-    cmd: "qtlcmd -o layout -f spawn_float -a 'kitty notification_history'"
+    desc: " Notification Actions"
+    submenu:
+      - key: "j"
+        desc: "Reveal Notification"
+        cmd: "dunstctl history-pop"
+      - key: "k"
+        desc: "Hide Notification"
+        cmd: "dunstctl close"
+      - key: "x"
+        desc: "Clear Notifications History"
+        cmd: "dunstctl history-clear"
+      - key: "q"
+        desc: "Close All Notifications"
+        cmd: "dunstctl close-all"
+      - key: "l"
+        desc: "Show Notifications List"
+        cmd: "qtlcmd -o layout -f spawn_float -a 'kitty notification_history'"
+      - key: "a"
+        desc: "Activate Notification"
+        cmd: "dunstctl context"
   # orgmode: {{{
   - key: "o"
     desc: " orgmode"

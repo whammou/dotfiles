@@ -12,9 +12,9 @@ mod = "mod4"
 meta = "mod1"
 
 keys = (
-    qtile_keys
-    + functional_keys
-    + windows_keys
+    # qtile_keys
+    functional_keys
+    # + windows_keys
     # + keyd_compat_keys
     # + focus_visible_window(
     #     [mod], range(1, 10), ignore_inactive_tabs_at_levels=range(1, 10)
