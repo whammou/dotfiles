@@ -10,6 +10,7 @@ local function setup_org(bufnr)
   -- ftplugin, and Snacks.quickfile all call it after we run, so re-assert
   -- on every Syntax event.
   local function assert_regex_syntax()
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
     vim.api.nvim_buf_call(bufnr, function()
       -- Setting syntax=ON sources synload.vim, which runs `syntax clear`
       -- (wiping the orgAdmonition* matches below) and fires a nested Syntax
@@ -52,6 +53,8 @@ local function setup_org(bufnr)
   vim.api.nvim_set_hl(0, "orgAdmonitionNote", { fg = "#61afef", bold = true })
 
   vim.schedule(function()
+    -- Buffer may have been closed/wiped while waiting on main-loop.
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
     local ns = vim.api.nvim_create_namespace("org-quote-block")
 
     local function is_admonition(node)
@@ -64,7 +67,9 @@ local function setup_org(bufnr)
     end
 
     local function refresh()
-      vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+      if not vim.api.nvim_buf_is_valid(bufnr) then return end
+      local ok_clear = pcall(vim.api.nvim_buf_clear_namespace, bufnr, ns, 0, -1)
+      if not ok_clear then return end
       local ok, parser = pcall(vim.treesitter.get_parser, bufnr, "org")
       if not ok then return end
 
