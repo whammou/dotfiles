@@ -137,16 +137,20 @@ return {
       picker = {
         enabled = false,
       },
+      terminal = {
+        win = {
+          wo = {
+            winbar = "",
+          },
+        },
+      },
       styles = {
         lazygit = {
           border = "single",
-          height = 0.5,
-          position = "bottom",
         },
         terminal = {
           border = "single",
-          height = 0.3,
-          position = "bottom",
+          wo = { winhighlight = "" },
         },
         notification = {
           border = "single",

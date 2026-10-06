@@ -53,7 +53,9 @@ return {
           local dir = vim.fn.expand("%:p:h")
           if dir ~= "" then
             local resolved = vim.fn.resolve(dir)
-            if resolved ~= "" then dir = resolved end
+            if resolved ~= "" then
+              dir = resolved
+            end
           end
           if dir == "" or vim.fn.isdirectory(dir) == 0 then
             dir = vim.fn.resolve(vim.fn.getcwd())
@@ -61,7 +63,9 @@ return {
           local reveal_file = vim.fn.expand("%:p")
           if reveal_file ~= "" then
             local resolved = vim.fn.resolve(reveal_file)
-            if resolved ~= "" then reveal_file = resolved end
+            if resolved ~= "" then
+              reveal_file = resolved
+            end
           else
             reveal_file = nil
           end
@@ -183,8 +187,6 @@ return {
           handler = function()
             -- This effectively hides the cursor
             vim.cmd("highlight! CursorBlock blend=100")
-            -- Prevent neo-tree window from being resized by other splits
-            vim.wo.winfixwidth = true
           end,
         },
         {
@@ -235,7 +237,11 @@ return {
           event = "file_opened",
           handler = function(file_path)
             for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-              if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_name(buf) == "" and vim.bo[buf].buftype == "" then
+              if
+                vim.api.nvim_buf_is_valid(buf)
+                and vim.api.nvim_buf_get_name(buf) == ""
+                and vim.bo[buf].buftype == ""
+              then
                 if vim.api.nvim_buf_line_count(buf) == 1 and vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] == "" then
                   if #vim.api.nvim_list_wins() > 1 then
                     pcall(vim.api.nvim_buf_delete, buf, { force = true })
@@ -252,12 +258,18 @@ return {
       local git = require("neo-tree.git")
       local uv = vim.uv or vim.loop
       local function resolve_path(p)
-        if not p or p == "" then return p end
+        if not p or p == "" then
+          return p
+        end
         local expanded = vim.fn.expand(p)
         local real = uv.fs_realpath(expanded)
-        if real then return real end
+        if real then
+          return real
+        end
         local resolved = vim.fn.resolve(expanded)
-        if resolved ~= "" then return resolved end
+        if resolved ~= "" then
+          return resolved
+        end
         return expanded
       end
       if git.find_existing_worktree then
@@ -368,7 +380,9 @@ return {
               end
               path = vim.fn.expand(path)
               local resolved = vim.fn.resolve(path)
-              if resolved ~= "" then path = resolved end
+              if resolved ~= "" then
+                path = resolved
+              end
               local stat = (vim.uv or vim.loop).fs_stat(path)
               if (stat and stat.type == "directory") or vim.fn.isdirectory(path) == 1 then
                 require("neo-tree.command").execute({ action = "show", dir = path })
