@@ -26,11 +26,16 @@ progress_args=""
 stack_args=""
 [ -n "$DUNST_STACK_TAG" ] && stack_args="-h string:x-dunst-stack-tag:$DUNST_STACK_TAG"
 
+# Forward category so DND tiers (04-dnd.conf) can match on display notifications
+category_args=""
+[ -n "$DUNST_CATEGORY" ] && category_args="-c $DUNST_CATEGORY"
+
 # Re-send as display notification with display- prefixed appname
 dunstify \
   -a "display-$DUNST_APP_NAME" \
   $urgency_args \
   $progress_args \
   $stack_args \
+  $category_args \
   "$DUNST_SUMMARY" \
   "$formatedBody"

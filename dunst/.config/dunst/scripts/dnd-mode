@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# dnd-mode — set Do-not-disturb tier (wraps `dunstctl set-pause-level`)
+#
+# Importance (most → least): critical -> system -> terminal -> reminder -> media -> conversation
+# Each tier mutes its own level and everything less important:
+#   off           0 — everything shows
+#   conversation 15 — mute chat / AI / mail
+#   media        25 — + mute music, clipboard, transient
+#   reminder     45 — + mute orgmode, clock reminders
+#   terminal     65 — + mute remote session, fish, opencode
+#   system       85 — only critical (calls, critical urgency)
+#   critical    100 — only critical (fully paused)
+#
+# Usage: dnd-mode [off|conversation|media|reminder|terminal|system|critical|status]
+
+set -euo pipefail
+
+usage() {
+  echo "usage: dnd-mode [off|conversation|media|reminder|terminal|system|critical|status]" >&2
+  exit 1
+}
+
+[ $# -eq 1 ] || usage
+
+case "$1" in
+off | 0) level=0 ;;
+conversation | chat | 15) level=15 ;;
+media | 25) level=25 ;;
+reminder | 45) level=45 ;;
+terminal | 65) level=65 ;;
+system | 85) level=85 ;;
+critical | error | 100) level=100 ;;
+status)
+  dunstctl get-pause-level
+  exit 0
+  ;;
+*) usage ;;
+esac
+
+dunstctl set-pause-level "$level"
+
+# Push per-tier glyph to the qtile bar (mirror of _DND_GLYPHS in widgets.py).
+# Best-effort: DND state must apply even when qtile/qtlcmd is unavailable.
+case "$level" in
+0) glyph="󰂚" ;;
+15) glyph="󱋊" ;;
+25) glyph="󰨜" ;;
+45) glyph="󱇘" ;;
+65) glyph="" ;;
+85) glyph="󰢻" ;;
+*) glyph="" ;;
+esac
+qtlcmd -o widget dnd_status -f update -a "$glyph" >/dev/null 2>&1 || true
