@@ -9,14 +9,9 @@ return {
   {
     "m00qek/baleia.nvim",
     lazy = true,
+    cmd = { "BaleiaColorize" },
     config = function()
-      require("baleia").setup({ strip_ansi_codes = true })
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "kitty-scrollback",
-        callback = function()
-          require("baleia").once(vim.api.nvim_get_current_buf())
-        end,
-      })
+      require("config.editor").setup_baleia()
     end,
   },
   {
@@ -27,7 +22,7 @@ return {
       "nvim-orgmode/orgmode",
     },
     config = function()
-      require("config.editor")
+      require("config.editor").setup_headlines()
     end,
   },
   {

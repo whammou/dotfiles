@@ -1,3 +1,6 @@
+local M = {}
+
+function M.setup_headlines()
 vim.cmd([[highlight MarkdownHeadline1 guifg=#56b6c2 gui=bold guibg=#2b3c44]])
 vim.cmd([[highlight MarkdownHeadline2 guifg=#c678dd gui=bold guibg=#393247]])
 vim.cmd([[highlight MarkdownHeadline3 guifg=#61afef gui=bold guibg=#2c3949]])
@@ -70,3 +73,41 @@ require("headlines").setup({
     fat_headlines = true,
   },
 })
+end
+
+function M.setup_baleia()
+  local od = require("onedark.colors")
+  local kitty_colors = {
+    [0] = od.bg_d,
+    [1] = od.red,
+    [2] = od.green,
+    [3] = od.yellow,
+    [4] = od.blue,
+    [5] = od.purple,
+    [6] = od.cyan,
+    [7] = od.light_grey,
+    [8] = od.bg_d,
+    [9] = od.tbg_red,
+    [10] = od.tbg_green,
+    [11] = od.tbg_yellow,
+    [12] = od.tbg_blue,
+    [13] = od.tbg_purple,
+    [14] = od.tbg_cyan,
+    [15] = od.grey,
+  }
+  for i = 0, 15 do
+    vim.g["terminal_color_" .. i] = kitty_colors[i]
+  end
+  local baleia = require("baleia").setup({ strip_ansi_codes = true, colors = kitty_colors })
+  vim.api.nvim_create_user_command("BaleiaColorize", function()
+    baleia.once(vim.api.nvim_get_current_buf())
+  end, { bang = true, desc = "Colorize ANSI codes via baleia (onedark/kitty palette)" })
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "kitty-scrollback",
+    callback = function(args)
+      baleia.once(args.buf)
+    end,
+  })
+end
+
+return M
