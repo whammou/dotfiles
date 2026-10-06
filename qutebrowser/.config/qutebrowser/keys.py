@@ -171,7 +171,7 @@ config.bind(
 )
 config.bind(
     "FF",
-    # "set statusbar.show never ;; hint all spawn qtile cmd-obj -o root -f spawn -a 'xdg-open {hint-url}'",  # noqa: E501
+    # "set statusbar.show never ;; hint all spawn qtlcmd -o root -f spawn -a 'xdg-open {hint-url}'",  # noqa: E501
     "set statusbar.show never ;; hint all spawn qtlcmd -o layout -f spawn_tab -a \"qb '{hint-url}'\" -k level=1",  # noqa: E501
 )
 config.bind(
