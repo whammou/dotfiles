@@ -216,27 +216,41 @@ def current_layout():
     )
 
 
-def _dnd_poll():
+# DND tier glyphs (same icons as dunstrc formatting; pushed live by dnd-mode via qtlcmd)
+_DND_GLYPHS = [
+    (0, "󰂚"),  # off (bell-outline) U+F009C
+    (15, "󱋊"),  # conversation (chat/AI/mail, outline) U+F12CA
+    (25, "󰨜"),  # media U+F0A1C
+    (45, "󱇘"),  # reminder (outline) U+F11D8
+    (65, ""),  # terminal U+E795
+    (85, "󰢻"),  # system (outline) U+F08BB
+    (101, ""),  # critical U+F530
+]
+
+
+def _dnd_glyph(level):
+    for threshold, glyph in _DND_GLYPHS:
+        if level <= threshold:
+            return glyph
+    return _DND_GLYPHS[-1][1]
+
+
+def _dnd_level():
     try:
         from subprocess import check_output
 
-        status = check_output(["dunstctl", "is-paused"], timeout=2).strip()
-        return status == b"true"
+        return int(check_output(["dunstctl", "get-pause-level"], timeout=2).strip())
     except Exception:
-        return False
+        return 0
 
 
 def dnd():
-    return widget.DoNotDisturb(
-        background=colors["bg_d"],
-        foreground=colors["fg"],
-        font=WIDGET_ICON_FONT,
-        padding=0,
-        enabled_icon="󰂛 ",
-        disabled_icon="󰂚 ",
-        poll_function=_dnd_poll,
-        update_interval=1,
-    )
+    return widget.TextBox(
+        **base(bg="bg_d", fg="fg"),
+        # one-shot init; live updates pushed by dnd-mode
+        text=_dnd_glyph(_dnd_level()),
+        name="dnd_status",
+    )  # dnd_status — dunst pause tier (dnd-mode pushes glyph via qtlcmd)
 
 
 def window_count():
@@ -310,23 +324,31 @@ widgets = [
         name="clock_date",
     ),
     separator(),
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 2
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # textbox — FREE
     widget.TextBox(
         foreground=colors["fg"],
         background=colors["bg_d"],
         font=WIDGET_ICON_FONT,
         text=" 󰧺 ",
-    ),  # text_box 1
-    # text_box 2 — mic status (noise-supression)
+        # textbox_1 — keyboard/trackpoint/cifs (_keyboard_toggle, toggle-trackpoint, umount-cifs)
+    ),
+    # textbox_2 — mic (noise-supression)
     widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 3
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 4
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 5
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 6
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 7
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 8
-    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # text_box 9
-    separator(),
+    widget.TextBox(
+        **base(bg="bg_d", fg="fg"), text=""
+    ),  # textbox_3 — smb (smb-mount, smb-umount, smb-toggle, rofi-mount)
+    # textbox_4 — rofi-mount
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),
+    # textbox_5 — rofi-mount
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),
+    # textbox_6 — rofi-mount
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),
+    # textbox_7 — rofi-mount
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),
+    widget.TextBox(
+        **base(bg="bg_d", fg="fg"), text=""
+    ),  # textbox_8 — server status (get-server-status)
+    widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # textbox_9 — FREE
     dnd(),
     KeydIndicator(
         foreground=colors["light_grey"],
@@ -334,6 +356,8 @@ widgets = [
         font=WIDGET_ICON_FONT,
         name="keyd",
     ),  # vim-mode indicator
+    separator(),
+    separator(),
     separator(),
     separator(),
 ]
