@@ -9,6 +9,10 @@ padding: 10
 rows_per_column: 6
 column_padding: 25
 anchor: bottom
+margin_top: 4
+margin_bottom: 4
+margin_left: 4
+margin_right: 4
 inhibit_compositor_keyboard_shortcuts: true
 auto_kbd_layout: true
 
@@ -115,7 +119,7 @@ menu:
   # }}}
   # yazi: {{{
   - key: "e"
-    desc: " yazi"
+    desc: " File Explorer"
     submenu:
       - key: "h"
         desc: "󰋜 Home"
@@ -183,12 +187,17 @@ menu:
         desc: "󰓩 Pull Floating To Tab"
         cmd: "qtlcmd -o layout -f pull_floating_to_tab"
       # }}}
-      - key: "equal"
-        desc: " Grow Floating +10%"
-        cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 1.10 && qtlcmd -o window -f center"
-      - key: "minus"
-        desc: " Shrink Floating -10%"
-        cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 0.90 && qtlcmd -o window -f center"
+      - key: "z"
+        desc: " Resize Floating"
+        submenu:
+          - key: "equal"
+            desc: " Grow Floating +10%"
+            cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 1.10 && qtlcmd -o window -f center"
+            keep_open: true
+          - key: "minus"
+            desc: " Shrink Floating -10%"
+            cmd: "qtlcmd -o layout -f grow_window_maintain_aspect_ratio -a 0.90 && qtlcmd -o window -f center"
+            keep_open: true
   - key: "i"
     desc: "󰢾 Discover Networks"
     cmd: "rofi -show wifi -iface wlan0"
@@ -263,9 +272,11 @@ menu:
       - key: "j"
         desc: "󰂢 Reveal Notification"
         cmd: "dunstctl history-pop"
+        keep_open: true
       - key: "k"
         desc: " Hide Notification"
         cmd: "dunstctl close"
+        keep_open: true
       - key: "l"
         desc: "󰂢 Show Notifications List"
         cmd: "qtlcmd -o layout -f spawn_float -a 'kitty notification_history'"
@@ -638,6 +649,7 @@ menu:
       - key: "i"
         desc: " Container Inner"
         cmd: "qtlcmd -o layout -f select_container_inner"
+        keep_open: true
       - key: "j"
         desc: "󰝜 New Level Tab"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k new_level=True"
@@ -652,28 +664,41 @@ menu:
         desc: " Merge Tab"
         submenu:
           - key: "h"
-            desc: " Merge Tab Left"
+            desc: " Merge Tabs Left"
             cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("previous", "x"); self.normalize_all()'''
           - key: "l"
-            desc: " Merge Tab Right"
+            desc: " Merge Tabs Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("next", "x"); self.normalize_all()'''
       - key: "o"
         desc: " Container Outer"
         cmd: "qtlcmd -o layout -f select_container_outer"
+        keep_open: true
       - key: "p"
-        desc: " Push Tab In"
+        desc: " Push In Tab"
         submenu:
+          - key: "H"
+            desc: " Push Windows to Tab Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("left", src_selection="mru_largest", dest_selection="mru_deepest")'''
+          - key: "J"
+            desc: " Push Windows to Tab Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("down", src_selection="mru_largest", dest_selection="mru_deepest")'''
+          - key: "K"
+            desc: " Push Windows to Tab Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("up", src_selection="mru_largest", dest_selection="mru_deepest")'''
+          - key: "L"
+            desc: " Push Windows to Tab Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right", src_selection="mru_largest", dest_selection="mru_deepest")'''
           - key: "h"
-            desc: " Push Window Left"
+            desc: " Push Window to Tab Left"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("left", dest_selection="mru_deepest")'''
           - key: "j"
-            desc: " Push Window Down"
+            desc: " Push Window to Tab Down"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("down", dest_selection="mru_deepest")'''
           - key: "k"
-            desc: " Push Window Up"
+            desc: " Push Window to Tab Up"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("up", dest_selection="mru_deepest")'''
           - key: "l"
-            desc: " Push Window Right"
+            desc: " Push Window to Tab Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right", dest_selection="mru_deepest")'''
       - key: "s"
         desc: "󰝜 Tab New"
@@ -681,15 +706,18 @@ menu:
       - key: "t"
         desc: " Toggle Container Mode"
         cmd: "qtlcmd -o layout -f toggle_container_select_mode"
+        keep_open: true
       - key: "w"
         desc: " Swap Tabs"
         submenu:
           - key: "h"
             desc: "󰘌 Swap Tab Previous"
             cmd: 'qtlcmd -o layout -f eval -a ''self.swap_tabs("previous")'''
+            keep_open: true
           - key: "l"
             desc: "󰘍 Swap Tab Next"
             cmd: 'qtlcmd -o layout -f eval -a ''self.swap_tabs("next")'''
+            keep_open: true
   # }}}
   # utility: {{{
   - key: "u"
@@ -701,9 +729,6 @@ menu:
       - key: "M"
         desc: "󰈮 Manga"
         cmd: "kitty --app-id=mangal -e mangal"
-      - key: "N"
-        desc: "󰂢 Notifications"
-        cmd: "kitty --app-id=notif-history -e notification_history"
       - key: "Y"
         desc: "󰊽 YouTube Account"
         cmd: "firefox 'https://youtube.com/account'"
@@ -798,9 +823,48 @@ menu:
       - key: "h"
         desc: "󰤼 Split Left"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a x -k position=previous"
-      - key: "i"
-        desc: " Push In"
+      - key: "j"
+        desc: "󰤻 Split Down"
+        cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a y"
+      - key: "k"
+        desc: "󰤻 Split Above"
+        cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a y -k position=previous"
+      - key: "l"
+        desc: "󰤼 Split Right"
+        cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a x"
+      - key: "m"
+        desc: " Merge Windows to Subtab"
         submenu:
+          - key: "h"
+            desc: " Merge to Subtab Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("left")'''
+          - key: "j"
+            desc: " Merge to Subtab Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("down")'''
+          - key: "k"
+            desc: " Merge to Subtab Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("up")'''
+          - key: "l"
+            desc: " Merge to Subtab Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("right")'''
+      - key: "o"
+        desc: " Pull Out"
+        cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(position="next")'''
+      - key: "p"
+        desc: " Push Window In"
+        submenu:
+          - key: "H"
+            desc: " Push Window Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("left", src_selection="mru_largest", dest_selection="mru_largest")'''
+          - key: "J"
+            desc: " Push Window Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("down", src_selection="mru_largest", dest_selection="mru_largest")'''
+          - key: "K"
+            desc: " Push Window Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("up", src_selection="mru_largest", dest_selection="mru_largest")'''
+          - key: "L"
+            desc: " Push Window Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right", src_selection="mru_largest", dest_selection="mru_largest")'''
           - key: "h"
             desc: " Push Window Left"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("left")'''
@@ -813,36 +877,9 @@ menu:
           - key: "l"
             desc: " Push Window Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right")'''
-      - key: "j"
-        desc: "󰤻 Split Down"
-        cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a y"
-      - key: "k"
-        desc: "󰤻 Split Above"
-        cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a y -k position=previous"
-      - key: "l"
-        desc: "󰤼 Split Right"
-        cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a x"
-      - key: "m"
-        desc: " Merge Windows"
-        submenu:
-          - key: "h"
-            desc: " Merge Subtab Left"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("left")'''
-          - key: "j"
-            desc: " Merge Subtab Down"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("down")'''
-          - key: "k"
-            desc: " Merge Subtab Up"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("up")'''
-          - key: "l"
-            desc: " Merge Subtab Right"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("right")'''
-      - key: "o"
-        desc: " Pull Out"
-        cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(position="next")'''
       - key: "s"
         desc: " Spawn Split"
-        cmd: "flock -n /tmp/wwk.lock wlr-which-key"
+        cmd: "wlr-which-key"
       - key: "t"
         desc: " Toggle Floating"
         cmd: "qtlcmd -o layout -f toggle_floating"
@@ -876,19 +913,36 @@ menu:
       - key: "z"
         desc: " Resize Window"
         submenu:
-          - key: "h"
-            desc: " Resize Window Left"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("left", 300)'''
-          - key: "j"
-            desc: " Resize Window Down"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("down", 150)'''
-          # }}}
-          - key: "k"
-            desc: " Resize Window Up"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("up", 150)'''
           - key: "l"
             desc: " Resize Window Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("right", 50)'''
+            keep_open: true
+          - key: "h"
+            desc: " Resize Window Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("left", 50)'''
+            keep_open: true
+          - key: "j"
+            desc: " Resize Window Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("down", 25)'''
+            keep_open: true
+          - key: "k"
+            desc: " Resize Window Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("up", 25)'''
+            keep_open: true
+          # }}}
+          # }}}
+          - key: "L"
+            desc: " Resize Window Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.resize("right", 300)'''
+          - key: "H"
+            desc: " Resize Window Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("left", 300)'''
+          - key: "J"
+            desc: " Resize Window Down"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("down", 150)'''
+          - key: "K"
+            desc: " Resize Window Up"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.resize("up", 150)'''
       - key: "equal"
         desc: " Normalize Sizes"
         cmd: "qtlcmd -o layout -f normalize"
