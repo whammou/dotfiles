@@ -13,7 +13,7 @@ COLORTERM=truecolor
 # Input method
 QT_IM_MODULE=fcitx
 GTK_IM_MODULE=fcitx
-GLFW_IM_MODULE=ibus
+GLFW_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
 
 # Desktop / session
