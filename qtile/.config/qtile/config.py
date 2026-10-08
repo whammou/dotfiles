@@ -78,8 +78,7 @@ wl_input_rules = {
         dwt=True,
     ),
     "type:keyboard": InputConfig(
-        kb_layout="qtile-ralt-nav",
-        kb_options="caps:swapescape",
+        kb_layout="us",
     ),
 }
 
