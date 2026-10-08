@@ -174,9 +174,11 @@ menu:
       - key: "n"
         desc: "󰘍 Focus Next Floating"
         cmd: "qtlcmd -o layout -f focus_next_floating"
+        keep_open: true
       - key: "p"
         desc: "󰘌 Focus Prev Floating"
         cmd: "qtlcmd -o layout -f focus_prev_floating"
+        keep_open: true
       - key: "s"
         desc: " Spawn Float"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_float -a 'wlr-which-key '"
@@ -212,7 +214,7 @@ menu:
         desc: "󰅂 System Services"
         cmd: "kitty --app-id=sysz-system -e sysz --system"
       - key: "a"
-        desc: "󰂃 Battery"
+        desc: "󰂃 Battery Smart Charge"
         cmd: "adapter-switch"
       - key: "b"
         desc: "󰂃 Battery"
@@ -878,7 +880,7 @@ menu:
             desc: " Push Window Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.push_in("right")'''
       - key: "s"
-        desc: " Spawn Split"
+        desc: " Spawn Split"
         cmd: "wlr-which-key"
       - key: "t"
         desc: " Toggle Floating"
@@ -997,6 +999,15 @@ menu:
       - key: "o"
         desc: " Toggle Trackpoint"
         cmd: "toggle-trackpoint 'TPPS/2 IBM TrackPoint' 󰳽"
+  - key: "Print"
+    desc: " Screenshot"
+    submenu:
+      - key: "f"
+        desc: "Take Fullscreen Screenshot"
+        cmd: 'grim $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png")'
+      - key: "s"
+        desc: "Take Selected Screenshot"
+        cmd: 'wlrctl pointer move -960 -519 && sudo noinputs -u "TPPS/2 IBM TrackPoint" && grim -g "$(slurp)" $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png") ; wlrctl pointer move 9999 9999 && sudo noinputs -i "TPPS/2 IBM TrackPoint"'
   # }}}
   - key: "Return"
     desc: " Terminal"
