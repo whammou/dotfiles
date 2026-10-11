@@ -3,7 +3,7 @@ return {
     "ibhagwan/fzf-lua",
     keys = {
       {
-        "<leader>uC",
+        "<leader>Cg",
         function()
           require("custom.color-picker").pick()
         end,

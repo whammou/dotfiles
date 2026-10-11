@@ -63,9 +63,6 @@ menu:
         desc: " Smallpdf"
         cmd: "qutebrowser_quick https://smallpdf.com/"
   # }}}
-  - key: "W"
-    desc: "󱂬 Current Windows"
-    cmd: "rofi -show window"
   # AI Tools: {{{
   - key: "a"
     desc: " AI Tools"
@@ -645,13 +642,24 @@ menu:
             desc: "󰓩 Tab 9"
             cmd: "qtlcmd -o layout -f eval -a 'self.focus_nth_tab(9, level=9)'"
       # }}}
+      - key: "c"
+        desc: " Container Mode"
+        submenu:
+          - key: "i"
+            desc: " Container Inner"
+            cmd: "qtlcmd -o layout -f select_container_inner"
+            keep_open: true
+          - key: "o"
+            desc: " Container Outer"
+            cmd: "qtlcmd -o layout -f select_container_outer"
+            keep_open: true
+          - key: "t"
+            desc: " Toggle Container Mode"
+            cmd: "qtlcmd -o layout -f toggle_container_select_mode"
+            keep_open: true
       - key: "h"
         desc: "󰘌 Prev Tab"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k position=previous"
-      - key: "i"
-        desc: " Container Inner"
-        cmd: "qtlcmd -o layout -f select_container_inner"
-        keep_open: true
       - key: "j"
         desc: "󰝜 New Level Tab"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k new_level=True"
@@ -661,7 +669,6 @@ menu:
       - key: "l"
         desc: "󰘍 Next Tab"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k position=next"
-
       - key: "m"
         desc: " Merge Tab"
         submenu:
@@ -672,9 +679,14 @@ menu:
             desc: " Merge Tabs Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("next", "x"); self.normalize_all()'''
       - key: "o"
-        desc: " Container Outer"
-        cmd: "qtlcmd -o layout -f select_container_outer"
-        keep_open: true
+        desc: " Tab Pull Out"
+        submenu:
+          - key: "l"
+            desc: " Pull Out Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(src_selection="mru_subtab_else_deepest")'''
+          - key: "h"
+            desc: " Pull Out Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(src_selection="mru_subtab_else_deepest")'''
       - key: "p"
         desc: " Push In Tab"
         submenu:
@@ -705,13 +717,17 @@ menu:
       - key: "s"
         desc: "󰝜 Tab New"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k level=1"
-      - key: "t"
-        desc: " Toggle Container Mode"
-        cmd: "qtlcmd -o layout -f toggle_container_select_mode"
-        keep_open: true
       - key: "w"
         desc: " Swap Tabs"
         submenu:
+          - key: "H"
+            desc: "󰘌 Swap Top-Layer Tab Previous"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.swap_tabs("previous", level=1)'''
+            keep_open: true
+          - key: "L"
+            desc: "󰘍 Swap Top-Layer Tab Next"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.swap_tabs("next", level=1)'''
+            keep_open: true
           - key: "h"
             desc: "󰘌 Swap Tab Previous"
             cmd: 'qtlcmd -o layout -f eval -a ''self.swap_tabs("previous")'''
@@ -828,6 +844,9 @@ menu:
       - key: "j"
         desc: "󰤻 Split Down"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a y"
+      - key: "i"
+        desc: "󱂬 Current Windows"
+        cmd: "rofi -show window"
       - key: "k"
         desc: "󰤻 Split Above"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_split -a 'wlr-which-key ' -a y -k position=previous"
@@ -850,8 +869,14 @@ menu:
             desc: " Merge to Subtab Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.merge_to_subtab("right")'''
       - key: "o"
-        desc: " Pull Out"
-        cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(position="next")'''
+        desc: " Window Pull Out"
+        submenu:
+          - key: "l"
+            desc: " Pull Out Right"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(position="next")'''
+          - key: "h"
+            desc: " Pull Out Left"
+            cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(position="previous")'''
       - key: "p"
         desc: " Push Window In"
         submenu:
