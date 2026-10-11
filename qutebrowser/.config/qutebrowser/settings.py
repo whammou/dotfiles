@@ -69,6 +69,11 @@ c.input.links_included_in_focus_chain = False
 c.input.insert_mode.auto_enter = False
 # }}}
 
+# keyhint: {{{
+# Show the keyhint dialog immediately (no delay)
+c.keyhint.delay = 0
+# }}}
+
 # scrolling: {{{
 c.scrolling.bar = "overlay"
 c.scrolling.smooth = False
