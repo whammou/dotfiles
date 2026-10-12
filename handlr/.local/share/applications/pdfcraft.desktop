@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=PDFcraft
+Comment=Pdfcraft view and edit pdf files
+Exec=pdfcraft %U
+Terminal=false
+Type=Application
+MimeType=application/pdf
+Categories=Viewer

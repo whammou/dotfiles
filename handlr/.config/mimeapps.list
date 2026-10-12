@@ -13,7 +13,7 @@ x-scheme-handler/mailto=neomutt.desktop;
 [Default Applications]
 application/epub+zip=zapdf.desktop;
 application/msword=zapdf.desktop;libreoffice.desktop;
-application/pdf=zapdf.desktop;libreoffice.desktop;
+application/pdf=zapdf.desktop;libreoffice.desktop;pdfcraft.desktop
 application/schema+json=nvim.desktop;
 application/toml=nvim.desktop;
 application/vnd.ms-excel=zapdf.desktop;libreoffice.desktop;
