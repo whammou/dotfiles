@@ -37,7 +37,7 @@ export FZF_DEFAULT_OPTS="
   --header-border=none
   --footer-border=none
   --ansi
-  --color=fg:-1,bg:-1,hl:1,fg+:-1,bg+:8,hl+:1
+  --color=fg:-1,bg:-1,hl:1,fg+:-1,bg+:0,hl+:1
   --color=info:15,prompt:4,pointer:1,marker:1,spinner:1
   --color=header:-1,separator:15,scrollbar:-1,border:15
   --color=query:-1:regular
