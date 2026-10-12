@@ -38,12 +38,24 @@ config.bind(
 )
 # }}}
 
-# external editor: {{{
+# input method (fcitx5): {{{
 # Edit text in external editor (insert/command mode)
 config.bind(
     "<Control-e>",
     "edit-text ;; message-info 'Opened in Editor'",
     mode="insert",
+)
+# Switch fcitx5 to US keyboard and leave insert mode
+config.bind(
+    "<Escape>",
+    "spawn fcitx5-remote -s keyboard-us ;; mode-leave",
+    mode="insert",
+)
+# Switch fcitx5 to US keyboard + default Escape (clear keychain/search/fullscreen)
+config.bind(
+    "<Escape>",
+    "spawn fcitx5-remote -s keyboard-us ;; clear-keychain ;; search ;; fullscreen --leave",  # noqa: E501
+    mode="normal",
 )
 # }}}
 
