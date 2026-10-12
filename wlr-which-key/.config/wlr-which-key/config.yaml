@@ -667,21 +667,10 @@ menu:
             desc: "󰓩 Layer 9"
             cmd: "qtlcmd -o layout -f eval -a 'self.focus_nth_tab(9, level=9)'"
       # }}}
-      - key: "c"
-        desc: " Container Mode"
-        submenu:
-          - key: "i"
-            desc: " Container Inner"
-            cmd: "qtlcmd -o layout -f select_container_inner"
-            keep_open: true
-          - key: "o"
-            desc: " Container Outer"
-            cmd: "qtlcmd -o layout -f select_container_outer"
-            keep_open: true
-          - key: "t"
-            desc: " Toggle Container Mode"
-            cmd: "qtlcmd -o layout -f toggle_container_select_mode"
-            keep_open: true
+      - key: "i"
+        desc: " Container Inner"
+        cmd: "qtlcmd -o layout -f select_container_inner"
+        keep_open: true
       - key: "h"
         desc: "󰘌 Prev Tab"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k position=previous"
@@ -704,14 +693,9 @@ menu:
             desc: " Merge Tabs Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.merge_tabs("next", "x"); self.normalize_all()'''
       - key: "o"
-        desc: " Tab Pull Out"
-        submenu:
-          - key: "l"
-            desc: " Pull Out Right"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(src_selection="mru_subtab_else_deepest")'''
-          - key: "h"
-            desc: " Pull Out Left"
-            cmd: 'qtlcmd -o layout -f eval -a ''self.pull_out(src_selection="mru_subtab_else_deepest")'''
+        desc: " Container Outer"
+        cmd: "qtlcmd -o layout -f select_container_outer"
+        keep_open: true
       - key: "p"
         desc: " Push In Tab"
         submenu:
@@ -742,6 +726,10 @@ menu:
       - key: "s"
         desc: "󰝜 Tab New"
         cmd: "flock -n /tmp/wwk.lock qtlcmd -o layout -f spawn_tab -a 'wlr-which-key' -k level=1"
+      - key: "t"
+        desc: " Toggle Container Mode"
+        cmd: "qtlcmd -o layout -f toggle_container_select_mode"
+        keep_open: true
       - key: "w"
         desc: " Swap Tabs"
         submenu:
