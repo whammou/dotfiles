@@ -42,8 +42,22 @@ config.bind(
 # Edit text in external editor (insert/command mode)
 config.bind(
     "<Control-e>",
-    "edit-text ;; message-info 'Opened in Editor'",
+    "edit-text",
     mode="insert",
+)
+# Fallback for #2215 (contenteditable/CodeMirror/Quill where edit-text fails):
+# copies via page handler, edits in nvim, pastes back. Use when Ctrl-e silently does nothing.
+config.bind(
+    "<Alt-e>",
+    "spawn --userscript edit-clipboard.py",
+    mode="insert",
+)
+# Same fallback from normal mode (auto_enter is off, so fields are often
+# focused while still in normal mode). Requires the target field focused.
+config.bind(
+    "<Ctrl-i>",
+    "set statusbar.show in-mode ;; mode-enter insert ;; spawn --userscript edit-clipboard.py",
+    mode="normal",
 )
 # Switch fcitx5 to US keyboard and leave insert mode
 config.bind(
