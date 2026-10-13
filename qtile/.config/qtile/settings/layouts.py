@@ -1,4 +1,10 @@
-from libqtile import hook, layout, qtile
+# Entry point for layout configuration.
+#
+# Helpers live in .layout.commands, hook subscriptions in .layout.hooks.
+# Importing them here registers the hooks; the re-exports below keep
+# `from settings.layouts import ...` working for existing callers.
+
+from libqtile import layout
 from libqtile.config import Match
 
 import re
@@ -8,493 +14,42 @@ from .screens import GAP
 from .theme import colors
 from .smart_bonsai import smart_split, smart_split_optimal
 
-# Lowercase substrings matched against window name + wm_class.
+from .layout import hooks  # noqa: F401  (side-effect: hook registration)
+
+from .layout.commands import (  # noqa: F401  (backward-compat re-exports)
+    _forget,
+    _remember_toggle_geom,
+    _restore_toggle_geom,
+    hide_floating_win,
+    is_floating_hidden,
+    show_floating_win,
+    toggle_floating_minimize,
+)
+
+# Focus-steal allowlist (canonical definition — edit here).
+# Window text is lowercased before matching, so write patterns lowercase.
 # Extend with values from `qtile cmd-obj -o window -f info`.
-STEAL_FOCUS_ALLOW = (
-    "soffice",
-    "libreoffice",
-    "file chooser",
-    "authentication",
-    "polkit",
-    "pinentry",
-    "password",
-    "unlock",
+# Plain string: name OR wm_class contains it. Tuple
+# (wm_class part, name part): both must match — use for titles
+# shared by many apps ("Open", "Save"). None class falls back
+# to matching the title only. Either part may be a compiled
+# regex (matched with search); string parts stay substrings.
+STEAL_FOCUS_RULES = (
+    "qutebrowser-editor",
+    (
+        "libreoffice",
+        re.compile(
+            r"^(open|save|insert|print|confirm|hyperlink|export|find|"
+            r"spelling|character|paragraph|delete|warning|thesaurus|"
+            r"word count|page style|bullets|special characters|"
+            r"track changes|comments|mail merge|navigator|properties)"
+        ),
+    ),
+    ("libreoffice", "libreoffice writer"),
+    ("libreoffice", "libreoffice calc"),
+    ("xdg-desktop-portal", re.compile(r"^(open|save|print|insert)")),
+    (None, "branchdialog"),
 )
-
-# (wm_class part, name part): both must match. For titles shared by
-# many apps ("Open", "Save", "Confirm"), scope them to one app here
-# instead of putting the bare title in STEAL_FOCUS_ALLOW.
-STEAL_FOCUS_SCOPED = (
-    ("soffice", "open"),
-    ("soffice", "save"),
-    ("soffice", "confirm"),
-)
-
-
-def _is_focus_allowed(window) -> bool:
-    try:
-        wname = (getattr(window, "name", "") or "").lower()
-    except Exception:
-        wname = ""
-    try:
-        wm_classes = [str(c).lower() for c in (window.get_wm_class() or [])]
-    except Exception:
-        wm_classes = []
-    try:
-        if any(k in wname or any(k in c for c in wm_classes) for k in STEAL_FOCUS_ALLOW):
-            return True
-    except Exception:
-        pass
-    try:
-        for cls_part, name_part in STEAL_FOCUS_SCOPED:
-            if name_part in wname and any(cls_part in c for c in wm_classes):
-                return True
-    except Exception:
-        pass
-    return False
-
-
-_last_focused = None
-_suppress_floating_hide = False
-_floating_sound_startup = True
-
-_hidden_geoms: dict[int, tuple[int, int, int, int]] = {}
-_last_toggle_geoms: dict[int, tuple[int, int, int, int]] = {}
-
-
-def _is_visible(win) -> bool:
-    return not bool(getattr(win, "hidden", False) or getattr(win, "minimized", False))
-
-
-def _save_geom(win) -> None:
-    wid = getattr(win, "wid", None)
-    if wid is None:
-        return
-    try:
-        w, h, x, y = int(win.width), int(win.height), int(win.x), int(win.y)
-        if w > 0 and h > 0:
-            cur = (x, y, w, h)
-            if _hidden_geoms.get(wid) != cur:
-                _hidden_geoms[wid] = cur
-    except Exception:
-        pass
-
-
-def _hide_all_in_group(group, exclude=None) -> None:
-    if group is None:
-        return
-    for w in list(getattr(group, "windows", [])):
-        if (
-            w is exclude
-            or getattr(w, "fullscreen", False)
-            or not getattr(w, "floating", False)
-        ):
-            continue
-        if _is_visible(w):
-            hide_floating_win(w)
-
-
-def _forget(wid: int | None) -> None:
-    if wid is not None:
-        _hidden_geoms.pop(wid, None)
-
-
-def _forget_toggle(wid: int | None) -> None:
-    if wid is not None:
-        _last_toggle_geoms.pop(wid, None)
-
-
-def _forget_all(wid: int | None) -> None:
-    if wid is not None:
-        _hidden_geoms.pop(wid, None)
-        _last_toggle_geoms.pop(wid, None)
-
-
-def _remember_toggle_geom(win) -> None:
-    wid = getattr(win, "wid", None)
-    if wid is None:
-        return
-    try:
-        w, h, x, y = int(win.width), int(win.height), int(win.x), int(win.y)
-        if w > 0 and h > 0:
-            _last_toggle_geoms[wid] = (x, y, w, h)
-    except Exception:
-        pass
-
-
-def _restore_toggle_geom(win) -> bool:
-    wid = getattr(win, "wid", None)
-    geom = _last_toggle_geoms.get(wid) if wid is not None else None
-    if geom is not None:
-        try:
-            x, y, w, h = geom
-            win.place(
-                x,
-                y,
-                w,
-                h,
-                win.borderwidth,
-                win.bordercolor,
-                above=False,
-                respect_hints=False,
-            )
-            try:
-                win.bring_to_front()
-            except Exception:
-                pass
-            return True
-        except Exception:
-            pass
-    try:
-        win.center()
-    except Exception:
-        pass
-    return False
-
-
-def hide_floating_win(win) -> None:
-    if not getattr(win, "floating", False) or getattr(win, "fullscreen", False):
-        return
-    _save_geom(win)
-    if not _is_visible(win):
-        return
-    try:
-        if hasattr(win, "hide"):
-            win.hide()
-        elif hasattr(win, "minimized"):
-            win.minimized = True  # type: ignore[attr-defined]
-    except (AttributeError, RuntimeError):
-        pass
-
-
-def show_floating_win(win) -> None:
-    if not getattr(win, "floating", False) or getattr(win, "fullscreen", False):
-        return
-    if _is_visible(win):
-        try:
-            win.bring_to_front()
-        except Exception:
-            pass
-        return
-    wid = getattr(win, "wid", None)
-    geom = _hidden_geoms.pop(wid, None) if wid is not None else None
-    try:
-        if hasattr(win, "unhide"):
-            win.unhide()
-        elif hasattr(win, "minimized"):
-            win.minimized = False  # type: ignore[attr-defined]
-    except (AttributeError, RuntimeError):
-        pass
-    if geom is not None:
-        try:
-            x, y, w, h = geom
-            win.place(
-                x,
-                y,
-                w,
-                h,
-                win.borderwidth,
-                win.bordercolor,
-                above=False,
-                respect_hints=False,
-            )
-        except Exception:
-            pass
-    try:
-        win.bring_to_front()
-    except Exception:
-        pass
-
-
-def toggle_floating_minimize(win) -> None:
-    if not getattr(win, "floating", False) or getattr(win, "fullscreen", False):
-        return
-    hide_floating_win(win) if _is_visible(win) else show_floating_win(win)
-
-
-def is_floating_hidden(win) -> bool:
-    return bool(getattr(win, "floating", False) and not _is_visible(win))
-
-
-@hook.subscribe.client_new
-def hide_floating_new(win):
-    if _is_focus_allowed(win):
-        grp = getattr(win, "group", None)
-        if grp is not None:
-            _hide_all_in_group(grp, exclude=win)
-        return
-    grp = getattr(win, "group", None)
-    if grp is not None:
-        _hide_all_in_group(grp)
-    hide_floating_win(win)
-
-
-@hook.subscribe.client_managed
-def hide_floating(win):
-    if _is_focus_allowed(win):
-        grp = getattr(win, "group", None) or getattr(qtile, "current_group", None)
-        if grp is not None:
-            _hide_all_in_group(grp, exclude=win)
-        show_floating_win(win)
-        try:
-            cur = getattr(qtile, "current_group", None)
-            if grp is not None and grp is cur:
-                grp.focus(win, warp=False)
-        except Exception:
-            pass
-        return
-    grp = getattr(win, "group", None) or getattr(qtile, "current_group", None)
-    if grp is not None:
-        _hide_all_in_group(grp)
-    hide_floating_win(win)
-
-
-@hook.subscribe.group_window_add
-def hide_floating_on_group_add(group, window):
-    if _is_focus_allowed(window):
-        _hide_all_in_group(group, exclude=window)
-        show_floating_win(window)
-        return
-    _hide_all_in_group(group)
-    if getattr(window, "floating", False):
-        hide_floating_win(window)
-
-
-@hook.subscribe.startup_complete
-def _disable_floating_sound_startup():
-    global _floating_sound_startup
-    _floating_sound_startup = False
-
-
-@hook.subscribe.client_managed
-def play_floating_sound(window):
-    global _floating_sound_startup
-    if _floating_sound_startup or not getattr(window, "floating", False):
-        return
-    import os
-
-    sound = os.path.expanduser("~/.local/share/bell/staplebops-05.wav")
-    qtile.spawn(f"pw-play --media-role=Notification --volume=1.0 {sound}")
-
-
-@hook.subscribe.client_focus
-def on_client_focus(window):
-    global _last_focused, _suppress_floating_hide
-    grp = getattr(window, "group", None) or getattr(qtile, "current_group", None)
-    _hide_all_in_group(grp, exclude=window)
-    if (
-        _last_focused is not None
-        and _last_focused is not window
-        and getattr(_last_focused, "floating", False)
-        and not _suppress_floating_hide
-        and _is_visible(_last_focused)
-    ):
-        hide_floating_win(_last_focused)
-    if getattr(window, "floating", False) and _is_visible(window):
-        try:
-            window.bring_to_front()
-        except Exception:
-            pass
-    _last_focused = window
-    _suppress_floating_hide = False
-
-
-@hook.subscribe.client_killed
-def _cleanup_hidden_on_killed(window):
-    _forget_all(getattr(window, "wid", None))
-
-
-@hook.subscribe.group_window_remove
-def _cleanup_hidden_on_remove(group, window):
-    _forget_all(getattr(window, "wid", None))
-
-
-@hook.subscribe.group_window_add
-def no_focus_steal(group, window):
-    prev = group.current_window
-    if prev is None:
-        return
-    if _is_focus_allowed(window):
-        return
-    window.can_steal_focus = False
-    qtile_inst = getattr(group, "qtile", None)
-    if qtile_inst:
-
-        def _reclaim():
-            if (
-                getattr(window, "floating", False)
-                and window.group is group
-                and prev.group is group
-            ):
-                group.focus(prev, warp=False)
-
-        qtile_inst.call_soon(_reclaim)
-
-
-@hook.subscribe.group_window_remove
-def after_killed_focus_same_L1(group, window):
-    try:
-        if window not in group.focus_history:
-            group.focus_history.append(window)
-    except Exception:
-        pass
-    from qtile_bonsai import Bonsai
-    from qtile_bonsai.core.nodes import Tab
-
-    layout = group.layout
-    if not isinstance(layout, Bonsai) or layout._tree.is_empty:
-        return
-    try:
-        qtile_inst = getattr(group, "qtile", None)
-        is_floating = bool(getattr(window, "floating", False))
-        killed_L1 = None
-        try:
-            pane = layout._windows_to_panes.get(window) if not is_floating else None
-            base = pane or layout.focused_pane
-            if base is None:
-                try:
-                    base = next(layout._tree.iter_panes())
-                except StopIteration:
-                    base = None
-            if base is not None:
-                tabs = list(reversed(base.get_ancestors(Tab)))
-                if tabs:
-                    killed_L1 = tabs[0]
-        except Exception:
-            killed_L1 = None
-
-        if is_floating:
-            removed = []
-            try:
-                idx = group.focus_history.index(window)
-                i = idx - 1
-                while i >= 0 and getattr(group.focus_history[i], "floating", False):
-                    removed.append(group.focus_history[i])
-                    i -= 1
-                for w in removed:
-                    try:
-                        group.focus_history.remove(w)
-                    except ValueError:
-                        pass
-                if removed and qtile_inst:
-
-                    def _reinsert():
-                        for w in removed:
-                            if w not in group.focus_history and w in group.windows:
-                                group.focus_history.append(w)
-
-                    qtile_inst.call_soon(_reinsert)
-            except (ValueError, IndexError, AttributeError):
-                pass
-
-        def _restore():
-            if group.current_window is window:
-                return
-            try:
-                target_tab = killed_L1
-                if target_tab is None or target_tab not in list(
-                    layout._tree.iter_walk()
-                ):
-                    cur_pane = layout.focused_pane
-                    if cur_pane is None:
-                        try:
-                            cur_pane = next(layout._tree.iter_panes())
-                        except StopIteration:
-                            return
-                    tabs = list(reversed(cur_pane.get_ancestors(Tab)))
-                    if not tabs:
-                        return
-                    target_tab = tabs[0]
-                target_pane = layout._tree.find_mru_pane(start_node=target_tab)
-                target = getattr(target_pane, "window", None) if target_pane else None
-                if (
-                    target
-                    and not target.floating
-                    and target.group is group
-                    and group.current_window is not target
-                ):
-                    group.focus(target, warp=False)
-            except Exception:
-                return
-
-        if qtile_inst:
-            qtile_inst.call_soon(_restore)
-        _restore()
-    except Exception:
-        return
-
-
-@hook.subscribe.client_killed
-def clean_ghost_panes(window):
-    try:
-        all_groups = getattr(qtile, "groups", []) or []
-        qt_inst = (
-            getattr(window, "qtile", None) or getattr(qtile, "qtile", None) or qtile
-        )
-
-        def _clean():
-            for grp in list(all_groups):
-                lay = getattr(grp, "layout", None)
-                from qtile_bonsai import Bonsai as _B
-
-                if not isinstance(lay, _B):
-                    continue
-                ghosts = []
-                try:
-                    live_panes = set(lay._tree.iter_panes())
-                    for win, pane in list(lay._windows_to_panes.items()):
-                        if (
-                            pane not in live_panes
-                            or getattr(pane, "window", None) is None
-                            or getattr(pane, "window", None) not in grp.windows
-                        ):
-                            ghosts.append((win, pane))
-                    for pane in list(lay._tree.iter_panes()):
-                        if getattr(pane, "window", None) is None:
-                            for win, p in list(lay._windows_to_panes.items()):
-                                if p is pane:
-                                    ghosts.append((win, pane))
-                                    break
-                            else:
-                                try:
-                                    lay._tree.remove(pane, normalize=True)
-                                except Exception:
-                                    pass
-                except Exception:
-                    continue
-                for win, pane in ghosts:
-                    try:
-                        if pane in set(lay._tree.iter_walk()):
-                            try:
-                                lay._tree.remove(pane, normalize=True)
-                            except Exception:
-                                pass
-                    except Exception:
-                        pass
-                    try:
-                        if win in lay._windows_to_panes:
-                            del lay._windows_to_panes[win]
-                    except Exception:
-                        pass
-                if ghosts:
-                    try:
-                        lay._request_relayout()
-                    except Exception:
-                        pass
-                    try:
-                        grp.layout_all()
-                    except Exception:
-                        pass
-
-        _clean()
-        try:
-            if qt_inst:
-                qt_inst.call_soon(_clean)
-        except Exception:
-            pass
-    except Exception:
-        pass
-
 
 BORDER_WIDTH = 3
 BORDER_COLOR = colors["grey"]
@@ -597,11 +152,18 @@ floating_layout = layout.Floating(
     border_normal=colors["bg0"],
     float_rules=[
         *layout.Floating.default_float_rules,
+        Match(wm_class="xdg-desktop-portal-gtk"),
         Match(wm_type="dialog"),
         Match(wm_type="utility"),
+        Match(wm_class="qutebrowser-editor"),
         Match(wm_class="xdg-desktop-portal-gtk"),
         Match(wm_class="xdg-desktop-portal-gnome"),
-        Match(wm_class=re.compile(r"(soffice|libreoffice)"), title=re.compile(r"^(Save|Open)")),
+        Match(
+            wm_class=re.compile(r"(soffice|libreoffice)"),
+            title=re.compile(
+                r"^(Save|Open|Export|Print|Insert|Hyperlink|Find|Spelling|Thesaurus|Word Count|Character|Paragraph|Page Style|Bullets|Special Characters|Track Changes|Comments|Mail Merge|Navigator|Properties|Confirm|Delete|Warning)"
+            ),
+        ),
         Match(title="branchdialog"),
         Match(title="pinentry"),
         Match(wm_class="kitty-float"),

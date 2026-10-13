@@ -69,7 +69,7 @@ class SmartBonsai(Bonsai):
                 # Hide immediately before window is drawn — prevents flash
                 # (deferred hide via hook would show then hide).
                 try:
-                    from settings.layouts import hide_floating_win
+                    from settings.layout.commands import hide_floating_win
 
                     hide_floating_win(window)
                 except Exception:
@@ -447,7 +447,7 @@ class SmartBonsai(Bonsai):
     @expose_command
     def focus_next_floating(self):
         """Focus next floating window in current group (wraps). No-op if none."""
-        from settings.layouts import is_floating_hidden, show_floating_win
+        from settings.layout.commands import is_floating_hidden, show_floating_win
 
         group = self.group
         if group is None:
@@ -471,7 +471,7 @@ class SmartBonsai(Bonsai):
     @expose_command
     def focus_prev_floating(self):
         """Focus previous floating window in current group (wraps). No-op if none."""
-        from settings.layouts import is_floating_hidden, show_floating_win
+        from settings.layout.commands import is_floating_hidden, show_floating_win
 
         group = self.group
         if group is None:
@@ -495,7 +495,7 @@ class SmartBonsai(Bonsai):
     @expose_command
     def focus_nth_floating(self, index):
         """Focus n-th floating window (0-based). Index coerced from IPC string."""
-        from settings.layouts import is_floating_hidden, show_floating_win
+        from settings.layout.commands import is_floating_hidden, show_floating_win
 
         try:
             index = int(index)
@@ -551,7 +551,7 @@ class SmartBonsai(Bonsai):
     @expose_command
     def floats_to_front(self):
         """Bring all floating windows to front and focus the top one."""
-        from settings.layouts import is_floating_hidden, show_floating_win
+        from settings.layout.commands import is_floating_hidden, show_floating_win
 
         qtile_inst = getattr(self.group, "qtile", None)
         if qtile_inst is None:
@@ -571,7 +571,7 @@ class SmartBonsai(Bonsai):
     @expose_command
     def floats_to_bottom(self):
         """Hide all floating windows (send to bottom)."""
-        from settings.layouts import hide_floating_win
+        from settings.layout.commands import hide_floating_win
 
         qtile_inst = getattr(self.group, "qtile", None)
         if qtile_inst is None:
@@ -585,7 +585,7 @@ class SmartBonsai(Bonsai):
     @expose_command
     def toggle_floating(self):
         """Toggle floating on current window, preserving toggle geometry."""
-        from settings.layouts import (
+        from settings.layout.commands import (
             _forget,
             _remember_toggle_geom,
             _restore_toggle_geom,
