@@ -1,10 +1,58 @@
 from libqtile import hook, layout, qtile
 from libqtile.config import Match
 
+import re
+
 from .layout.custom_bonsai import SmartBonsai
 from .screens import GAP
 from .theme import colors
 from .smart_bonsai import smart_split, smart_split_optimal
+
+# Lowercase substrings matched against window name + wm_class.
+# Extend with values from `qtile cmd-obj -o window -f info`.
+STEAL_FOCUS_ALLOW = (
+    "soffice",
+    "libreoffice",
+    "file chooser",
+    "authentication",
+    "polkit",
+    "pinentry",
+    "password",
+    "unlock",
+)
+
+# (wm_class part, name part): both must match. For titles shared by
+# many apps ("Open", "Save", "Confirm"), scope them to one app here
+# instead of putting the bare title in STEAL_FOCUS_ALLOW.
+STEAL_FOCUS_SCOPED = (
+    ("soffice", "open"),
+    ("soffice", "save"),
+    ("soffice", "confirm"),
+)
+
+
+def _is_focus_allowed(window) -> bool:
+    try:
+        wname = (getattr(window, "name", "") or "").lower()
+    except Exception:
+        wname = ""
+    try:
+        wm_classes = [str(c).lower() for c in (window.get_wm_class() or [])]
+    except Exception:
+        wm_classes = []
+    try:
+        if any(k in wname or any(k in c for c in wm_classes) for k in STEAL_FOCUS_ALLOW):
+            return True
+    except Exception:
+        pass
+    try:
+        for cls_part, name_part in STEAL_FOCUS_SCOPED:
+            if name_part in wname and any(cls_part in c for c in wm_classes):
+                return True
+    except Exception:
+        pass
+    return False
+
 
 _last_focused = None
 _suppress_floating_hide = False
@@ -170,6 +218,11 @@ def is_floating_hidden(win) -> bool:
 
 @hook.subscribe.client_new
 def hide_floating_new(win):
+    if _is_focus_allowed(win):
+        grp = getattr(win, "group", None)
+        if grp is not None:
+            _hide_all_in_group(grp, exclude=win)
+        return
     grp = getattr(win, "group", None)
     if grp is not None:
         _hide_all_in_group(grp)
@@ -178,6 +231,18 @@ def hide_floating_new(win):
 
 @hook.subscribe.client_managed
 def hide_floating(win):
+    if _is_focus_allowed(win):
+        grp = getattr(win, "group", None) or getattr(qtile, "current_group", None)
+        if grp is not None:
+            _hide_all_in_group(grp, exclude=win)
+        show_floating_win(win)
+        try:
+            cur = getattr(qtile, "current_group", None)
+            if grp is not None and grp is cur:
+                grp.focus(win, warp=False)
+        except Exception:
+            pass
+        return
     grp = getattr(win, "group", None) or getattr(qtile, "current_group", None)
     if grp is not None:
         _hide_all_in_group(grp)
@@ -186,6 +251,10 @@ def hide_floating(win):
 
 @hook.subscribe.group_window_add
 def hide_floating_on_group_add(group, window):
+    if _is_focus_allowed(window):
+        _hide_all_in_group(group, exclude=window)
+        show_floating_win(window)
+        return
     _hide_all_in_group(group)
     if getattr(window, "floating", False):
         hide_floating_win(window)
@@ -244,6 +313,8 @@ def _cleanup_hidden_on_remove(group, window):
 def no_focus_steal(group, window):
     prev = group.current_window
     if prev is None:
+        return
+    if _is_focus_allowed(window):
         return
     window.can_steal_focus = False
     qtile_inst = getattr(group, "qtile", None)
@@ -526,6 +597,11 @@ floating_layout = layout.Floating(
     border_normal=colors["bg0"],
     float_rules=[
         *layout.Floating.default_float_rules,
+        Match(wm_type="dialog"),
+        Match(wm_type="utility"),
+        Match(wm_class="xdg-desktop-portal-gtk"),
+        Match(wm_class="xdg-desktop-portal-gnome"),
+        Match(wm_class=re.compile(r"(soffice|libreoffice)"), title=re.compile(r"^(Save|Open)")),
         Match(title="branchdialog"),
         Match(title="pinentry"),
         Match(wm_class="kitty-float"),

@@ -89,7 +89,9 @@ bring_front_click = False
 floats_kept_above = False
 cursor_warp = False
 auto_fullscreen = False
-focus_on_window_activation = "never"
+# smart = focus new window only if in current group; no_focus_steal hook in
+# settings/layouts.py still guards non-allowlisted steal.
+focus_on_window_activation = "smart"
 focus_previous_on_window_remove = True
 reconfigure_screens = True
 auto_minimize = True
