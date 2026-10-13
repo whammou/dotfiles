@@ -28,4 +28,7 @@ keys = (
     + [
         Key([meta, "Shift"], "Return", lazy.layout.spawn("kitty"), desc="Spawn"),
     ]
+    + [
+        Key([mod], "space", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
+    ]
 )
