@@ -17,7 +17,7 @@ subprocess.run(
         "kitty",
         "--single-instance",
         "--app-id",
-        "kitty-float",
+        "qutebrowser-editor",
         "nvim",
         file_path,
         "+set ft=markdown",

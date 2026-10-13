@@ -187,6 +187,22 @@ menu:
       - key: "f"
         desc: " Toggle Fullscreen"
         cmd: "qtlcmd -o window -f toggle_fullscreen"
+      - key: "h"
+        desc: " Move Floating Left"
+        cmd: "qtlcmd -o window -f eval -a 'self.move_floating(-64, 0)'"
+        keep_open: true
+      - key: "j"
+        desc: " Move Floating Down"
+        cmd: "qtlcmd -o window -f eval -a 'self.move_floating(0, 26)'"
+        keep_open: true
+      - key: "k"
+        desc: " Move Floating Up"
+        cmd: "qtlcmd -o window -f eval -a 'self.move_floating(0, -36)'"
+        keep_open: true
+      - key: "l"
+        desc: " Move Floating Right"
+        cmd: "qtlcmd -o window -f eval -a 'self.move_floating(64, 0)'"
+        keep_open: true
       - key: "n"
         desc: "󰘍 Focus Next Floating"
         cmd: "qtlcmd -o layout -f focus_next_floating"
