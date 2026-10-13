@@ -133,8 +133,9 @@ blink.setup({
   },
   keymap = {
     preset = "default",
-    ["<C-j>"] = { "select_next", "fallback" },
-    ["<C-k>"] = { "select_prev", "fallback" },
-    ["<C-l>"] = { "select_and_accept", "fallback" },
+    ["<Up>"] = { "select_prev", "fallback" },
+    ["<Down>"] = { "select_next", "fallback" },
+    ["<Right>"] = { "select_and_accept", "fallback" },
+    ["<Left>"] = { "hide", "fallback" },
   },
 })
