@@ -3,49 +3,20 @@
 # Split from settings/layouts.py — pure window helpers with no hook
 # subscriptions. Hook handlers live in .hooks and import from here.
 
-# Focus-steal allowlists are defined once in settings/layouts.py and
+# Window rules are defined once in settings/layouts.py (WIN_RULES) and
 # sourced here via deferred import (avoids a circular import).
 
 
-def _hit(pat, text) -> bool:
-    if pat is None:
-        return True
-    search = getattr(pat, "search", None)
-    if callable(search):
-        try:
-            return search(text) is not None
-        except Exception:
-            return False
-    try:
-        return pat in text
-    except Exception:
-        return False
-
-
 def _is_focus_allowed(window) -> bool:
-    from settings.layouts import STEAL_FOCUS_RULES
+    from settings.layouts import WIN_RULES
 
-    try:
-        wname = (getattr(window, "name", "") or "").lower()
-    except Exception:
-        wname = ""
-    try:
-        wm_classes = [str(c).lower() for c in (window.get_wm_class() or [])]
-    except Exception:
-        wm_classes = []
-    try:
-        for rule in STEAL_FOCUS_RULES:
-            if isinstance(rule, str):
-                if _hit(rule, wname) or any(_hit(rule, c) for c in wm_classes):
-                    return True
-            else:
-                cls_part, name_part = rule
-                if not _hit(name_part, wname):
-                    continue
-                if cls_part is None or any(_hit(cls_part, c) for c in wm_classes):
-                    return True
-    except Exception:
-        pass
+    for rule in WIN_RULES:
+        try:
+            match = rule.focus_match if rule.focus_match is not None else rule.match
+            if rule.focus and match.compare(window):
+                return True
+        except Exception:
+            continue
     return False
 
 

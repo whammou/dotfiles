@@ -5,9 +5,10 @@
 # `from settings.layouts import ...` working for existing callers.
 
 from libqtile import layout
-from libqtile.config import Match
+from libqtile.config import Match, MatchAny, _Match
 
 import re
+from dataclasses import dataclass
 
 from .layout.custom_bonsai import SmartBonsai
 from .screens import GAP
@@ -26,34 +27,95 @@ from .layout.commands import (  # noqa: F401  (backward-compat re-exports)
     toggle_floating_minimize,
 )
 
-# Focus-steal allowlist (canonical definition — edit here).
-# Window text is lowercased before matching, so write patterns lowercase.
-# Extend with values from `qtile cmd-obj -o window -f info`.
-# Plain string: name OR wm_class contains it. Tuple
-# (wm_class part, name part): both must match — use for titles
-# shared by many apps ("Open", "Save"). None class falls back
-# to matching the title only. Either part may be a compiled
-# regex (matched with search); string parts stay substrings.
-STEAL_FOCUS_RULES = (
-    "qutebrowser-editor",
-    "dict",
-    "sysz",
-    "typing",
-    "notification-history",
-    (
-        "libreoffice",
-        re.compile(
-            r"^(open|save|insert|print|confirm|hyperlink|export|find|"
-            r"spelling|character|paragraph|delete|warning|thesaurus|"
-            r"word count|page style|bullets|special characters|"
-            r"track changes|comments|mail merge|navigator|properties)"
+# Window rules (canonical definitions — edit here).
+# One list drives floating (float_rules below) and focus-steal
+# (_is_focus_allowed in .layout.commands). Absence from this list
+# means tile + no steal (e.g. StartCenter).
+# Patterns are case-insensitive; extend with values from
+# `qtile cmd-obj -o window -f info`.
+
+
+def _re(pat: str) -> re.Pattern:
+    return re.compile(pat, re.IGNORECASE)
+
+
+def _either(token: str) -> MatchAny:
+    """Match token anywhere in window title OR any wm_class entry."""
+    return MatchAny(Match(title=_re(".*" + token)), Match(wm_class=_re(".*" + token)))
+
+
+@dataclass(frozen=True)
+class WinRule:
+    """Match a window to float and/or focus-steal actions."""
+
+    match: _Match
+    floating: bool = False
+    focus: bool = False
+    focus_match: _Match | None = None
+
+
+WIN_RULES = (
+    # App popups: float + focus on title-or-class hit.
+    WinRule(Match(wm_class="qutebrowser-editor"), floating=True, focus=True, focus_match=_either("qutebrowser-editor")),
+    WinRule(Match(wm_class="dict"), floating=True, focus=True, focus_match=_either("dict")),
+    WinRule(Match(wm_class="sysz"), floating=True, focus=True, focus_match=_either("sysz")),
+    WinRule(Match(wm_class="typing"), floating=True, focus=True, focus_match=_either("typing")),
+    WinRule(Match(wm_class="notification-history"), floating=True, focus=True, focus_match=_either("notification-history")),
+    # LibreOffice dialogs: float + focus.
+    WinRule(
+        Match(
+            wm_class=_re("(soffice|libreoffice)"),
+            title=_re(
+                r"^(open\b|save\b|insert\b|print\b|confirm\b|hyperlink\b|export\b|find\b|"
+                r"spelling\b|character\b|paragraph\b|delete\b|warning\b|thesaurus\b|"
+                r"word count\b|page style\b|bullets\b|special characters\b|"
+                r"track changes\b|comments\b|mail merge\b|navigator\b|properties\b)"
+            ),
         ),
+        floating=True,
+        focus=True,
     ),
-    ("libreoffice", "libreoffice writer"),
-    ("libreoffice", "libreoffice calc"),
-    ("xdg-desktop-portal", re.compile(r"^(open|save|print|insert)")),
-    (None, "branchdialog"),
-    (None, "volume control"),
+    # LibreOffice mains: focus, stay tiled.
+    WinRule(Match(title=_re(r".*libreoffice writer$")), focus=True),
+    WinRule(Match(title=_re(r".*libreoffice calc$")), focus=True),
+    # Portal file pickers: float + focus.
+    WinRule(
+        Match(
+            wm_class=_re("xdg-desktop-portal"),
+            title=_re(r"^(open\b|save\b|print\b|insert\b)"),
+        ),
+        floating=True,
+        focus=True,
+    ),
+    WinRule(Match(title=_re("^branchdialog")), floating=True, focus=True),
+    WinRule(Match(title=_re("volume control")), focus=True),
+    WinRule(Match(wm_class="org.pulseaudio.pavucontrol"), floating=True),
+    # Auth prompts must be seen, not hidden.
+    WinRule(Match(title=_re("^pinentry")), floating=True, focus=True),
+    WinRule(Match(wm_class="ssh-askpass"), floating=True, focus=True),
+    # Generic dialogs + legacy customs: float only.
+    WinRule(Match(wm_type="dialog"), floating=True),
+    WinRule(Match(wm_type="utility"), floating=True),
+    *(
+        WinRule(Match(wm_class=cls), floating=True)
+        for cls in (
+            "xdg-desktop-portal-gtk",
+            "xdg-desktop-portal-gnome",
+            "kitty-float",
+            "confirmreset",
+            "makebranch",
+            "maketag",
+            "vimiv",
+            "mpv-float",
+            "mpv",
+            "matplotlib",
+            "feh",
+            "fileselect",
+            "discord",
+            "steam",
+            "steamwebhelper",
+        )
+    ),
 )
 
 BORDER_WIDTH = 3
@@ -158,38 +220,6 @@ floating_layout = layout.Floating(
     border_normal=colors["bg0"],
     float_rules=[
         *layout.Floating.default_float_rules,
-        Match(wm_class="org.pulseaudio.pavucontrol"),
-        Match(wm_type="dialog"),
-        Match(wm_type="utility"),
-        Match(wm_class="qutebrowser-editor"),
-        Match(wm_class="xdg-desktop-portal-gtk"),
-        Match(wm_class="xdg-desktop-portal-gnome"),
-        Match(
-            wm_class=re.compile(r"(soffice|libreoffice)"),
-            title=re.compile(
-                r"^(Save|Open|Export|Print|Insert|Hyperlink|Find|Spelling|Thesaurus|Word Count|Character|Paragraph|Page Style|Bullets|Special Characters|Track Changes|Comments|Mail Merge|Navigator|Properties|Confirm|Delete|Warning)"
-            ),
-        ),
-        Match(title="branchdialog"),
-        Match(title="pinentry"),
-        Match(wm_class="dict"),
-        Match(wm_class="sysz"),
-        Match(wm_class="dict"),
-        Match(wm_class="typing"),
-        Match(wm_class="notification-history"),
-        Match(wm_class="kitty-float"),
-        Match(wm_class="confirmreset"),
-        Match(wm_class="makebranch"),
-        Match(wm_class="maketag"),
-        Match(wm_class="ssh-askpass"),
-        Match(wm_class="vimiv"),
-        Match(wm_class="mpv-float"),
-        Match(wm_class="mpv"),
-        Match(wm_class="matplotlib"),
-        Match(wm_class="feh"),
-        Match(wm_class="fileselect"),
-        Match(wm_class="discord"),
-        Match(wm_class="steam"),
-        Match(wm_class="steamwebhelper"),
+        *(rule.match for rule in WIN_RULES if rule.floating),
     ],
 )
