@@ -36,6 +36,10 @@ from .layout.commands import (  # noqa: F401  (backward-compat re-exports)
 # regex (matched with search); string parts stay substrings.
 STEAL_FOCUS_RULES = (
     "qutebrowser-editor",
+    "dict",
+    "sysz",
+    "typing",
+    "notification-history",
     (
         "libreoffice",
         re.compile(
@@ -49,6 +53,7 @@ STEAL_FOCUS_RULES = (
     ("libreoffice", "libreoffice calc"),
     ("xdg-desktop-portal", re.compile(r"^(open|save|print|insert)")),
     (None, "branchdialog"),
+    (None, "volume control"),
 )
 
 BORDER_WIDTH = 3
@@ -76,6 +81,7 @@ layouts = [
                 "org-capture": "pad_small",
                 "org-roam-capture": "pad_small",
                 "nvim": "pad_large",
+                "notification-history": "pad_medium",
                 "opencode": "pad_small",
                 "opencode-attach": "pad_small",
                 "test-session": "pad_extra_large",
@@ -152,7 +158,7 @@ floating_layout = layout.Floating(
     border_normal=colors["bg0"],
     float_rules=[
         *layout.Floating.default_float_rules,
-        Match(wm_class="xdg-desktop-portal-gtk"),
+        Match(wm_class="org.pulseaudio.pavucontrol"),
         Match(wm_type="dialog"),
         Match(wm_type="utility"),
         Match(wm_class="qutebrowser-editor"),
@@ -166,6 +172,11 @@ floating_layout = layout.Floating(
         ),
         Match(title="branchdialog"),
         Match(title="pinentry"),
+        Match(wm_class="dict"),
+        Match(wm_class="sysz"),
+        Match(wm_class="dict"),
+        Match(wm_class="typing"),
+        Match(wm_class="notification-history"),
         Match(wm_class="kitty-float"),
         Match(wm_class="confirmreset"),
         Match(wm_class="makebranch"),

@@ -11,7 +11,7 @@ from settings.widgets import widget_defaults, extension_defaults
 from settings.screens import screens
 from settings.mouse import mouse
 from settings.path import qtile_path
-
+from settings.layout.commands import _is_focus_allowed
 from os import path
 
 # Set the log level to CRITICAL to stop regular logs
@@ -89,9 +89,11 @@ bring_front_click = False
 floats_kept_above = False
 cursor_warp = False
 auto_fullscreen = False
-# smart = focus new window only if in current group; no_focus_steal hook in
-# settings/layouts.py still guards non-allowlisted steal.
-focus_on_window_activation = "smart"
+# Callable: allow post-manage activation requests only for allowlisted
+# windows. Qtile calls this with the requesting window; anything else
+# (e.g. "smart") would let any same-screen app steal focus past our hooks.
+# Manage-time autofocus still flows through can_steal_focus in hooks.
+focus_on_window_activation = _is_focus_allowed
 focus_previous_on_window_remove = True
 reconfigure_screens = True
 auto_minimize = True
