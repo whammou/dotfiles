@@ -39,14 +39,13 @@ config.bind(
 # }}}
 
 # input method (fcitx5): {{{
-# Edit text in external editor (insert/command mode)
+# Native external editor (plain fields: preserves cursor position)
 config.bind(
     "<Control-e>",
     "edit-text",
     mode="insert",
 )
-# Fallback for #2215 (contenteditable/CodeMirror/Quill where edit-text fails):
-# copies via page handler, edits in nvim, pastes back. Use when Ctrl-e silently does nothing.
+# Userscript fallback for #2215 (smart editors where edit-text fails)
 config.bind(
     "<Alt-e>",
     "spawn --userscript edit-clipboard.py",

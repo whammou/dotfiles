@@ -1723,6 +1723,139 @@ def _retire(old: dict) -> None:
     _resize_seq = 0
 
 
+def _wake_reassert(win_id: int) -> None:
+    # Re-assert an edit wake on a timer train. QtWebEngine can silently
+    # ignore a lifecycle flip until visibility propagates, and this file's
+    # own doctrine is retry-on-every-pass — but an edit session generates
+    # no further events for a pass to ride on, so the wake carries its
+    # own retries. Resolves live state per tick: safe across re-source.
+    try:
+        rt = objreg.get("tabfreeze-runtime", default=None)
+        if rt is None:
+            return
+        window = objreg.window_registry.get(win_id)
+        if window is None or sip.isdeleted(window):
+            return
+        try:
+            tab = window.tabbed_browser.widget.currentWidget()
+        except Exception:
+            return
+        if tab is None or sip.isdeleted(tab):
+            return
+        widget = tab._widget
+        if widget is None or sip.isdeleted(widget):
+            return
+        page = widget.page()
+        if page is None or sip.isdeleted(page):
+            return
+        page.setVisible(True)
+        page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+        state_timer = rt.get("state_timer")
+        try:
+            if state_timer is not None and not state_timer.isActive():
+                state_timer.start(30)
+        except Exception:
+            pass
+    except Exception:
+        log.misc.exception("tabfreeze: wake reassert failed")
+
+
+def _wake_for_edit(rt: dict, window: Any) -> bool:
+    # Wake the current tab for an external edit session (userscript
+    # clipboard fallback). Generation-proof by construction: all mutable
+    # state comes from rt (the live generation's objreg dict), so a
+    # command registered by an older generation still drives the
+    # current one. Returns True when the tab is usable.
+    try:
+        try:
+            tab = window.tabbed_browser.widget.currentWidget()
+        except Exception:
+            return False
+        if tab is None or sip.isdeleted(tab):
+            return False
+        try:
+            url = tab.url()
+        except Exception:
+            return False
+        if url.scheme() in _SKIP_SCHEMES:
+            return True
+        widget = tab._widget
+        if widget is None or sip.isdeleted(widget):
+            return False
+        now = time.monotonic()
+        rt["input_seen"][window.win_id] = True
+        rt["last_input"][window.win_id] = now
+        label = rt["overlays"].pop(id(widget), None)
+        for key in ("active_since", "expire_painted"):
+            bucket = rt.get(key)
+            if bucket is not None:
+                bucket.pop(id(widget), None)
+        if label is not None and not sip.isdeleted(label):
+            label.deleteLater()
+        timer = rt["grade_timers"].pop(id(widget), None)
+        if timer is not None:
+            try:
+                timer.stop()
+            except Exception:
+                pass
+        page = widget.page()
+        if page is None or sip.isdeleted(page):
+            return False
+        was = page.lifecycleState()
+        page.setVisible(True)
+        page.setLifecycleState(QWebEnginePage.LifecycleState.Active)
+        log.misc.debug("tabfreeze: edit wake %s (was %s)",
+                       url.host() or url.toString(), was)
+        state_timer = rt.get("state_timer")
+        try:
+            if state_timer is not None and not state_timer.isActive():
+                state_timer.start(30)
+        except Exception:
+            pass
+        try:
+            wid = window.win_id
+            for delay in (250, 600, 1000):
+                QTimer.singleShot(delay,
+                                  lambda win_id=wid: _wake_reassert(win_id))
+        except Exception:
+            pass
+        return True
+    except Exception:
+        log.misc.exception("tabfreeze: edit wake failed")
+        return False
+
+
+try:
+    from qutebrowser.api import cmdutils
+
+    @cmdutils.register(name="tabfreeze-wake")
+    @cmdutils.argument("win_id", value=cmdutils.Value.win_id)
+    def tabfreeze_wake(win_id: int) -> None:
+        """Wake the current tab for an external edit session.
+
+        Forces the current tab Active, drops the frozen overlay and
+        refreshes the input timestamp so the tab stays live while a
+        userscript copies from / pastes into the page. Resolves the
+        live generation via objreg, so it stays correct across
+        :config-source. Silent by design.
+        """
+        try:
+            rt = objreg.get("tabfreeze-runtime", default=None)
+            window = objreg.window_registry.get(win_id)
+            if rt is None or window is None or sip.isdeleted(window):
+                return
+            wake = rt.get("wake_for_edit")
+            if wake is None:
+                return
+            wake(rt, window)
+        except Exception:
+            log.misc.exception("tabfreeze: wake command failed")
+except ValueError:
+    # Re-sourcing (e.g. :config-source) re-registers; keep the existing
+    # registration, which resolves live state via objreg anyway.
+    pass
+
+
 class _Scheduler(QObject):
 
     @pyqtSlot()
@@ -1773,6 +1906,7 @@ class _Scheduler(QObject):
                     "hook_conns": _hook_conns,
                     "focus_handler": _on_focus_changed,
                     "wire_window": _wire_window,
+                    "wake_for_edit": _wake_for_edit,
                 },
                 update=True,
             )
