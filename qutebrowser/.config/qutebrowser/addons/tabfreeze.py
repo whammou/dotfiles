@@ -272,6 +272,25 @@ def _drop_window_caches(window: Any) -> None:
         pass
 
 
+def _on_lifecycle_state_changed(page: Any, state: Any) -> None:
+    try:
+        if sip.isdeleted(page):
+            return
+        if state == QWebEnginePage.LifecycleState.Frozen:
+            state_name = "Frozen"
+        elif state == QWebEnginePage.LifecycleState.Discarded:
+            state_name = "Discarded"
+        else:
+            state_name = "Active"
+        try:
+            label = page.url().toString() or page.url().host() or hex(id(page))
+        except Exception:
+            label = hex(id(page))
+        log.misc.info("tabfreeze: lifecycle state changed to %s (%s)", state_name, label)
+    except Exception:
+        log.misc.exception("tabfreeze: lifecycle notify failed")
+
+
 def _on_loading_changed(page, info: QWebEngineLoadingInfo) -> None:
     if info.status() == QWebEngineLoadingInfo.LoadStatus.LoadStartedStatus:
         _loading_pages.add(id(page))
@@ -453,6 +472,10 @@ def _apply_window_states() -> bool:
                 _connect(
                     page.loadingChanged,
                     lambda info, page=page: _on_loading_changed(page, info),
+                )
+                _connect(
+                    page.lifecycleStateChanged,
+                    lambda state, page=page: _on_lifecycle_state_changed(page, state),
                 )
                 _connect(
                     page.destroyed,
