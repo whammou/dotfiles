@@ -13,9 +13,6 @@ case "$DUNST_APP_NAME" in display-*) exit 0 ;; esac
 # Skip notifications already handled by specific rules (call, clock, etc.)
 [ "$DUNST_CATEGORY" = "raw.handled" ] && exit 0
 
-# Enrich body: bold the first colon-separated label (e.g. "AppName: msg" → "AppName: msg")
-formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^:]*):/<b>$1<\/b>:/')
-
 # Forward original urgency (lowercased for dunstify), stack tag, and progress bar hint
 urgency_args=""
 [ -n "$DUNST_URGENCY" ] && urgency_args="-u $(echo "$DUNST_URGENCY" | tr '[:upper:]' '[:lower:]')"
@@ -29,6 +26,30 @@ stack_args=""
 # Forward category so DND tiers (04-dnd.conf) can match on display notifications
 category_args=""
 [ -n "$DUNST_CATEGORY" ] && category_args="-c $DUNST_CATEGORY"
+
+# qutebrowser: domain as summary, sender prefix in body
+if [ "$DUNST_APP_NAME" = "qutebrowser" ]; then
+    # Extract domain from URL in body
+    domain=$(echo "$DUNST_BODY" | grep -oP 'https?://\K[^/"]+' | head -1)
+    [ -z "$domain" ] && domain="$DUNST_SUMMARY"
+
+    # Strip HTML, drop first line (URL), remove linebreaks, trim whitespace → message text
+    msg=$(echo "$DUNST_BODY" | sed 's/<[^>]*>//g' | sed '1d' | tr -d '\n' | sed 's/^[[:space:]]*//')
+    [ -z "$msg" ] && msg=$(echo "$DUNST_BODY" | sed 's/<[^>]*>//g')
+
+    dunstify \
+      -a "display-$DUNST_APP_NAME" \
+      $urgency_args \
+      $progress_args \
+      $stack_args \
+      $category_args \
+      "$domain" \
+      "<b>$DUNST_SUMMARY</b>: $msg"
+    exit 0
+fi
+
+# Enrich body: bold the first colon-separated label (e.g. "AppName: msg" → "AppName: msg")
+formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^<>]*):/<b>$1<\/b>:/')
 
 # Re-send as display notification with display- prefixed appname
 dunstify \

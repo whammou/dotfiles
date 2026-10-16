@@ -110,7 +110,8 @@ c.content.headers.user_agent = (
     "{upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}"  # noqa: E501
 )
 c.content.javascript.enabled = True
-c.content.notifications.enabled = False
+c.content.notifications.enabled = True
+c.content.notifications.presenter = 'libnotify'
 c.content.prefers_reduced_motion = True
 # Per-site proxy: QtWebEngine has no per-site proxy support (no setHttpProxy
 # in PyQt6 6.11, PAC unimplemented on QtWebEngine, CLI proxy flags ignored),
