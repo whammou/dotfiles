@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# notification-pause — save current pause-level then mute to critical before swaylock/sleep.
+# Queues downtime notifications in dunst waiting queue (timeout suspended);
+# they auto-show when level is restored on unlock (no history-pop needed).
+# Intentionally no bar icon update — silent lock-time mute.
+set -euo pipefail
+
+state_dir="${XDG_RUNTIME_DIR:-$HOME/.cache}"
+state_file="$state_dir/dunst-pause-level"
+mkdir -p "$state_dir"
+
+if command -v dunstctl >/dev/null 2>&1; then
+  cur="$(dunstctl get-pause-level 2>/dev/null || echo 0)"
+  # Don't clobber the pre-lock level on nested/re-entrant locks.
+  if [ "$cur" = "100" ] && [ -f "$state_file" ]; then
+    exit 0
+  fi
+  echo "$cur" > "$state_file" 2>/dev/null || echo 0 > "$state_file"
+else
+  echo 0 > "$state_file"
+fi
+
+dunstctl set-pause-level 100 >/dev/null 2>&1 || true

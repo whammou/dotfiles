@@ -14,17 +14,15 @@ dunst_action=$(
 # Define Actions
 case $dunst_action in
 "reject")
-  curl \
-    -H "t:Phone Action" \
-    -H "p:min" \
-    -d "!PHONE:REJECT" \
-    whamlab.sytes.net/android-socket
+  ntfy pub \
+    -t "Phone Action" \
+    "android-socket" \
+    "!PHONE:REJECT"
   ;;
 "accept")
-  curl \
-    -H "t:Phone Action" \
-    -H "p:min" \
-    -d "!PHONE:ACCEPT" \
-    whamlab.sytes.net/android-socket
+  ntfy pub \
+    -t "Phone Action" \
+    "android-socket" \
+    "!PHONE:ACCEPT"
   ;;
 esac

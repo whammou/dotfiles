@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# notification-resume — restore pause-level saved by notification-pause.
+# Lowering the level auto-flushes the waiting queue with fresh timeouts.
+# Intentionally no bar icon update — silent restore.
+set -euo pipefail
+
+state_dir="${XDG_RUNTIME_DIR:-$HOME/.cache}"
+state_file="$state_dir/dunst-pause-level"
+
+level="0"
+[ -f "$state_file" ] && level="$(cat "$state_file" 2>/dev/null || echo 0)"
+case "$level" in ''|*[!0-9]*) level=0 ;; esac
+
+if command -v dunstctl >/dev/null 2>&1; then
+  dunstctl set-pause-level "$level" >/dev/null 2>&1 || true
+fi
