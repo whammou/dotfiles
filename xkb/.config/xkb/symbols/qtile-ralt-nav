@@ -1,0 +1,11 @@
+partial alphanumeric_keys
+xkb_symbols "basic" {
+    name[Group1]= "Qtile RAlt Nav";
+    include "us(basic)"
+    // RightAlt = Level3 (AltGr-equivalent) so Level3+HJKL switches level.
+    key <RALT> { [ ISO_Level3_Shift ] };
+    key <AC06> { type[group1]="FOUR_LEVEL", [ h, H, Left, Left ] };
+    key <AC07> { type[group1]="FOUR_LEVEL", [ j, J, Down, Down ] };
+    key <AC08> { type[group1]="FOUR_LEVEL", [ k, K, Up, Up ] };
+    key <AC09> { type[group1]="FOUR_LEVEL", [ l, L, Right, Right ] };
+};

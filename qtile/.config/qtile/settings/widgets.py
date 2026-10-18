@@ -5,7 +5,6 @@ from qtile_bonsai import BonsaiBar
 from .theme import colors
 from .widget.centered_clock import CenteredClock
 from .widget.floating_count import FloatCount
-from .widget.keyd_indicator import KeydIndicator
 from .widget.window_count import WindowCount
 from .widget.popup_windowname import PopupWindowBox
 
@@ -350,12 +349,6 @@ widgets = [
     ),  # textbox_8 — server status (get-server-status)
     widget.TextBox(**base(bg="bg_d", fg="fg"), text=""),  # textbox_9 — FREE
     dnd(),
-    KeydIndicator(
-        foreground=colors["light_grey"],
-        background=colors["bg_d"],
-        font=WIDGET_ICON_FONT,
-        name="keyd",
-    ),  # vim-mode indicator
     separator(),
     separator(),
     separator(),
