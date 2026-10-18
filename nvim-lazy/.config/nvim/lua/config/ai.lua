@@ -90,3 +90,42 @@ require("sidekick").setup({
     },
   },
 })
+
+local sidekick_float_cols = 100
+local responsive_layout = vim.o.columns < sidekick_float_cols and "float" or "right"
+
+local function apply_sidekick_layout(layout)
+  local ok_config, Config = pcall(require, "sidekick.config")
+  if ok_config and Config.cli and Config.cli.win then
+    Config.cli.win.layout = layout
+  end
+  local ok_term, Terminal = pcall(require, "sidekick.cli.terminal")
+  if not ok_term then
+    return
+  end
+  for _, terminal in ipairs(Terminal.sessions()) do
+    if terminal.opts then
+      terminal.opts.float = terminal.opts.float or {}
+      terminal.opts.float.border = "single"
+      if terminal.opts.layout ~= layout then
+        local was_focused = terminal.is_focused and terminal:is_focused()
+        terminal.opts.layout = layout
+        if terminal.is_open and terminal:is_open() then
+          terminal:hide()
+          terminal:show()
+          if was_focused and terminal.focus then
+            terminal:focus()
+          end
+        end
+      end
+    end
+  end
+end
+
+require("config.layout").on_resize(function(columns)
+  local layout = columns < sidekick_float_cols and "float" or "right"
+  if layout ~= responsive_layout then
+    responsive_layout = layout
+    apply_sidekick_layout(layout)
+  end
+end)

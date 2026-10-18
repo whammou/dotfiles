@@ -15,6 +15,13 @@ vim.opt.titlestring = "NVIM | %F"
 opt.autoread = true
 opt.sessionoptions = "blank,buffers,curdir,folds,globals,help,tabpages,winsize,winpos,terminal,localoptions,resize"
 
+opt.winwidth = 20
+opt.winheight = 5
+opt.winminwidth = 20
+opt.winminheight = 5
+opt.equalalways = false
+opt.splitkeep = "screen"
+
 --opt.foldtext = ""
 
 --opt.foldmethod = "expr"

@@ -4,14 +4,7 @@
 -- Add any additional autocmds here
 -- with `vim.api.nvim_create_autocmd`
 
-vim.api.nvim_create_autocmd("VimResized", {
-  pattern = "*",
-  callback = function()
-    if #vim.api.nvim_list_wins() > 1 then
-      vim.cmd("tabdo wincmd =")
-    end
-  end,
-})
+require("config.layout").setup({ narrow_cols = 100 })
 
 vim.api.nvim_create_autocmd("BufNewFile", {
   group = vim.api.nvim_create_augroup("NetmanInit", { clear = true }),
