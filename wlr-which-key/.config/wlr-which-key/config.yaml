@@ -1042,6 +1042,16 @@ menu:
       - key: "a"
         desc: " Toggle Trackpad"
         cmd: "toggle-trackpoint 'Synaptics TM3075-002' 󰟸"
+      - key: "f"
+        desc: "󰳾 Follow and Click"
+        cmd: "wl-kbptr -o modes=floating -o mode_floating.source=detect && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1 && wlrctl pointer click"
+      - key: "F"
+        desc: "󰳾 Follow and Click Continous"
+        cmd: "wl-kbptr -o modes=floating -o mode_floating.source=detect && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1 && wlrctl pointer click"
+        keep_open: true
+      - key: "h"
+        desc: "󰆿 Hide Cursor"
+        cmd: "wlrctl pointer move 9999 9999"
       - key: "k"
         desc: " Toggle Keyboard"
         cmd: _keyboard_toggle

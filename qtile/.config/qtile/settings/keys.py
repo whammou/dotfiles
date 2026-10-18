@@ -31,4 +31,7 @@ keys = (
     + [
         Key([mod], "space", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
     ]
+    + [
+        Key([], "Super_L", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
+    ]
 )
