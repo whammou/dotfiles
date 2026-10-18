@@ -1,5 +1,4 @@
 timeout 180 '! playerctl status 2>/dev/null | rg -q "Playing" && ! pactl list sink-inputs 2>/dev/null | rg -q "Corked: no" && (brightnessctl --save && brightnessctl set 0%)' resume 'brightnessctl --restore'
-timeout 360 '! playerctl status 2>/dev/null | rg -q "Playing" && ! pactl list sink-inputs 2>/dev/null | rg -q "Corked: no" && $HOME/.config/dunst/scripts/notification-pause && swaylock -f; $HOME/.config/dunst/scripts/notification-resume' resume 'brightnessctl --restore'
+timeout 360 '! playerctl status 2>/dev/null | rg -q "Playing" && ! pactl list sink-inputs 2>/dev/null | rg -q "Corked: no" && swaylock -f' resume 'brightnessctl --restore'
 timeout 900 '! playerctl status 2>/dev/null | rg -q "Playing" && ! pactl list sink-inputs 2>/dev/null | rg -q "Corked: no" && ([ "$(cat /sys/class/power_supply/AC/online)" = "0" ] && systemctl suspend-then-hibernate)'
-before-sleep '$HOME/.config/dunst/scripts/notification-pause; swaylock -f'
-after-resume '$HOME/.config/dunst/scripts/notification-resume; brightnessctl --restore'
+before-sleep 'swaylock -f'
