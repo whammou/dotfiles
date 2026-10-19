@@ -12,3 +12,26 @@ span#marketing-card-callout-text,
 span.marketing-card-note {
   background-image: none !important;
 }
+
+/* Docs/Drive homescreen: the template gallery (docs-homescreen-fcc-*,
+   docs-hs-tmp-*) is painted white by Google's own theme, often via
+   gradients that the conditional div painter exempts as decorative
+   and sees-through. Static override: shade the whole homescreen
+   surface family with the theme base. Prefix targets (class^/class*)
+   instead of exact obfuscated classes so Google's suffix churn
+   (-swe, -ns, -content, -docked, ...) stays covered. */
+div.docs-homescreen-container,
+div.docs-homescreen-docs,
+div.docs-homescreen-homescreenmain,
+div[class^="docs-homescreen-fcc"],
+div[class*=" docs-homescreen-fcc"],
+div[class^="docs-hs-tmp"],
+div[class*=" docs-hs-tmp"] {
+  background-color: var(--od-bg0) !important;
+  background-image: none !important;
+}
+
+/* Titlebar buttons sit on the raised chrome level -> bg1. */
+div.docs-titlebar-buttons {
+  background-color: var(--od-bg1) !important;
+}
