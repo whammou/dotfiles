@@ -1,6 +1,13 @@
 # pylint: disable=C0111
+import sys
 from pathlib import Path
 from typing import Any
+
+# The sourced modules (settings.py, keys.py, sites.py, addons/*.py) import the
+# pure helpers in lib/ via regular import machinery. The config dir is not on
+# sys.path at that point (depends on the cwd qutebrowser was launched from), so
+# anchor it explicitly.
+sys.path.append(str(Path(__file__).resolve().parent))
 
 # qutebrowser injects c/config when sourcing; globals()[...] binds them without
 # self-assignment or undefined names, keeping ruff/pyflakes/pyright quiet.
