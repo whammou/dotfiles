@@ -1,11 +1,18 @@
+import os
+import time
 from typing import cast
 
 from libqtile.command.base import expose_command
+from libqtile.log_utils import logger
 
 from qtile_bonsai import Bonsai
+from qtile_bonsai.layout import modify_terminal_cmd_with_cwd
 from qtile_bonsai.tree import BonsaiPane
 
 from ..group.scratchpads import scratchpad_layout
+
+# Armed float flag expires after this long (self-heals a cancelled menu).
+PENDING_FLOAT_TTL_SECONDS = 300
 
 
 class SmartBonsai(Bonsai):
@@ -16,6 +23,9 @@ class SmartBonsai(Bonsai):
         self.float_sizes = kwargs.pop("float_sizes", {})
         super().__init__(*args, **kwargs)
         self._pending_float = False
+        self._float_pid = 0
+        self._float_is_menu = False
+        self._float_arm_time = 0.0
         self._in_pull = False
 
     def _spawn_program(self, program: str):
@@ -27,21 +37,123 @@ class SmartBonsai(Bonsai):
         the flag here we cover every non-float spawn path automatically,
         including any future methods the parent class might add.
         """
-        self._pending_float = False
+        self._clear_pending_float()
         super()._spawn_program(program)
 
-    @expose_command
-    def spawn_float(self, program: str):
+    def _spawn_with_pid(self, program: str):
         """
-        Launch the provided program and ensure the resulting window is floating.
+        Mirror ``Bonsai._spawn_program`` but capture the spawned pid instead
+        of discarding it.  Kept in lockstep with the parent implementation
+        (auto_cwd_for_terminals + ``Qtile.spawn``, which returns the pid).
+        """
+        auto_cwd_for_terminals = self._tree.get_config("auto_cwd_for_terminals")
+        if auto_cwd_for_terminals and self.focused_window is not None:
+            program = modify_terminal_cmd_with_cwd(
+                program, self.focused_window.get_pid()
+            )
+        return self.group.qtile.spawn(program)
+
+    # --- pending-float state helpers ---
+
+    def _clear_pending_float(self):
+        self._pending_float = False
+        self._float_pid = 0
+        self._float_is_menu = False
+        self._float_arm_time = 0.0
+
+    def _arm_pending_float(self, is_menu: bool):
+        self._pending_float = True
+        self._float_is_menu = is_menu
+        self._float_arm_time = time.monotonic()
+
+    def _pending_float_expired(self) -> bool:
+        """Stale armed flags (cancelled menus) expire instead of floating later windows."""
+        return bool(
+            self._float_arm_time
+            and time.monotonic() - self._float_arm_time > PENDING_FLOAT_TTL_SECONDS
+        )
+
+    @staticmethod
+    def _chain_contains_pid(start_pid, target_pid, max_depth: int = 16) -> bool:
+        """
+        True if ``target_pid`` lies on the live /proc ancestry chain of
+        ``start_pid`` (walking each process's ppid).  Handles ``sh -c``/exec
+        wrappers: the window's pid either equals the spawned pid or descends
+        from it.  Stops when a link is dead or reparented (chain broken).
+        """
+        if not start_pid or not target_pid:
+            return False
+        pid = start_pid
+        for _ in range(max_depth):
+            if pid == target_pid:
+                return True
+            if pid <= 1:
+                return False
+            try:
+                with open(f"/proc/{pid}/stat", "rb") as f:
+                    data = f.read().decode(errors="replace")
+                # comm may contain spaces/parens: parse ppid after final ')'.
+                fields = data[data.rfind(")") + 2 :].split()
+                pid = int(fields[1])
+            except (OSError, ValueError, IndexError):
+                return False
+        return False
+
+    def _window_claims_float(self, window) -> bool:
+        """
+        Decide whether an arriving window may consume the armed float flag.
+
+        Claimed by a window whose pid matches the armed spawn's process tree
+        (direct target or a descendant of it).  For menu-armed flags
+        (``spawn_float_menu``), a window arriving while the menu process is
+        still alive is a raced foreign window — it tiles and the flag stays
+        armed for the user's actual selection.
+        """
+        try:
+            wpid = window.get_pid()
+        except Exception:
+            wpid = None
+        fpid = self._float_pid
+        if fpid and wpid and self._chain_contains_pid(wpid, fpid):
+            return True
+        if fpid and wpid and self._float_is_menu:
+            menu_alive = os.path.isdir(f"/proc/{fpid}")
+            if menu_alive:
+                logger.debug(
+                    "SmartBonsai: float armed by menu pid %s still alive — "
+                    "window pid %s tiles instead of floating",
+                    fpid,
+                    wpid,
+                )
+                return False
+        # No pid info or non-menu arm: legacy behavior — accept.
+        return True
+
+    @expose_command
+    def spawn_float(self, program: str, *, is_menu: bool = False):
+        """
+        Launch the provided program and ensure the selected window is floating.
 
         Like ``spawn_split`` / ``spawn_tab``, but the spawned window is placed
         on the floating layer instead of being added to the Bonsai tree.
+
+        The float claim is pid-armed: only a window belonging to the spawned
+        process tree (or one with unknown pid) may consume the flag, and the
+        flag expires after ``PENDING_FLOAT_TTL_SECONDS``.
+
+        With ``is_menu=True`` (e.g. ``qtlcmd ... -k is_menu=True``), ``program``
+        is an intermediate launcher (``wlr-which-key``) whose selection opens
+        the real float target: while the menu process is alive, any other
+        window mapping in this group is treated as a raced arrival and tiles
+        instead of stealing the float.
         """
-        self._pending_float = True
-        # Bypass _spawn_program (which would clear _pending_float) by calling
-        # the parent implementation directly.
-        Bonsai._spawn_program(self, program)
+        self._arm_pending_float(is_menu)
+        try:
+            spawn_pid = self._spawn_with_pid(program)
+            self._float_pid = spawn_pid if isinstance(spawn_pid, int) else 0
+        except Exception:
+            self._clear_pending_float()
+            raise
 
     @expose_command
     def spawn(self, program: str):
@@ -59,8 +171,12 @@ class SmartBonsai(Bonsai):
             super().add_client(window)
             return
         if self._pending_float:
-            self._pending_float = False
-            self._reset_next_window_handler()
+            if self._pending_float_expired():
+                logger.debug("SmartBonsai: pending float expired after %ss", PENDING_FLOAT_TTL_SECONDS)
+                self._clear_pending_float()
+            elif self._window_claims_float(window):
+                self._clear_pending_float()
+                self._reset_next_window_handler()
             prev = self.group.current_window if self.group else None
             window.enable_floating()
             if window.group:
