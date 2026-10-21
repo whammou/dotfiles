@@ -6,7 +6,7 @@
 [general]
 home_row_keys=
 modes=tile,bisect
-cancellation_status_code=0
+cancellation_status_code=1
 
 [mode_tile]
 label_color=#21252bff
@@ -39,8 +39,8 @@ pointer_color=#98c379ff
 unselectable_bg_color=#21252b66
 even_area_bg_color=#98c37944
 even_area_border_color=#98c37988
-odd_area_bg_color=#21252b44
-odd_area_border_color=#21252b88
+odd_area_bg_color=#c678dd44
+odd_area_border_color=#c678dd88
 history_border_color=#5c637099
 
 [mode_split]
