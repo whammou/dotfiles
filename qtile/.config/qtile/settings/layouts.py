@@ -56,11 +56,31 @@ class WinRule:
 
 WIN_RULES = (
     # App popups: float + focus on title-or-class hit.
-    WinRule(Match(wm_class="qutebrowser-editor"), floating=True, focus=True, focus_match=_either("qutebrowser-editor")),
-    WinRule(Match(wm_class="dict"), floating=True, focus=True, focus_match=_either("dict")),
-    WinRule(Match(wm_class="sysz"), floating=True, focus=True, focus_match=_either("sysz")),
-    WinRule(Match(wm_class="typing"), floating=True, focus=True, focus_match=_either("typing")),
-    WinRule(Match(wm_class="notification-history"), floating=True, focus=True, focus_match=_either("notification-history")),
+    WinRule(Match(wm_class="fileselect"), floating=True, focus=True),
+    WinRule(
+        Match(wm_class="qutebrowser-editor"),
+        floating=True,
+        focus=True,
+        focus_match=_either("qutebrowser-editor"),
+    ),
+    WinRule(
+        Match(wm_class="dict"), floating=True, focus=True, focus_match=_either("dict")
+    ),
+    WinRule(
+        Match(wm_class="sysz"), floating=True, focus=True, focus_match=_either("sysz")
+    ),
+    WinRule(
+        Match(wm_class="typing"),
+        floating=True,
+        focus=True,
+        focus_match=_either("typing"),
+    ),
+    WinRule(
+        Match(wm_class="notification-history"),
+        floating=True,
+        focus=True,
+        focus_match=_either("notification-history"),
+    ),
     # LibreOffice dialogs: float + focus.
     WinRule(
         Match(
@@ -82,11 +102,18 @@ WIN_RULES = (
     WinRule(
         Match(
             wm_class=_re("xdg-desktop-portal"),
-            title=_re(r"^(open\b|save\b|print\b|insert\b)"),
         ),
         floating=True,
         focus=True,
     ),
+    # WinRule(
+    #     Match(
+    #         wm_class=_re("xdg-desktop-portal"),
+    #         title=_re(r"^(open\b|save\b|print\b|insert\b)"),
+    #     ),
+    #     floating=True,
+    #     focus=True,
+    # ),
     WinRule(Match(title=_re("^branchdialog")), floating=True, focus=True),
     WinRule(Match(title=_re("volume control")), focus=True),
     WinRule(Match(wm_class="org.pulseaudio.pavucontrol"), floating=True),
