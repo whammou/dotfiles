@@ -190,7 +190,7 @@ def _eth_poll(iface):
             up = statfile.read().strip() == "up"
     except OSError:
         up = False
-    return "󰈀 up  " if up else "󰈂 down  "
+    return "󰈀 UP  " if up else "󰈂 DOWN  "
 
 
 def ethernet():
