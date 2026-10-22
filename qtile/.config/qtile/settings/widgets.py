@@ -1,3 +1,5 @@
+import os
+
 from libqtile import bar
 from qtile_extras import widget
 from qtile_bonsai import BonsaiBar
@@ -10,6 +12,20 @@ from .widget.popup_windowname import PopupWindowBox
 
 WIDGET_ICON_FONT = "HasklugNerdFont Medium"
 WIDGET_TEXT_FONT = "HasklugNerdFont"
+
+PS = "/sys/class/power_supply"
+NET = "/sys/class/net"
+_VIRTUAL_NET_PREFIXES = (
+    "wl",
+    "lo",
+    "docker",
+    "veth",
+    "br-",
+    "virbr",
+    "tun",
+    "tap",
+    "wg",
+)
 
 
 def base(fg="text", bg="bg_d"):
@@ -126,12 +142,90 @@ def net():
 def wlan():
     return widget.Wlan(
         background=colors["bg_d"],
+        interface=_wifi() or "wlan0",
         format=" 󰢾 {percent:2.0%}  ",
         disconnected_message=" 󰢿 offline  ",
         foreground=colors["red"],
         font=WIDGET_ICON_FONT,
         update_interval=60,
     )
+
+
+def _batteries():
+    if not os.path.isdir(PS):
+        return []
+    found = []
+    for entry in os.listdir(PS):
+        path = os.path.join(PS, entry)
+        if entry.startswith("BAT") or (
+            os.path.isdir(path) and "capacity" in os.listdir(path)
+        ):
+            found.append(entry)
+    return sorted(found)
+
+
+def _wifi():
+    if not os.path.isdir(NET):
+        return None
+    return next((e for e in os.listdir(NET) if e.startswith("wl")), None)
+
+
+def _wired():
+    if not os.path.isdir(NET):
+        return None
+    return next(
+        (
+            e
+            for e in os.listdir(NET)
+            if not e.startswith(_VIRTUAL_NET_PREFIXES)
+            and os.path.exists(f"{NET}/{e}/device")
+        ),
+        None,
+    )
+
+
+def _eth_poll(iface):
+    try:
+        with open(f"{NET}/{iface}/operstate") as statfile:
+            up = statfile.read().strip() == "up"
+    except OSError:
+        up = False
+    return " 󰈀 up  " if up else " 󰈂 down  "
+
+
+def ethernet():
+    iface = _wired() or "eth0"
+    return widget.GenPollText(
+        **base(bg="bg_d", fg="green"),
+        font=WIDGET_ICON_FONT,
+        fmt="{}",
+        func=lambda: _eth_poll(iface),
+        update_interval=5,
+    )
+
+
+def ac():
+    return widget.TextBox(
+        **base(bg="bg_d", fg="green"),
+        font=WIDGET_ICON_FONT,
+        fontsize=16,
+        padding=3,
+        text=" 󰚥 AC ",
+    )
+
+
+def _net_widget():
+    return wlan() if _wifi() else ethernet()
+
+
+def _power_widgets():
+    batteries = _batteries()
+    if not batteries:
+        return [ac()]
+    items = []
+    for bat in batteries:
+        items.extend([battery(bat), icon_separator()])
+    return items[:-1]
 
 
 def _bluetooth_poll():
@@ -265,11 +359,9 @@ def window_count():
 widgets = [
     *workspaces(),
     icon_separator(),
-    wlan(),
+    _net_widget(),
     icon_separator(),
-    battery(0),
-    icon_separator(),
-    battery(1),
+    *_power_widgets(),
     icon_separator(),
     disk_free(),
     icon_separator(),
