@@ -190,13 +190,13 @@ def _eth_poll(iface):
             up = statfile.read().strip() == "up"
     except OSError:
         up = False
-    return " 󰈀 up  " if up else " 󰈂 down  "
+    return "󰈀 up  " if up else "󰈂 down  "
 
 
 def ethernet():
     iface = _wired() or "eth0"
     return widget.GenPollText(
-        **base(bg="bg_d", fg="green"),
+        **base(bg="bg_d", fg="red"),
         font=WIDGET_ICON_FONT,
         fmt="{}",
         func=lambda: _eth_poll(iface),
@@ -210,7 +210,7 @@ def ac():
         font=WIDGET_ICON_FONT,
         fontsize=16,
         padding=3,
-        text=" 󰚥 AC ",
+        text="󰚥 AC ",
     )
 
 
