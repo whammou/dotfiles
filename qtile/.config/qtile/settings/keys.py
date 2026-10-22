@@ -23,7 +23,7 @@ keys = (
         Key([meta, "Shift"], "Return", lazy.layout.spawn("kitty"), desc="Terminal"),
     ]
     + [
-        Key([mod], "space", lazy.layout.spawn("wlr-which-key"), desc="Spawn Fallback"),
+        Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     ]
     + [
         Key([], "Super_L", lazy.layout.spawn("wlr-which-key"), desc="Spawn"),
