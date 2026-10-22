@@ -143,8 +143,8 @@ def wlan():
     return widget.Wlan(
         background=colors["bg_d"],
         interface=_wifi() or "wlan0",
-        format=" 󰢾 {percent:2.0%}  ",
-        disconnected_message=" 󰢿 offline  ",
+        format="󰢾 {percent:2.0%}  ",
+        disconnected_message="󰢿 offline  ",
         foreground=colors["red"],
         font=WIDGET_ICON_FONT,
         update_interval=60,
@@ -200,7 +200,7 @@ def ethernet():
         font=WIDGET_ICON_FONT,
         fmt="{}",
         func=lambda: _eth_poll(iface),
-        update_interval=5,
+        update_interval=60,
     )
 
 
