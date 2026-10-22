@@ -149,6 +149,14 @@ do
   end
 end
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "orgagenda",
+  group = vim.api.nvim_create_augroup("OrgBulkActionsLoader", { clear = true }),
+  callback = function(event)
+    require("config.orgmode.bulk_actions").attach(event.buf)
+  end,
+})
+
 return {
   require("config.orgmode.server"),
   require("config.orgmode.highlights"),
