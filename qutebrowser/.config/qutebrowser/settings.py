@@ -111,7 +111,7 @@ c.content.headers.user_agent = (
 )
 c.content.javascript.enabled = True
 c.content.notifications.enabled = True
-c.content.notifications.presenter = 'libnotify'
+c.content.notifications.presenter = "libnotify"
 c.content.prefers_reduced_motion = True
 # Per-site proxy: QtWebEngine has no per-site proxy support (no setHttpProxy
 # in PyQt6 6.11, PAC unimplemented on QtWebEngine, CLI proxy flags ignored),
@@ -142,6 +142,7 @@ c.content.user_stylesheets = bundle()
 
 # download: {{{
 c.downloads.location.directory = "/home/whammou/Downloads/"
+c.downloads.open_dispatcher = "xdg-open"
 # }}}
 
 # searchengines: {{{
