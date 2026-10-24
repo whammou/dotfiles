@@ -14,11 +14,10 @@ import threading
 import time
 from typing import Any
 
-from qutebrowser.api import message
 from qutebrowser.misc import objects
 from qutebrowser.qt.core import QMetaObject, QObject, Qt, pyqtSlot
 from qutebrowser.qt.webenginecore import QWebEnginePage
-from qutebrowser.utils import log, objreg
+from qutebrowser.utils import log, message, objreg, usertypes
 
 # Markers prepended to the window title while the current tab is pinned
 # and/or frozen. The frozen marker reads the engine's lifecycle state
@@ -84,7 +83,15 @@ def _wire_window(window: Any) -> None:
             if widget.currentWidget() is not tab:
                 return
             text = "Window pinned" if pinned else "Window unpinned"
-            message.info(text, replace=text)
+            # message.global_bridge broadcasts to every window's message view,
+            # so push straight into this window's view to keep it local.
+            win._messageview.show_message(
+                message.MessageInfo(
+                    level=usertypes.MessageLevel.info,
+                    text=text,
+                    replace=text,
+                )
+            )
 
         def on_lifecycle_state_changed(_state: Any) -> None:
             # A freeze/unfreeze transition never emits title_changed (the
