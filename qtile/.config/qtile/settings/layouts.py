@@ -56,6 +56,7 @@ class WinRule:
 
 WIN_RULES = (
     # App popups: float + focus on title-or-class hit.
+    WinRule(Match(wm_class="network"), floating=True, focus=True),
     WinRule(Match(wm_class="fileselect"), floating=True, focus=True),
     WinRule(
         Match(wm_class="qutebrowser-editor"),
