@@ -9,10 +9,12 @@
 # and signals instead: a per-window wrapper around MainWindow.setWindowTitle
 # prepends PINNED_MARKER whenever the current tab is pinned and FROZEN_MARKER
 # whenever the current tab is frozen (engine LifecycleState.Frozen).
+import functools
 import threading
 import time
 from typing import Any
 
+from qutebrowser.api import message
 from qutebrowser.misc import objects
 from qutebrowser.qt.core import QMetaObject, QObject, Qt, pyqtSlot
 from qutebrowser.qt.webenginecore import QWebEnginePage
@@ -70,13 +72,19 @@ def _wire_window(window: Any) -> None:
         # bound original is kept in the closure.
         win.setWindowTitle = set_window_title
 
-        def on_pinned_changed(_pinned: bool) -> None:
+        def on_pinned_changed(tab: Any, pinned: bool) -> None:
             # Re-render the title through the wrapped setter so the markers
             # appear and disappear with the pin state. Every other title
             # update (tab switch, page title, scroll, audio, load progress)
             # already flows through _update_window_title -> setWindowTitle,
             # so the wrapper keeps the markers correct without extra hooks.
             tb._update_window_title()
+            # The window title only carries the marker for the displayed tab,
+            # so a background tab being pinned is not a window-level event.
+            if widget.currentWidget() is not tab:
+                return
+            text = "Window pinned" if pinned else "Window unpinned"
+            message.info(text, replace=text)
 
         def on_lifecycle_state_changed(_state: Any) -> None:
             # A freeze/unfreeze transition never emits title_changed (the
@@ -85,7 +93,9 @@ def _wire_window(window: Any) -> None:
             tb._update_window_title()
 
         def on_new_tab(tab: Any, _idx: int) -> None:
-            tab.pinned_changed.connect(on_pinned_changed)
+            tab.pinned_changed.connect(
+                functools.partial(on_pinned_changed, tab)
+            )
             tab._widget.page().lifecycleStateChanged.connect(
                 on_lifecycle_state_changed
             )
@@ -93,7 +103,9 @@ def _wire_window(window: Any) -> None:
         for i in range(widget.count()):
             tab = widget.widget(i)
             if tab is not None:
-                tab.pinned_changed.connect(on_pinned_changed)
+                tab.pinned_changed.connect(
+                    functools.partial(on_pinned_changed, tab)
+                )
                 tab._widget.page().lifecycleStateChanged.connect(
                     on_lifecycle_state_changed
                 )
