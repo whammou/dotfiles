@@ -1,3 +1,11 @@
+local function float_focus()
+  local ok, ai = pcall(require, "config.ai")
+  if not ok or not ai.desired_layout then
+    return false
+  end
+  return ai.desired_layout() == "float"
+end
+
 return {
   {
     "folke/sidekick.nvim",
@@ -85,14 +93,14 @@ return {
       {
         "<leader>aO",
         function()
-          require("sidekick.cli").toggle({ name = "opencode", focus = false })
+          require("sidekick.cli").toggle({ name = "opencode", focus = float_focus() })
         end,
         desc = "Sidekick Toggle OpenCode",
       },
       {
         "<leader>ao",
         function()
-          require("sidekick.cli").toggle({ name = "opencode_attach", focus = false })
+          require("sidekick.cli").toggle({ name = "opencode_attach", focus = float_focus() })
         end,
         desc = "Sidekick Toggle Attach OpenCode",
       },

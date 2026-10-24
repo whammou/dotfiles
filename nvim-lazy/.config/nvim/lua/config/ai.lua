@@ -23,11 +23,20 @@ end
 local opencode_project_id = os.getenv("OPENCODE_PROJECT_ID")
 local opencode_server = os.getenv("OPENCODE_SERVER")
 
+local sidekick_float_cols = 100
+
+local function desired_layout()
+  return vim.o.columns < sidekick_float_cols and "float" or "right"
+end
+
 require("sidekick").setup({
   cli = {
     picker = "fzf-lua",
     win = {
-      layout = "right",
+      layout = desired_layout(),
+      float = {
+        border = "single",
+      },
       split = {
         width = 0,
         height = 0,
@@ -37,6 +46,10 @@ require("sidekick").setup({
         escape = { "<esc><esc>", "stopinsert", mode = "t", desc = "enter normal mode" },
       },
       config = function(terminal)
+        terminal.opts.layout = desired_layout()
+        terminal.opts.float = terminal.opts.float or {}
+        terminal.opts.float.border = "single"
+
         local buf_dir = function(buf)
           local n = vim.api.nvim_buf_get_name(buf)
           return n ~= "" and vim.fn.fnamemodify(n, ":p:h") or nil
@@ -91,9 +104,6 @@ require("sidekick").setup({
   },
 })
 
-local sidekick_float_cols = 100
-local responsive_layout = vim.o.columns < sidekick_float_cols and "float" or "right"
-
 local function apply_sidekick_layout(layout)
   local ok_config, Config = pcall(require, "sidekick.config")
   if ok_config and Config.cli and Config.cli.win then
@@ -113,7 +123,7 @@ local function apply_sidekick_layout(layout)
         if terminal.is_open and terminal:is_open() then
           terminal:hide()
           terminal:show()
-          if was_focused and terminal.focus then
+          if (layout == "float" or was_focused) and terminal.focus then
             terminal:focus()
           end
         end
@@ -123,9 +133,9 @@ local function apply_sidekick_layout(layout)
 end
 
 require("config.layout").on_resize(function(columns)
-  local layout = columns < sidekick_float_cols and "float" or "right"
-  if layout ~= responsive_layout then
-    responsive_layout = layout
-    apply_sidekick_layout(layout)
-  end
+  apply_sidekick_layout(columns < sidekick_float_cols and "float" or "right")
 end)
+
+return {
+  desired_layout = desired_layout,
+}
