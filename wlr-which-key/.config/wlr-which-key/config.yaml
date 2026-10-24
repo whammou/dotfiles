@@ -235,7 +235,7 @@ menu:
   # Discover Networks: {{{{
   - key: "i"
     desc: "󰢾 Discover Networks"
-    cmd: "rofi -show wifi -iface wlan0"
+    cmd: 'kitty --app-id=network -e "nmwifi-fzf"'
   # }}}}
   # monitor: {{{
   - key: "m"
@@ -1066,7 +1066,7 @@ menu:
       - key: "h"
         desc: "󰳾 Cursor Hover"
         cmd: "wl-kbptr -o modes=floating -o mode_floating.source=detect && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1"
-      - key: "s"
+      - key: "m"
         desc: "󱕒 Cursor Scroll"
         submenu:
           - key: "h"
@@ -1085,9 +1085,12 @@ menu:
             desc: " Cursor Scroll Right"
             cmd: "wlrctl pointer scroll 0 10"
             keep_open: true
+      - key: "s"
+        desc: "󰳾 Cursor Split Mode"
+        cmd: "wl-kbptr -o modes=split && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1"
       - key: "t"
         desc: "󰳾 Cursor Tile Mode"
-        cmd: "wl-kbptr -o modes=tile && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1 && wlrctl pointer click"
+        cmd: "wl-kbptr -o modes=tile && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1"
       - key: "."
         desc: "󰆿 Hide Cursor"
         cmd: "wlrctl pointer move 9999 9999"
