@@ -29,6 +29,32 @@ local function desired_layout()
   return vim.o.columns < sidekick_float_cols and "float" or "right"
 end
 
+local function refresh_float(terminal)
+  local win = terminal.win
+  if not (win and vim.api.nvim_win_is_valid(win)) then
+    return
+  end
+  if vim.api.nvim_win_get_config(win).relative == "" then
+    return
+  end
+  local opts = terminal.opts.float or {}
+  local width = opts.width or 0.9
+  local height = opts.height or 0.9
+  local row = opts.row or 0.5
+  local col = opts.col or 0.5
+  width = width <= 1 and math.floor(vim.o.columns * width) or width
+  height = height <= 1 and math.floor(vim.o.lines * height) or height
+  row = row <= 1 and math.floor((vim.o.lines - height) * row) or row
+  col = col <= 1 and math.floor((vim.o.columns - width) * col) or col
+  pcall(vim.api.nvim_win_set_config, win, {
+    relative = "editor",
+    row = row,
+    col = col,
+    width = width,
+    height = height,
+  })
+end
+
 require("sidekick").setup({
   cli = {
     picker = "fzf-lua",
@@ -127,6 +153,8 @@ local function apply_sidekick_layout(layout)
             terminal:focus()
           end
         end
+      elseif layout == "float" then
+        refresh_float(terminal)
       end
     end
   end

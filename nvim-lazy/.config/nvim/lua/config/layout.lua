@@ -88,6 +88,71 @@ function M.equalize()
   vim.cmd("wincmd =")
 end
 
+local function ui_bounds()
+  local statusline = vim.o.laststatus ~= 0 and 1 or 0
+  local bottom = vim.o.lines - vim.o.cmdheight - statusline
+  local showtab = vim.o.showtabline == 2
+    or (vim.o.showtabline == 1 and #vim.api.nvim_list_tabpages() > 1)
+  local top = (showtab and vim.o.tabline ~= "") and 1 or 0
+  return top, bottom
+end
+
+local function border_pad(cfg)
+  local border = cfg.border
+  if border == nil or border == "" or border == "none" then
+    return 0
+  end
+  if type(border) == "table" then
+    return #border > 0 and 1 or 0
+  end
+  return 1
+end
+
+-- Floats are always drawn above the normal window grid, so tabline/statusline
+-- can never cover them. Keep editor-relative floats inside the content area.
+local function clamp_float(win)
+  if not vim.api.nvim_win_is_valid(win) then
+    return
+  end
+  local cfg = vim.api.nvim_win_get_config(win)
+  if cfg.relative ~= "editor" or cfg.external then
+    return
+  end
+  local top, bottom = ui_bounds()
+  local extend = border_pad(cfg) * 2
+  local row, height = cfg.row, cfg.height
+  local new_row = math.max(row, top)
+  if new_row + height + extend > bottom then
+    new_row = math.max(bottom - height - extend, top)
+  end
+  if new_row + height + extend > bottom then
+    height = math.max(bottom - new_row - extend, 1)
+  end
+  if new_row ~= row or height ~= cfg.height then
+    pcall(vim.api.nvim_win_set_config, win, {
+      relative = cfg.relative,
+      row = new_row,
+      col = cfg.col,
+      width = cfg.width,
+      height = height,
+    })
+  end
+end
+
+local function clamp_all()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    clamp_float(win)
+  end
+end
+
+function M.clamp_float(win)
+  clamp_float(win)
+end
+
+function M.clamp_floats()
+  clamp_all()
+end
+
 function M.on_resize(fn)
   resize_callbacks[#resize_callbacks + 1] = fn
 end
@@ -104,6 +169,7 @@ local function dispatch_resize()
   for _, fn in ipairs(resize_callbacks) do
     fn(columns)
   end
+  clamp_all()
 end
 
 function M.setup(user)
@@ -138,6 +204,24 @@ function M.setup(user)
     group = group,
     callback = function()
       vim.schedule(M.equalize)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("WinNew", {
+    group = group,
+    callback = function()
+      local win = vim.api.nvim_get_current_win()
+      vim.schedule(function()
+        clamp_float(win)
+      end)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("OptionSet", {
+    group = group,
+    pattern = { "showtabline", "laststatus", "cmdheight" },
+    callback = function()
+      vim.schedule(clamp_all)
     end,
   })
 end
