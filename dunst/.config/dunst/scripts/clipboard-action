@@ -6,6 +6,6 @@ dunst_action=$(dunstify -a "display-$DUNST_APP_NAME" -A "yank,Yank Clipboard" "C
 # Define Actions
 case $dunst_action in
 "yank")
-  echo -n $DUNST_BODY | wl-copy
+  printf '%s' "$DUNST_BODY" | wl-copy
   ;;
 esac

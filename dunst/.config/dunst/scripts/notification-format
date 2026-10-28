@@ -29,13 +29,21 @@ category_args=""
 
 # qutebrowser: domain as summary, sender prefix in body
 if [ "$DUNST_APP_NAME" = "qutebrowser" ]; then
-    # Extract domain from URL in body
-    domain=$(echo "$DUNST_BODY" | grep -oP 'https?://\K[^/"]+' | head -1)
+    # Domain from the first URL dunst reports, fall back to scraping the body
+    first_url=$(printf '%s\n' "$DUNST_URLS" | head -1)
+    domain=${first_url#*://}
+    domain=${domain%%/*}
+    [ -z "$domain" ] && domain=$(printf '%s\n' "$DUNST_BODY" | grep -oP 'https?://\K[^/"]+' | head -1)
     [ -z "$domain" ] && domain="$DUNST_SUMMARY"
 
-    # Strip HTML, drop first line (URL), remove linebreaks, trim whitespace → message text
-    msg=$(echo "$DUNST_BODY" | sed 's/<[^>]*>//g' | sed '1d' | tr -d '\n' | sed 's/^[[:space:]]*//')
-    [ -z "$msg" ] && msg=$(echo "$DUNST_BODY" | sed 's/<[^>]*>//g')
+    # Strip HTML and remove URL substrings (the URL may sit anywhere in the body),
+    # then flatten linebreaks and trim/collapse whitespace → message text
+    msg=$(printf '%s\n' "$DUNST_BODY" \
+          | sed 's/<[^>]*>//g' \
+          | sed 's#https\?://[^[:space:]<>"]*##g' \
+          | tr '\n' ' ' \
+          | sed 's/^[[:space:]]*//; s/[[:space:]]*$//; s/[[:space:]][[:space:]]*/ /g')
+    [ -z "$msg" ] && msg=$(printf '%s\n' "$DUNST_BODY" | sed 's/<[^>]*>//g')
 
     dunstify \
       -a "display-$DUNST_APP_NAME" \
@@ -48,8 +56,9 @@ if [ "$DUNST_APP_NAME" = "qutebrowser" ]; then
     exit 0
 fi
 
-# Enrich body: bold the first colon-separated label (e.g. "AppName: msg" → "AppName: msg")
-formatedBody=$(echo "$DUNST_BODY" | perl -pe 's/^(?!https?)([^<>]*):/<b>$1<\/b>:/')
+# Enrich body: bold the first colon-separated label (e.g. "AppName: msg" → "AppName: msg").
+# Label class excludes : . / so a URL anywhere in the line is never partially matched.
+formatedBody=$(printf '%s\n' "$DUNST_BODY" | perl -pe 's{^((?:[^<>\n:/.]){1,40}):(?=\s)}{<b>$1</b>:}')
 
 # Re-send as display notification with display- prefixed appname
 dunstify \
