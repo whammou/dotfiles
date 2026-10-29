@@ -2,6 +2,9 @@
 # Sourced by: .profile (shell), EnvironmentFile (systemd services)
 # Flat KEY=value format — no export, no $HOME expansion.
 
+# Hardware Acceration
+LIBVA_DRIVER_NAME=i965
+
 # Theme
 GTK_THEME=adw-gtk3-dark:dark
 QT_QPA_PLATFORMTHEME=qt6ct
