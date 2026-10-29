@@ -353,24 +353,98 @@ __menu_media_actions_comments_handler() {
   esac
 }
 
-# ---- inject the "Comments" entry into the per-video action menu ----
-menu_media_actions() {
-  local extra_actions
+# ---- update-safe menu placement ---------------------------------------------
+# The contract we rely on (stable across yt-x versions so far):
+#   _menu_media_actions [sort] [filter] [extra] [handler]
+# where `extra` is appended to the action list as its LAST line, and `sort` is
+# a comma list of 1-based line numbers; only listed lines survive.
+#
+# Hardcoding the extra's line number is what broke this extension: upstream
+# added "Copy Video URL", the built-in count went 21 -> 22, the extra moved
+# from line 22 to line 23, and the stale sort list silently dropped it (while
+# also hoisting "Exit" to slot 6). So derive the number from the running
+# script instead of trusting a constant.
 
-  # start the comment download in the background as soon as the menu opens
-  # so picking "Comments" usually finds the cache already fresh
-  __comments_prefetch "$STATE_CURRENT_VIDEO_URL" \
-    "$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.id // empty')" || true
-
-  extra_actions="\
- ${THEME_FZF_ICON_COLOR_PRIMARY}${TXT_ICON_MENU_COMMENTS}${THEME_RESET}  ${TXT_MENU_COMMENTS}"
-  # $1 (sort) reorders the combined menu by line index: the built-in menu is
-  # lines 1..21 (Watch .. Exit; this yt-x build adds "Open in browser
-  # (playlist)" as line 17), the extra option lands at line 22. Listing
-  # 1,2,3,4,5 (Watch .. Mix), then 22 (Comments), then 6..21 (Save .. Exit)
-  # places Comments directly above Save. If a future yt-x version changes the
-  # built-in action count, adjust the indices.
-  _menu_media_actions \
-    "1,2,3,4,5,22,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21" \
-    "" "$extra_actions" "__menu_media_actions_comments_handler"
+__comments_core_script() {
+  printf '%s' "${YT_X_SCRIPT:-$0}"
 }
+
+# Number of built-in entries in core's _menu_media_actions action list.
+__comments_core_action_count() {
+  local script
+  local n
+
+  script="$(__comments_core_script)"
+  [ -s "$script" ] || return 1
+  n="$(awk '
+    /^_menu_media_actions[[:space:]]*\(\)/ { infn = 1; next }
+    infn && /^}/                           { exit }
+    infn && /TXT_ICON_MENU_MEDIA_ACTIONS_/ { n++ }
+    END { print n + 0 }
+  ' "$script" 2>/dev/null)" || return 1
+  case "$n" in '' | *[!0-9]*) return 1 ;; esac
+  [ "$n" -ge 6 ] || return 1
+  printf '%s' "$n"
+}
+
+# Sort spec: Watch..Mix (1-5), then the extra entry (count+1), then the rest.
+__comments_menu_sort() {
+  local n
+  local i
+  local spec
+
+  n="$(__comments_core_action_count)" || return 1
+  spec="1,2,3,4,5,$((n + 1))"
+  i=6
+  while [ "$i" -le "$n" ]; do
+    spec="$spec,$i"
+    i=$((i + 1))
+  done
+  printf '%s' "$spec"
+}
+
+# Step aside if yt-x ever ships its own comments action.
+__comments_core_has_native() {
+  local script
+
+  script="$(__comments_core_script)"
+  [ -s "$script" ] || return 1
+  grep -q \
+    -e '^__menu_media_actions_comments[[:space:]]*()' \
+    -e '^[[:space:]]*TXT_MENU_MEDIA_ACTIONS_COMMENTS=' \
+    "$script" 2>/dev/null
+}
+
+# ---- inject the "Comments" entry into the per-video action menu ----
+# Only take over while core still exposes _menu_media_actions(). If the internal
+# name ever changes, leave the stock menu untouched instead of breaking it --
+# worst case Comments is not listed, the rest of the menu still works.
+if command -v _menu_media_actions >/dev/null 2>&1; then
+  menu_media_actions() {
+    local extra_actions
+
+    if __comments_core_has_native; then
+      _menu_media_actions
+      return 0
+    fi
+
+    # start the comment download in the background as soon as the menu opens
+    # so picking "Comments" usually finds the cache already fresh
+    __comments_prefetch "$STATE_CURRENT_VIDEO_URL" \
+      "$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r '.id // empty')" || true
+
+    extra_actions="\
+ ${THEME_FZF_ICON_COLOR_PRIMARY}${TXT_ICON_MENU_COMMENTS}${THEME_RESET}  ${TXT_MENU_COMMENTS}"
+
+    # resolve the extra's line number once; "" means "could not count"
+    [ -n "${COMMENTS_SORT_SPEC+x}" ] || {
+      COMMENTS_SORT_SPEC="$(__comments_menu_sort)" || COMMENTS_SORT_SPEC=""
+    }
+
+    # With an empty spec no reordering happens: Comments still shows up, at the
+    # bottom of the menu, instead of disappearing. Degrade, never vanish.
+    _menu_media_actions \
+      "${COMMENTS_SORT_SPEC:-}" \
+      "" "$extra_actions" "__menu_media_actions_comments_handler"
+  }
+fi

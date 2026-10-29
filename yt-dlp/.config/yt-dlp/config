@@ -1,5 +1,9 @@
 # though format sort would be better just recently discovered it lol check the mpv faq above to see how or the official readme
 -S res:1080,vcodec:avc1,acodec:m4a
+--downloader aria2c
+--downloader "dash,m3u8:native"
+--downloader-args "aria2c:-x16 -s16 -k1M --file-allocation=none --console-log-level=warn"
+-N 8
 --embed-chapters
 --sponsorblock-mark all
 --embed-metadata
