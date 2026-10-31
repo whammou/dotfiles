@@ -171,9 +171,49 @@ mp.register_event("start-file", function(event)
 	end
 end)
 
+-- file-loaded fires once the demuxer is ready, which is before the VO creates
+-- and maps its window (mpv only creates the window after initialization, see
+-- --force-window in the manual). vo-configured is the property that actually
+-- means "the video window is visible". Audio-only entries never configure a
+-- VO, so they notify right away; the timer keeps the notification from being
+-- lost if the VO never comes up.
+local pending_notify = false
+local pending_timer
+
+local function flush_media_notification()
+	if not pending_notify then
+		return
+	end
+	pending_notify = false
+	if pending_timer then
+		pending_timer:kill()
+		pending_timer = nil
+	end
+	notify_current_media()
+end
+
 mp.register_event("file-loaded", function()
 	loaded_entry = loading_entry
-	notify_current_media()
+	pending_notify = true
+
+	if pending_timer then
+		pending_timer:kill()
+		pending_timer = nil
+	end
+
+	-- vid is "no" when the entry has no video track (no VO/window expected)
+	if mp.get_property("vid") == "no" or mp.get_property_native("vo-configured") then
+		flush_media_notification()
+		return
+	end
+
+	pending_timer = mp.add_timeout(3, flush_media_notification)
+end)
+
+mp.observe_property("vo-configured", "bool", function(_, configured)
+	if configured then
+		flush_media_notification()
+	end
 end)
 
 mp.register_event("end-file", function(event)
