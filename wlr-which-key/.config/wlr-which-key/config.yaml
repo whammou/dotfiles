@@ -1063,28 +1063,25 @@ menu:
       - key: "f"
         desc: "󱕻 Cursor Hover Click Left"
         cmd: "wl-kbptr -o modes=floating -o mode_floating.source=detect && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1 && wlrctl pointer click left"
-      - key: "h"
+      - key: "v"
         desc: "󰳾 Cursor Hover"
         cmd: "wl-kbptr -o modes=floating -o mode_floating.source=detect && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1"
-      - key: "m"
-        desc: "󱕒 Cursor Scroll"
-        submenu:
-          - key: "h"
-            desc: " Cursor Scroll Left"
-            cmd: "wlrctl pointer scroll 0 -10"
-            keep_open: true
-          - key: "j"
-            desc: " Cursor Scroll Down"
-            cmd: "wlrctl pointer scroll 10"
-            keep_open: true
-          - key: "k"
-            desc: " Cursor Scroll Up"
-            cmd: "wlrctl pointer scroll -10"
-            keep_open: true
-          - key: "l"
-            desc: " Cursor Scroll Right"
-            cmd: "wlrctl pointer scroll 0 10"
-            keep_open: true
+      - key: "h"
+        desc: " Cursor Scroll Left"
+        cmd: "wlrctl pointer scroll 0 -10"
+        keep_open: true
+      - key: "j"
+        desc: " Cursor Scroll Down"
+        cmd: "wlrctl pointer scroll 10"
+        keep_open: true
+      - key: "k"
+        desc: " Cursor Scroll Up"
+        cmd: "wlrctl pointer scroll -10"
+        keep_open: true
+      - key: "l"
+        desc: " Cursor Scroll Right"
+        cmd: "wlrctl pointer scroll 0 10"
+        keep_open: true
       - key: "s"
         desc: "󰳾 Cursor Split Mode"
         cmd: "wl-kbptr -o modes=split && wlrctl pointer move 0 1 && wlrctl pointer move 0 -1"
@@ -1100,11 +1097,23 @@ menu:
     desc: " Screenshot"
     submenu:
       - key: "f"
-        desc: "Take Fullscreen Screenshot"
+        desc: "󰹑 Fullscreen Capture"
         cmd: 'grim $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png")'
       - key: "s"
-        desc: "Take Selected Screenshot"
+        desc: "󱣴 Selected Capture"
         cmd: 'wlrctl pointer move -960 -519 && sudo noinputs -u "TPPS/2 IBM TrackPoint" && grim -g "$(slurp)" $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png") ; wlrctl pointer move 9999 9999 && sudo noinputs -i "TPPS/2 IBM TrackPoint"'
+      - key: "k"
+        desc: "󱣴 Keyboard-Selected Capture"
+        cmd: "screenshot-region"
+      - key: "w"
+        desc: "󱣴 Window Capture"
+        cmd: "screenshot-region -w"
+      - key: "v"
+        desc: "󰕧 Record Region (toggle)"
+        cmd: "record-region"
+      - key: "V"
+        desc: "󰕧 Record Window (toggle)"
+        cmd: "record-region -w"
   # }}}
   # Terminal: {{{{
   - key: "Return"
