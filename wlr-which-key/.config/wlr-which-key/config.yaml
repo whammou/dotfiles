@@ -865,6 +865,10 @@ menu:
       - key: "9"
         desc: "󰍉 Window 9"
         cmd: "qtlcmd -o layout -f eval -a 'self.focus_nth_window(9, ignore_inactive_tabs_at_levels=list(range(1,10)))'"
+      # }}}
+      - key: "c"
+        desc: " Capture Window"
+        cmd: "wlr-which-key --initial-keys 'Print'"
       - key: "d"
         desc: " Kill Window"
         cmd: "qtlcmd -o window -f kill"
@@ -980,7 +984,6 @@ menu:
             desc: " Resize Window Up"
             cmd: 'qtlcmd -o layout -f eval -a ''self.resize("up", 25)'''
             keep_open: true
-          # }}}
           - key: "L"
             desc: " Resize Window Right"
             cmd: 'qtlcmd -o layout -f eval -a ''self.resize("right", 300)'''
@@ -1096,24 +1099,21 @@ menu:
   - key: "Print"
     desc: " Screenshot"
     submenu:
+      - key: "S"
+        desc: "󱣴 Selected Capture"
+        cmd: 'wlrctl pointer move -960 -519 && sudo noinputs -u "TPPS/2 IBM TrackPoint" && grim -g "$(slurp)" $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png") ; wlrctl pointer move 9999 9999 && sudo noinputs -i "TPPS/2 IBM TrackPoint"'
+      - key: "V"
+        desc: "󰕧 Record Region (toggle)"
+        cmd: "screenshot-region -r"
+      - key: "s"
+        desc: "󱣴 Window Capture"
+        cmd: "screenshot-region -w"
       - key: "f"
         desc: "󰹑 Fullscreen Capture"
         cmd: 'grim $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png")'
-      - key: "s"
-        desc: "󱣴 Selected Capture"
-        cmd: 'wlrctl pointer move -960 -519 && sudo noinputs -u "TPPS/2 IBM TrackPoint" && grim -g "$(slurp)" $HOME/Downloads/screenshots/$(date +"%y%m%d%H%M.png") ; wlrctl pointer move 9999 9999 && sudo noinputs -i "TPPS/2 IBM TrackPoint"'
-      - key: "k"
-        desc: "󱣴 Keyboard-Selected Capture"
-        cmd: "screenshot-region"
-      - key: "w"
-        desc: "󱣴 Window Capture"
-        cmd: "screenshot-region -w"
       - key: "v"
-        desc: "󰕧 Record Region (toggle)"
-        cmd: "record-region"
-      - key: "V"
         desc: "󰕧 Record Window (toggle)"
-        cmd: "record-region -w"
+        cmd: "screenshot-region -a -r -w"
   # }}}
   # Terminal: {{{{
   - key: "Return"
