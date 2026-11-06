@@ -9,8 +9,6 @@ from qtile_bonsai import Bonsai
 from qtile_bonsai.layout import modify_terminal_cmd_with_cwd
 from qtile_bonsai.tree import BonsaiPane
 
-from ..group.scratchpads import scratchpad_layout
-
 # Armed float flag expires after this long (self-heals a cancelled menu).
 PENDING_FLOAT_TTL_SECONDS = 300
 
@@ -20,7 +18,10 @@ class SmartBonsai(Bonsai):
 
     def __init__(self, *args, **kwargs):
         self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
-        self.float_sizes = kwargs.pop("float_sizes", {})
+        self.float_sizes = {
+            str(name).lower(): spec
+            for name, spec in kwargs.pop("float_sizes", {}).items()
+        }
         super().__init__(*args, **kwargs)
         self._pending_float = False
         self._float_pid = 0
@@ -234,30 +235,14 @@ class SmartBonsai(Bonsai):
         super().add_client(window)
 
     def _apply_float_size(self, window):
-        """Apply configured size preset to a floating window."""
-        wm_class = window.get_wm_class()
-        if not wm_class:
-            return
-        klass = wm_class[0].lower()
-        spec = self.float_sizes.get(klass)
-        if not spec:
-            return
-        screen = window.group.screen
-        if not screen:
-            return
+        """Apply a configured ``float_sizes`` preset to a floating window."""
+        from settings.layout.commands import apply_float_size
 
-        if isinstance(spec, str):
-            geom = scratchpad_layout(preset=spec)
-            if geom is None:
+        for name in window.get_wm_class() or []:
+            spec = self.float_sizes.get(str(name).lower())
+            if spec:
+                apply_float_size(window, spec)
                 return
-            sw, sh = screen.width, screen.height
-            w = int(sw * geom["width"])
-            h = int(sh * geom["height"])
-        else:
-            w, h = int(spec[0]), int(spec[1])
-
-        window.set_size_floating(w, h)
-        window.center()
 
     def _handle_add_client__normal(self, window) -> BonsaiPane:
         wm_class = window.get_wm_class()

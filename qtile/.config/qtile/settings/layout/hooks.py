@@ -11,6 +11,8 @@ from .commands import (
     _hide_all_in_group,
     _is_focus_allowed,
     _is_visible,
+    apply_float_size,
+    float_size_for,
     hide_floating_win,
     show_floating_win,
 )
@@ -18,6 +20,25 @@ from .commands import (
 _last_focused = None
 _suppress_floating_hide = False
 _floating_sound_startup = True
+
+
+@hook.subscribe.client_managed
+def size_rule_floated_window(win):
+    """Apply ``WinRule.float_size`` to windows floated by ``WIN_RULES``.
+
+    Must stay registered before the hide handlers below: ``hide_floating_win``
+    snapshots the geometry into ``_hidden_geoms``, so the resize has to happen
+    first or the next unhide restores the pre-resize size.
+    """
+    if not getattr(win, "floating", False) or getattr(win, "fullscreen", False):
+        return
+    spec = float_size_for(win)
+    if spec is None:
+        return
+    try:
+        apply_float_size(win, spec)
+    except Exception:
+        pass
 
 
 @hook.subscribe.client_new

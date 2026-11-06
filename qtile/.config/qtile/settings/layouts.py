@@ -28,7 +28,8 @@ from .layout.commands import (  # noqa: F401  (backward-compat re-exports)
 )
 
 # Window rules (canonical definitions — edit here).
-# One list drives floating (float_rules below) and focus-steal
+# One list drives floating (float_rules below), the float size applied on
+# spawn (client_managed hook in .layout.hooks) and focus-steal
 # (_is_focus_allowed in .layout.commands). Absence from this list
 # means tile + no steal (e.g. StartCenter).
 # Patterns are case-insensitive; extend with values from
@@ -46,18 +47,61 @@ def _either(token: str) -> MatchAny:
 
 @dataclass(frozen=True)
 class WinRule:
-    """Match a window to float and/or focus-steal actions."""
+    """Match a window to float, size and/or focus-steal actions.
+
+    ``float_size`` is a preset name (see ``settings/group/scratchpads.py``) or an
+    explicit ``(width, height)`` pixel pair, applied on ``client_managed`` for
+    windows floated by this rule. Generic catch-alls (``wm_type="dialog"``,
+    ``wm_type="utility"``) leave it ``None`` so app dialogs keep their own geometry.
+    """
 
     match: _Match
     floating: bool = False
     focus: bool = False
     focus_match: _Match | None = None
+    float_size: str | tuple[int, int] | None = None
 
 
 WIN_RULES = (
     # App popups: float + focus on title-or-class hit.
-    WinRule(Match(wm_class="network"), floating=True, focus=True),
-    WinRule(Match(wm_class="fileselect"), floating=True, focus=True),
+    WinRule(
+        Match(wm_class=_re("(bluetuith|calculator|dict|kari|chessterm|yt-x)")),
+        floating=True,
+        focus=True,
+        float_size="pad_small",
+    ),
+    # Terminal-ish popups: medium pad.
+    WinRule(
+        Match(wm_class=_re("(notification-history|btm|nvtop|ncdu|sysz)")),
+        floating=True,
+        focus=True,
+        float_size="pad_medium",
+    ),
+    # Single-line status popups.
+    WinRule(
+        Match(wm_class=_re("(mon-battery|watch-cpu|voltage)")),
+        floating=True,
+        focus=True,
+        float_size="pad_list",
+    ),
+    WinRule(
+        Match(wm_class=_re("(xset|fzf-emoji)")),
+        floating=True,
+        focus=True,
+        float_size="pad_small",
+    ),
+    WinRule(
+        Match(wm_class=_re("typing")),
+        floating=True,
+        focus=True,
+        float_size="pad_typing",
+    ),
+    # Popups with no float_sizes preset.
+    WinRule(
+        Match(wm_class=_re("(network|fileselect)")),
+        floating=True,
+        focus=True,
+    ),
     WinRule(
         Match(wm_class="qutebrowser-editor"),
         floating=True,
@@ -65,29 +109,18 @@ WIN_RULES = (
         focus_match=_either("qutebrowser-editor"),
     ),
     WinRule(
-        Match(wm_class="dict"), floating=True, focus=True, focus_match=_either("dict")
-    ),
-    WinRule(
-        Match(wm_class="sysz"), floating=True, focus=True, focus_match=_either("sysz")
-    ),
-    WinRule(
-        Match(wm_class="typing"),
+        Match(wm_class="dict"),
         floating=True,
         focus=True,
-        focus_match=_either("typing"),
-    ),
-    WinRule(
-        Match(wm_class="notification-history"),
-        floating=True,
-        focus=True,
-        focus_match=_either("notification-history"),
+        focus_match=_either("dict"),
+        float_size="pad_small",
     ),
     # LibreOffice dialogs: float + focus.
     WinRule(
         Match(
-            wm_class=_re("(soffice|libreoffice)"),
+            wm_class=_re("(soffice|libreoffice|libreoffice-startcenter)"),
             title=_re(
-                r"^(open\b|save\b|insert\b|print\b|confirm\b|hyperlink\b|export\b|find\b|"
+                r"^(open\b|save\b|insert\b|print\b|confirm\b|hyperlink\b|export\b|find\b|Error\b|"
                 r"spelling\b|character\b|paragraph\b|delete\b|warning\b|thesaurus\b|"
                 r"word count\b|page style\b|bullets\b|special characters\b|"
                 r"track changes\b|comments\b|mail merge\b|navigator\b|properties\b)"
@@ -124,6 +157,14 @@ WIN_RULES = (
     # Generic dialogs + legacy customs: float only.
     WinRule(Match(wm_type="dialog"), floating=True),
     WinRule(Match(wm_type="utility"), floating=True),
+    # Media clients with explicit presets.
+    *(
+        WinRule(Match(wm_class=cls), floating=True, float_size="pad_wide")
+        for cls in ("mpv-float", "mpv")
+    ),
+    WinRule(Match(wm_class="feh"), floating=True, float_size="pad_large"),
+    WinRule(Match(wm_class="discord"), floating=True, float_size="pad_tall"),
+    # Remaining floaters: no preset.
     *(
         WinRule(Match(wm_class=cls), floating=True)
         for cls in (
@@ -134,12 +175,8 @@ WIN_RULES = (
             "makebranch",
             "maketag",
             "vimiv",
-            "mpv-float",
-            "mpv",
             "matplotlib",
-            "feh",
             "fileselect",
-            "discord",
             "steam",
             "steamwebhelper",
         )

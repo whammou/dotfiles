@@ -6,6 +6,50 @@
 # Window rules are defined once in settings/layouts.py (WIN_RULES) and
 # sourced here via deferred import (avoids a circular import).
 
+from ..group.scratchpads import scratchpad_layout
+
+
+def apply_float_size(window, spec) -> None:
+    """Resize and center a floating window from a preset name or (w, h) pair.
+
+    Shared by the ``spawn_float`` path (SmartBonsai) and the ``client_managed``
+    hook that sizes ``WIN_RULES``-floated windows, so both agree on geometry.
+    """
+    group = getattr(window, "group", None)
+    screen = getattr(group, "screen", None) if group is not None else None
+    if screen is None:
+        return
+    if isinstance(spec, str):
+        geom = scratchpad_layout(preset=spec)
+        if geom is None:
+            return
+        w = int(screen.width * geom["width"])
+        h = int(screen.height * geom["height"])
+    else:
+        w, h = int(spec[0]), int(spec[1])
+    window.set_size_floating(w, h)
+    window.center()
+
+
+def float_size_for(window):
+    """Return the size preset declared by the first matching WIN_RULES float rule.
+
+    Rules without ``float_size`` are skipped, so generic catch-alls such as
+    ``Match(wm_type="dialog")`` never resize application dialogs that happen to
+    share a WM_CLASS with a tiled app.
+    """
+    from settings.layouts import WIN_RULES
+
+    for rule in WIN_RULES:
+        if not rule.floating or rule.float_size is None:
+            continue
+        try:
+            if rule.match.compare(window):
+                return rule.float_size
+        except Exception:
+            continue
+    return None
+
 
 def _is_focus_allowed(window) -> bool:
     from settings.layouts import WIN_RULES
