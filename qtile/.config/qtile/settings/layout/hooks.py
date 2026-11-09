@@ -24,7 +24,7 @@ _floating_sound_startup = True
 
 @hook.subscribe.client_managed
 def size_rule_floated_window(win):
-    """Apply ``WinRule.float_size`` to windows floated by ``WIN_RULES``.
+    """Apply a matched ``WinRule.size`` to windows floated by ``WIN_RULES``.
 
     Must stay registered before the hide handlers below: ``hide_floating_win``
     snapshots the geometry into ``_hidden_geoms``, so the resize has to happen

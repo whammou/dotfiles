@@ -28,12 +28,13 @@ from .layout.commands import (  # noqa: F401  (backward-compat re-exports)
 )
 
 # Window rules (canonical definitions — edit here).
-# One list drives floating (float_rules below), the float size applied on
-# spawn (client_managed hook in .layout.hooks) and focus-steal
-# (_is_focus_allowed in .layout.commands). Absence from this list
-# means tile + no steal (e.g. StartCenter).
-# Patterns are case-insensitive; extend with values from
+# One list drives floating (float_rules below), floating size (``size`` preset,
+# applied by the client_managed hook) and focus-steal (_is_focus_allowed in
+# .layout.commands). Absence from this list means tile + no steal (e.g.
+# StartCenter). Patterns are case-insensitive; extend with values from
 # `qtile cmd-obj -o window -f info`.
+# Rules with ``floating=False`` still carry a ``size`` so spawn_float can size
+# apps that normally tile (nvim, yazi, org-*, ...); the hook ignores them.
 
 
 def _re(pat: str) -> re.Pattern:
@@ -45,77 +46,102 @@ def _either(token: str) -> MatchAny:
     return MatchAny(Match(title=_re(".*" + token)), Match(wm_class=_re(".*" + token)))
 
 
+def _cls(*names: str) -> Match:
+    """Exact, case-insensitive WM_CLASS entry match (instance or class).
+
+    Unlike ``_re``, ``yazi`` will not also match ``yazi-journal``, so each class
+    can carry its own preset.
+    """
+    return Match(
+        wm_class=re.compile(
+            r"^(" + "|".join(map(re.escape, names)) + r")$", re.IGNORECASE
+        )
+    )
+
+
 @dataclass(frozen=True)
 class WinRule:
     """Match a window to float, size and/or focus-steal actions.
 
-    ``float_size`` is a preset name (see ``settings/group/scratchpads.py``) or an
-    explicit ``(width, height)`` pixel pair, applied on ``client_managed`` for
-    windows floated by this rule. Generic catch-alls (``wm_type="dialog"``,
-    ``wm_type="utility"``) leave it ``None`` so app dialogs keep their own geometry.
+    ``size`` is a scratchpad preset name (see ``settings/group/scratchpads.py``)
+    or an explicit ``(width, height)`` pair, applied once this rule has floated
+    the window. ``None`` keeps the app's own geometry, which is what the generic
+    ``wm_type`` catch-alls rely on so dialogs are not resized. Entries with
+    ``floating=False`` still carry a ``size`` for ``spawn_float``.
     """
 
     match: _Match
     floating: bool = False
     focus: bool = False
     focus_match: _Match | None = None
-    float_size: str | tuple[int, int] | None = None
+    size: str | tuple[int, int] | None = None
 
 
 WIN_RULES = (
-    # App popups: float + focus on title-or-class hit.
+    # Float + focus + preset.
     WinRule(
-        Match(wm_class=_re("(bluetuith|calculator|dict|kari|chessterm|yt-x)")),
+        _cls(
+            "bluetuith",
+            "calculator",
+            "chessterm",
+            "fzf-emoji",
+            "kari",
+            "xset",
+            "yt-x",
+        ),
         floating=True,
         focus=True,
-        float_size="pad_small",
+        size="pad_small",
     ),
-    # Terminal-ish popups: medium pad.
     WinRule(
-        Match(wm_class=_re("(notification-history|btm|nvtop|ncdu|sysz)")),
+        _cls(
+            "btm",
+            "ncdu",
+            "notification-history",
+            "nvtop",
+            "sysz-system",
+            "sysz-user",
+        ),
         floating=True,
         focus=True,
-        float_size="pad_medium",
+        size="pad_medium",
     ),
-    # Single-line status popups.
     WinRule(
-        Match(wm_class=_re("(mon-battery|watch-cpu|voltage)")),
+        _cls("mon-battery", "voltage", "watch-cpu"),
         floating=True,
         focus=True,
-        float_size="pad_list",
+        size="pad_list",
     ),
     WinRule(
-        Match(wm_class=_re("(xset|fzf-emoji)")),
+        _cls("typing"),
         floating=True,
         focus=True,
-        float_size="pad_small",
+        size="pad_typing",
     ),
+    # Float + focus, app sizes itself.
     WinRule(
-        Match(wm_class=_re("typing")),
+        MatchAny(
+            _cls("fileselect", "network", "ssh-askpass"),
+            Match(title=_re("^branchdialog")),
+            Match(title=_re("^pinentry")),
+            Match(wm_class=_re("xdg-desktop-portal")),
+        ),
         floating=True,
         focus=True,
-        float_size="pad_typing",
-    ),
-    # Popups with no float_sizes preset.
-    WinRule(
-        Match(wm_class=_re("(network|fileselect)")),
-        floating=True,
-        focus=True,
     ),
     WinRule(
-        Match(wm_class="qutebrowser-editor"),
+        _cls("qutebrowser-editor"),
         floating=True,
         focus=True,
         focus_match=_either("qutebrowser-editor"),
     ),
     WinRule(
-        Match(wm_class="dict"),
+        _cls("dict"),
         floating=True,
         focus=True,
         focus_match=_either("dict"),
-        float_size="pad_small",
+        size="pad_small",
     ),
-    # LibreOffice dialogs: float + focus.
     WinRule(
         Match(
             wm_class=_re("(soffice|libreoffice|libreoffice-startcenter)"),
@@ -129,57 +155,101 @@ WIN_RULES = (
         floating=True,
         focus=True,
     ),
-    # LibreOffice mains: focus, stay tiled.
-    WinRule(Match(title=_re(r".*libreoffice writer$")), focus=True),
-    WinRule(Match(title=_re(r".*libreoffice calc$")), focus=True),
-    # Portal file pickers: float + focus.
+    # Focus only, stay tiled.
     WinRule(
-        Match(
-            wm_class=_re("xdg-desktop-portal"),
+        MatchAny(
+            Match(title=_re(r".*libreoffice (writer|calc)$")),
+            Match(title=_re("volume control")),
         ),
-        floating=True,
         focus=True,
     ),
-    # WinRule(
-    #     Match(
-    #         wm_class=_re("xdg-desktop-portal"),
-    #         title=_re(r"^(open\b|save\b|print\b|insert\b)"),
-    #     ),
-    #     floating=True,
-    #     focus=True,
-    # ),
-    WinRule(Match(title=_re("^branchdialog")), floating=True, focus=True),
-    WinRule(Match(title=_re("volume control")), focus=True),
-    WinRule(Match(wm_class="org.pulseaudio.pavucontrol"), floating=True),
-    # Auth prompts must be seen, not hidden.
-    WinRule(Match(title=_re("^pinentry")), floating=True, focus=True),
-    WinRule(Match(wm_class="ssh-askpass"), floating=True, focus=True),
-    # Generic dialogs + legacy customs: float only.
-    WinRule(Match(wm_type="dialog"), floating=True),
-    WinRule(Match(wm_type="utility"), floating=True),
-    # Media clients with explicit presets.
-    *(
-        WinRule(Match(wm_class=cls), floating=True, float_size="pad_wide")
-        for cls in ("mpv-float", "mpv")
+    # Float only, with preset.
+    WinRule(
+        _cls("mpv", "mpv-float"),
+        floating=True,
+        size="pad_wide",
     ),
-    WinRule(Match(wm_class="feh"), floating=True, float_size="pad_large"),
-    WinRule(Match(wm_class="discord"), floating=True, float_size="pad_tall"),
-    # Remaining floaters: no preset.
-    *(
-        WinRule(Match(wm_class=cls), floating=True)
-        for cls in (
-            "xdg-desktop-portal-gtk",
-            "xdg-desktop-portal-gnome",
-            "kitty-float",
-            "confirmreset",
-            "makebranch",
-            "maketag",
-            "vimiv",
-            "matplotlib",
-            "fileselect",
-            "steam",
-            "steamwebhelper",
-        )
+    WinRule(
+        _cls("feh"),
+        floating=True,
+        size="pad_large",
+    ),
+    WinRule(
+        _cls("discord"),
+        floating=True,
+        size="pad_tall",
+    ),
+    # Float only, no preset.
+    WinRule(
+        MatchAny(
+            _cls(
+                "confirmreset",
+                "kitty-float",
+                "makebranch",
+                "maketag",
+                "matplotlib",
+                "org.pulseaudio.pavucontrol",
+                "steam",
+                "steamwebhelper",
+                "vimiv",
+            ),
+            Match(wm_type="dialog"),
+            Match(wm_type="utility"),
+        ),
+        floating=True,
+    ),
+    # Spawn-only presets: these apps tile normally, so floating stays False and
+    # only spawn_float consumes the size. The hook skips them, which is what
+    # keeps a Firefox save dialog from being stretched to pad_large.
+    WinRule(
+        _cls(
+            "alacritty",
+            "firefox",
+            "foot",
+            "kitty",
+            "lazygit-dotfiles",
+            "lazygit-journal",
+            "neomutt",
+            "newsboat",
+            "nvim",
+            "org-agenda",
+            "org-backlog",
+            "org-browse",
+            "org-search",
+            "org-super-agenda",
+            "org.qutebrowser.qutebrowser",
+            "ssh-session",
+            "sys-upgrade",
+            "thunar",
+            "tmux-session",
+            "yazi-journal",
+        ),
+        size="pad_large",
+    ),
+    WinRule(
+        _cls("yazi", "yazi-sftp"),
+        size="pad_medium",
+    ),
+    WinRule(
+        _cls(
+            "ani-cli",
+            "anifzf",
+            "mangal",
+            "notif-history",
+            "opencode",
+            "opencode-attach",
+            "org-capture",
+            "org-roam-capture",
+        ),
+        size="pad_small",
+    ),
+    WinRule(
+        _cls("gimp", "obsidian", "rnote", "test-session"),
+        size="pad_extra_large",
+    ),
+    WinRule(
+        _cls("mon-voltage", "tlp-recalibrate"),
+        size="pad_list",
     ),
 )
 
@@ -197,65 +267,6 @@ layouts = [
             "window.margin": [0, GAP, GAP * 2, GAP],
             "window.default_add_mode": smart_split_optimal,
             "excluded_wm_classes": [],
-            "float_sizes": {
-                "org-agenda": "pad_large",
-                "org-backlog": "pad_large",
-                "org-browse": "pad_large",
-                "org-super-agenda": "pad_large",
-                "org-search": "pad_large",
-                "lazygit-journal": "pad_large",
-                "lazygit-dotfiles": "pad_large",
-                "org-capture": "pad_small",
-                "org-roam-capture": "pad_small",
-                "nvim": "pad_large",
-                "notification-history": "pad_medium",
-                "opencode": "pad_small",
-                "opencode-attach": "pad_small",
-                "test-session": "pad_extra_large",
-                "yazi": "pad_medium",
-                "yazi-sftp": "pad_medium",
-                "yazi-journal": "pad_large",
-                "tmux-session": "pad_large",
-                "ssh-session": "pad_large",
-                "btm": "pad_medium",
-                "mon-battery": "pad_list",
-                "mon-voltage": "pad_list",
-                "tlp-recalibrate": "pad_list",
-                "watch-cpu": "pad_list",
-                "nvtop": "pad_medium",
-                "ncdu": "pad_medium",
-                "xset": "pad_small",
-                "sysz-user": "pad_medium",
-                "sysz-system": "pad_medium",
-                "fzf-emoji": "pad_small",
-                "bluetuith": "pad_small",
-                "yt-x": "pad_small",
-                "sys-upgrade": "pad_large",
-                "chessterm": "pad_small",
-                "newsboat": "pad_large",
-                "notif-history": "pad_small",
-                "neomutt": "pad_large",
-                "mangal": "pad_small",
-                "dict": "pad_small",
-                "anifzf": "pad_small",
-                "ani-cli": "pad_small",
-                "typing-test": "pad_typing",
-                "kari": "pad_small",
-                "calculator": "pad_small",
-                "org.qutebrowser.qutebrowser": "pad_large",
-                "rnote": "pad_extra_large",
-                "discord": "pad_tall",
-                "mpv": "pad_wide",
-                "mpv-float": "pad_wide",
-                "feh": "pad_large",
-                "firefox": "pad_large",
-                "Alacritty": "pad_large",
-                "foot": "pad_large",
-                "thunar": "pad_large",
-                "gimp": "pad_extra_large",
-                "obsidian": "pad_extra_large",
-                "kitty": "pad_large",
-            },
             "container_select_mode.border_color": colors["green"],
             "container_select_mode.border_size": BORDER_WIDTH,
             "tab_bar.height": BORDER_WIDTH * 2,

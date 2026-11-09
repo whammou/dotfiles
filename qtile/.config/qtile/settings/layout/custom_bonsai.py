@@ -18,10 +18,6 @@ class SmartBonsai(Bonsai):
 
     def __init__(self, *args, **kwargs):
         self.excluded_wm_classes = kwargs.pop("excluded_wm_classes", [])
-        self.float_sizes = {
-            str(name).lower(): spec
-            for name, spec in kwargs.pop("float_sizes", {}).items()
-        }
         super().__init__(*args, **kwargs)
         self._pending_float = False
         self._float_pid = 0
@@ -235,14 +231,13 @@ class SmartBonsai(Bonsai):
         super().add_client(window)
 
     def _apply_float_size(self, window):
-        """Apply a configured ``float_sizes`` preset to a floating window."""
-        from settings.layout.commands import apply_float_size
+        """Apply the ``WIN_RULES`` preset to a spawn_float window, if it has one."""
+        from settings.layout.commands import apply_float_size, float_size_for
 
-        for name in window.get_wm_class() or []:
-            spec = self.float_sizes.get(str(name).lower())
-            if spec:
-                apply_float_size(window, spec)
-                return
+        spec = float_size_for(window, require_floating_rule=False)
+        if spec is None:
+            return
+        apply_float_size(window, spec)
 
     def _handle_add_client__normal(self, window) -> BonsaiPane:
         wm_class = window.get_wm_class()

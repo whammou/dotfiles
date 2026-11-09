@@ -31,21 +31,28 @@ def apply_float_size(window, spec) -> None:
     window.center()
 
 
-def float_size_for(window):
-    """Return the size preset declared by the first matching WIN_RULES float rule.
+def float_size_for(window, *, require_floating_rule=True):
+    """Return the first matching ``WIN_RULES`` entry's ``size``, or None.
 
-    Rules without ``float_size`` are skipped, so generic catch-alls such as
-    ``Match(wm_type="dialog")`` never resize application dialogs that happen to
-    share a WM_CLASS with a tiled app.
+    The first match decides, so a rule with ``size=None`` suppresses a preset
+    even when a later rule would match (``kitty-float`` does not inherit
+    ``kitty``'s ``pad_large``).
+
+    ``require_floating_rule`` restricts the walk to rules that actually float the
+    window. The ``client_managed`` hook needs that: a Firefox save dialog matches
+    the generic ``wm_type="dialog"`` rule first, and the spawn-only ``firefox``
+    entry (``floating=False``) must not stretch it. ``spawn_float`` passes
+    ``False`` because the apps it launches normally tile and so have no floating
+    rule of their own.
     """
     from settings.layouts import WIN_RULES
 
     for rule in WIN_RULES:
-        if not rule.floating or rule.float_size is None:
+        if require_floating_rule and not rule.floating:
             continue
         try:
             if rule.match.compare(window):
-                return rule.float_size
+                return rule.size
         except Exception:
             continue
     return None
