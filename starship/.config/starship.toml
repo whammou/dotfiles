@@ -2,7 +2,7 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 add_newline = true
-command_timeout = 3000
+command_timeout = 1000
 
 format = "$jobs$all $character"
 
@@ -72,6 +72,7 @@ symbol = " "
 symbol = " "
 
 [docker_context]
+disabled = true
 symbol = " "
 
 [elixir]
@@ -196,7 +197,11 @@ symbol = " "
 symbol = " "
 
 [pijul_channel]
+disabled = true
 symbol = " "
+
+[netns]
+disabled = true
 
 [python]
 symbol = " "

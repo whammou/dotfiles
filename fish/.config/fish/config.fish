@@ -1,9 +1,16 @@
 if status is-interactive
-    starship init fish | source
-    echo
+    starship init fish --print-full-init | source
+    # colorscript art on startup -- pre-rendered to ~/.cache/colorscripts.
+    # The wrapper spends ~70ms in bash before exec'ing the art, and a few
+    # palettes (colorbars/print256) need 700/180ms to render live.
+    # Rebuild after a colorscripts package update: colorscript-cache -f
     if not set -q NVIM
-        colorscript --random
+        set -l cs_cache $HOME/.cache/colorscripts
+        test -d $cs_cache; or colorscript-cache
+        set -l cs_art (path filter -f $cs_cache/*)
+        and cat $cs_art[(random 1 (count $cs_art))]
     end
+    abbr --add --global colors 'colorscript --random'
     set fish_greeting
 end
 

@@ -20,7 +20,12 @@ keys = (
     # + focus_nth_floating([mod, "shift"], range(1, 10))
     # + change_tab_layer([mod, "shift"], range(1, 10), range(1, 10))
     + [
-        Key([meta, "Shift"], "Return", lazy.layout.spawn("kitty"), desc="Terminal"),
+        Key(
+            [meta, "Shift"],
+            "Return",
+            lazy.layout.spawn("kitty --single-instance"),
+            desc="Terminal",
+        ),
     ]
     + [
         Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
