@@ -85,6 +85,19 @@ return {
         ["@org.bullet.org"] = { fg = "$cyan" },
         ["OrgLinksLink"] = { fg = "$blue" },
 
+        -- Bloocky (timeblocking calendar)
+        ["BloockyToday"] = { fg = "$orange", fmt = "bold" },
+        ["BloockyDooing"] = { fg = "$yellow" },
+        ["BloockyInput"] = { bg = "$bg_d" },
+        ["BloockyInputBar"] = { fg = "$blue", bg = "$bg_d" },
+        ["BloockyBlockConflict"] = { fg = "$bg0", bg = "$red", fmt = "bold" },
+        ["BloockyBlock1"] = { fg = "$cyan", bg = "$tbg_cyan" },
+        ["BloockyBlock2"] = { fg = "$purple", bg = "$tbg_purple" },
+        ["BloockyBlock3"] = { fg = "$blue", bg = "$tbg_blue" },
+        ["BloockyBlock4"] = { fg = "$yellow", bg = "$tbg_yellow" },
+        ["BloockyBlock5"] = { fg = "$green", bg = "$tbg_green" },
+        ["BloockyBlock6"] = { fg = "$red", bg = "$tbg_red" },
+
         --Snack dashboard
         ["SnacksDashBoardHeader"] = { fg = "$fg" },
         ["SnacksDashBoardFooter"] = { fg = "$fg" },

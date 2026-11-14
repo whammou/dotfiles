@@ -102,14 +102,42 @@ return {
       { "<leader>nU", "<Cmd>RoamUpdate!<CR>", desc = "Force update Roam database" },
     },
   },
+  -- Timeblocks live in bloocky; the org agenda stays in nvim-orgmode.
+  -- Credentials: lua/config/secrets.lua (see secrets.example.lua).
+  (function()
+    local opts = require("config.bloocky")
+    local keys = {
+      { "<leader>oB", "<cmd>Bloocky<CR>", desc = "Bloocky calendar" },
+      { "<leader>oBs", "<cmd>BloockySidebarToggle<CR>", desc = "Bloocky sidebar" },
+    }
+    if opts.sync.enabled then
+      keys[#keys + 1] = { "<leader>oBy", "<cmd>BloockySync<CR>", desc = "Bloocky sync now" }
+      keys[#keys + 1] = { "<leader>oBd", "<cmd>BloockySyncStatus<CR>", desc = "Bloocky sync status" }
+    end
+    return {
+      "atiladefreitas/bloocky",
+      lazy = true,
+      dependencies = { "nvim-orgmode/orgmode" },
+      cmd = { "Bloocky", "BloockyToggle", "BloockySidebar", "BloockySidebarToggle" },
+      keys = keys,
+      opts = opts,
+      config = function(_, o)
+        require("bloocky").setup(o)
+        require("config.bloocky_guard").apply()
+      end,
+    }
+  end)(),
 
-  --{
-  --  "BartSte/nvim-khalorg",
-  --  lazy = true,
-  --  opts = {
-  --    calendar = "private",
-  --  },
-  --},
+  {
+    "BartSte/nvim-khalorg",
+    lazy = true,
+    ft = { "org" },
+    dependencies = { "nvim-orgmode/orgmode" },
+    main = "khalorg",
+    opts = {
+      calendar = "gcal",
+    },
+  },
   --{
   --  "hamidi-dev/org-super-agenda.nvim",
   --  lazy = true,
