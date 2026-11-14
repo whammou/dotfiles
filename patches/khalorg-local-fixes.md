@@ -24,6 +24,11 @@ these patches; reapplying is one command (see below).
   title + first-date match against the state file.
 - Events whose UID is known but which fall outside the `khal list` window are
   loaded by UID, so items scheduled beyond the window are updated, not cloned.
+- Re-dating an overdue item works. `Calendar.edit` no longer filters candidates
+  by `is_future` when the UID is known: a UID is an identity, so the event is
+  found and updated even though its stored end is in the past. The filter stays
+  for UID-less lookups, where summary plus dates is the only handle and a past
+  event is not a candidate.
 - Date/end changes are applied only when the run passes `--edit-dates`
   (`orgpush` always does).
 
@@ -33,8 +38,12 @@ these patches; reapplying is one command (see below).
   Calendar (delete it there, or drop the UID from the map and delete the event).
 - Events edited or deleted in Google Calendar are not pulled into org. The org
   file stays the source of truth, so the next org edit overwrites them.
-- The UID map is machine-local. Only the machine named in `orgpush` writes to
-  the calendar; the other machines run no push at all.
+- The UID map is machine-local and per calendar
+  (`<calendar>.map.json`). Only the machine named in `orgpush` writes to the
+  calendar; the other machines run no push at all.
+- Moving an event to a different calendar keeps its UID, but the target
+  calendar's map has to be seeded, otherwise khalorg treats the item as new and
+  creates a second event.
 - `vdirsyncer` for the `gcal` pair must use `conflict_resolution = "a wins"`
   (local wins). With `"b wins"` a remote copy silently overwrites an
   org-driven local edit on conflict.
@@ -58,7 +67,12 @@ patch -p1 -d "$S" < ~/dotfiles/patches/khalorg-local-fixes.patch
   than `~/.local/state/orgpush/last-run`
 - a file is handed to `khalorg sync --edit-dates` only if it still schedules
   something today or later
-- `vdirsyncer sync gcal` runs only when khalorg actually rewrote an `.ics`
+- each file goes to the calendar of its top-level area, read from
+  `~/dotfiles/orgpush/calendars.tsv` (one khal calendar per area; areas without
+  a row fall back to `gcal`)
+- `vdirsyncer sync gcal/<collection>` runs only for the collections khalorg
+  actually rewrote in that run; syncing the whole pair walks all 25 calendars
+  and costs about a second per calendar
 - the stamp is set to the run's start time, so edits made during a run are
   picked up by the next one
 - log: `~/.local/state/orgpush/log`

@@ -1,5 +1,84 @@
---- a/khalorg/synchronization.py
-+++ b/khalorg/synchronization.py
+diff -ruN a/khalorg/commands.py b/khalorg/commands.py
+--- a/khalorg/commands.py	2026-10-31 17:16:15.881561500 +0700
++++ b/khalorg/commands.py	2026-11-13 10:18:27.357961503 +0700
+@@ -16,7 +16,6 @@
+     SyncContext,
+     load_missing_khal_items,
+     load_sync_agenda,
+-    pull_khal_changes,
+     push_org_changes,
+     remove_deleted_items,
+     write_sync_files,
+@@ -321,6 +320,7 @@
+         state_agenda=state_agenda,
+         khal_agenda=khal_agenda,
+         dry_run=dry_run,
++        state_file=state_file,
+     )
+     load_missing_khal_items(context)
+     processed_uids = push_org_changes(
+@@ -330,10 +330,6 @@
+         new_command=new,
+         edit_command=edit,
+     )
+-    pull_khal_changes(
+-        context=context,
+-        processed_uids=processed_uids,
+-    )
+     if delete_on_sync:
+         remove_deleted_items(
+             context=context,
+@@ -342,7 +338,6 @@
+         )
+     if not dry_run:
+         write_sync_files(
+-            org_file=org_file,
+             state_file=state_file,
+             org_agenda=org_agenda,
+             khalorg_format=sync_format,
+diff -ruN a/khalorg/khal/calendar.py b/khalorg/khal/calendar.py
+--- a/khalorg/khal/calendar.py	2026-10-31 17:16:15.881864300 +0700
++++ b/khalorg/khal/calendar.py	2026-11-15 04:47:50.124435516 +0700
+@@ -206,14 +206,19 @@
+             props["end"] = props["start"] + timedelta(hours=1)
+ 
+         if props["uid"]:
++            # A UID is an identity, not a time: the event must stay editable
++            # after its date has passed, otherwise re-dating an overdue item
++            # can never reach the calendar.
+             events = self.get_events(props["uid"])
+         else:
+             events = self.get_events_no_uid(
+                 props["summary"], props["start"], props["end"]
+             )
++            # Without a UID the only handle is summary plus dates, where a past
++            # event is not a candidate.
++            events = [x for x in events if is_future(x.end)]
+ 
+         logging.debug(f"number of events is {len(events)}")
+-        events = [x for x in events if is_future(x.end)]
+ 
+         if len(events) == 0:
+             logging.error(self.MESSAGE_EDIT.format(len(events)))
+diff -ruN a/khalorg/org/agenda_items.py b/khalorg/org/agenda_items.py
+--- a/khalorg/org/agenda_items.py	2026-10-31 17:16:15.881864300 +0700
++++ b/khalorg/org/agenda_items.py	2026-11-12 17:22:56.223540223 +0700
+@@ -160,7 +160,11 @@
+ 
+         self.title = item.heading.strip()
+         self.properties = item.properties
+-        self.timestamps = item.get_timestamps(**kwargs)
++        timestamps: list = item.get_timestamps(**kwargs)
++        for planning in (item.scheduled, item.deadline):
++            if getattr(planning, "start", None) is not None:
++                timestamps.append(planning)
++        self.timestamps = timestamps
+         self.description = remove_timestamps(item.body.strip())
+ 
+         return self
+diff -ruN a/khalorg/synchronization.py b/khalorg/synchronization.py
+--- a/khalorg/synchronization.py	2026-10-31 17:16:15.882385000 +0700
++++ b/khalorg/synchronization.py	2026-11-13 10:21:07.033729973 +0700
 @@ -1,8 +1,10 @@
  """Implementation helpers for synchronizing org files with khal calendars."""
  
@@ -220,55 +299,3 @@
 -    org_file.write_text(content)
      state_file.write_text(content)
 +    _save_id_map(state_file, org_agenda)
---- a/khalorg/org/agenda_items.py
-+++ b/khalorg/org/agenda_items.py
-@@ -160,7 +160,11 @@
- 
-         self.title = item.heading.strip()
-         self.properties = item.properties
--        self.timestamps = item.get_timestamps(**kwargs)
-+        timestamps: list = item.get_timestamps(**kwargs)
-+        for planning in (item.scheduled, item.deadline):
-+            if getattr(planning, "start", None) is not None:
-+                timestamps.append(planning)
-+        self.timestamps = timestamps
-         self.description = remove_timestamps(item.body.strip())
- 
-         return self
---- a/khalorg/commands.py
-+++ b/khalorg/commands.py
-@@ -16,7 +16,6 @@
-     SyncContext,
-     load_missing_khal_items,
-     load_sync_agenda,
--    pull_khal_changes,
-     push_org_changes,
-     remove_deleted_items,
-     write_sync_files,
-@@ -321,6 +320,7 @@
-         state_agenda=state_agenda,
-         khal_agenda=khal_agenda,
-         dry_run=dry_run,
-+        state_file=state_file,
-     )
-     load_missing_khal_items(context)
-     processed_uids = push_org_changes(
-@@ -330,10 +330,6 @@
-         new_command=new,
-         edit_command=edit,
-     )
--    pull_khal_changes(
--        context=context,
--        processed_uids=processed_uids,
--    )
-     if delete_on_sync:
-         remove_deleted_items(
-             context=context,
-@@ -342,7 +338,6 @@
-         )
-     if not dry_run:
-         write_sync_files(
--            org_file=org_file,
-             state_file=state_file,
-             org_agenda=org_agenda,
-             khalorg_format=sync_format,

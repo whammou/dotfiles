@@ -109,10 +109,13 @@ return {
     local keys = {
       { "<leader>oB", "<cmd>Bloocky<CR>", desc = "Bloocky calendar" },
       { "<leader>oBs", "<cmd>BloockySidebarToggle<CR>", desc = "Bloocky sidebar" },
+      { "<leader>oBd", "<cmd>Bloocky day<CR>", desc = "Bloocky day calendar" },
+      { "<leader>oBw", "<cmd>Bloocky week<CR>", desc = "Bloocky week calendar" },
+      { "<leader>oBm", "<cmd>Bloocky month<CR>", desc = "Bloocky day calendar" },
     }
     if opts.sync.enabled then
       keys[#keys + 1] = { "<leader>oBy", "<cmd>BloockySync<CR>", desc = "Bloocky sync now" }
-      keys[#keys + 1] = { "<leader>oBd", "<cmd>BloockySyncStatus<CR>", desc = "Bloocky sync status" }
+      -- keys[#keys + 1] = { "<leader>oBd", "<cmd>BloockySyncStatus<CR>", desc = "Bloocky sync status" }
     end
     return {
       "atiladefreitas/bloocky",
@@ -134,9 +137,23 @@ return {
     ft = { "org" },
     dependencies = { "nvim-orgmode/orgmode" },
     main = "khalorg",
-    opts = {
-      calendar = "gcal",
-    },
+    opts = (function()
+      local calendars = require("config.orgmode.calendars").load()
+      local opts = { calendar = calendars.default, calendars = {} }
+      for calendar, areas in pairs(calendars.by_calendar) do
+        opts.calendars[calendar] = {
+          org_file = "~/.local/share/orgmode/" .. areas[1] .. "/tasks/planned.org",
+        }
+      end
+      return opts
+    end)(),
+    config = function(_, o)
+      require("khalorg").setup(o)
+      vim.api.nvim_create_user_command("OrgSync", function()
+        local calendar = require("config.orgmode.calendars").for_file(0)
+        require("khalorg").sync({ calendar = calendar })
+      end, { desc = "Sync this org file to its area calendar" })
+    end,
   },
   --{
   --  "hamidi-dev/org-super-agenda.nvim",

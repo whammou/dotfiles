@@ -1,0 +1,32 @@
+# Org area -> khal calendar, one calendar per top-level directory under
+# ~/.local/share/orgmode, so every area is its own layer on the phone.
+# First column: directory name. Second: khal calendar name (the name Google
+# shows as well). Areas without a row fall back to `gcal`.
+#
+# Adding an area: create the Google calendar, add its ID to [pair gcal] in
+# ~/.config/vdirsyncer/config, add a [[Name]] block to ~/.config/khal/config,
+# then add the row below. nvim and orgpush both read this file.
+academic	Org Academic
+coding	Org Coding
+dating	Org Dating
+finance	Org Finance
+gaming	Org Gaming
+hosting	Org Hosting
+language	Org Language
+note	Org Note
+opsys	Org Opsys
+packages	Org Packages
+personal	Org Personal
+platform	Org Platform
+projectmanagement	Org Projectmanagement
+read	Org Read
+routine	Org Routine
+teaching	Org Teaching
+teaching-course-en101	Org Teaching Course En101
+teaching-course-en201	Org Teaching Course En201
+travel	Org Travel
+university	Org University
+valorant	Org Valorant
+vault	Org Vault
+work	Org Work
+workout	Org Workout

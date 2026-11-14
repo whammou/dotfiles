@@ -51,10 +51,25 @@ local khalorg_ok, khalorg = pcall(function()
 end)
 
 if khalorg_ok and khalorg then
-  custom_exports.n = { label = "Add a khal event", action = function() return khalorg.new() end }
-  custom_exports.k = { label = "Edit a khal event", action = function() return khalorg.edit() end }
-  custom_exports.K = { label = "Edit a khal event and its dates", action = function() return khalorg.edit_all() end }
-  custom_exports.D = { label = "Delete a khal event", action = function() return khalorg.delete() end }
+  local function area_calendar()
+    return require("config.orgmode.calendars").for_file(0)
+  end
+  custom_exports.n = {
+    label = "Add a khal event",
+    action = function() return khalorg.new({ calendar = area_calendar() }) end,
+  }
+  custom_exports.k = {
+    label = "Edit a khal event",
+    action = function() return khalorg.edit({ calendar = area_calendar() }) end,
+  }
+  custom_exports.K = {
+    label = "Edit a khal event and its dates",
+    action = function() return khalorg.edit_all({ calendar = area_calendar() }) end,
+  }
+  custom_exports.D = {
+    label = "Delete a khal event",
+    action = function() return khalorg.delete({ calendar = area_calendar() }) end,
+  }
 end
 
 require("orgmode").setup({

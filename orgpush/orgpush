@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# Push org agenda changes to khal, then upload them to Google Calendar.
+# Push org agenda changes to each area's khal calendar, then upload them to
+# Google Calendar.
 #
 # Started by a systemd user timer every minute. Only org files whose mtime is
 # newer than the previous run are read, and only files that still schedule
 # something in the future are handed to khalorg. Nothing is ever written back
 # into the org files.
+#
+# A file's top-level directory selects its calendar (see calendars.tsv); areas
+# without a row there fall back to the default calendar.
 set -uo pipefail
 
 # The systemd user manager starts with HOME=/home/homelab, while khal,
@@ -12,20 +16,42 @@ set -uo pipefail
 export HOME=/home/whammou
 export PATH=/home/whammou/.local/bin:/usr/local/bin:/usr/bin:/bin
 
-CALENDAR=gcal
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+CALENDARS="$SCRIPT_DIR/calendars.tsv"
+PAIR=gcal
+DEFAULT_CALENDAR=gcal
 ORG_ROOT=/home/homelab/.local/share/orgmode
 STATE_DIR="$HOME/.local/state/orgpush"
 STAMP="$STATE_DIR/last-run"
 LOCK="$STATE_DIR/lock"
 
-# Collection directory of the calendar, taken from the khal config so that the
-# Google address never has to appear in this repository.
-KHAL_COLLECTION="$(awk -v cal="[[$CALENDAR]]" '
-  $0 == cal { inside = 1; next }
-  /^\[/ { inside = 0 }
-  inside && $1 == "path" { sub(/^path *= */, ""); print; exit }
-' "$HOME/.config/khal/config")"
-KHAL_COLLECTION="${KHAL_COLLECTION/#\~/$HOME}"
+declare -A AREA_CALENDAR=()
+while IFS=$'\t' read -r area calendar; do
+  [ -z "$area" ] && continue
+  case "$area" in \#*) continue ;; esac
+  [ -n "$calendar" ] && AREA_CALENDAR["$area"]="$calendar"
+done <"$CALENDARS"
+
+# The area of an org file is its first directory level below the org root.
+# Trailing spaces are trimmed because one directory name carries one.
+calendar_for_file() {
+  local rel=${1#"$ORG_ROOT"/}
+  local area=${rel%%/*}
+  area=${area%"${area##*[! ]}"}
+  printf '%s\n' "${AREA_CALENDAR[$area]:-$DEFAULT_CALENDAR}"
+}
+
+# Collection directory of a calendar, taken from the khal config so that no
+# Google address or calendar ID has to appear in this repository.
+collection_path() {
+  local path
+  path="$(awk -v cal="[[$1]]" '
+    $0 == cal { inside = 1; next }
+    /^\[/ { inside = 0 }
+    inside && $1 == "path" { sub(/^path *= */, ""); print; exit }
+  ' "$HOME/.config/khal/config")"
+  printf '%s\n' "${path/#\~/$HOME}"
+}
 
 # Single writer: the thinkpad only reads the calendar.
 if [ "$(cat /etc/hostname 2>/dev/null)" != "homelab" ]; then
@@ -57,18 +83,31 @@ start_stamp="$(mktemp)"
 trap 'rm -f "$start_stamp"' EXIT
 
 touched=0
+collections=()
 while IFS= read -r -d '' file; do
   has_future_item "$file" || continue
-  if khalorg sync --edit-dates -- "$CALENDAR" "$file"; then
+  calendar="$(calendar_for_file "$file")"
+  if khalorg sync --edit-dates -- "$calendar" "$file"; then
     touched=1
+    collections+=("$(collection_path "$calendar")")
   else
-    echo "khalorg sync failed: $file"
+    echo "khalorg sync failed: $calendar: $file"
   fi
 done < <(find "$ORG_ROOT" -type f -name '*.org' -newer "$STAMP" -print0 2>/dev/null)
 
-if [ "$touched" = 1 ] &&
-  [ -n "$(find "$KHAL_COLLECTION" -maxdepth 1 -type f -name '*.ics' -newer "$start_stamp" -print -quit 2>/dev/null)" ]; then
-  vdirsyncer sync "$CALENDAR" || echo "vdirsyncer sync failed"
+if [ "$touched" = 1 ]; then
+  targets=()
+  while IFS= read -r dir; do
+    [ -n "$dir" ] || continue
+    if [ -n "$(find "$dir" -maxdepth 1 -type f -name '*.ics' -newer "$start_stamp" -print -quit 2>/dev/null)" ]; then
+      targets+=("$PAIR/$(basename "$dir")")
+    fi
+  done < <(printf '%s\n' "${collections[@]}" | sort -u)
+  # Only the collections this run rewrote; syncing the whole pair walks every
+  # calendar and costs about a second per collection.
+  if [ ${#targets[@]} -gt 0 ]; then
+    vdirsyncer sync "${targets[@]}" || echo "vdirsyncer sync failed"
+  fi
 fi
 
 touch -r "$start_stamp" "$STAMP"
