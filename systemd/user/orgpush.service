@@ -1,0 +1,8 @@
+[Unit]
+Description=Push changed org agenda files to khal and Google Calendar
+
+[Service]
+Type=oneshot
+Environment=PATH=/home/whammou/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/whammou/dotfiles/orgpush/orgpush
+Nice=10

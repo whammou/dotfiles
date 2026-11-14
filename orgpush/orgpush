@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# Push org agenda changes to khal, then upload them to Google Calendar.
+#
+# Started by a systemd user timer every minute. Only org files whose mtime is
+# newer than the previous run are read, and only files that still schedule
+# something in the future are handed to khalorg. Nothing is ever written back
+# into the org files.
+set -uo pipefail
+
+# The systemd user manager starts with HOME=/home/homelab, while khal,
+# vdirsyncer and khalorg all live under /home/whammou.
+export HOME=/home/whammou
+export PATH=/home/whammou/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+CALENDAR=gcal
+ORG_ROOT=/home/homelab/.local/share/orgmode
+STATE_DIR="$HOME/.local/state/orgpush"
+STAMP="$STATE_DIR/last-run"
+LOCK="$STATE_DIR/lock"
+
+# Collection directory of the calendar, taken from the khal config so that the
+# Google address never has to appear in this repository.
+KHAL_COLLECTION="$(awk -v cal="[[$CALENDAR]]" '
+  $0 == cal { inside = 1; next }
+  /^\[/ { inside = 0 }
+  inside && $1 == "path" { sub(/^path *= */, ""); print; exit }
+' "$HOME/.config/khal/config")"
+KHAL_COLLECTION="${KHAL_COLLECTION/#\~/$HOME}"
+
+# Single writer: the thinkpad only reads the calendar.
+if [ "$(cat /etc/hostname 2>/dev/null)" != "homelab" ]; then
+  exit 0
+fi
+
+mkdir -p "$STATE_DIR"
+exec 9>"$LOCK"
+flock -n 9 || exit 0
+
+exec >>"$STATE_DIR/log" 2>&1
+printf '\n== %s orgpush ==\n' "$(date '+%F %T')"
+
+# True when the file schedules at least one item today or later.
+has_future_item() {
+  awk -v today="$(date +%F)" '
+    match($0, /(SCHEDULED|DEADLINE): *<[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/) {
+      if (substr($0, RSTART + RLENGTH - 10, 10) >= today) { found = 1; exit }
+    }
+    END { exit !found }
+  ' "$1"
+}
+
+[ -e "$STAMP" ] || touch "$STAMP"
+
+# Files edited while this run is in flight must be picked up by the next run,
+# so the stamp is set to the time this run started, not the time it ended.
+start_stamp="$(mktemp)"
+trap 'rm -f "$start_stamp"' EXIT
+
+touched=0
+while IFS= read -r -d '' file; do
+  has_future_item "$file" || continue
+  if khalorg sync --edit-dates -- "$CALENDAR" "$file"; then
+    touched=1
+  else
+    echo "khalorg sync failed: $file"
+  fi
+done < <(find "$ORG_ROOT" -type f -name '*.org' -newer "$STAMP" -print0 2>/dev/null)
+
+if [ "$touched" = 1 ] &&
+  [ -n "$(find "$KHAL_COLLECTION" -maxdepth 1 -type f -name '*.ics' -newer "$start_stamp" -print -quit 2>/dev/null)" ]; then
+  vdirsyncer sync "$CALENDAR" || echo "vdirsyncer sync failed"
+fi
+
+touch -r "$start_stamp" "$STAMP"

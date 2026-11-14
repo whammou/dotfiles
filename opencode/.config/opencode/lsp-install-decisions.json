@@ -2,5 +2,9 @@
   "basedpyright": {
     "decision": "declined",
     "decidedAt": "2026-10-13T10:08:48.140Z"
+  },
+  "lua-ls": {
+    "decision": "declined",
+    "decidedAt": "2026-11-12T08:52:56.594Z"
   }
 }

@@ -1,0 +1,274 @@
+--- a/khalorg/synchronization.py
++++ b/khalorg/synchronization.py
+@@ -1,8 +1,10 @@
+ """Implementation helpers for synchronizing org files with khal calendars."""
+ 
++import json
+ import logging
+ from collections.abc import Callable
+ from dataclasses import dataclass
++from datetime import datetime, timedelta
+ from enum import Enum
+ from pathlib import Path
+ 
+@@ -30,6 +32,7 @@
+     state_agenda: OrgAgendaFile
+     khal_agenda: OrgAgendaFile
+     dry_run: bool
++    state_file: Path
+ 
+ 
+ def load_sync_agenda(path: Path) -> OrgAgendaFile:
+@@ -78,7 +81,7 @@
+     new_command: SyncCommand,
+     edit_command: SyncCommand,
+ ) -> set[str | None]:
+-    """Push local changes to khal and apply remote updates locally."""
++    """Push local changes to khal without touching the org file."""
+     processed_uids: set[str | None] = set()
+     synchronizer = _OrgItemSynchronizer(
+         context,
+@@ -88,14 +91,40 @@
+         edit_command,
+     )
+ 
++    id_map = _load_id_map(context.state_file)
++
+     for index, item in enumerate(context.org_agenda.items):
+-        state_item = context.state_agenda.get_item(item.uid)
+-        khal_item = context.khal_agenda.get_item(item.uid)
++        if not item.timestamps:
++            logging.debug(
++                f"[org -> khal {context.calendar}] Skipping undated org item: "
++                f"{item.title}"
++            )
++            continue
++        if _is_in_past(item):
++            logging.debug(
++                f"[org -> khal {context.calendar}] Skipping past org item: "
++                f"{item.title}"
++            )
++            continue
++        item_uid = _resolve_uid(item, id_map)
++        if item_uid:
++            item.properties["UID"] = item_uid
++        khal_item = context.khal_agenda.get_item(item_uid) if item_uid else None
++        if khal_item is None and item_uid:
++            khal_item = _khal_item_outside_window(context, item_uid)
++        if khal_item is not None:
++            if _same_content(item, khal_item):
++                processed_uids.add(item.uid)
++                continue
++            synchronizer._push_updated_org_item(item)
++            processed_uids.add(item.uid)
++            continue
++        state_item = _match_state_item(context, item)
+         item_processed = synchronizer.sync(
+             index,
+             item,
+             state_item,
+-            khal_item,
++            None,
+         )
+         if item_processed:
+             processed_uids.add(item.uid)
+@@ -103,6 +132,126 @@
+     return processed_uids
+ 
+ 
++def _is_in_past(item: OrgAgendaItem) -> bool:
++    """Report whether an org item starts before the current day or time."""
++    start = item.timestamps[0].start
++    if isinstance(start, datetime):
++        now = datetime.now(tz=start.tzinfo) if start.tzinfo else datetime.now()
++        return start < now
++    return start < datetime.now().date()
++
++
++def _id_map_path(state_file: Path) -> Path:
++    """Return the path of the org ID to event UID map of a calendar."""
++    return state_file.with_suffix(".map.json")
++
++
++def _load_id_map(state_file: Path) -> dict[str, str]:
++    """Load the org ID to event UID map, tolerating a missing or broken file."""
++    try:
++        data = json.loads(_id_map_path(state_file).read_text())
++    except (OSError, ValueError):
++        return {}
++    return data if isinstance(data, dict) else {}
++
++
++def _save_id_map(state_file: Path, agenda: OrgAgendaFile) -> None:
++    """Merge the org ID to event UID pairs of this run into the map file."""
++    mapping = _load_id_map(state_file)
++    for item in agenda.items:
++        item_id = item.properties.get("ID")
++        item_uid = item.properties.get("UID")
++        if item_id and item_uid:
++            mapping[item_id] = item_uid
++    path = _id_map_path(state_file)
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(json.dumps(mapping, indent=0, sort_keys=True))
++
++
++def _resolve_uid(item: OrgAgendaItem, id_map: dict[str, str]) -> str | None:
++    """Return the event UID known for an org item, if any."""
++    if item.uid:
++        return item.uid
++    item_id = item.properties.get("ID")
++    if not item_id:
++        return None
++    return id_map.get(item_id)
++
++
++def _khal_item_outside_window(context: SyncContext, uid: str) -> OrgAgendaItem | None:
++    """Load the khal agenda item of a known UID outside the listed date range."""
++    khal_format = get_khal_format()
++    environment = {"calendars": context.khal_calendar.config["calendars"]}
++    events = [
++        event
++        for event in context.khal_calendar.get_events(uid)
++        if event.calendar == context.calendar
++    ]
++    if not events:
++        return None
++    content = "\n".join(
++        khal_format.format(
++            **event.attributes(
++                relative_to=event.start_local,
++                env=environment,
++                colors=False,
++            )
++        )
++        for event in sorted(events)
++    )
++    agenda = OrgAgendaFile.from_str(content).apply_rrules()
++    item = agenda.get_item(uid)
++    if item is not None:
++        context.khal_agenda.items.append(item)
++    return item
++
++
++def _match_state_item(
++    context: SyncContext,
++    item: OrgAgendaItem,
++) -> OrgAgendaItem | None:
++    """Find the state entry of an org item that was pushed by an earlier run."""
++    if item.uid:
++        return context.state_agenda.get_item(item.uid)
++    if not item.timestamps:
++        return None
++    start = item.timestamps[0].start
++    for candidate in context.state_agenda.items:
++        if (
++            candidate.title == item.title
++            and candidate.timestamps
++            and candidate.timestamps[0].start == start
++        ):
++            return candidate
++    return None
++
++
++def _norm_text(text: str | None) -> str:
++    """Collapse whitespace so khal and org descriptions compare reliably."""
++    return " ".join((text or "").split())
++
++
++def _norm_span(timestamp) -> tuple:
++    """Return a start and end pair that matches khal's all-day convention."""
++    start = timestamp.start
++    end = timestamp.end
++    if isinstance(start, datetime):
++        return (start, end)
++    return (start, end or start + timedelta(days=1))
++
++
++def _same_content(a: OrgAgendaItem, b: OrgAgendaItem) -> bool:
++    """Report whether two agenda items hold the same pushed content."""
++    if a.title != b.title or _norm_text(a.description) != _norm_text(b.description):
++        return False
++    if len(a.timestamps) != len(b.timestamps):
++        return False
++    return all(
++        _norm_span(x) == _norm_span(y) for x, y in zip(a.timestamps, b.timestamps)
++    )
++
++
++
+ class _OrgItemSynchronizer:
+     """Synchronize individual org items using one run's settings."""
+ 
+@@ -284,18 +433,17 @@
+ 
+ 
+ def write_sync_files(
+-    org_file: Path,
+     state_file: Path,
+     org_agenda: OrgAgendaFile,
+     khalorg_format: str,
+     filetags: list[str],
+ ) -> None:
+-    """Persist the synchronized agenda and its state snapshot."""
++    """Persist the synchronization state without rewriting the org file."""
+     state_file.parent.mkdir(parents=True, exist_ok=True)
+     if filetags:
+         content = f"#+FILETAGS: :{':'.join(filetags)}:\n"
+     else:
+         content = ""
+     content += format(org_agenda, khalorg_format)
+-    org_file.write_text(content)
+     state_file.write_text(content)
++    _save_id_map(state_file, org_agenda)
+--- a/khalorg/org/agenda_items.py
++++ b/khalorg/org/agenda_items.py
+@@ -160,7 +160,11 @@
+ 
+         self.title = item.heading.strip()
+         self.properties = item.properties
+-        self.timestamps = item.get_timestamps(**kwargs)
++        timestamps: list = item.get_timestamps(**kwargs)
++        for planning in (item.scheduled, item.deadline):
++            if getattr(planning, "start", None) is not None:
++                timestamps.append(planning)
++        self.timestamps = timestamps
+         self.description = remove_timestamps(item.body.strip())
+ 
+         return self
+--- a/khalorg/commands.py
++++ b/khalorg/commands.py
+@@ -16,7 +16,6 @@
+     SyncContext,
+     load_missing_khal_items,
+     load_sync_agenda,
+-    pull_khal_changes,
+     push_org_changes,
+     remove_deleted_items,
+     write_sync_files,
+@@ -321,6 +320,7 @@
+         state_agenda=state_agenda,
+         khal_agenda=khal_agenda,
+         dry_run=dry_run,
++        state_file=state_file,
+     )
+     load_missing_khal_items(context)
+     processed_uids = push_org_changes(
+@@ -330,10 +330,6 @@
+         new_command=new,
+         edit_command=edit,
+     )
+-    pull_khal_changes(
+-        context=context,
+-        processed_uids=processed_uids,
+-    )
+     if delete_on_sync:
+         remove_deleted_items(
+             context=context,
+@@ -342,7 +338,6 @@
+         )
+     if not dry_run:
+         write_sync_files(
+-            org_file=org_file,
+             state_file=state_file,
+             org_agenda=org_agenda,
+             khalorg_format=sync_format,

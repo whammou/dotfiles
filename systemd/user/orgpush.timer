@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer to push org agenda changes every minute
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+Unit=orgpush.service
+
+[Install]
+WantedBy=timers.target

@@ -48,6 +48,6 @@ case "$level" in
 45) glyph="󱇘" ;;
 65) glyph="" ;;
 85) glyph="󰢻" ;;
-*) glyph="" ;;
+*) glyph="" ;;
 esac
 qtlcmd -o widget dnd_status -f update -a "$glyph" >/dev/null 2>&1 || true

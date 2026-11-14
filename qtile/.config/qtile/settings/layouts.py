@@ -145,7 +145,7 @@ WIN_RULES = (
         Match(
             wm_class=_re("(soffice|libreoffice|libreoffice-startcenter)"),
             title=_re(
-                r"^(open\b|save\b|insert\b|print\b|confirm\b|hyperlink\b|export\b|find\b|Error\b|"
+                r"^(Select\b|open\b|save\b|insert\b|print\b|confirm\b|hyperlink\b|export\b|find\b|Error\b|"
                 r"spelling\b|character\b|paragraph\b|delete\b|warning\b|thesaurus\b|"
                 r"word count\b|page style\b|bullets\b|special characters\b|"
                 r"track changes\b|comments\b|mail merge\b|navigator\b|properties\b)"
@@ -166,7 +166,6 @@ WIN_RULES = (
     WinRule(
         _cls("mpv", "mpv-float"),
         floating=True,
-        size="pad_wide",
     ),
     WinRule(
         _cls("feh"),
