@@ -127,6 +127,8 @@ return {
       config = function(_, o)
         require("bloocky").setup(o)
         require("config.bloocky_guard").apply()
+        require("config.bloocky_collisions").apply()
+        require("config.bloocky_cursor").apply()
       end,
     }
   end)(),

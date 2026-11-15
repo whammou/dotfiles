@@ -18,7 +18,9 @@ local function org_calendars()
   for calendar in pairs(module.load().by_calendar) do
     list[#list + 1] = { name = calendar, mode = "ro" }
   end
-  table.sort(list, function(a, b) return a.name < b.name end)
+  table.sort(list, function(a, b)
+    return a.name < b.name
+  end)
   return list
 end
 
@@ -45,8 +47,8 @@ M.opts = {
     border = "single",
     width = {
       month = 0.8,
-      week = 0.6,
-      day = 0.4,
+      week = 0.8,
+      day = 0.8,
     },
   },
   keymaps = { toggle = false, toggle_sidebar = false },
