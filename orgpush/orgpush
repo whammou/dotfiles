@@ -24,6 +24,7 @@ ORG_ROOT=/home/homelab/.local/share/orgmode
 STATE_DIR="$HOME/.local/state/orgpush"
 STAMP="$STATE_DIR/last-run"
 LOCK="$STATE_DIR/lock"
+KHALORG_PY="$HOME/.local/share/pipx/venvs/khalorg/bin/python"
 
 declare -A AREA_CALENDAR=()
 while IFS=$'\t' read -r area calendar; do
@@ -84,7 +85,9 @@ trap 'rm -f "$start_stamp"' EXIT
 
 touched=0
 collections=()
+changed=0
 while IFS= read -r -d '' file; do
+  changed=1
   has_future_item "$file" || continue
   calendar="$(calendar_for_file "$file")"
   if khalorg sync --edit-dates -- "$calendar" "$file"; then
@@ -94,6 +97,49 @@ while IFS= read -r -d '' file; do
     echo "khalorg sync failed: $calendar: $file"
   fi
 done < <(find "$ORG_ROOT" -type f -name '*.org' -newer "$STAMP" -print0 2>/dev/null)
+
+# khalorg only ever sees one org file, so a heading deleted from that file is
+# indistinguishable from a heading living in a sibling file. Deletion is
+# therefore decided here, against every .org file under the area tree.
+# A deleted heading leaves a file with nothing left to push, and a deleted file
+# leaves no file at all, so the trigger is "an .org file or its directory is
+# newer than the last run", not "khalorg wrote something".
+if [ "$changed" = 1 ] || [ -n "$(find "$ORG_ROOT" -type d -newer "$STAMP" -print -quit 2>/dev/null)" ]; then
+  orphan_out="$("$KHALORG_PY" "$SCRIPT_DIR/delete_orphans.py" \
+    --root "$ORG_ROOT" --apply 2>&1)"
+  orphan_status=$?
+  [ -n "$orphan_out" ] && printf '%s\n' "$orphan_out"
+  [ "$orphan_status" -ne 0 ] && echo "orphan check failed (exit $orphan_status)"
+
+  declare -A deleted_uids=()
+  deleted_cals=()
+  while IFS=$'\t' read -r tag name uid; do
+    case "$tag" in
+      deleted-in) deleted_cals+=("$name") ;;
+      deleted) deleted_uids["$name"]="${deleted_uids[$name]:-} $uid" ;;
+    esac
+  done < <(printf '%s\n' "$orphan_out")
+
+  while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    dir="$(collection_path "$name")"
+    uids=()
+    for uid in ${deleted_uids[$name]:-}; do
+      uids+=(--uid "$uid")
+    done
+    # vdirsyncer does not read a missing local file as a deletion: it
+    # downloads the remote copy back. The remote event goes first, then the
+    # local file, then the sync only has to reconcile its status file.
+    if [ ${#uids[@]} -gt 0 ]; then
+      python3 "$SCRIPT_DIR/gcal_delete.py" --collection "$(basename "$dir")" "${uids[@]}" \
+        || echo "remote delete failed: $name"
+      for uid in ${deleted_uids[$name]:-}; do
+        rm -f "$dir/$uid.ics"
+      done
+    fi
+    vdirsyncer sync "$PAIR/$(basename "$dir")" || echo "vdirsyncer sync failed: $name"
+  done < <(printf '%s\n' "${deleted_cals[@]:-}" | sort -u)
+fi
 
 if [ "$touched" = 1 ]; then
   targets=()

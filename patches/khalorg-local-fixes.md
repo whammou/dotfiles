@@ -32,10 +32,34 @@ these patches; reapplying is one command (see below).
 - Date/end changes are applied only when the run passes `--edit-dates`
   (`orgpush` always does).
 
+## Deletion
+
+`khalorg` never deletes; `orgpush` decides deletion itself, after the push loop:
+
+- `orgpush/delete_orphans.py` scans **every** `.org` file under the org root for
+  `:ID:` properties and compares them with `<calendar>.map.json`. A mapped ID
+  that no longer appears anywhere is an orphan: its khal event is deleted
+  through khal's collection API, the map entry is pruned, and the helper prints
+  `orphan` / `deleted` / `deleted-in` TSV lines.
+- For each affected calendar, `orgpush/gcal_delete.py` deletes the UID from
+  Google (`events?iCalUID=` lookup, then `DELETE events/{id}`), the local `.ics`
+  is removed, then `vdirsyncer sync gcal/<id>` reconciles its status file. The
+  remote delete goes first on purpose: `vdirsyncer` reads a missing local file
+  as "not downloaded yet" and fetches it back, and a locally emptied collection
+  trips `Storage ... was completely emptied`.
+- The pass runs when an `.org` file **or a directory** under the root is newer
+  than the last run, so deleting the last dated heading of a file (khalorg then
+  has nothing to push) and deleting a whole file both trigger it. A full scan
+  costs ~1.3 s over ~300 files, hence a trigger instead of every run.
+- Safety: the helper refuses to run on fewer than 10 `.org` files or fewer than
+  5 known IDs, and it writes nothing without `--apply`.
+
 ## Limitations
 
-- Deletions are not propagated: deleting a heading leaves the event in Google
-  Calendar (delete it there, or drop the UID from the map and delete the event).
+- Deletions are not propagated by khalorg itself: it is fed one org file per
+  run, so a heading missing from that file is indistinguishable from a heading
+  living in a sibling file, and `--delete-on-sync` would wipe whole calendars.
+  `orgpush` handles deletion instead (see "Deletion" below).
 - Events edited or deleted in Google Calendar are not pulled into org. The org
   file stays the source of truth, so the next org edit overwrites them.
 - The UID map is machine-local and per calendar
