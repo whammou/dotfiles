@@ -27,7 +27,7 @@ local tracker_agenda = {
 -- name that can never match). Appending `-tag` there is still effective (global AND).
 -- Canonical tag is topTeaching (format_topic in filetags.lua:210), not topteaching.
 -- The exclusion lives in exactly one place: EXCLUDE. Casing matters (has_tag is exact).
-local EXCLUDE = "-catOneoff"
+local EXCLUDE = ""
 
 local function make_task_agenda(branches, preset)
   branches = branches or { "typTask" }
@@ -44,7 +44,11 @@ local function make_task_agenda(branches, preset)
     { type = "tags", match = match("/DOIN"), org_agenda_overriding_header = "Global list of DOIN tasks" },
     { type = "tags", match = match("/NEXT"), org_agenda_overriding_header = "Global list of NEXT tasks" },
     { type = "tags", match = match("/WAIT"), org_agenda_overriding_header = "Global list of WAIT tasks" },
-    { type = "tags_todo", match = match('+PRIORITY>="C"'), org_agenda_overriding_header = "Global list of High Priority tasks" },
+    {
+      type = "tags_todo",
+      match = match('+PRIORITY>="C"'),
+      org_agenda_overriding_header = "Global list of High Priority tasks",
+    },
     { type = "tags", match = match("/TODO"), org_agenda_overriding_header = "Global list of TODO tasks" },
     { type = "tags", match = match("/PEND"), org_agenda_overriding_header = "Global list of PEND tasks" },
   }
@@ -52,8 +56,10 @@ end
 
 -- Teaching branch intentionally bare (no +typTask): preserves current behavior where
 -- teaching headlines match regardless of typ.
-local work_agenda =
-  make_task_agenda({ "topTeaching", "topWork+typTask" }, "topWork+typTask-catRecurring|topTeaching+typTask-catRecurring")
+local work_agenda = make_task_agenda(
+  { "topTeaching", "topWork+typTask" },
+  "topWork+typTask-catRecurring|topTeaching+typTask-catRecurring"
+)
 local task_agenda = make_task_agenda(nil, "typTask-catRecurring")
 
 local task_doc_agenda = {
