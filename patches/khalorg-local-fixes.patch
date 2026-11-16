@@ -1,6 +1,6 @@
 diff -ruN a/khalorg/commands.py b/khalorg/commands.py
---- a/khalorg/commands.py	2026-10-31 17:16:15.881561500 +0700
-+++ b/khalorg/commands.py	2026-11-13 10:18:27.357961503 +0700
+--- a/khalorg/commands.py	2026-11-16 07:18:36.207519653 +0700
++++ b/khalorg/commands.py	2026-11-16 07:17:30.520654584 +0700
 @@ -16,7 +16,6 @@
      SyncContext,
      load_missing_khal_items,
@@ -9,7 +9,17 @@ diff -ruN a/khalorg/commands.py b/khalorg/commands.py
      push_org_changes,
      remove_deleted_items,
      write_sync_files,
-@@ -321,6 +320,7 @@
+@@ -180,6 +179,9 @@
+ 
+     checker: EventChecker = EventChecker()
+     checker.remove(EventChecks.DUPLICATE)
++    # An edit addresses an event that already exists: its start may be in the
++    # past, and its dates must still be editable (see Calendar.edit).
++    checker.remove(EventChecks.FUTURE)
+ 
+     agenda_item: OrgAgendaItem = OrgAgendaItem()
+     agenda_item.load_from_str(org)
+@@ -321,6 +323,7 @@
          state_agenda=state_agenda,
          khal_agenda=khal_agenda,
          dry_run=dry_run,
@@ -17,7 +27,7 @@ diff -ruN a/khalorg/commands.py b/khalorg/commands.py
      )
      load_missing_khal_items(context)
      processed_uids = push_org_changes(
-@@ -330,10 +330,6 @@
+@@ -330,10 +333,6 @@
          new_command=new,
          edit_command=edit,
      )
@@ -28,7 +38,7 @@ diff -ruN a/khalorg/commands.py b/khalorg/commands.py
      if delete_on_sync:
          remove_deleted_items(
              context=context,
-@@ -342,7 +338,6 @@
+@@ -342,7 +341,6 @@
          )
      if not dry_run:
          write_sync_files(
@@ -37,7 +47,7 @@ diff -ruN a/khalorg/commands.py b/khalorg/commands.py
              org_agenda=org_agenda,
              khalorg_format=sync_format,
 diff -ruN a/khalorg/khal/calendar.py b/khalorg/khal/calendar.py
---- a/khalorg/khal/calendar.py	2026-10-31 17:16:15.881864300 +0700
+--- a/khalorg/khal/calendar.py	2026-11-16 07:18:36.207734427 +0700
 +++ b/khalorg/khal/calendar.py	2026-11-15 04:47:50.124435516 +0700
 @@ -206,14 +206,19 @@
              props["end"] = props["start"] + timedelta(hours=1)
@@ -61,7 +71,7 @@ diff -ruN a/khalorg/khal/calendar.py b/khalorg/khal/calendar.py
          if len(events) == 0:
              logging.error(self.MESSAGE_EDIT.format(len(events)))
 diff -ruN a/khalorg/org/agenda_items.py b/khalorg/org/agenda_items.py
---- a/khalorg/org/agenda_items.py	2026-10-31 17:16:15.881864300 +0700
+--- a/khalorg/org/agenda_items.py	2026-11-16 07:18:36.207937849 +0700
 +++ b/khalorg/org/agenda_items.py	2026-11-12 17:22:56.223540223 +0700
 @@ -160,7 +160,11 @@
  
@@ -77,8 +87,8 @@ diff -ruN a/khalorg/org/agenda_items.py b/khalorg/org/agenda_items.py
  
          return self
 diff -ruN a/khalorg/synchronization.py b/khalorg/synchronization.py
---- a/khalorg/synchronization.py	2026-10-31 17:16:15.882385000 +0700
-+++ b/khalorg/synchronization.py	2026-11-13 10:21:07.033729973 +0700
+--- a/khalorg/synchronization.py	2026-11-16 07:18:36.208612051 +0700
++++ b/khalorg/synchronization.py	2026-11-15 21:52:39.137491974 +0700
 @@ -1,8 +1,10 @@
  """Implementation helpers for synchronizing org files with khal calendars."""
  
@@ -107,7 +117,7 @@ diff -ruN a/khalorg/synchronization.py b/khalorg/synchronization.py
      processed_uids: set[str | None] = set()
      synchronizer = _OrgItemSynchronizer(
          context,
-@@ -88,14 +91,40 @@
+@@ -88,14 +91,43 @@
          edit_command,
      )
  
@@ -122,7 +132,10 @@ diff -ruN a/khalorg/synchronization.py b/khalorg/synchronization.py
 +                f"{item.title}"
 +            )
 +            continue
-+        if _is_in_past(item):
++        # A past start only means "do not create a new event in the past". Once
++        # the item is mapped to an event, it is an update, and its dates stay
++        # editable after the start time (same reasoning as Calendar.edit).
++        if _is_in_past(item) and _resolve_uid(item, id_map) is None:
 +            logging.debug(
 +                f"[org -> khal {context.calendar}] Skipping past org item: "
 +                f"{item.title}"
@@ -151,7 +164,7 @@ diff -ruN a/khalorg/synchronization.py b/khalorg/synchronization.py
          )
          if item_processed:
              processed_uids.add(item.uid)
-@@ -103,6 +132,126 @@
+@@ -103,6 +135,126 @@
      return processed_uids
  
  
@@ -278,7 +291,7 @@ diff -ruN a/khalorg/synchronization.py b/khalorg/synchronization.py
  class _OrgItemSynchronizer:
      """Synchronize individual org items using one run's settings."""
  
-@@ -284,18 +433,17 @@
+@@ -284,18 +436,17 @@
  
  
  def write_sync_files(

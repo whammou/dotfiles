@@ -16,7 +16,8 @@ these patches; reapplying is one command (see below).
   out of the node body and `get_timestamps()` only scans body text, so without
   this patch every planning-dated item looked undated.
 - Items dated before today are skipped at DEBUG instead of failing the whole run
-  with `Agenda item date not in the future`; today still counts as future.
+  with `Agenda item date not in the future`; today still counts as future. The
+  skip only applies to items with no event yet (see the update rule below).
 - Identity is the org `:ID:` property. Every run merges a cumulative
   `org-ID -> khal UID` map into `~/.local/share/khalorg/<calendar>.map.json`, so
   renaming or re-dating a heading updates that same event through `khal edit`
@@ -31,6 +32,15 @@ these patches; reapplying is one command (see below).
   event is not a candidate.
 - Date/end changes are applied only when the run passes `--edit-dates`
   (`orgpush` always does).
+- A past start only blocks **creation**. Once the org `:ID:` maps to an event,
+  the item is an update, so it is still pushed after its start time passed:
+  editing the duration of an event that started earlier today works, and so does
+  re-dating an overdue one. `khalorg edit` drops the same future check for the
+  same reason.
+- Durations come from the timestamp, because org has no duration syntax.
+  `SCHEDULED: <2026-11-15 Sun 16:00-18:00>` is a 2h event;
+  `<2026-11-15 Sun 16:00 +2h>` is a **repeater** and becomes a 1h event with
+  `RRULE:FREQ=HOURLY;INTERVAL=2`.
 
 ## Deletion
 
