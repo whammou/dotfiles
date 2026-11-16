@@ -3,7 +3,7 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = true,
     enabled = true,
-    ft = "markdown",
+    ft = { "markdown", "org" },
     dependencies = {
       {
         "willchao612/vim-diagon",

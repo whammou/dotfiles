@@ -14,7 +14,7 @@ It is not one package. Four layers, two of which are **not** in this repository:
 | Org tree, not a git repo (about 46 MB) | `/home/homelab/.local/share/orgmode`, symlinked from `~/.local/share/orgmode` | **no** |
 | Runner and calendar map | `dotfiles/orgpush/` | yes |
 | systemd units (plain copies, not symlinks) | `dotfiles/systemd/user/` | yes |
-| nvim config, bloocky patch, `secrets.lua` | `dotfiles/nvim-lazy/` (stow), secrets untracked | mostly |
+| nvim config (including the parallel-pull wrapper), `secrets.lua` | `dotfiles/nvim-lazy/` (stow), secrets untracked | mostly |
 
 Order matters: packages -> pipx + patch -> copy configs -> `discover` -> sync ->
 runner -> nvim.
@@ -127,8 +127,6 @@ wanted too.
 
 ```sh
 nvim --headless "+Lazy! sync" +qa
-cd ~/.local/share/nvim/lazy/bloocky
-patch -p1 < ~/dotfiles/patches/bloocky-parallel-pull.patch
 cp ~/.config/nvim/lua/config/secrets.example.lua ~/.config/nvim/lua/config/secrets.lua
 $EDITOR ~/.config/nvim/lua/config/secrets.lua   # google.email, client_id, client_secret
 ```
@@ -137,9 +135,11 @@ $EDITOR ~/.config/nvim/lua/config/secrets.lua   # google.email, client_id, clien
 false: bloocky renders and edits locally, nothing is pushed. The first
 `<leader>oBy` runs the plugin's own OAuth flow and stores its token.
 
-`:Lazy update` replaces `lua/bloocky/sync/init.lua` and silently drops the
-parallel-pull patch: sync still works, it just costs about half a second per
-calendar again (13 s instead of 2 s with 26 calendars).
+Nothing under `~/.local/share/nvim/lazy/bloocky` is patched. The parallel pull
+lives in `lua/config/bloocky_parallel.lua` and is applied by the bloocky spec's
+`config` function, so `:Lazy update` cannot undo it; see
+`patches/bloocky-parallel-pull.md` for how the wrapper works and how to re-check
+it after an update (26 calendars should sync in about 2 s, not 13 s).
 
 ## 9. Verification
 
@@ -170,7 +170,7 @@ heading, run `orgpush` again, confirm the event is gone in both.
 | `Agenda item date not in the future` aborts a run | unpatched khalorg | same patch |
 | orgpush does nothing, log empty | hostname is not `homelab`, or no file is newer than `last-run` | check `/etc/hostname` and `~/.local/state/orgpush/last-run` |
 | khalorg cannot find `khal`/`vdirsyncer` under systemd | user manager `HOME` differs | `PATH`/`HOME` exports at the top of `orgpush` |
-| bloocky sync slow again | plugin update dropped the patch | re-apply `patches/bloocky-parallel-pull.patch`, expect `396 passed, 0 failed` |
+| bloocky sync slow again | wrapper not applied, or the provider interface changed | confirm `config.bloocky_parallel` runs from the spec; see `patches/bloocky-parallel-pull.md` |
 
 ## Known gaps
 
