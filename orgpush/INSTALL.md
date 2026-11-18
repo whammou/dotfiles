@@ -119,6 +119,11 @@ Do not enable `orgpush.timer` and a `minutely@orgpush.timer` on the same host:
 the `flock` prevents overlap, but the cadence doubles and the log becomes
 misleading.
 
+`orgmode-server` also runs `orgpush` after each batch of org changes (debounced
+by `ORG_PUSH_EVERY`, default 120s, capped at 600s per run). On the hub, where
+the hostname guard lets it push, that makes the minutely timer redundant - the
+`flock` keeps the two from overlapping, but only one cadence is worth having.
+
 `orgmode@notification.service` is a different job (desktop notifications via
 `orgmode-notification`, which runs `require("partials.org_cron")`), scheduled by
 `minutely@orgmode@notification.timer` on top of the generic `minutely@.timer`.

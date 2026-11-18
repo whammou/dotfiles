@@ -1,6 +1,5 @@
 [Unit]
 Description=Orgmode %i job for nvim-orgmode
-OnFailure=notify-on-failure@orgmode-%i.service
 StartLimitBurst=3
 StartLimitIntervalSec=10m
 
