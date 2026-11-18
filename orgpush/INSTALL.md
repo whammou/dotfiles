@@ -119,9 +119,10 @@ Do not enable `orgpush.timer` and a `minutely@orgpush.timer` on the same host:
 the `flock` prevents overlap, but the cadence doubles and the log becomes
 misleading.
 
-`orgmode.service` / `orgmode.timer` are a different job (desktop notifications
-via `require("partials.org_cron")`). Copy them only if the notification path is
-wanted too.
+`orgmode@notification.service` is a different job (desktop notifications via
+`orgmode-notification`, which runs `require("partials.org_cron")`), scheduled by
+`minutely@orgmode@notification.timer` on top of the generic `minutely@.timer`.
+Copy them only if the notification path is wanted too.
 
 ## 8. nvim side
 

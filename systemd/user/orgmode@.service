@@ -1,0 +1,14 @@
+[Unit]
+Description=Orgmode %i job for nvim-orgmode
+OnFailure=notify-on-failure@orgmode-%i.service
+StartLimitBurst=3
+StartLimitIntervalSec=10m
+
+[Service]
+Type=exec
+ExecStart=%h/.local/bin/orgmode-%i
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target

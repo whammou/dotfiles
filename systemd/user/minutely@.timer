@@ -1,0 +1,12 @@
+[Unit]
+Description=Timer to run %i every minute
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+AccuracySec=1s
+Persistent=true
+Unit=%i.service
+
+[Install]
+WantedBy=timers.target
+
