@@ -248,10 +248,14 @@ local function render(table_node, buf)
     local row = by_line[line]
     if row then
       if row.type == 'hr' then
+        local chunks = rule_chunks(widths, indent, border.mid, HL.head)
+        local source = vim.api.nvim_buf_get_lines(buf, line, line + 1, false)[1] or ''
         planned[#planned + 1] = {
           line = line,
-          chunks = rule_chunks(widths, indent, border.mid, HL.head),
+          chunks = chunks,
+          fragments = { chunks },
           hl = HL.head,
+          flow = width(source) > chunk_width(chunks),
         }
       else
         local hl = header[line] and HL.head or HL.row
