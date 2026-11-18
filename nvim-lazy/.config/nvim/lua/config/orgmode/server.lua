@@ -23,7 +23,16 @@ function M.setup()
     vim.fn.mkdir(socket_dir, "p")
   end
 
+  -- Sockets are named per launcher; keep these strings in sync with ~/.local/bin/orgmode-*.
+  local argv = table.concat(vim.v.argv, "\n")
   local base_name = "nvim-orgmode"
+  if argv:find("partials.org_agenda", 1, true) or argv:find("Org agenda", 1, true) then
+    base_name = "nvim-orgmode-agenda"
+  elseif argv:find("Org.capture", 1, true) then
+    base_name = "nvim-orgmode-capture"
+  elseif argv:find("fzf-org", 1, true) then
+    base_name = "nvim-orgmode-browse"
+  end
   local counter = 1
   local socket_path = ""
 
