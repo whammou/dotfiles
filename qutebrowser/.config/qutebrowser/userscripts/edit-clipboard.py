@@ -108,7 +108,12 @@ def main() -> int:
         os.close(fd)
         proc = subprocess.Popen(
             [
-                "kitty", "--single-instance", "--app-id", "qutebrowser-editor",
+                "kitty", "--single-instance",
+                # Block until the forwarded window closes; otherwise the
+                # single-instance client exits at once and the sync loop below
+                # terminates before nvim writes anything.
+                "--wait-for-single-instance-window-close",
+                "--app-id", "qutebrowser-editor",
                 "nvim", tmp, "+set ft=markdown", "+startinsert",
             ],
         )

@@ -16,6 +16,10 @@ subprocess.run(
     [
         "kitty",
         "--single-instance",
+        # Without this the single-instance client hands off to the persistent
+        # kitty-daemon and exits immediately, so we'd read the temp file before
+        # nvim ever saves it.
+        "--wait-for-single-instance-window-close",
         "--app-id",
         "qutebrowser-editor",
         "nvim",
