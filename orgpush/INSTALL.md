@@ -129,6 +129,21 @@ hub, where the hostname guard lets it push, that makes the minutely timer
 redundant - the `flock` keeps the two from overlapping, but only one cadence is
 worth having.
 
+Each item khalorg rewrote is then uploaded by `gcal_put.py`, which calls
+`events.import` (new) or `events.patch` (existing, found by `iCalUID`) on the
+Calendar API directly: about 1s for the write plus a 0.4s lookup, against 2-4s
+for a `vdirsyncer sync` of one collection that copies nothing, and up to 9s when
+it has an item to upload. `vdirsyncer` stays in the picture twice. It is the
+fallback when the API call fails, so a collection the API refused is synced the
+old way in the same run. It is also the reconciler: the direct write moves the
+remote etag out from under its status file, so the collection is synced again on
+a later run, `ORG_RECONCILE_AFTER` seconds after the first direct push (default
+60). That reconcile happens before khalorg rewrites anything, so it can never
+read a half-written `.ics`. `ORG_PUT_DRY=1` turns the upload into a read-only
+dry run that prints the request body instead. The Google credential is read at
+runtime from `[storage gcal_remote]` in the vdirsyncer config, the same way
+`gcal_delete.py` does it, so no secret lives in this repository.
+
 `orgmode@notification.service` is a different job (desktop notifications via
 `orgmode-notification`, which runs `require("partials.org_cron")`), scheduled by
 `minutely@orgmode@notification.timer` on top of the generic `minutely@.timer`.

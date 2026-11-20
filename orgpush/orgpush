@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Push org agenda changes to each area's khal calendar, then upload them to
-# Google Calendar.
+# Google Calendar. Uploads go straight to the Calendar API (gcal_put.py);
+# vdirsyncer reconciles a collection on a later run and stays the fallback.
 #
 # Started by a systemd user timer every minute. Only org files whose mtime is
 # newer than the previous run are read, and only files that still schedule
@@ -86,6 +87,23 @@ trap 'rm -f "$start_stamp"' EXIT
 touched=0
 collections=()
 changed=0
+
+# The API pushes below leave vdirsyncer's status file behind: it still believes
+# the remote copy is the one it last saw. Catching up costs 2-4s per collection,
+# so it happens on a later run and before khalorg rewrites anything, which also
+# keeps a sync from reading a half-written .ics.
+RECONCILE="$STATE_DIR/reconcile"
+if [ -s "$RECONCILE" ] && [ -s "$RECONCILE.stamp" ] &&
+  [ $(($(date +%s) - $(cat "$RECONCILE.stamp"))) -ge "${ORG_RECONCILE_AFTER:-60}" ]; then
+  reconcile_targets=()
+  while IFS= read -r name; do
+    [ -n "$name" ] && reconcile_targets+=("$PAIR/$name")
+  done < <(sort -u "$RECONCILE")
+  rm -f "$RECONCILE" "$RECONCILE.stamp"
+  if [ ${#reconcile_targets[@]} -gt 0 ]; then
+    vdirsyncer sync "${reconcile_targets[@]}" || echo "reconcile sync failed"
+  fi
+fi
 while IFS= read -r -d '' file; do
   changed=1
   has_future_item "$file" || continue
@@ -142,17 +160,27 @@ if [ "$changed" = 1 ] || [ -n "$(find "$ORG_ROOT" -type d -newer "$STAMP" -print
 fi
 
 if [ "$touched" = 1 ]; then
-  targets=()
+  failed=()
+  put_args=()
+  [ -n "${ORG_PUT_DRY:-}" ] && put_args+=(--dry-run)
   while IFS= read -r dir; do
     [ -n "$dir" ] || continue
-    if [ -n "$(find "$dir" -maxdepth 1 -type f -name '*.ics' -newer "$start_stamp" -print -quit 2>/dev/null)" ]; then
-      targets+=("$PAIR/$(basename "$dir")")
+    mapfile -t ics < <(find "$dir" -maxdepth 1 -type f -name '*.ics' -newer "$start_stamp" 2>/dev/null)
+    [ ${#ics[@]} -gt 0 ] || continue
+    name="$(basename "$dir")"
+    # One patch or import per item beats vdirsyncer's discovery round trip,
+    # which costs 2-4s per collection even when it copies nothing.
+    if python3 "$SCRIPT_DIR/gcal_put.py" "${put_args[@]}" --collection "$name" "${ics[@]}"; then
+      printf '%s\n' "$name" >>"$RECONCILE"
+      [ -s "$RECONCILE.stamp" ] || date +%s >"$RECONCILE.stamp"
+    else
+      failed+=("$PAIR/$name")
     fi
   done < <(printf '%s\n' "${collections[@]}" | sort -u)
-  # Only the collections this run rewrote; syncing the whole pair walks every
-  # calendar and costs about a second per collection.
-  if [ ${#targets[@]} -gt 0 ]; then
-    vdirsyncer sync "${targets[@]}" || echo "vdirsyncer sync failed"
+  # Only the collections this run rewrote, and only the ones the API refused:
+  # syncing the whole pair walks every calendar at about a second each.
+  if [ ${#failed[@]} -gt 0 ]; then
+    vdirsyncer sync "${failed[@]}" || echo "vdirsyncer sync failed"
   fi
 fi
 
