@@ -686,6 +686,9 @@ menu:
             desc: "󰓩 Layer 9"
             cmd: "qtlcmd -o layout -f eval -a 'self.focus_nth_tab(9, level=9)'"
       # }}}
+      - key: "W"
+        desc: "󰃗 Tiling Mode"
+        cmd: "wlr-which-key --initial-keys 'w'"
       - key: "i"
         desc: " Container Inner"
         cmd: "qtlcmd -o layout -f select_container_inner"
