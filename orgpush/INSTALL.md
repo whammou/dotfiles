@@ -74,11 +74,19 @@ pipx install khalorg==0.2.1
 ~/.local/share/pipx/venvs/khalorg/bin/python -m pip install "orgparse<0.5"
 S=~/.local/share/pipx/venvs/khalorg/lib/python3.14/site-packages
 patch -p1 -d "$S" < ~/dotfiles/patches/khalorg-local-fixes.patch
+patch -p1 -d "$S" < ~/dotfiles/patches/orgparse-planning-span.patch
 ```
 
 The `orgparse` pin is not optional: khalorg declares `orgparse~=0.4`, pipx picks
 0.5.x, and 0.5 breaks planning-line reading, which is what makes `SCHEDULED:`
 and `DEADLINE:` work at all.
+
+The second patch is what keeps a planning-line span intact. Unpatched, orgparse
+rebuilds an end only from a short time range inside one timestamp
+(`10:00-12:00`); for `SCHEDULED: <a>--<b>` the end stays empty, and khalorg
+falls back to start plus one hour, so a multi-day event lands as a one-hour
+event. The patch reads the span from the raw planning line and stores its end,
+for `SCHEDULED` and `DEADLINE` alike (not for `CLOSED`).
 
 Check the version directory before patching (`ls
 ~/.local/share/pipx/venvs/khalorg/lib/`); the path above hardcodes `python3.14`.
@@ -186,6 +194,15 @@ End-to-end check: add a heading with `:ID:` and `SCHEDULED:` for tomorrow, run
 `orgpush`, confirm the event in `khal list` and in Google Calendar, delete the
 heading, run `orgpush` again, confirm the event is gone in both.
 
+A file is handed to khalorg when any heading still reaches today: a planning
+line or an active timestamp, with a range judged by its last day, so a span that
+is already over is skipped while one that covers today is not
+(`future_items.py`). A span works either way, in the body or on the planning
+line: `<2026-12-10 Thu>--<2026-12-13 Sun>` and
+`SCHEDULED: <2026-12-10 Thu>--<2026-12-13 Sun>` both become a multi-day event,
+as long as `patches/orgparse-planning-span.patch` is applied, which keeps the
+end of a planning-line span.
+
 ## Failure modes seen on this setup
 
 | Symptom | Cause | Fix |
@@ -195,6 +212,7 @@ heading, run `orgpush` again, confirm the event is gone in both.
 | `number of events found ... was not 1 but: 0` | `Calendar.edit` filtered candidates by `is_future` | apply `patches/khalorg-local-fixes.patch` (re-dating fix) |
 | `Agenda item date not in the future` aborts a run | unpatched khalorg | same patch |
 | orgpush does nothing, log empty | hostname is not `homelab`, or no file is newer than `last-run` | check `/etc/hostname` and `~/.local/state/orgpush/last-run` |
+| multi-day span lands as one day, or as one hour when it has a start time | orgparse drops the end of a `SCHEDULED:`/`DEADLINE:` span; khalorg falls back to start + 1h | apply `patches/orgparse-planning-span.patch` |
 | khalorg cannot find `khal`/`vdirsyncer` under systemd | user manager `HOME` differs | `PATH`/`HOME` exports at the top of `orgpush` |
 | bloocky sync slow again | wrapper not applied, or the provider interface changed | confirm `config.bloocky_parallel` runs from the spec; see `patches/bloocky-parallel-pull.md` |
 

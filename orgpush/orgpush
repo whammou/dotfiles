@@ -67,14 +67,10 @@ flock -n 9 || exit 0
 exec >>"$STATE_DIR/log" 2>&1
 printf '\n== %s orgpush ==\n' "$(date '+%F %T')"
 
-# True when the file schedules at least one item today or later.
+# True when the file schedules at least one item today or later: planning lines
+# and active timestamps alike, a range judged by its last day.
 has_future_item() {
-  awk -v today="$(date +%F)" '
-    match($0, /(SCHEDULED|DEADLINE): *<[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/) {
-      if (substr($0, RSTART + RLENGTH - 10, 10) >= today) { found = 1; exit }
-    }
-    END { exit !found }
-  ' "$1"
+  "$KHALORG_PY" "$SCRIPT_DIR/future_items.py" "$1"
 }
 
 [ -e "$STAMP" ] || touch "$STAMP"

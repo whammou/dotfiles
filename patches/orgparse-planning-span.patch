@@ -1,0 +1,32 @@
+--- a/orgparse/date.py
++++ b/orgparse/date.py
+@@ -586,8 +586,28 @@
+     _active_default = False
+ 
+ 
++PLANNING_SPAN_RE = re.compile(r'<[^>]+>--(?:<[^>]+>|\[[^\]]+\])')
++
++
+ def parse_sdc(string):
+-    return (OrgDateScheduled.from_str(string), OrgDateDeadline.from_str(string), OrgDateClosed.from_str(string))
++    items = [
++        OrgDateScheduled.from_str(string),
++        OrgDateDeadline.from_str(string),
++        OrgDateClosed.from_str(string),
++    ]
++    # A planning line may carry a full span, `SCHEDULED: <a>--<b>`. The
++    # per-key regex knows one timestamp and a same-day time range only, so the
++    # end stays None and khalorg, which maps a missing end to `start` plus one
++    # hour, writes a one-hour event. Recover the span end from the raw line.
++    span = PLANNING_SPAN_RE.search(string)
++    if span:
++        parsed_span = OrgDate.list_from_str(span.group(0))
++        end = parsed_span[0].end if parsed_span else None
++        if end is not None:
++            for item in items:
++                if item.start is not None and item.end is None:
++                    item._end = end
++    return tuple(items)
+ 
+ 
+ class OrgDateClock(OrgDate):
