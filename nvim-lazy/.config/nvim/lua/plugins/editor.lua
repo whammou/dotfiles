@@ -114,7 +114,7 @@ return {
         desc = "Show remote home via netrw",
       },
       {
-        "<leader>ex",
+        "<leader>ed",
         function()
           require("neo-tree.command").execute({ action = "close" })
         end,

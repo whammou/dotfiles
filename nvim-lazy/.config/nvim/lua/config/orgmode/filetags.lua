@@ -70,32 +70,6 @@ do
         end)
         return t
       end
-      -- Template:compile() mutates self.target to the resolved value,
-      -- suppressing %{...} prompts on subsequent captures. Save the
-      -- pre-compile target (with prompts) for restoration on the NEXT
-      -- compile, but leave self.target as-is (resolved) for refile.
-      -- Also post-processes final lines to remove roam's extra blank line.
-      local orig_compile = Template.compile
-      Template.compile = function(self)
-        if self._saved_target then
-          self.target = self._saved_target
-        end
-        local pending = self.target
-        return orig_compile(self):next(function(lines)
-          self._saved_target = pending
-          if lines then
-            for i = 1, #lines - 1 do
-              if lines[i] == ":END:" or (lines[i] and lines[i]:match("^#%+TITLE: ")) then
-                if lines[i + 1] == "" then
-                  table.remove(lines, i + 1)
-                  break
-                end
-              end
-            end
-          end
-          return lines
-        end)
-      end
       patched = true
     end
   end
